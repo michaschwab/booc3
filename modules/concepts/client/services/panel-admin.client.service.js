@@ -1,4 +1,4 @@
-angular.module('courses').service('PanelAdmin', function(Concepts, Courseadmins, $rootScope, $timeout, Authentication)
+angular.module('courses').service('PanelAdmin', function(Concepts, $rootScope, $timeout, Authentication)
 {
     var $scope;
     var NEW_CONCEPT_TITLE = 'New Concept';
@@ -18,7 +18,8 @@ angular.module('courses').service('PanelAdmin', function(Concepts, Courseadmins,
         }
         else
         {
-            Courseadmins.query({ user: userId }, function(admins)
+            //TODO
+            /*Courseadmins.query({ user: userId }, function(admins)
             {
                 var hasRights = admins.filter(function(a)
                 {
@@ -26,7 +27,7 @@ angular.module('courses').service('PanelAdmin', function(Concepts, Courseadmins,
                 }).length != 0;
 
                 cb(hasRights);
-            });
+            });*/
         }
     };
 

@@ -16,7 +16,8 @@
     "angular-xml": null,
     "x2js": null,
     "d3": null,
-    "d3-tip": null
+    "d3-tip": null,
+    "jquery": null
   },
   "resolutions": {
     "angular": "~1.3"

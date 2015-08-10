@@ -28,6 +28,9 @@
   <meta name="twitter:url" content="{{url}}">
   <meta name="twitter:image" content="{{url}}modules/core/img/brand/logo.png">
 
+  <link href='http://fonts.googleapis.com/css?family=Open+Sans+Condensed:300,700' rel='stylesheet' type='text/css'>
+  <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300' rel='stylesheet' type='text/css'>
+
   <!-- Fav Icon -->
   <link href="{{url}}{{favicon}}" rel="shortcut icon" type="image/x-icon">
 
@@ -38,7 +41,7 @@
 <body class="ng-cloak">
   <header data-ng-include="'/modules/core/views/header.client.view.html'" class="navbar navbar-fixed-top navbar-inverse"></header>
   <section class="content">
-    <section class="container">
+    <section class="fluid-container">
       {% block content %}{% endblock %}
     </section>
   </section>

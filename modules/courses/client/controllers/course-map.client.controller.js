@@ -1,10 +1,9 @@
 'use strict';
 
-angular.module('courses').controller('CourseMapController', ['$scope','$stateParams','Courses','Concepts','Conceptdependencies','Authentication','$window','$location', 'ConceptStructure', '$timeout', 'Tip', 'MapArrows', 'MapCircles', 'MapActions', 'MapIcons', 'LoginChecker', '$rootScope', 'MapEvents',
-	function($scope, $stateParams, Courses, Concepts, Conceptdependencies, Authentication, $window, $location, ConceptStructure, $timeout, Tip, MapArrows, MapCircles, MapActions, MapIcons,LoginChecker, $rootScope, MapEvents)
+angular.module('courses').controller('CourseMapController', ['$scope','$stateParams','Courses','Concepts','Conceptdependencies','Authentication','$window','$location', 'ConceptStructure', '$timeout', 'Tip', 'MapArrows', 'MapCircles', 'MapActions', 'MapIcons', '$rootScope', 'MapEvents',
+	function($scope, $stateParams, Courses, Concepts, Conceptdependencies, Authentication, $window, $location, ConceptStructure, $timeout, Tip, MapArrows, MapCircles, MapActions, MapIcons, $rootScope, MapEvents)
     {
         $scope.authentication = Authentication;
-        LoginChecker.check();
 
         var init = false;
         $scope.initTime = 0;
