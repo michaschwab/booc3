@@ -11,7 +11,9 @@ var ApplicationConfiguration = (function () {
     'ui.bootstrap',
     'ui.utils',
     'angularFileUpload',
-    'xml'
+
+    'xml',
+    'ngSocketResource'
 
   ];
 

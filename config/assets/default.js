@@ -15,8 +15,12 @@ module.exports = {
         'public/lib/angular-ui-utils/ui-utils.js',
         'public/lib/angular-bootstrap/ui-bootstrap-tpls.js',
         'public/lib/angular-file-upload/angular-file-upload.js',
+
         'public/lib/x2js/xml2json.js',
-        'public/lib/angular-xml/angular-xml.js'
+        'public/lib/angular-xml/angular-xml.js',
+        'public/lib/angular-socket-resource/socket-resource.js',
+        'public/lib/d3/d3.js',
+        'public/lib/d3-tip/index.js'
       ],
       tests: ['public/lib/angular-mocks/angular-mocks.js']
     },
