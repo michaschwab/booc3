@@ -1,0 +1,7 @@
+.search-container {
+    position: fixed;
+    top: 80px;
+    right: 50px;
+    width: 320px;
+    z-index: 2;
+}

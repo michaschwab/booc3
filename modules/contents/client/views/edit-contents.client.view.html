@@ -1,0 +1,54 @@
+<section data-ng-controller="CreatorController" class="contentCol" data-ng-init="init()" style="margin-bottom: 200px; width: {{contentWidth}}px; padding: 0 40px">
+    <div class="page-header">
+        <h1>Content Creator</h1>
+    </div>
+
+    <form name="contentCreateForm" novalidate role="form">
+
+        <div class="col-md-12 form-group">
+            <label for="courseSelect">Which Course is the content for?</label><br />
+
+            <ui-select class="course-select" ng-model="$parent.course" ng-required name="courseSelect" id="courseSelect">
+                <ui-select-match placeholder="Select Course...">{{$select.selected.title}}</ui-select-match>
+                <ui-select-choices repeat="course in courses | filter: $select.search">
+                    <div ng-bind-html="course.title | highlight: $select.search"></div>
+                    <small ng-bind-html="course.description | highlight: $select.search"></small>
+                </ui-select-choices>
+
+
+            </ui-select>
+        </div>
+
+        <div class="col-md-12 form-group">
+            <label for="sourceSelect">Optional: Select one of the last materials for editing and adding to new concepts</label><br />
+
+            <ui-select class="source-select" ng-model="$parent.editSource" ng-required name="sourceSelect" id="sourceSelect">
+                <ui-select-match placeholder="Select Source...">{{$select.selected.title}}</ui-select-match>
+                <ui-select-choices repeat="source in sources | filter: $select.search">
+                    <div ng-bind-html="source.title | highlight: $select.search"></div>
+                    <small ng-bind-html="source.typeObject.title | highlight: $select.search"></small>
+                </ui-select-choices>
+
+
+            </ui-select>
+        </div>
+
+        <div class="form-group">
+            <ul class="nav nav-tabs nav-justified" role="tablist">
+                <li ng-repeat="type in sourcetypes" ng-class="{'active': type._id == activeType._id}">
+                    <a href="" id="sourcetype-{{type._id}}" ng-click="selectSourcetype(type,$event)">
+                        <span class="{{type.icon}}"></span>
+                        {{type.title}}</a>
+                </li>
+            </ul>
+        </div>
+
+        <ng-include ng-if="activeReadableType" src=" 'modules/contents/views/creators/' + activeReadableType + '.client.view.html' "></ng-include>
+
+        <div class="row">
+            <div class="col-md-4"><button type="button" class="btn btn-warning"><span class="glyphicon glyphicon-trash"></span> Cancel</button></div>
+            <div class="col-md-8 text-right"><button ng-click="createContents()" type="button" class="btn btn-primary"><span class="glyphicon glyphicon-ok"></span> Save</button></div>
+        </div>
+
+    </form>
+</section>

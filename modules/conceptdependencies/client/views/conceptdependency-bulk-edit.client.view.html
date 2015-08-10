@@ -1,0 +1,156 @@
+<section ng-app="Application" ng-controller="DependencyBulkEditController" ng-init="find()">
+
+
+
+	<div class="page-header" style="padding: 10px;">
+		<h1>add dependencies:</h1>
+	</div>
+
+    <div class="row">
+        <div class="col-md-3 col-md-offset-2">
+            <ui-select ng-model="selectedConcepts.provider" theme="bootstrap" >
+                <ui-select-match placeholder="Select Provider...">{{$select.selected.title}}</ui-select-match>
+                <ui-select-choices repeat="concept in concepts | filter: $select.search">
+                    <div style="width:20px; height:20px; background: {{concept.color}}; float: left; margin-right: 15pt; border-radius: 10px"></div>
+                    <div ng-bind-html="concept.title | highlight: $select.search"></div>
+                </ui-select-choices>
+            </ui-select>
+        </div>
+        <div class="col-md-1" >
+            <div style="width:20px; height:25px; background: {{activeHierarchy.provider.color}}; float: left;"></div>
+            &nbsp;-->
+        </div>
+        <div class="col-md-3">
+            <ui-select ng-model="selectedConcepts.dependant" theme="bootstrap">
+                <ui-select-match placeholder="Select Dependant...">{{$select.selected.title}}</ui-select-match>
+                <ui-select-choices repeat="concept in concepts | filter: $select.search">
+                    <div style="width:20px; height:20px; background: {{concept.color}}; float: left; margin-right: 15pt; border-radius: 10px"></div>
+                    <div ng-bind-html="concept.title | highlight: $select.search"></div>
+                </ui-select-choices>
+            </ui-select>
+        </div>
+        <div class="col-md-1" >
+            <div style="width:20px; height:25px; background: {{activeHierarchy.dependant.color}}; float: left; "></div>
+
+        </div>
+
+
+        <div class="col-md-1" >
+            <button class="btn btn-sm btn-primary" ng-click="addDep()"> add </button>
+
+        </div>
+    </div>
+
+
+    <div class="row col-md-10 col-md-offset-1">
+        <table class="table table-hover table-striped">
+            <thead>
+            <th>provider parent</th>
+            <th>color</th>
+            <th>provider</th>
+            <th> -> </th>
+            <th>dependant</th>
+            <th>color</th>
+            <th>dependant parent</th>
+            <th> actions</th>
+            </thead>
+            <tbody>
+            <tr data-ng-repeat="dep in depsRich">
+                <td>{{dep.providerParent}}</td>
+                <td><div style="width: 20px; height: 20px; background-color: {{dep.providerConcept.color}}"></div></td>
+                <td class="text-right">{{dep.providerConcept.title}}</td>
+                <td> --> </td>
+                <td>{{dep.dependantConcept.title}}</td>
+                <td><div style="width: 20px; height: 20px; background-color: {{dep.dependantConcept.color}}"></div></td>
+                <td>{{dep.dependantParent}}</td>
+                <td>  <button class="btn btn-sm btn-danger" ng-click="deleteDep(dep)"> X </button> </td>
+                <!--<td><a ng-href="/#!/concepts/{{dep._id}}/edit"> edit</a> <button class="btn-sm btn-danger" ng-click="delete(dep);">X</button></td>-->
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+
+
+	<!--<div class="row col-md-10 col-md-offset-1">-->
+		<!--<form name="articleForm" class="form-horizontal" data-ng-submit="bulkAdd()" novalidate>-->
+			<!--<fieldset>-->
+				<!--<div class="form-group">-->
+					<!--<label class="control-label col-md-2" for="bulkAddContent"> course:</label>-->
+					<!--<div class="col-md-10">-->
+						<!--<select class="form-control" data-ng-model="selectedCourse" ng-options="course.title for course in courses">-->
+							<!--&lt;!&ndash;<option> ---none--- </option>&ndash;&gt;-->
+							<!--&lt;!&ndash;<option  data-ng-repeat="concept in concepts">{{concept.title}} </option>&ndash;&gt;-->
+						<!--</select>-->
+					<!--</div>-->
+
+				<!--</div>-->
+
+
+				<!--<div class="form-group">-->
+					<!--<label class="control-label col-md-2" for="bulkAddContent">parent concept:</label>-->
+					<!--<div class="col-md-7">-->
+						<!--<select class="form-control" data-ng-model="selectedConcept" ng-options="concept.title for concept in potentialParents">-->
+							<!--&lt;!&ndash;<option> ---none--- </option>&ndash;&gt;-->
+							<!--&lt;!&ndash;<option  data-ng-repeat="concept in concepts">{{concept.title}} </option>&ndash;&gt;-->
+						<!--</select>-->
+					<!--</div>-->
+					<!--<label class="control-label col-md-1" for="bulkAddContent">color:</label>-->
+					<!--<div class="col-md-1">-->
+						<!--<div style="width: 25px; height:25px; background-color: {{selectedConcept.color}}"></div>-->
+					<!--</div>-->
+				<!--</div>-->
+
+
+				<!--<div class="form-group">-->
+					<!--<label class="control-label" for="bulkAddContent">line separated concepts here (only titles - order as given in form):</label>-->
+					<!--<div class="controls">-->
+						<!--<textarea name="bulkAddContent" data-ng-model="bulkAddContent" id="bulkAddContent" class="form-control" cols="30" rows="10" placeholder="bulk content"></textarea>-->
+					<!--</div>-->
+				<!--</div>-->
+				<!--<div class="form-group">-->
+					<!--<input type="submit" class="btn btn-default">-->
+				<!--</div>-->
+				<!--<div data-ng-show="error" class="text-danger">-->
+					<!--<strong data-ng-bind="error"></strong>-->
+				<!--</div>-->
+			<!--</fieldset>-->
+		<!--</form>-->
+	<!--</div>-->
+
+
+    <div class="row col-md-10 col-md-offset-1">
+        <h3> Details about concepts: </h3>
+	<table class="table table-hover table-striped">
+		<thead>
+			<th>title</th>
+			<th>color</th>
+			<th>order</th>
+			<th>courses</th>
+			<th>#segments</th>
+			<th>#parents</th>
+			<th>#children</th>
+			<th>#dependencies</th>
+			<th> actions</th>
+		</thead>
+		<tbody>
+		<tr data-ng-repeat="concept in concepts">
+			<td>{{concept.title}}</td>
+			<td><div style="width: 20px; height: 20px; background-color: {{concept.color}}"></div></td>
+			<td>{{concept.order}}</td>
+			<td>{{concept.courses}}</td>
+			<td>{{concept.segments.length}}</td>
+			<td>{{concept.parents.length}}</td>
+			<td>{{concept.children.length}}</td>
+			<td>{{concept.dependencies.length}}</td>
+			<td><a ng-href="/#!/concepts/{{concept._id}}/edit"> edit</a> </td>
+		</tr>
+		</tbody>
+	</table>
+    </div>
+
+
+
+
+
+</section>

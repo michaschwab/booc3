@@ -1,0 +1,14 @@
+<div class="modal-header">
+    <h3 class="modal-title">Dependency Removal</h3>
+</div>
+<div class="modal-body">
+
+    <p>Are you sure you want to delete dependency {{dependency._id}}?</p>
+
+    <p>According to this dependency, <b>{{to.concept.title}}</b> depends on <b>{{from.concept.title}}</b>.</p>
+
+</div>
+<div class="modal-footer">
+    <button class="btn btn-primary" ng-click="ok()">Confirm</button>
+    <button class="btn btn-warning pull-left" ng-click="cancel()">Cancel</button>
+</div>

@@ -1,0 +1,15 @@
+<div data-ng-controller="ConceptSearchController" class="search-container" ng-hide="windowWidth<800">
+    <ui-select class="concept-select" theme="bootstrap" ng-model="$parent.searchConcept" on-select="searchSelect($item)"
+               ng-required name="conceptSelect" id="conceptSelect">
+        <ui-select-match placeholder="Search Learning Concept...">
+            <div style="width:20px; height:20px; background: {{$select.selected.color}}; float: left; margin-right: 15pt; border-radius: 10px"></div>
+            {{$select.selected.title}}
+            <div class="selectResetter" class="pull-right" ng-click="searchUnselect(this)">x</div>
+        </ui-select-match>
+        <ui-select-choices repeat="concept in searchConcepts | filter: $select.search">
+            <div style="width:20px; height:20px; background: {{concept.color}}; float: left; margin-right: 15pt; border-radius: 10px"></div>
+            <div ng-bind-html="concept.title | highlight: $select.search"></div>
+        </ui-select-choices>
+
+    </ui-select>
+</div>

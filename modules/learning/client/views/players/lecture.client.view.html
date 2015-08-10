@@ -1,0 +1,43 @@
+<div class="col-xs-8 learnContent">
+
+    <div class="{{active.sourcetype.title.toLowerCase().replace(' ','')}}">
+
+        <div class="panel-footer" ng-show="providers.length">
+            Dependencies:
+            <ul class="conceptList providerList">
+                <li ng-repeat="provider in providers" ng-class="{ 'learned': learnedConceptIds.indexOf(provider._id) !== -1}">{{provider.title}}</li>
+            </ul>
+        </div>
+
+        <!--<div ng-show="conceptReadNotUnderstood" ng-if="conceptReadNotUnderstood && learnedConceptIds.indexOf(conceptReadNotUnderstood._id)===-1" class="alert alert-info alert-dismissible tooFarNotification">
+            <button type="button" class="close" data-dismiss="alert" ng-click="removeConceptReadNotUnderstood()" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            Mark last concept <i>{{conceptReadNotUnderstood.title}}</i> as <strong>understood</strong>?
+            <strong><a href="" ng-click="understoodLateClick(conceptReadNotUnderstood)">Yes</a></strong> <strong><a href="" ng-click="removeConceptReadNotUnderstood()">No</a></strong>
+        </div>-->
+
+        <pdfviewer ng-src="{{sourceData.document}}" width="{{pdfWidth}}" on-page-load='pageLoaded(page,total)' class="pdfViewer" id="viewer"></pdfviewer>
+
+    </div>
+
+
+</div>
+
+<div class="col-xs-4 navigation mapNav" ng-class="{ extended: map.extended }">
+
+
+    <div ng-if="active.sourcetype.title.toLowerCase().replace(' ','')=='lecture'" class="minivideo">
+
+        <h4>{{active.source.title}}</h4>
+
+
+        <video width="{{videoWidth}}" controls id="videoPlayer" ng-src="{{sourceData.video}}" autoplay="autoplay">
+            <source ng-src="{{sourceData.video}}" type="video/mp4" />
+            Your browser does not support the video tag.
+        </video>
+
+        <div ng-show="currentPosition<segment.end" class="alert alert-info notEndNotifier" role="alert">
+            This concept ends in {{(segment.end-currentPosition) * 1000 | date:'mm:ss':'UTC'}} minutes.
+        </div>
+
+    </div>
+</div>

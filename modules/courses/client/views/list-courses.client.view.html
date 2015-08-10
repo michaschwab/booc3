@@ -1,0 +1,31 @@
+<section data-ng-controller="CoursesController" data-ng-init="find()">
+    <div class="page-header">
+        <h1>Courses</h1>
+    </div>
+    <div class="list-group">
+        <li data-ng-repeat="course in courses" data-ng-href="courses/{{course._id}}" class="list-group-item">
+            <div class="pull-right" data-ng-show="(authentication.user)">
+                <a class="btn btn-primary" href="#!/courses/{{course._id}}/edit">
+                    <i class="glyphicon glyphicon-edit"></i>
+                </a>
+                <a class="btn btn-primary" data-ng-click="remove(course);">
+                    <i class="glyphicon glyphicon-trash"></i>
+                </a>
+            </div>
+					<h4 class="list-group-item-heading" data-ng-bind="course.title"></h4>
+            <div data-ng-bind="course.description">
+
+            </div>
+            <small class="list-group-item-text">
+                Posted on
+                <span data-ng-bind="course.created | date:'medium'"></span>
+                by
+                <span data-ng-bind="course.user.displayName"></span>
+            </small>
+
+        </li>
+    </div>
+    <div class="alert alert-warning text-center" data-ng-hide="!courses.$resolved || courses.length">
+    	No Courses yet, why don't you <a href="/#!/courses/create">create one</a>?
+    </div>
+</section>

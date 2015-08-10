@@ -1,0 +1,146 @@
+.learningLine {
+    /*height: 100%;*/
+    /*border-left: 1px solid #333;
+    margin-left: 15px;*/
+    margin-top: 30px;
+}
+
+.learningLine:before {
+    content: " ";
+    width: 25px;
+    display: block;
+    height: 25px;
+    margin-left: -8px;
+    margin-top: -25px;
+    background-color: #f6f6f6;
+    background-image: url('/modules/learning/img/arrowstart1.png');
+}
+
+.learningLine:after {
+    content: " ";
+    width: 25px;
+    display: block;
+    height: 25px;
+    margin-left: 12px;
+    margin-top: -16px;
+    margin-bottom: 0px;
+    background-color: #f6f6f6;
+    background-image: url('/modules/learning/img/arrowend1.png');
+}
+/*
+.conceptList  {
+    padding-left: 0;
+    margin-left: -15px;
+}
+
+.conceptPanel li {
+    list-style: none;
+}
+.conceptList > li {
+    padding: 0 0 15px 40px;
+    margin: 0 0 5px;
+}
+
+
+.neighborConcepts > a {
+    position: relative;
+
+    display: block;
+    min-height: 30px;
+}
+
+.concept {
+    padding-left: 40px;
+    min-height: 30px;
+    display: block;
+    padding-top:2pt;
+}
+a.concept:hover {
+    text-decoration: none;
+}
+
+.conceptPanel li {
+    /*list-style-image: url('../../concepts/img/concept-gray.svg');* /
+
+    font-size: 17px;
+
+
+}
+
+
+
+.providerList, .providerList li {
+    display: inline;
+}
+.providerList {
+    padding-left: 5px;
+}
+.providerList li {
+    padding-top: 5px;
+}
+
+.conceptPanel {
+    padding: 0;
+}
+*/
+
+/*
+.alternative-segments li {
+    padding: 0 5pt;
+
+}
+.alternative-segments li a {
+    margin: 0 8px 0 0;
+    padding-top: 0;
+}
+
+.alternative-segments li a span {
+    padding-top: 10px;
+    margin-right: 10pt;
+}
+
+.conceptPanel .alternative-segments li {
+    /*background: url('../img/segment-gray.svg') no-repeat 0px 0px ;* /
+    background:none;
+}
+
+.conceptPanel .alternative-segments .active {
+    background: url('/modules/learning/img/segment-red.svg') no-repeat 0px 3px ;
+}
+*/
+
+.notEndNotifier {
+    padding: 5pt 20pt;
+    margin: -5px 0 0 0;
+    width: 100%;
+}
+
+.tooFarNotification a {
+    margin-left: 10pt;
+    padding: 0 5pt;
+}
+
+.minivideo {
+    position: absolute;
+    right: 9px;
+}
+
+
+.learnRow {
+    width: 100%;
+}
+
+.contentCol {
+    position: absolute;
+    top: 0;
+    right: 0;
+}
+
+.pdfViewer {
+    display: inline-block;
+    /*top: -30px;
+    right: -30px;*/
+    right: -15px;
+    float: right;
+    position: absolute;
+}

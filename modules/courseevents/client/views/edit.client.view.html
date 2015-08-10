@@ -1,0 +1,90 @@
+<section data-ng-controller="CourseeventsController" data-ng-init="findOne()" class="container">
+    <div class="page-header">
+        <h1>{{event.added ? 'Edit Event' : 'Create Event'}}</h1>
+    </div>
+    <div class="col-md-12">
+        <form class="form-horizontal" data-ng-submit="event.added ? update() : create()" novalidate>
+            <fieldset>
+
+                <div class="form-group">
+
+                    <label for="courseSelect">Which Course is the Event for?</label><br />
+
+                    <ui-select class="course-select" ng-model="$parent.event.course" ng-required name="courseSelect" id="courseSelect">
+                        <ui-select-match placeholder="Select Course...">{{$select.selected.title}}</ui-select-match>
+                        <ui-select-choices repeat="course in courses | filter: $select.search">
+                            <div ng-bind-html="course.title | highlight: $select.search"></div>
+                            <small ng-bind-html="course.description | highlight: $select.search"></small>
+                        </ui-select-choices>
+
+
+                    </ui-select>
+
+                    <label class="control-label" for="name">Event Name</label>
+                    <div class="controls">
+                        <input type="text" data-ng-model="event.name" id="name" class="form-control" placeholder="Name" required>
+                    </div>
+
+                    <label class="control-label" for="description">Description</label>
+                    <div class="controls">
+                        <!--<input type="text" data-ng-model="event.description" id="description" class="form-control" placeholder="Title" required>-->
+                        <textarea class="form-control" data-ng-model="event.description" id="description" rows="3"></textarea>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-2">
+
+                            <label class="control-label" for="when">Happens
+
+                                <select class="form-control" style="width: 100px; display: inline" name="when" id="when" data-ng-model="event.when">
+                                    <option>before</option>
+                                    <option>after</option>
+                                </select>
+
+                            </label>
+                        </div>
+
+                        <div class="col-md-10" style="padding-top: 5px">
+
+                            <label class="control-label" for="conceptSelect">Concept
+
+                                <div style="width:300px; position: absolute; top: 7px; left: 100px">
+                                    <concept-select concepts="concepts" on-select="selectConcept" model="event.concept" id="conceptSelect"></concept-select>
+
+                                </div>
+
+                            </label>
+
+                        </div>
+
+                    </div>
+
+
+                </div>
+
+                <div class="form-group">
+
+                    <a class="btn btn-warning" href="#!{{event.course ? '/courses/' + event.course._id : ''}}/courseevents">
+                        <span class="glyphicon glyphicon-remove-circle"></span>
+                        Cancel and back to list
+                    </a>
+
+                    <button ng-disabled="!event.course||!event.concept" ng-show="event.added" type="submit" class="btn btn-primary pull-right">
+                        <span class="glyphicon glyphicon-pencil"></span>
+                        Update
+                    </button>
+
+                    <button ng-disabled="!event.course||!event.concept" ng-show="!event.added" type="submit" class="btn btn-success pull-right">
+                        <span class="glyphicon glyphicon-plus"></span>
+                        Create
+                    </button>
+
+                </div>
+                <div data-ng-show="error" class="text-danger">
+                    <strong data-ng-bind="error"></strong>
+                </div>
+
+            </fieldset>
+        </form>
+    </div>
+</section>

@@ -1,0 +1,25 @@
+<div class="sidepanel col-md-3 sidepanel conceptmap-sideinfo learnmode-{{learnModeYesNo}}" ng-controller="ConceptPanelController" id="sidepanel"
+     style="{{activeMode!='minimap'?'z-index:10; position:relative;':''}}height:{{windowHeight-55}}px; width:{{courseScope.panelWidth}}px" ng-class="{minimized: minimized, maximized: !minimized}"
+     >
+
+    <div ng-hide="minimized" class="fadein maximized">
+
+        <div class="sidepanelOptions">
+            <a class="minimizerToggle minimizer fa fa-caret-square-o-left" href="" ng-click="minimize()" title="Hide Panel"></a>
+        </div>
+
+        <ng-include src="'modules/concepts/views/panel/full.client.view.html'"></ng-include>
+
+    </div>
+
+    <div ng-show="minimized" class="minimized">
+
+        <div class="sidepanelOptions">
+            <a class="minimizerToggle maximizer fa fa-caret-square-o-right" href="" ng-click="maximize()" title="Show Panel"></a>
+        </div>
+
+        <ng-include src="'modules/concepts/views/panel/minimized.client.view.html'"></ng-include>
+
+    </div>
+
+</div>

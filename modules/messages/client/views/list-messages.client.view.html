@@ -1,0 +1,19 @@
+<section data-ng-controller="MessagesController" data-ng-init="find()">
+    <div class="page-header">
+        <h1>Messages</h1>
+    </div>
+    <div class="list-group">
+        <a data-ng-repeat="message in messages" data-ng-href="#!/messages/{{message._id}}" class="list-group-item">
+			<small class="list-group-item-text">
+				Posted on
+				<span data-ng-bind="message.created | date:'medium'"></span>
+				by
+				<span data-ng-bind="message.user.displayName"></span>
+			</small>
+			<h4 class="list-group-item-heading" data-ng-bind="message.name"></h4>
+        </a>
+    </div>
+    <div class="alert alert-warning text-center" data-ng-hide="!messages.$resolved || messages.length">
+    	No Messages yet, why don't you <a href="/#!/messages/create">create one</a>?
+    </div>
+</section>

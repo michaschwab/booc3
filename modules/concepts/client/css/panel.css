@@ -1,0 +1,703 @@
+.inline-block {
+    display: inline-block;
+}
+
+.sidepanel {
+    position: absolute;
+    top: 0;
+    left: 0;
+    background: #f6f6f6;
+    height: 100%;
+    border-right: 1px solid #f0f0f0;
+}
+.sidepanel.maximized {
+    padding: 0 15pt;
+}
+.sidepanel.minimized {
+    padding: 0;
+}
+
+.sidepanel.maximized header {
+    margin: 0 -16pt 0 -15pt;
+    padding: 7px 15px 2px 15px;
+}
+.sidepanel.minimized header {
+    width: 100%;
+    padding-right: 3px;
+    height: 66px;
+}
+.sidepanel header ol {
+    padding-left: 0;
+    margin: 10pt 0 0 0;
+}
+.sidepanel header ol li {
+    display: inline;
+}
+.sidepanel header ol li:after {
+    content: " » "
+}
+.sidepanel header ol li a {
+    color: #333;
+}
+.sidepanel header h2 {
+    margin-top: 0;
+}
+
+.sidepanel .row {
+    margin: 0 -15pt;
+    background: #f6f6f6;
+}
+
+
+#zoomToggleContainer hr {
+    /*background: #0f0;
+    border-top: 1px solid #ccc;
+*/
+}
+
+
+@media (min-width: 768px) {
+    .sidepanel .nav-tabs.nav-justified > li {
+        background-color: #f0f0f0;
+    }
+    .sidepanel .nav-tabs.nav-justified > li > a {
+        background-color: #f0f0f0;
+    }
+    .sidepanel .nav-tabs.nav-justified > .active > a {
+        background-color: #f6f6f6;
+        border-bottom: 1px solid #f6f6f6;
+    }
+}
+
+
+
+.lectureList {
+    padding-left: 0;
+}
+
+
+a, a:focus {
+    outline: 0;
+}
+
+.maximized .panel-button {
+    font-size: 20pt;
+    width: 36pt;
+    height: 36pt;
+    margin: 10pt 0 0 5pt;
+    /*box-shadow: 2px 2px 4px #999;*/
+    border-radius: 5pt;
+    border: 1px solid #ddd;
+    background: #f6f6f6;
+    display: block;
+    color: #333333;
+}
+.minimized .panel-button {
+    font-size: 10pt;
+    width: 20pt;
+    height: 20pt;
+    margin: 3pt 0 0 1pt;
+    /*box-shadow: 2px 2px 4px #999;*/
+    border-radius: 5pt;
+    border: 1px solid #ddd;
+    background: #f6f6f6;
+    display: block;
+    color: #333333;
+}
+.minimized .play.learnmode-true {
+    padding: 2pt 0 0 3pt;
+}
+.minimized .play.learnmode-false {
+    padding: 2pt 0 0 5pt;
+}
+
+.maximized .play.learnmode-true {
+    padding: 2pt 0 0 7pt;
+}
+.maximized .play.learnmode-false {
+    padding: 2pt 0 0 9pt;
+}
+
+.course-list {
+    left: -10px;
+    padding-left: 0;
+    list-style-type: none;
+    position: relative;
+}
+.course-list *, .course-list .concept {
+    border-color: inherit;
+}
+
+.course-list > .concept > a > .concept-line {
+    top: 0px;
+    min-height: 0;
+}
+
+.course-list > .concept > a {
+    padding-bottom: 15px;
+}
+
+.concept-list {
+    position: relative;
+    list-style-type: none;
+    top: 12px;
+    padding-left: 11px;
+    padding-top: 8px;
+    left: 14px;
+}
+
+.concept-list > .concept {
+    /*height: 29pt;*/
+    margin-bottom: 15px;
+}
+
+
+.concept-panel p {
+    margin-top: 10pt;
+}
+
+.panel-tab {
+    vertical-align: bottom;
+}
+
+a[disabled] {
+    pointer-events: none;
+    color: #666;
+}
+a[disabled] .map-icon {
+    -webkit-filter: grayscale(100%);
+}
+
+.concept-list > li {
+    position: relative;
+    display: inline-block;
+    width: 100%;
+}
+.concept-list > li > a > span.glyphicon {
+    z-index: 3;
+    position: absolute;
+
+}
+.concept-list .flag {
+    margin: 10pt;
+    position: absolute;
+    left: -4pt;
+    top: -6pt;
+}
+
+
+.concept-tick {
+    left: 5pt;
+    top: 4pt;
+    position: absolute;
+    z-index: 3;
+}
+
+.concept-list-nested .concept-list-nested .glyphicon {
+    font-size: 70%;
+}
+
+.concept-list-nested .concept-list-nested .concept-tick {
+    top: 6px;
+    left: 9px;
+}
+.concept-list-nested .concept-list-nested .flag {
+    top: -6px;
+    left: -3px;
+}
+
+
+.concept > a {
+    position: relative;
+    top: 0;
+    /*left: 30pt;*/
+    padding-top: 3px;
+    /*padding-left: 30pt;*/
+    z-index: 2;
+    text-decoration: none;
+}
+
+
+.concept-circle {
+    width: 20pt;
+    height: 20pt;
+    display: block;
+    border-radius: 10pt;
+    /* border: 1px solid #999; */
+    z-index: 2;
+    position: absolute;
+    top: 0;
+    box-shadow: 1px 1px 3px #aaa;
+}
+
+.active > a > .concept-circle, .concept-list .concept:hover > a > .concept-circle, .hover > a > .concept-circle, .concept-list .concept:hover > a > .concept-circle  {
+
+    border: 2px solid #444466;
+}
+
+.flag {
+    display: none;
+}
+.goal > a > .flag {
+    display: block;
+    z-index:3;
+}
+/*
+.learnmode-no .concept-list .concept > a:hover > .flag {
+    display: block;
+}*/
+
+
+.concept-line {
+    /*background: #4C4B86;*/
+    border-left-width: 2px;
+    border-left-style: solid;
+    width: 2px;
+    z-index: 0 !important;
+    min-height: 39px;
+    position: absolute;
+    display: block;
+    left: 14px;
+    top: -7px;
+    height: 100%;
+
+}
+
+.concept > a {
+    padding-bottom: 19px;
+}
+.concept > a > .concept-title {
+    position: relative;
+    left: 30pt;
+}
+
+input.concept-title.admin {
+    height: 24px;
+    padding: 0 5px;
+    background: #fff;
+    border: 1px solid #ddd;
+    width: 60%;
+}
+
+
+.concept-list-nested:before, .concept-list:before {
+    /*border-top: 2px solid #4C4B86;*/
+    border-top-color: inherit;
+    border-top-width: 2px;
+    border-top-style: solid;
+    content: " ";
+    width: 25px;
+    height: 1px;
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    display: block;
+}
+.concept-list-nested:after {
+    /*border-top: 2px solid #4C4B86;*/
+    border-top-color: inherit;
+    border-top-width: 2px;
+    border-top-style: solid;
+    content: " ";
+    width: 25px;
+    height: 1px;
+    position: relative;
+    left: -10px;
+    top: -1px;
+    display: block;
+}/*
+.concept-list-nested .concept-list-nested:before {
+    left: -1px;
+}*/
+
+.course-list > .concept > .concept-list > .concept:last-child > .concept-list:after, .course-list > .concept > .concept-list > .concept:last-child > .concept-list > .concept:last-child > .concept-list:after {
+    border-top: none;
+}
+
+.course-list > .concept > .concept-list > .concept:last-child > .concept-list-nested > .concept.inactive:last-child > a > .concept-line,
+.course-list > .concept > .concept-list > .concept:last-child > .concept-list-nested > .concept:last-child > .concept-list-nested > .concept:last-child > a > .concept-line,
+.course-list > .concept > .concept-list > .concept.inactive:last-child > a > .concept-line {
+    min-height: 10px;
+    height: 13px;
+}
+
+.course-list > .concept > .concept-list > .concept.active:last-child > a > .concept-line,
+.concept-list > .concept:last-child > .concept-list-nested > .concept.active:last-child > a > .concept-line,
+.course-list > .concept > .concept-list > .concept.hover:last-child > a > .concept-line,
+.concept-list > .concept:last-child > .concept-list-nested > .concept.hover:last-child > a > .concept-line, {
+    min-height: 30px;
+    height: 100%;
+}
+
+.concept-list-nested {
+    position: relative;
+    margin-top: -4px;
+    /*margin-left: 14px;*/
+    margin-bottom: 3px;
+    padding-left: 8pt;
+    padding-top: 6pt;
+}
+
+.concept-list-nested .concept-line {
+    left: 14px;
+    min-height: 35px;
+    margin-bottom: -5px;
+
+}
+.concept-list-nested .concept-circle {
+    width: 16pt;
+    height: 16pt;
+    border-radius: 8pt;
+    left: 3px;
+    top: 2px;
+}
+
+.concept-list-nested .concept-list-nested .concept-circle {
+    width: 10pt;
+    height: 10pt;
+    border-radius: 5pt;
+    left: 8px;
+    top: 6px;
+}
+
+.concept-list-nested .concept {
+
+}
+
+.concept-list-nested .flag {
+    left: -7px;
+    top: -9px;
+    color: #333;
+}
+
+.concept-list-nested .concept-list-nested {
+    margin-top: -4px;
+    /* margin-bottom: 11px; */
+
+    padding-bottom: 7px;
+    /*margin-bottom: -4px;*/
+}
+.concept-list-nested > .concept:last-child > .concept-list-nested {
+    margin-bottom: -4px;
+}
+
+.panel-content {
+    padding: 0 50px 0 20px;
+    overflow: auto;
+}
+
+/** Segments **/
+
+
+.minimized .segment {
+    margin-right: 20px;
+}
+.segment {
+    list-style: none;
+    margin: 5px 5px -15px 5px;
+    position: relative;
+    padding-bottom: 12px;
+}
+
+.segment a {
+    display: block;
+    padding: 5px 15px;
+    text-decoration: none;
+}
+
+.segment.active a, .segment.hover a {
+    background: #ddd;
+    border-radius: 7px;
+
+}
+
+.alternative-segments {
+    padding-left: 15pt;
+}
+
+.segment .concept-line {
+    left: -8pt;
+    top: -8px;
+}
+.concept-list-nested .segment .concept-line {
+    left: -10pt;
+}
+
+.concept-list-nested .concept-list-nested .segment .concept-line {
+    left: -11px;
+}
+
+.segment-title {
+    display: block;
+    margin: -20px 0 0 20px;
+}
+
+/*** LEARNING BUTTONS ***/
+.maximized .learning-buttons {
+    position: fixed;
+    left: 0;
+    width: 24%;
+    background: #f6f6f6;
+    bottom: 20px;
+}
+.buttonRow {
+    padding-top: 10px;
+    width: 105%;
+    display: table;
+}
+
+.maximized .sidepanel .learning-buttons .row {
+    padding: 10pt 20pt 0 20pt;
+    background: transparent;
+}
+
+.learning-buttons hr {
+    margin: 0 auto;
+    width: 90%;
+    border-color: #eeeeee;
+}
+
+
+.maximized .learning-buttons .btn {
+    width: 48.5%;
+}
+
+.minimized .learning-buttons {
+    position: fixed;
+    left: 0;
+    width: 100%;
+    background: #f6f6f6;
+    bottom: 5px;
+    padding: 0 2px;
+    height: 150px;
+
+    vertical-align: text-bottom;
+}
+
+.minimized .learning-buttons .btn {
+    width: 100%;
+    margin-bottom: 2px;
+    vertical-align: text-bottom;
+}
+
+/** lecture **/
+.lectureList {
+    list-style-type: none;
+}
+
+.lecture {
+    position: relative;
+    margin-bottom: 20px;
+}
+.lecture > a {
+    text-decoration: none;
+    border: 1px solid #aaa;
+    border-radius: 5px;
+    padding: 5px;
+    background: #fff;
+    position: relative;
+    z-index: 2;
+}
+
+.lecture > .concept-line {
+    left: 14px;
+    top: -3px;
+    height: 18px;
+}
+
+.unsetgoal:before {
+    color: #333;
+    position: relative;
+    left: 20px;
+    z-index:4;
+    font-size:20pt
+}
+.unsetgoal {
+    color: #000;
+    position: relative;
+    left: -9px;
+    top: -4px;
+    z-index:5;
+    font-size:30pt;
+
+}
+.maximized .setgoal {
+    padding: 8px 0 0 11px;
+}
+.minimized .setgoal {
+    padding: 6px 0 0 7px;
+}
+
+.lecture-icon, .wiki-icon, .map-icon {
+    display:inline-block;
+    position:relative;
+    top:8px;
+    margin-top:-8px;
+
+}
+
+
+.lecture-icon {
+    background: url('../../../modules/learning/img/lecture.svg');
+    background-size: 20px 20px;
+    background-position: -2px 0;
+    width:20px;
+    height:20px;
+}
+
+.wiki-icon {
+    background: url('../../../modules/learning/img/Wikipedia_W.svg');
+    background-size: 20px 20px;
+    width:20px;
+    height:20px;
+}
+
+.map-icon {
+    background: url('../../../modules/courses/img/gov2001_big.png');
+    background-size: 22px 22px;
+    width:22px;
+    height:22px;
+
+}
+.map-icon-large {
+    background-size: 40px 40px;
+    width: 40px;
+    height: 40px;
+    left: -7px
+}
+
+
+/**** ADMIN STUFF ***/
+
+.concept .remove-concept {
+    color: darkred;
+    padding: 0 0 0 15px;
+    top: 3px;
+    float: right;
+    padding-top: 3px;
+}
+
+.concept .add-segment-to-concept {
+    padding: 0 0 0 15px;
+    top: 3px;
+    color: darkgreen;
+    float: right;
+    padding-top: 3px;
+}
+
+.handle {
+    cursor: pointer;
+    top: 5px;
+    left: -25px;
+}
+
+.addConceptIcon {
+    color:#008800;
+    padding-top: 3px;
+}
+
+/*** OPTIONS ***/
+.sidepanelOptions {
+    float: right;
+    margin-right: -15px;
+}
+.minimizer {
+    font-size: 16px;
+}
+
+input[type=color] {
+    visibility: hidden;
+    position:absolute;
+}
+
+
+/** FADING **/
+.fadein,
+.fadeout {
+    -webkit-transition:all cubic-bezier(0.250, 0.460, 0.450, 0.940) .8s;
+    -moz-transition:all cubic-bezier(0.250, 0.460, 0.450, 0.940) .8s;
+    -o-transition:all cubic-bezier(0.250, 0.460, 0.450, 0.940) .8s;
+    transition:all cubic-bezier(0.250, 0.460, 0.450, 0.940) .8s;
+}
+
+.fadein.ng-hide-remove,
+.fadeout.ng-hide-add.ng-hide-add-active {
+    opacity: 0;
+}
+
+.fadeout.ng-hide-add,
+.fadein.ng-hide-remove.ng-hide-remove-active {
+    opacity: 1;
+
+}
+.ng-hide-add-active:not(.fadeout) {
+    display: none !important;
+}
+
+
+/** MINIMIZED **/
+.panel-minimized {
+    margin-left: -10.5pt;
+}
+.panel-minimized > .course-list {
+    padding-top: 50px;
+    left: 18px;
+}
+.panel-minimized .concept-list, .panel-minimized .alternative-segments {
+    list-style: none;
+    padding-left:0;
+    left: 0;
+    padding-bottom: 0;
+    margin: 0;
+}
+
+.panel-minimized .concept-list-nested {
+    margin: 0;
+    padding-bottom: 0;
+}
+.panel-minimized ul:before, .panel-minimized ul:after {
+    border-top: none;
+    border-bottom: none;
+}
+.concept-list.concept-list-nested > .concept {
+    /*height: 29pt;*/
+    margin-bottom: 9px;
+}
+.panel-minimized .concept-list.concept-list-nested > .concept {
+    /*height: 29pt;*/
+    margin-bottom: -5px;
+}
+.panel-minimized .concept > a {
+    left: 0;
+    padding-left: 0;
+    height: 25pt;
+    display: block;
+}
+.panel-minimized .concept-list {
+    left: 0;
+    top: -3px;
+    margin-top: 0;
+    margin-left: 0;
+}
+.panel-minimized .concept {
+    min-height: 25pt;
+    top: -4px;
+    margin-bottom: 0;
+}
+.panel-minimized .segment {
+    margin-left: -1px;
+}
+.panel-minimized .segment-icon {
+    top:3px;
+    left: -8px;
+}
+
+.panel-minimized .alternative-segments {
+    margin-top: -10px;
+    margin-bottom: 14px;
+}
+
+.maximizer {
+    position: absolute;
+    top: 5px;
+}

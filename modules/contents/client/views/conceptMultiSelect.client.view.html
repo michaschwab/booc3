@@ -1,0 +1,3 @@
+<concept-select ng-repeat="activeConcept in ngModel" concepts="concepts" model="activeConcept" id="conceptSelect-{{$index}}"></concept-select>
+
+<concept-select concepts="concepts" on-select="addConcept" model="newConcept" id="conceptSelect"></concept-select>

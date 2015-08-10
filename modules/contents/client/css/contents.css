@@ -1,0 +1,75 @@
+
+.lecture-concepts {
+    display: inline;
+    padding-left: 5px;
+}
+
+.lecture-concepts li {
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 3px 10px;
+    margin: 0 10px 10px 0;
+}
+
+.concept-color-circle {
+    border-radius: 8px;
+    width: 16px;
+    height: 16px;
+    display: block;
+    float: left;
+    margin-top: 2px;
+}
+
+.concept-color-circle-big {
+    border-radius: 12px;
+    width: 24px;
+    height: 24px;
+    display: block;
+    float: left;
+    margin: 6px 10px 0 0;
+}
+
+
+.lecture-concepts li small {
+    padding-left: 5px
+}
+
+.lecture-list > a {
+    padding-bottom: 0;
+}
+
+.segment-list li {
+    padding: 0;
+}
+.segment-list a {
+    padding: 7pt 10pt;
+    display: block;
+    text-decoration: none;
+}
+
+.segment-list a:hover {
+    background: #eeeeee;
+    width: 100%;
+    height: 100%;
+}
+.segment-list .active a {
+    color: #fff;
+}
+.segment-list .active a:hover {
+    background: inherit;
+}
+
+.customicon {
+    width: 20px;
+    height: 20px;
+    background-size: 20px 20px;
+    background-repeat: no-repeat;
+    display: inline-block;
+    margin: 1px 5px -5px -3px;
+}
+
+.icon-lti {
+    background: url('../img/lti.png');
+    background-size: 20px 20px;
+}

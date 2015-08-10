@@ -1,0 +1,61 @@
+<section data-ng-controller="CourseeventsController" ng-init="list()" class="container">
+
+	<h1>Course Events</h1>
+
+	Course:
+	<ui-select class="course-select" ng-model="active.course" ng-required name="courseSelect" id="courseSelect">
+		<ui-select-match placeholder="Select Course...">{{$select.selected.title}}</ui-select-match>
+		<ui-select-choices repeat="course in courses | filter: $select.search">
+			<div ng-bind-html="course.title | highlight: $select.search"></div>
+			<small ng-bind-html="course.description | highlight: $select.search"></small>
+		</ui-select-choices>
+
+
+	</ui-select>
+
+	<a ng-show="active.course" class="btn btn-default pull-right" style="margin-top: 20px" href="#!/courses/{{active.course._id}}">
+		<span class="map-icon"></span>
+		Show Course Map
+	</a>
+	<h2>List</h2>
+
+	<p ng-show="!courseevents.length&&active.course">No events found.</p>
+	<p ng-show="!courseevents.length&&!active.course">Please select a course first.</p>
+
+
+	<table class="table" ng-show="courseevents.length">
+		<thead>
+			<tr>
+				<th>Name</th>
+				<th>When</th>
+				<th>Concept</th>
+				<th>Actions</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr ng-repeat="event in courseevents">
+				<td>{{event.name}}</td>
+				<td>{{event.when}}</td>
+				<td>
+					<div style="position:relative">
+					<span class="concept-circle" style="background: {{event.concept.color}}"></span>
+					</div>
+					<div style="padding: 5px 0 0 40px">
+						{{event.concept.title}}
+					</div>
+
+				</td>
+				<td>
+					<a href="#!/courseevents/{{event._id}}/edit" class="btn btn-primary"><span class="glyphicon glyphicon-pencil"></span> Edit</a>
+					<button ng-click="remove(event)" class="btn btn-danger"><span class="glyphicon glyphicon-remove"></span> Delete</button>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+
+	<a class="btn btn-success pull-right" href="#!/courses/{{active.course._id}}/courseevents/create">
+		<span class="glyphicon glyphicon-plus"></span>
+		Create
+	</a>
+
+</section>

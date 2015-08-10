@@ -1,0 +1,39 @@
+<div class="form-group">
+    <label for="path">What's the URL of the Wikipedia article?</label><br />
+
+    <div class="input-group" ng-class="{'has-error': contentCreateForm.path.$error.pattern, 'has-success': !contentCreateForm.path.$error.pattern&&source.path.length}">
+        <span class="input-group-addon"><span class="glyphicon glyphicon-globe"></span></span>
+        <input type="text" id="path" ng-model="source.path" name="path" ng-pattern="wikiRegex"  placeholder="http://en.wikipedia.org/wiki/Newtons_laws" class="form-control"/>
+        <span class="error" ng-show="contentCreateForm.url.$error.pattern">That doesn't look like a valid Wikipedia URL.</span>
+    </div>
+</div>
+
+<div class="form-group" ng-class="{'has-error': contentCreateForm.title.$error.required, 'has-success': !contentCreateForm.title.$error.required&&source.title.length}">
+    <label for="title">What's the title?</label><br />
+
+    <div class="input-group">
+        <span class="input-group-addon"><span class="glyphicon glyphicon-pencil"></span></span>
+        <input type="text" id="title" ng-model="source.title" name="title" ng-required placeholder="Title of the article" class="form-control"/>
+    </div>
+</div>
+
+<div class="row">
+    <!--<div class="col-md-5">
+        <ng-include src=" 'modules/sources/views/segmentListPanel.client.view.html' "></ng-include>
+    </div>-->
+    <div class="col-md-12">
+        <iframe ng-if="sourceData" src="{{sourceData}}" width="100%" height="500"></iframe>
+    </div>
+</div>
+
+
+<div class="col-md-12 form-group">
+    <label for="conceptSelect">Which Concept is the Wikipedia Article for?</label>
+
+    <concept-multi-select ng-if="activeSegment.conceptObjects" id="conceptSelect" concepts="concepts" ng-model="activeSegment.conceptObjects"></concept-multi-select>
+
+    <!--
+    <concept-select ng-repeat="con in activeSegment.conceptObjects" concepts="concepts" on-select="selectConcept" model="con" id="conceptSelect-{{$index}}"></concept-select>
+
+    <concept-select concepts="concepts" on-select="addConcept" model="newConcept" id="conceptSelect"></concept-select>-->
+</div>

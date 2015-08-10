@@ -1,0 +1,587 @@
+angular.module('courses').service('MapCircles', function(Tip, $location, $timeout)
+{
+    var me = this;
+    var lxCircle;
+    var lxCircles = [];
+    var $scope;
+
+    this.init = function(scope)
+    {
+        $scope = scope;
+
+        $scope.splitTitle = function(title, depth)
+        {
+            var titleSnippets = title.split(/\s+/);
+
+            var splitTexts = [];
+            var currentSnippet = [];
+            var currentLength =0;
+            var threshold = $scope.characterMax[depth];
+
+            titleSnippets.forEach(function(snippet){
+                if (snippet.length> threshold){
+                    // for terms longer than threshold
+                    if (currentLength>0){
+                        splitTexts.push(currentSnippet.join(' '));
+                    }
+                    splitTexts.push(snippet);
+                    currentLength=0;
+                    currentSnippet=[];
+                }else if ((snippet.length+currentLength)>threshold){
+                    // if term would lead to overflow
+                    splitTexts.push(currentSnippet.join(' '));
+                    currentLength=snippet.length;
+                    currentSnippet=[snippet];
+
+                }else{
+                    // if term fits in threshold
+                    currentLength+=snippet.length;
+                    currentSnippet.push(snippet);
+                }
+            });
+
+            if (currentLength>0){
+                splitTexts.push(currentSnippet.join(' '));
+            }
+
+            return splitTexts;
+        };
+
+        // maximal characters per level
+        $scope.characterMax={
+            1:12,
+            2:13,
+            3:13
+        };
+
+        $scope.configCircle = function(array, depth, concept, i)
+        {
+            var aLength = +array.length;
+            var angleDistance = 2 * Math.PI/aLength;
+
+            var angle = i * angleDistance;
+            concept.angle = angle;
+            concept.x =   Math.sin(angle);
+            concept.y = - Math.cos(angle);
+
+            concept.splitTexts = $scope.splitTitle(concept.concept.title, depth);
+        };
+
+        $scope.getTranslate = function(d, config)
+        {
+            var translate;
+            var parentRadius = d.parentData === undefined ? 1 : d.parentData.radius;
+            if(!config)
+            {
+                config = $scope.getConfig(d);
+            }
+            var positionFct = config.position === undefined ? function(x) { return x; } : config.position;
+
+            if($scope.active.hierarchy.indexOf(d) > -1)
+            {
+                positionFct = config.positionSelected;
+            }
+
+            translate = {
+                x: $scope.visParams.l1.scale(parentRadius * positionFct(d.x)),
+                y: $scope.visParams.l1.scale(parentRadius * positionFct(d.y)),
+                radius: $scope.visParams.l1.scale(parentRadius)
+            };
+
+            return translate;
+        };
+
+        $scope.getTranslateAbs = function(d, lastDepth)
+        {
+            var trans = {x: 0, y: 0};
+            var chain = d.parentChain ? d.parentChain.concat(d) : [d];
+            if(lastDepth === undefined)
+            {
+                lastDepth = 100;
+            }
+
+            chain.forEach(function(selectedConcept)
+            {
+                if(selectedConcept.depth <= lastDepth)
+                {
+                    var relativeTrans = $scope.getTranslate(selectedConcept, $scope.getConfig(selectedConcept));
+                    trans = {
+                        x: trans.x + relativeTrans.x,
+                        y: trans.y + relativeTrans.y
+                    };
+                }
+            });
+
+            return trans;
+        };
+
+        $scope.getConfig = function(concept)
+        {
+            return $scope.visParams['l'+concept.depth];
+        };
+    };
+
+    var getConfig = function(concept)
+    {
+        return $scope.visParams['l'+concept.depth];
+    };
+
+    this.createLayout = function(tlc)
+    {
+        //var scale = 300;
+        var l1MaxRadius = Math.min(Math.PI/(tlc.length),1);
+
+        var l2maxRadius = Math.PI/10; // maximum 9 blobbs along the circle
+        var l3maxRadius = Math.PI/10; // maximum 9 blobbs along the circle
+
+        $scope.$watch('zoomMode', function()
+        {
+            var l1, l2, l3;
+
+            if($scope.zoomMode)
+            {
+                l1 = {
+                    scale:d3.scale.linear().domain([0,1]),
+                    radiusSelected: .7,
+                    radius: .7,
+                    radiusNonSelected: .7,
+                    positionSelected:function(d){return d},
+                    textYOffset: 0.02,
+                    textColor:'#000'
+                };
+                l2 = {
+                    scale:d3.scale.linear().domain([0,1]),
+
+                    radiusSelected: l2maxRadius *.7,
+                    radius: l2maxRadius *.7,
+                    radiusNonSelected:l2maxRadius *.7,
+                    radiusParentSelected:l2maxRadius *.7,
+
+                    positionSelected:function(d){return d*.75},
+                    position:function(d){return d *.75},
+
+                    textYOffset: 0.012,
+                    textPos:function(d){
+                        if (d.splitTexts.length>0) return -((d.splitTexts.length-1)*3); // depends on textYOffset
+                        else return 0;
+                    },
+                    textColor:'#000'
+                };
+                l3 = {
+                    scale:d3.scale.linear().domain([0,1]),
+                    radiusSelected: l3maxRadius*.8,
+                    radius: l3maxRadius *.8,
+                    radiusNonSelected:l3maxRadius *.8,
+                    radiusParentSelected:l3maxRadius *.8,
+                    positionSelected:function(d){return d*1},
+                    position:function(d){return d *1},
+                    textYOffset: 0.003,
+                    textPos:function(d){
+                        if (d.splitTexts.length>0) return -((d.splitTexts.length-1)*3/2); // depends on textYOffset
+                        else return 0;
+                    },
+                    textColor:'#ccc'
+
+                };
+                //console.log(l3.textYOffset);
+            }
+            else
+            {
+                l1 = {
+                    scale:d3.scale.linear().domain([0,1]),
+                    radiusSelected:1.5,
+                    radius: .8,
+                    radiusNonSelected: .5,
+                    positionSelected:function() { return 0 },
+                    textYOffset: 0.02,
+                    textColor:'#000'
+                };
+                l2 = {
+                    scale:d3.scale.linear().domain([0,1]),
+                    radiusSelected: l2maxRadius *1.2,
+                    radius: l2maxRadius *.7,
+                    radiusNonSelected:l2maxRadius *.5,
+                    radiusParentSelected:l2maxRadius *.8,
+                    positionSelected:function() { return 0 },
+                    position:function(d){return d *.75},
+                    textYOffset: 0.012,
+                    textPos:function(d, scale){
+                        //console.log(d.radius, scale(d.radius));
+                        if (d.radius)return (scale(d.radius)+10);
+                        else return 0;
+                    },
+                    textColor:'#000'
+                };
+                l3 = {
+                    scale:d3.scale.linear().domain([0,1]),
+                    radiusSelected: l3maxRadius*1.2,
+                    radius: l3maxRadius *.8,
+                    radiusNonSelected:l3maxRadius *.5,
+                    radiusParentSelected:l3maxRadius *.8,
+                    positionSelected:function() { return 0 },
+                    position: function(d) { return d *.7 },
+                    textYOffset: 0.003,
+                    textPos:function(d){
+                        if (d.splitTexts.length>0) return -((d.splitTexts.length-1)*10/2); // depends on textYOffset
+                        else return 0;
+                    },
+                    textColor:'#ccc'
+
+                }
+            }
+
+            $scope.visParams.l1=l1;
+            $scope.visParams.l2=l2;
+            $scope.visParams.l3=l3;
+        });
+    };
+
+    this.setup = function()
+    {
+        // this function takes about 2ms, including 1ms from setupL.
+
+        var vis = $scope.canvas;
+        var params = $scope.visParams;
+
+        var l1Circle, l1CircleEnter;
+
+        var setupL1 = function()
+        {
+            var tlcReverse = $scope.active.topLevelConcepts.slice(0).sort(function(a,b) { return b.concept.order - a.concept.order; });
+            l1Circle = $scope.mainLayer.selectAll('.l1Circle').data(tlcReverse, function(d) { return d.concept._id; });
+            lxCircles[1] = l1Circle;
+            l1Circle.exit().remove();
+
+            l1CircleEnter = l1Circle.enter().append('g').attr({
+                'class': 'l1Circle lxCircle',
+                'data-concept-id': function(d) { return d.concept._id; },
+                'id': function(d) { return 'concept-' + d.concept._id; }
+            });
+            lxUpdate(l1CircleEnter);
+
+            return l1CircleEnter;
+        };
+
+        var setupL = function(level)
+        {
+            var className = 'l' + level + 'Circle';
+            var parentClassName = 'l' + (level - 1) + 'Circle';
+            var parentCircle = vis.selectAll('.' + parentClassName);
+
+            var lxCircle = parentCircle.selectAll('.' + className)
+                .data(function(d)
+                {
+                    return d.children.slice(0).sort(function(a,b)
+                    {
+                        return b.concept.order - a.concept.order;
+                    }).map(function(dd){
+
+                        dd.parentData = d;
+                        dd.parentChain = [];
+                        dd.conceptDepth = level;
+
+                        var currentD = d;
+                        for (var i = 1; i< level; i++){
+                            dd.parentChain.push(currentD);
+                            currentD = currentD.parentData;
+                        }
+
+                        return dd;
+                    });
+                }, function(d) { return d.concept._id; });
+            lxCircles[level] = lxCircle;
+
+            var lxCircleEnter = lxCircle.enter().append('g').attr({
+                'class': className + ' lxCircle l23Circle',
+                'data-concept-id': function(d) { return d.concept._id; },
+                'id': function(d) { return 'concept-' + d.concept._id; }
+            });
+
+            lxUpdate(lxCircleEnter);
+            lxCircle.exit().remove();
+
+            return lxCircleEnter;
+        };
+
+        var lxUpdate = function(lxCircleEnter)
+        {
+            lxCircleEnter.append('circle').attr({
+                r: 5//function(d) { return d.depth == 1 ? 50 : params.scale(getConfig(d).radius); }
+            }).on({
+                'click': function (d)
+                {
+                    var segments = $scope.segmentPerConceptMap[d.concept._id];
+
+                    // If it's already selected and it has viewable contents, show them.
+                    if($scope.activeConcept !== null && $scope.activeConcept.concept._id === d.concept._id && segments && segments.length > 0)
+                    {
+                        $location.search('learn', 'yes');
+                        $scope.safeApply();
+                    }
+                    else
+                        $scope.activateConcept(d);
+
+                    // Close tooltips that would otherwise be overlapping with possible animations following this.
+                    Tip.closeOpenTips();
+
+                    // Disable the current hover, as things might be moving around and the currently hovered concept
+                    // might not be hovered after that any more.
+                    $scope.leaveConcept(d);
+
+                    d3.event.preventDefault();
+                    d3.event.stopPropagation();
+                },
+                // Need to catch touchstart event for touch devices because the mousemove and mouseover events are
+                // triggered for them (for some reason) and is done so before the click event, causing wrong hover effects.
+                // Calling stopPropagation here causes the mousemove event to not trigger.
+                'touchstart': function(d)
+                {
+                    $scope.activateConcept(d);
+
+                    d3.event.preventDefault();
+                    d3.event.stopPropagation();
+                },
+                'mouseover': function(d) { $scope.safeApply(function() { $scope.hoverConcept(d);}); }//,
+                //'mouseleave': function(d) { $scope.safeApply(function() { $scope.leaveConcept(d); }); }
+            });
+
+            lxCircleEnter.each(function(d){
+                //console.log('enter:',d, this, d3.select(this));
+                var el = d3.select(this);
+
+                el.append('text').attr({
+                    class: 'concept-title'
+                });
+
+                $scope.addDependencyCreator(el, d);
+
+                d.splitTexts = $scope.splitTitle(d.concept.title, d.depth);
+
+                me.makeTitle(d, el);
+            });
+
+            Tip.forConcept(lxCircleEnter);
+        };
+
+        var enters = [];
+        enters.push(setupL1());
+        enters.push(setupL(2));
+        enters.push(setupL(3));
+
+        $timeout(me.makeStartCircle, 50);
+
+        return enters;
+    };
+
+    this.makeStartCircle = function()
+    {
+        var start = $scope.mainLayer.append('g');
+        var circle = start.append('circle').attr('class', 'startCircle');
+
+        var firstBig = $scope.active.topLevelConcepts[0];
+        var firstBigPos = $scope.getTranslateAbs(firstBig);
+        var arrowStart = { x: firstBigPos.x - 150 , y: firstBigPos.y - 60  };
+        //console.log(firstBig, arrowStart);
+
+        start.attr('transform', 'translate(' + arrowStart.x +', ' + arrowStart.y + ')');
+        circle.attr('r', 30);
+
+        var text = start.append('text').text('Start').attr('dy', 3);
+
+    };
+
+    var titlesDone = {};
+
+    this.makeTitle = function(d, el, t)
+    {
+        var index = d.radius + '-' + d.concept.title;
+
+        if(titlesDone[d.concept._id] !== index)
+        {
+            titlesDone[d.concept._id] = index;
+
+            if(!t) t = el.select('.concept-title');
+            t.selectAll('tspan').remove();
+
+            var radiusFactor = d.radius ? 0.5 + d.radius * 4 : 1;
+            var offset = getConfig(d).textYOffset * $scope.graphHeight * radiusFactor;
+
+            d.splitTexts.forEach(function(split, splitIndex){
+                t.append('tspan').attr({
+                    'dy': function()
+                    {
+                        if(splitIndex === 0)
+                        {
+                            return - (-0.18 + (d.splitTexts.length - 1) / 2) * offset;
+                        }
+                        return offset;
+                    },
+                    'x':0
+                }).text(split)
+            });
+        }
+    };
+
+    var lastUpdateData = {};
+
+    this.setTranslate = function(d, el, config)
+    {
+        var trans = $scope.getTranslate(d, config);
+        var conceptId = d.concept._id;
+        var transCache = lastUpdateData[conceptId] ? lastUpdateData[conceptId]['translate'] : null;
+
+        // Only ever need to do this once in zoomMode.
+        if(!transCache || trans.x !== transCache.x ||  trans.y !== transCache.y)
+        {
+            lastUpdateData[conceptId]['translate'] = trans;
+            //console.count(conceptId);
+
+            el.transition().attr({
+                'transform': 'translate(' + trans.x + ',' + trans.y + ')'
+            });
+        }
+    };
+
+    this.setFontSize = function(d, el, lastUpdate)
+    {
+        var fontSize = $scope.graphHeight * d.radius / 17;
+
+        if(lastUpdate['fontSize'] !== fontSize)
+        {
+            lastUpdate['fontSize'] = fontSize;
+            //console.count(d.concept._id);
+
+            el.select('.concept-title').style({
+                'font-size': fontSize + 'px'
+            });
+        }
+    };
+
+    this.update = function()
+    {
+        //console.log('updating graph circles');
+        var params = $scope.visParams;
+        var vis = $scope.canvas;
+        if(lastUpdateData['initTime'] !== $scope.initTime)
+        {
+            lastUpdateData = { initTime: $scope.initTime };
+        }
+
+        lxCircle = vis.selectAll('.lxCircle');
+
+        // this takes about 4ms on my computer when nothing is really happening here.
+        lxCircle.each(function(d)
+        {
+            var el = d3.select(this);
+            var conceptId = d.concept._id;
+            var config = getConfig(d);
+            if(!lastUpdateData[conceptId]) lastUpdateData[conceptId] = {};
+            var lastUpdate = lastUpdateData[conceptId];
+
+            // The titles need to be remade because the radius of the circles change in non-zoomMode, or because of renaming.
+            me.makeTitle(d, el);
+            me.setTranslate(d, el, config);
+            me.setFontSize(d, el, lastUpdate);
+
+            var color = $scope.depthColorModification(d, $scope.options.grayInactiveConcepts);
+
+            //if(d.concept.title == 'New Concept') console.log(lastUpdate['radius'], d.radius);
+            if(lastUpdate['radius'] !== d.radius || lastUpdate['color'] !== color || lastUpdate['graphWidth'] !== $scope.graphWidth || lastUpdate['graphHeight'] !== $scope.graphHeight)
+            {
+                var circle = el.select('circle');
+
+                if(lastUpdate['radius'] !== d.radius || lastUpdate['graphWidth'] !== $scope.graphWidth || lastUpdate['graphHeight'] !== $scope.graphHeight)
+                {
+                    //console.count(conceptId);
+                    lastUpdate['radius'] = d.radius;
+
+                    lastUpdate['graphWidth'] = $scope.graphWidth;
+                    lastUpdate['graphHeight'] = $scope.graphHeight;
+
+                    //todo for some reason this doesnt work with transition().
+                    circle.attr(
+                    //circle.transition().attr(
+                    {
+                        r:  params.l1.scale(d.radius)
+                    });
+                }
+                if(lastUpdate['color'] !== color)
+                {
+                    lastUpdate['color'] = color;
+
+                    circle.style(
+                    {
+                        'fill': color
+                    });
+                }
+            }
+        });
+    };
+
+    this.redraw = function()
+    {
+        this.setup();
+        this.update();
+    };
+
+    this.reSelect = function()
+    {
+        for(var level = 1; level < 4; level++)
+        {
+            var className = 'l' + level + 'Circle';
+            lxCircles[level] = $scope.canvas.selectAll('.' + className);
+        }
+    };
+
+    //var times = [];
+    this.setRadius = function(lxCircle)
+    {
+        // This takes an average of 0.3 ms.
+        //var start = window.performance.now();
+
+        var resizeFct = function(d)
+        {
+
+            var config = getConfig(d);
+            var parentRadius = d.parentData ? d.parentData.radius : 1;
+            var scale = d.depth == 1 ? Math.min(Math.PI/($scope.active.topLevelConcepts.length),1) : 1;
+
+            if ($scope.active.hierarchy.indexOf(d) > -1) { // I am selected
+                d.radius = parentRadius * scale * config.radiusSelected;
+            }
+            else if (d.parentData && $scope.active.hierarchy.indexOf(d.parentData) > -1) {
+                d.radius = parentRadius * scale  * config.radiusParentSelected;
+            }
+            else if ($scope.active.hierarchy.length > 0) { // someone else is selected
+                d.radius = parentRadius * scale  * config.radiusNonSelected;
+            }
+            else { // no one is selected
+                d.radius = parentRadius * scale  * config.radius;
+            }
+        };
+
+        for(var i = 0; i < lxCircles.length; i++)
+        {
+            if(lxCircles[i])
+            {
+                lxCircles[i].each(resizeFct);
+            }
+        }
+
+        //var time = window.performance.now() - start;
+        //times.push(time);
+        //console.log(times.reduce(function(a, b) { return a + b; }) / times.length, times[times.length-1]);
+        //console.trace();
+    };
+
+    this.updateActive = function()
+    {
+        lxCircle.select('circle').transition().style(
+        {
+             'fill': function (d) {
+                return $scope.depthColorModification(d, $scope.options.grayInactiveConcepts);
+             }
+        });
+    };
+
+});

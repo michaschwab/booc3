@@ -1,0 +1,175 @@
+
+<section data-ng-controller="ConceptsBulkEditController" data-ng-init="findTheOne()" >
+    <div class="page-header" style="padding: 10px">
+        <h1>Edit Concept: '{{concept.title}}'</h1>
+    </div>
+
+
+
+    <div class="row col-md-10 col-md-offset-1">
+        <form name="form" class="form-horizontal" data-ng-submit="update()" novalidate>
+            <fieldset>
+                <div class="form-group">
+                    <label class="control-label col-md-1" for="name">Name</label>
+                    <div class="controls col-md-11">
+                        <input type="text" data-ng-model="concept.title" id="name" class="form-control" placeholder="Name" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-md-1" for="color">Color</label>
+                    <div class="controls col-md-1">
+                        <input type="color" data-ng-model="concept.color" id="color" class="form-control" placeholder="Name" required>
+                    </div>
+                    <div class="controls col-md-3">
+                        <input type="text" data-ng-model="concept.color"  class="form-control" placeholder="Name" required>
+                    </div>
+                    <!--<div class="col-md-1">-->
+                    <!--<div style="width: 25px; height:25px; background-color: {{concept.color}}"></div>-->
+                    <!--</div>-->
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-md-1" for="order">Order</label>
+                    <div class="controls col-md-1">
+                        <input type="number" data-ng-model="concept.order" id="order" class="form-control" placeholder="Name" required>
+                    </div>
+
+                    <!--<div class="col-md-1">-->
+                    <!--<div style="width: 25px; height:25px; background-color: {{concept.color}}"></div>-->
+                    <!--</div>-->
+                </div>
+
+
+                <!-- CHILDREN !!!-->
+                <div class="form-group">
+                    <label class="control-label col-md-1">Children</label>
+                    <div class="col-md-10">
+                        <table class="table table-hover table-striped">
+                            <thead>
+                            <th>title</th>
+                            <th>color</th>
+                            <th>order</th>
+                            <th>courses</th>
+                            <th>#segments</th>
+                            <th>#parents</th>
+                            <th>#children</th>
+                            <th>#dependencies</th>
+                            <th> actions</th>
+                            </thead>
+                            <tbody>
+                            <tr data-ng-repeat="concept in children">
+                                <td>{{concept.title}}</td>
+                                <td><div style="width: 20px; height: 20px; background-color: {{concept.color}}"></div></td>
+                                <td>{{concept.order}}</td>
+                                <td>{{concept.courses}}</td>
+                                <td>{{concept.segments.length}}</td>
+                                <td>{{concept.parents.length}}</td>
+                                <td>{{concept.children.length}}</td>
+                                <td>{{concept.dependencies.length}}</td>
+                                <td><a ng-href="/#!/concepts/{{concept._id}}/edit"> edit</a>  <button class="btn-sm btn-danger" ng-click="$event.preventDefault(); children.splice(children.indexOf(concept),1); form.$setPristine();">X</button></td>
+                            </tr>
+                            </tbody>
+                        </table>
+                        <!--</div>-->
+                        <div class="col-md-7">
+                            <select class="form-control" data-ng-model="selectedItemChildren" ng-options="concept.title for concept in concepts">
+                                <!--<option> ---none--- </option>-->
+                                <!--<option  data-ng-repeat="concept in concepts">{{concept.title}} </option>-->
+                            </select>
+                        </div>
+
+                        <button class="btn btn-danger" ng-click="$event.preventDefault(); children.push(selectedItemChildren); form.$setPristine();">+</button>
+
+                    </div>
+
+
+                </div>
+
+
+
+                <div class="form-group">
+                    <input type="submit" value="Save" class="btn btn-primary">
+                    <button class="btn btn-danger" ng-click="$event.preventDefault(); findTheOne(); form.$setPristine();">Reset</button>
+                </div>
+
+
+
+                <div data-ng-show="error" class="text-danger">
+                    <strong data-ng-bind="error"></strong>
+                </div>
+            </fieldset>
+        </form>
+
+
+    </div>
+
+    <div class="row col-md-10 col-md-offset-1">
+        <h3> Information: </h3>
+        <!-- Dependencies !!!-->
+        <div class="col-md-12">
+            <label class="control-label col-md-1">Requires</label>
+            <div class="col-md-10">
+                <table class="table table-hover table-striped">
+                    <thead>
+                    <th>title</th>
+                    <th>color</th>
+                    <th>order</th>
+                    <th>courses</th>
+                    <th>#segments</th>
+                    <th>#parents</th>
+                    <th>#children</th>
+                    <th>#dependencies</th>
+                    </thead>
+                    <tbody>
+                    <tr data-ng-repeat="concept in dependencies">
+                        <td>{{concept.title}}</td>
+                        <td><div style="width: 20px; height: 20px; background-color: {{concept.color}}"></div></td>
+                        <td>{{concept.order}}</td>
+                        <td>{{concept.courses}}</td>
+                        <td>{{concept.segments.length}}</td>
+                        <td>{{concept.parents.length}}</td>
+                        <td>{{concept.children.length}}</td>
+                        <td>{{concept.dependencies.length}}</td>
+                    </tr>
+                    </tbody>
+                </table>
+
+
+            </div>
+        </div>
+        <!-- Dependencies !!!-->
+        <div class="col-md-12">
+            <label class="control-label col-md-1">Provides</label>
+            <div class="col-md-10">
+                <table class="table table-striped">
+                    <thead>
+                    <th>title</th>
+                    <th>color</th>
+                    <th>order</th>
+                    <th>courses</th>
+                    <th>#segments</th>
+                    <th>#parents</th>
+                    <th>#children</th>
+                    <th>#dependencies</th>
+                    </thead>
+                    <tbody>
+                    <tr data-ng-repeat="concept in provides">
+                        <td>{{concept.title}}</td>
+                        <td><div style="width: 20px; height: 20px; background-color: {{concept.color}}"></div></td>
+                        <td>{{concept.order}}</td>
+                        <td>{{concept.courses}}</td>
+                        <td>{{concept.segments.length}}</td>
+                        <td>{{concept.parents.length}}</td>
+                        <td>{{concept.children.length}}</td>
+                        <td>{{concept.dependencies.length}}</td>
+                    </tr>
+                    </tbody>
+                </table>
+
+
+            </div>
+        </div>
+    </div>
+
+
+</section>
+

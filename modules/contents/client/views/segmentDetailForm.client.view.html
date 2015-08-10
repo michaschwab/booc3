@@ -1,0 +1,94 @@
+{{segment|json}}
+
+<div class="panel panel-default" ng-show="activeSegment">
+    <div class="panel-heading">
+        <h3 class="panel-title">Segment Details</h3>
+    </div>
+    <div class="panel-body">
+
+        <div class="col-md-12 form-group">
+            <label for="conceptSelect">Which Concept is the Segment for?</label>
+            <!--Current: {{activeConcept.title}}
+
+            <ui-select ng-model="$parent.activeConcept" on-select="selectConcept($item)" ng-required name="conceptSelect" id="conceptSelect" reset-search-input="true">
+                <ui-select-match placeholder="{{course._id?'Select Concept...':'Please Select a Course First'}}">
+                    <div style="width:20px; height:20px; background: {{$select.selected.color}}; float: left; margin-right: 15pt; border-radius: 10px"></div>
+                    {{$select.selected.title}}</ui-select-match>
+                <ui-select-choices repeat="concept in concepts | filter: $select.search">
+                    <div style="width:20px; height:20px; background: {{concept.color}}; float: left; margin-right: 15pt; border-radius: 10px"></div>
+                    <div ng-bind-html="concept.title | highlight: $select.search"></div>
+                </ui-select-choices>
+
+            </ui-select>-->
+
+            <ui-select ng-repeat="con in activeSegment.conceptObjects" ng-model="$parent.con"
+                       on-select="selectConcept($item)" ng-required name="conceptSelect-{{$index}}" id="conceptSelect-{{$index}}" reset-search-input="true">
+                <ui-select-match placeholder="{{course._id?'Select Concept...':'Please Select a Course First'}}">
+                    <div style="width:20px; height:20px; background: {{$select.selected.color}}; float: left; margin-right: 15pt; border-radius: 10px"></div>
+                    {{$select.selected.title}}</ui-select-match>
+                <ui-select-choices repeat="concept in concepts | filter: $select.search">
+                    <div style="width:20px; height:20px; background: {{concept.color}}; float: left; margin-right: 15pt; border-radius: 10px"></div>
+                    <div ng-bind-html="concept.title | highlight: $select.search"></div>
+                </ui-select-choices>
+
+            </ui-select>
+
+            <ui-select ng-model="newConcept" on-select="addConcept($item, this)" ng-required name="conceptSelect" id="conceptSelect" reset-search-input="true">
+                <ui-select-match placeholder="{{course._id?'Select Concept...':'Please Select a Course First'}}">
+                    <div style="width:20px; height:20px; background: {{$select.selected.color}}; float: left; margin-right: 15pt; border-radius: 10px"></div>
+                    {{$select.selected.title}}</ui-select-match>
+                <ui-select-choices repeat="concept in concepts | filter: $select.search">
+                    <div style="width:20px; height:20px; background: {{concept.color}}; float: left; margin-right: 15pt; border-radius: 10px"></div>
+                    <div ng-bind-html="concept.title | highlight: $select.search"></div>
+                </ui-select-choices>
+
+            </ui-select>
+        </div>
+
+        <div class="form-group">
+            <label for="segmentTitle">What's the title of this Segment?</label><br />
+
+            <div class="input-group">
+                <span class="input-group-addon"><span class="glyphicon glyphicon-pencil"></span></span>
+                <input type="text" id="segmentTitle" ng-model="activeSegment.title" name="segmentTitle" placeholder="Title of the Segment" value="{{activeSegment.title}}" class="form-control"/>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="segmentStart">Which part should be included in the Segment?</label><br />
+
+            <div class="col-md-6" style="padding-left: 0">
+                <div class="input-group">
+                    <span class="input-group-addon"><a href="" ng-click="setSegmentStart()"><span class="glyphicon glyphicon-play"></span></a></span>
+                    <input type="time" id="segmentStart" ng-change="activeSegmentTimeChange()" ng-model="activeTimes.startFormatted" step="1" name="segmentStart" placeholder="Start of the Segment" class="form-control"/>
+                    <span ng-show="unit" class="input-group-addon">{{unit}}</span>
+                </div>
+            </div>
+
+            <div class="col-md-6" style="padding-right: 0">
+                <div class="input-group">
+                    <span class="input-group-addon"><a href="" ng-click="setSegmentEnd()"><span class="glyphicon glyphicon-stop"></span></a></span>
+                    <input type="time" id="segmentEnd" ng-change="activeSegmentTimeChange()" ng-model="activeTimes.endFormatted" step="1" name="segmentEnd" placeholder="End of the Segment" class="form-control"/>
+                    <span ng-show="unit" class="input-group-addon">{{unit}}</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="segmentTags">Can you think of any Tags related to this Segment?</label><br />
+
+            <div class="input-group">
+                <span class="input-group-addon"><span class="glyphicon glyphicon-tags"></span></span>
+                <input type="text" id="segmentTags" ng-model="activeSegment.tags" name="segmentTags" placeholder="Tags of the Segment" value="" class="form-control"/>
+            </div>
+        </div>
+
+        <div class="form-group">
+
+            <div class="input-group">
+                <button type="button" class="btn btn-warning" ng-click="deleteSegment()"><span class="glyphicon glyphicon-trash"></span> Delete Segment</button>
+            </div>
+        </div>
+
+    </div>
+</div>

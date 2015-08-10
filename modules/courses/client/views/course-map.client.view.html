@@ -1,0 +1,238 @@
+<section data-ng-controller="CourseMapController" id="concept-map-full" class="manage-concepts-app concept-map-full contentCol learnmode-{{learnMode}}" data-ng-init="findOne()">
+    <!--<div data-ng-show="(authentication.user)">-->
+
+    <!--<h1>{{course.title}}</h1>-->
+
+    <!--</div>-->
+
+    <button id="prereqButton" class="btn btn-default prereqButton" ng-click="preReqButtonClick()" ng-hide="windowWidth<800">{{prereqButtonText}}</button>
+
+
+
+    <svg id = "vis" ng-right-click="rightClick($event)" setGoalId class="noselect zooming-{{zoomMode}} zoom-{{zoomLevel}} pull-right"
+         ng-class="{noactive: !activeConcept, hasActingGoal: activeConcept!=null&&goalConcept!=null&&!active.hoveringConceptIds.length, zooming: zooming, currentGoal: currentGoal !== null, grayInactiveDependencies: options.grayInactiveDependencies===true,
+         hideInactiveDependencies: options.hideInactiveDependencies, depsColorOfConcept: options.depsColorOfConcept, depsColorDefault: !options.depsColorOfConcept }" style="font-size:{{graphWidth/100}}pt; width: {{contentWidth}}px">
+
+        <defs>
+            <marker id="lineEnd" class="lineEnd" markerWidth="13" markerHeight="13" refx="3" refy="6.5"
+                    orient="auto">
+                <path d="M2,2 L2,11 L10,6 L2,2" fill="context-stroke"></path>
+            </marker>
+            <marker id="depEnd" class="depEnd allDepEnd" markerWidth="13" markerHeight="13" refx="3" refy="6.5"
+                    orient="auto">
+                <path d="M2,2 L2,11 L10,6 L2,2" fill="context-stroke"></path>
+            </marker>
+            <marker id="depEnd-active" class="depEndActive" markerWidth="13" markerHeight="13" refx="3" refy="6.5"
+                    orient="auto">
+                <path d="M2,2 L2,11 L10,6 L2,2" fill="context-stroke"></path>
+            </marker>
+            <marker id="provEnd-active" class="depEndActive prov active" markerWidth="13" markerHeight="13" refx="3" refy="6.5"
+                    orient="auto">
+                <path d="M2,2 L2,11 L10,6 L2,2" fill="context-stroke"></path>
+            </marker>
+            <marker id="provEndAll" class="depEnd all prov" markerWidth="13" markerHeight="13" refx="3" refy="6.5"
+                    orient="auto">
+                <path d="M2,2 L2,11 L10,6 L2,2" fill="context-stroke"></path>
+            </marker>
+
+            <marker id="currentPathEnd" class="currentPathEnd" markerWidth="13" markerHeight="13" refx="7" refy="6.25"
+                    orient="auto">
+                <path d="M2,2 L2,11 L10,6 L2,2" fill="#444466"></path>
+            </marker>
+
+            <marker ng-repeat="color in colors" id="depEnd-{{color}}" class="depEnd allDepEnd" markerWidth="13" markerHeight="13" refx="7" refy="6.5"
+                    orient="auto">
+                <path d="M2,2 L2,11 L10,6 L2,2" fill="{{color}}"></path>
+            </marker>
+            <marker ng-repeat="color in colors" id="allPathHierarchyEnd-{{color}}" class="allPathHierarchyEnd" markerWidth="13" markerHeight="13" refx="7" refy="6.5"
+                    orient="auto">
+                <path d="M2,2 L2,11 L10,6 L2,2" fill="{{color}}"></path>
+            </marker>
+            <marker ng-repeat="color in colors" id="currentPathHierarchyEnd-{{color}}" class="currentPathHierarchy" markerWidth="13" markerHeight="13" refx="7" refy="6.5"
+                    orient="auto">
+                <path d="M2,2 L2,11 L10,6 L2,2" fill="{{color}}"></path>
+            </marker>
+            <marker ng-repeat="color in colors" id="currentPathFutureHierarchyEnd-{{color}}" class="currentPathHierarchy" markerWidth="13" markerHeight="13" refx="7" refy="6.5"
+                    orient="auto">
+                <path d="M2,2 L2,11 L10,6 L2,2" fill="{{color}}"></path>
+            </marker>
+            <marker ng-repeat="color in colors" id="depEndActive-{{color}}" class="depEndActive" markerWidth="13" markerHeight="13" refx="7" refy="6.5"
+                    orient="auto">
+                <path d="M2,2 L2,11 L10,6 L2,2" fill="{{color}}"></path>
+            </marker>
+            <marker ng-repeat="color in colors" id="creatingDepEnd-{{color}}" class="currentPathHierarchy" markerWidth="13" markerHeight="13" refx="7" refy="6.5"
+                    orient="auto">
+                <path d="M2,2 L2,11 L10,6 L2,2" fill="{{color}}"></path>
+            </marker>
+
+        </defs>
+
+
+    </svg>
+
+    <div ng-hide="learnMode||windowWidth<800" class="mapOptions" id="zoomToggleContainer">
+        <hr />
+
+        <!--<div style="padding-right: 40pt;">
+            Showing...
+
+            <div dropdown is-open="status.isopen"  class="dropup">
+                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                    Current Dependencies <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu" role="menu">
+                    <li><a href="#">Current Dependencies</a></li>
+                    <li><a href="#">All Dependencies</a></li>
+                    <li><a href="#">Something else here</a></li>
+                    <li class="divider"></li>
+                    <li><a href="#">Separated link</a></li>
+                </ul>
+            </div>
+        </div>-->
+
+        <form class="form-inline">
+
+            <div class="form-group">
+
+                <a href ng-click="showOptions==true?showOptions=false:showOptions=true">Options...</a>
+
+                <div ng-show="showOptions">
+                    <div class="checkbox">
+                        <label>
+                            <input type="checkbox" ng-model="options.showAllDeps"> All dependencies
+                        </label>
+                    </div>
+                    <div class="checkbox">
+                        <label>
+                            <input type="checkbox" ng-model="options.showCurrentDeps"> Current dependencies
+                        </label>
+                    </div>
+                    <div class="checkbox">
+                        <label>
+                            <input type="checkbox" ng-model="options.showCurrentProvidings"> Current outgoing deps
+                        </label>
+                    </div>
+                    <div class="checkbox">
+                        <label>
+                            <input type="checkbox" ng-model="options.showCurrentProvidingsImplicit"> Current outgoing implicit deps
+                        </label>
+                    </div>
+                    <div class="checkbox">
+                        <label>
+                            <input type="checkbox" ng-model="options.showAllProvidingsImplicit"> All outgoing implicit deps
+                        </label>
+                    </div>
+                    <div class="checkbox">
+                        <label>
+                            <input type="checkbox" ng-model="options.showCurrentPath"> Learning Plan in Detail
+                        </label>
+                    </div>
+                    <div class="checkbox">
+                        <label>
+                            <input type="checkbox" ng-model="options.showCurrentPathHierarchy"> Learning Plan
+                        </label>
+                    </div>
+                    <div class="checkbox">
+                        <label>
+                            <input type="checkbox" ng-model="options.showAllShortestPathsHierarchy"> Learning Plans to all TLCs
+                        </label>
+                    </div>
+                    <div class="checkbox">
+                        <label>
+                            <input type="checkbox" ng-model="options.showCurrentPathFutureHierarchy"> Plans to TLCs learnable after current goal
+                        </label>
+                    </div>
+                    <div class="checkbox">
+                        <label>
+                            <input type="checkbox" ng-model="options.grayInactiveConcepts"> Gray inactive concepts
+                        </label>
+                    </div>
+                    <div class="checkbox">
+                        <label>
+                            <input type="checkbox" ng-model="options.grayInactiveDependencies"> Gray inactive deps
+                        </label>
+                    </div>
+                    <div class="checkbox">
+                        <label>
+                            <input type="checkbox" ng-model="options.hideInactiveDependencies"> Hide inactive deps
+                        </label>
+                    </div>
+                    <div class="checkbox">
+                        <label>
+                            <input type="checkbox" ng-model="options.depsColorOfConcept"> Deps in color of prov concept
+                        </label>
+                    </div>
+
+                    <br />
+                    <div>
+                        Zooming is
+                        <button ng-hide="zoomMode" ng-click="zoomMode=true" class="btn btn-info">Off</button>
+                        <button ng-show="zoomMode" ng-click="zoomMode=false" class="btn btn-success">On</button>
+                    </div>
+
+                    <!--
+                    <select class="form-control btn btn-info" ng-model="viewModeChoice">
+                        <option value="showAllDeps">All Dependencies</option>
+                        <option value="showCurrentDeps">Current Dependencies</option>
+                        <option value="showCurrentPath">Learning Plan in Detail</option>
+                        <option value="showCurrentPathHierarchy">Learning Plan</option>
+
+
+                    </select>
+                    -->
+                </div>
+            </div>
+
+        </form>
+        <!--
+                        <div>
+                            Showing active path hierarchically is
+                            <button ng-hide="options.showCurrentPathHierarchy" ng-click="options.showCurrentPathHierarchy=true" class="btn btn-info">Off</button>
+                            <button ng-show="options.showCurrentPathHierarchy" ng-click="options.showCurrentPathHierarchy=false" class="btn btn-success">On</button>,
+                        </div>
+
+                        <div>
+                            Showing active path is
+                            <button ng-hide="options.showCurrentPath" ng-click="options.showCurrentPath=true" class="btn btn-info">Off</button>
+                            <button ng-show="options.showCurrentPath" ng-click="options.showCurrentPath=false" class="btn btn-success">On</button>,
+                        </div>
+
+                        <div>
+                            Showing inactive path is
+                            <button ng-hide="options.showPathWhenInactive" ng-click="options.showPathWhenInactive=true" class="btn btn-info">Off</button>
+                            <button ng-show="options.showPathWhenInactive" ng-click="options.showPathWhenInactive=false" class="btn btn-success">On</button>,
+                        </div>
+
+                        <div>
+                            Alldeps is
+                            <button ng-hide="options.showAllDeps" ng-click="options.showAllDeps=true" class="btn btn-info">Off</button>
+                            <button ng-show="options.showAllDeps" ng-click="options.showAllDeps=false" class="btn btn-success">On</button>,
+                        </div>-->
+    </div>
+
+
+
+
+
+
+
+    <!--<ul class="list-group">-->
+    <!--<li ng-repeat="concept in concepts">-->
+    <!--{{concept._id}})  {{concept.title}}-->
+    <!--</li>-->
+
+    <!--</ul>-->
+
+    <!--<ul class="list-group">-->
+    <!--<li ng-repeat="conceptD in dependencies">-->
+    <!--{{conceptD.provider}} &ndash;&gt; {{conceptD.dependant}}-->
+    <!--</li>-->
+
+    <!--</ul>-->
+
+
+
+
+
+
+</section>

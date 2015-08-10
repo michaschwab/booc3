@@ -1,0 +1,10 @@
+<ui-select ng-model="model" on-select="onSelect($item, this)" ng-required name="{{id}}" id="{{id}}" reset-search-input="true">
+    <ui-select-match placeholder="{{concepts?'Select Concept...':'Please Select a Course First'}}">
+        <div style="width:20px; height:20px; background: {{$select.selected.color}}; float: left; margin-right: 15pt; border-radius: 10px"></div>
+        {{$select.selected.title}}</ui-select-match>
+    <ui-select-choices repeat="concept in concepts | filter: $select.search">
+        <div style="width:20px; height:20px; background: {{concept.color}}; float: left; margin-right: 15pt; border-radius: 10px"></div>
+        <div ng-bind-html="concept.title | highlight: $select.search"></div>
+    </ui-select-choices>
+
+</ui-select>

@@ -1,0 +1,14 @@
+.undo-container {
+    position: relative;
+}
+
+@media(min-width:900px)
+{
+    .undo-message {
+        width: 800px;
+        position:absolute;
+        top: 15px;
+        right: 15px;
+        z-index: 1000;
+    }
+}

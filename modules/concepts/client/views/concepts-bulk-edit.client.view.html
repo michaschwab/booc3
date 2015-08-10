@@ -1,0 +1,99 @@
+<section ng-app="Application" ng-controller="ConceptsBulkEditController" ng-init="find()">
+
+
+
+	<div class="page-header" style="padding: 10px;">
+		<h1>bulk add:</h1>
+	</div>
+
+	<div class="row col-md-10 col-md-offset-1">
+		<form name="articleForm" class="form-horizontal" data-ng-submit="bulkAdd()" novalidate>
+			<fieldset>
+				<div class="form-group">
+					<label class="control-label col-md-2" for="bulkAddContent"> course:</label>
+					<div class="col-md-10">
+						<select class="form-control" data-ng-model="selectedCourse" ng-options="course.title for course in courses">
+							<!--<option> ---none--- </option>-->
+							<!--<option  data-ng-repeat="concept in concepts">{{concept.title}} </option>-->
+						</select>
+
+
+					</div>
+
+				</div>
+
+
+				<div class="form-group">
+					<label class="control-label col-md-2" for="bulkAddContent">parent concept:</label>
+					<div class="col-md-7">
+						<!--<select class="form-control" data-ng-model="selectedConcept" ng-options="concept.title for concept in potentialParents">-->
+							<!--&lt;!&ndash;<option> ---none--- </option>&ndash;&gt;-->
+							<!--&lt;!&ndash;<option  data-ng-repeat="concept in concepts">{{concept.title}} </option>&ndash;&gt;-->
+						<!--</select>-->
+
+                        <ui-select ng-model="selectedConcepts.concept" >
+                            <ui-select-match placeholder="Select Provider...">{{$select.selected.title}}</ui-select-match>
+                            <ui-select-choices repeat="concept in potentialParents | filter: $select.search">
+                                <div style="width:20px; height:20px; background: {{concept.color}}; float: left; margin-right: 15pt; border-radius: 10px"></div>
+                                <div ng-bind-html="concept.title | highlight: $select.search"></div>
+                            </ui-select-choices>
+                        </ui-select>
+					</div>
+					<label class="control-label col-md-1" >color:</label>
+					<div class="col-md-1">
+						<div style="width: 25px; height:25px; background-color: {{activeHierarchy.concept.color}}"></div>
+					</div>
+				</div>
+
+
+				<div class="form-group">
+					<label class="control-label" for="bulkAddContent">line separated concepts here (only titles - order as given in form):</label>
+					<div class="controls">
+						<textarea name="bulkAddContent" data-ng-model="bulkAddContent" id="bulkAddContent" class="form-control" cols="30" rows="10" placeholder="bulk content"></textarea>
+					</div>
+				</div>
+				<div class="form-group">
+					<input type="submit" class="btn btn-default">
+				</div>
+				<div data-ng-show="error" class="text-danger">
+					<strong data-ng-bind="error"></strong>
+				</div>
+			</fieldset>
+		</form>
+	</div>
+
+
+    <div class="row col-md-10 col-md-offset-1">
+	<table class="table table-hover table-striped">
+		<thead>
+			<th>title</th>
+			<th>color</th>
+			<th>order</th>
+			<th>courses</th>
+			<th>#segments</th>
+			<th>#parents</th>
+			<th>#children</th>
+			<th>#dependencies</th>
+			<th> actions</th>
+		</thead>
+		<tbody>
+		<tr data-ng-repeat="concept in concepts">
+			<td>{{concept.title}}</td>
+			<td><div style="width: 20px; height: 20px; background-color: {{concept.color}}"></div></td>
+			<td>{{concept.order}}</td>
+			<td>{{concept.courses}}</td>
+			<td>{{concept.segments.length}}</td>
+			<td>{{concept.parents.length}}</td>
+			<td>{{concept.children.length}}</td>
+			<td>{{concept.dependencies.length}}</td>
+			<td><a ng-href="/#!/concepts/{{concept._id}}/edit"> edit</a> <button class="btn-sm btn-danger" ng-click="delete(concept);">X</button></td>
+		</tr>
+		</tbody>
+	</table>
+    </div>
+
+
+
+
+
+</section>

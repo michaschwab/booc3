@@ -1,0 +1,314 @@
+svg.zoom-1, svg.zoom-2, svg.zoom-3  {
+    cursor: zoom-out;
+
+}
+svg.noactive {
+    cursor: default;
+}
+svg.zooming {
+    pointer-events: none;
+}
+
+.ui-tooltip, .d3-tip {
+    cursor: default;
+    pointer-events: none;
+}
+
+.noselect {
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+svg #mainLayer text {
+    font-family: 'Open Sans', sans-serif;;
+    font-weight: 300;
+    text-anchor: middle;
+    font-size: 11pt;
+    transition-property: font-size;
+    transition-duration: 500ms;
+    pointer-events: none;
+}
+svg #mainLayer .concept-title {
+
+}
+
+svg.zooming-true .lxCircle {
+    cursor: zoom-in;
+    /*cursor: default;*/
+}
+svg.zooming-true .lxCircle.active {
+    cursor: zoom-out;
+}
+
+/*.l2Circle text{
+    font-size: 8pt;
+}*/
+
+/*
+.zooming-true.zoom-0 .l1Circle > text { font-size: 100%; }
+.learnmode-true .zooming-true.zoom-0 .l1Circle > text { font-size: 150%; }
+
+.zooming-true.zoom-1 .l1Circle > text { font-size: 100%; }
+.zooming-true .l2Circle > text, .zooming-true.zoom-1 .l2Circle > text { font-size: 40%; }
+.learnmode-true .zooming-true.zoom-1 .l1Circle > text { font-size: 150%; }
+.learnmode-true .zooming-true .l2Circle > text, .learnmode-true .zooming-true.zoom-1 .l2Circle > text { font-size: 60%; }
+
+.zooming-true.zoom-2 .l2Circle > text { font-size: 30%; }
+.zooming-true .l3Circle > text, .zooming-true.zoom-2 > .l3Circle text { font-size: 13%; }
+/*.learnmode-true .zooming-true .l2Circle > text, .zooming-true.zoom-1 .l2Circle > text { font-size: 40%; }
+.learnmode-true .zooming-true .l3Circle > text, .zooming-true.zoom-2 > .l3Circle text { font-size: 8%; }
+*/
+
+.zooming-true.zoom-2 .l3Circle text.play {
+    font-size: 30%;
+}
+/*
+.zooming-true.zoom-1 text.depCreate {
+    font-size: 50%;
+}
+.zooming-true.zoom-1 .l3Circle text.depCreate {
+    font-size: 30%;
+}
+
+.zooming-true.zoom-2 text.depCreate {
+    font-size: 50%;
+}
+.zooming-true.zoom-2 .l3Circle text.depCreate {
+    font-size: 20%;
+}*/
+svg #mainLayer text.active.depCreate {
+    fill: #ccc;
+    pointer-events: visible;
+    /*pointer-events: all;*/
+    cursor: crosshair;
+}
+text.active.play {
+    fill: #ccc;
+    pointer-events: visible;
+    cursor: pointer;
+}
+
+text.learned, text.goal {
+    fill: #ccc;
+    overflow: visible;
+}
+
+.zooming-true .l3Circle > text.learned, .zooming-true .l3Circle > text.goal {
+    font-size: 30%;
+}
+.zooming-true .l2Circle > text.learned, .zooming-true .l2Circle > text.goal {
+    font-size: 120%;
+
+}
+
+
+.bgCircle {
+    fill:darkgray;
+    stroke-width:1pt;
+}
+
+.endRing, .startRing {
+    /*stroke-width: 11pt;*/
+    stroke: darkgray;
+}
+.endRingArrow {
+    /*stroke-width: 5pt;*/
+}
+
+.lineEnd path
+{
+    fill: darkgray;
+}
+
+.depsColorDefault .depEnd path {
+    fill: #228822;
+}
+.depEnd path {
+    /*fill: #228822;*/
+    stroke-width: 0;
+}
+
+
+
+.depsColorDefault .depEndActive path {
+    fill: #228822;
+    /*fill-opacity: 1;*/
+}
+
+.depEndActive.prov.active path {
+    fill: #ff8822 !important;
+}
+
+
+.depEnd.prov.all path {
+    fill: #55bb55;
+}
+.currentGoal .depEnd.prov.all path {
+    fill: #aaaaaa;
+}
+.allimplicit {
+    stroke: #55bb55;
+}
+
+
+.alldep {
+    stroke: #228822;
+}
+.currentGoal .allimplicit {
+    stroke: #aaaaaa;
+    /*visibility: hidden;*/
+
+}
+/*.currentGoal .alldep {
+    stroke: #aaaaaa;
+    stroke-opacity: 0;
+}*/
+
+.grayInactiveDependencies.currentGoal .depEnd path {
+    fill: #aaaaaa !important;
+}
+.hideInactiveDependencies.currentGoal .allDepEnd path {
+    fill-opacity: 0;
+}
+
+.grayInactiveDependencies.currentGoal .alldep {
+    stroke: #aaaaaa !important;
+}
+
+.hideInactiveDependencies.currentGoal .alldep {
+    stroke-opacity: 0;
+}
+
+
+.mapOptions {
+    position: absolute;
+    bottom: 20pt;
+    right: 30pt;
+
+    width: 30%;
+    text-align: right;
+    color: #bbbbbb;
+}
+
+
+.mapOptions div {
+    display: inline;
+}
+#depLayer {
+    pointer-events: visible;
+}
+#pathLayer {
+    pointer-events: none;
+}
+
+/*
+.currentGoal .allPathHierarchy {
+    stroke: #ccc !important;
+}
+.currentGoal .allPathHierarchyEnd path {
+    fill: #ccc !important;
+}*/
+
+
+
+.allPathHierarchy.main, .currentPathHierarchy.main, .currentPathFutureHierarchy.main {
+    pointer-events: auto;
+}
+.currentGoal .allPathHierarchy.main{
+    stroke-opacity: 0;
+    pointer-events: none;
+}
+.currentGoal .allPathHierarchy {
+    stroke-opacity: 0;
+}
+.currentGoal .allPathHierarchyEnd path {
+    fill-opacity: 0;
+}
+
+
+/*** TOOLTIPS ***/
+.d3-tip {
+    line-height: 1;
+    font-weight: bold;
+    padding: 12px;
+    background: rgba(50, 50, 50, 0.8);
+    color: #fff;
+    border-radius: 2px;
+    z-index: 100;
+    margin-bottom: -5px;
+    pointer-events: none;
+}
+
+/* Creates a small triangle extender for the tooltip */
+.d3-tip:after {
+    box-sizing: border-box;
+    display: inline;
+    font-size: 10px;
+    width: 100%;
+    line-height: 1;
+    color: rgba(50, 50, 50, 0.8);
+    content: "\25BC";
+    position: absolute;
+    text-align: center;
+    pointer-events: none;
+}
+
+/* Style northward tooltips differently */
+.d3-tip.n {
+    margin-top: -6px;
+}
+.d3-tip.n:after {
+    margin: -3px 0 0 0;
+    top: 100%;
+    left: 0;
+}
+.d3-tip.w {
+    margin-left: -5px;
+    margin-top: -2px;
+}
+.d3-tip.w:after {
+    margin: -3px 0 0 0px;
+    top: 47%;
+    left: 51%;
+    content: "\25B6";
+}
+.d3-tip.s {
+    margin-top: 6px;
+}
+.d3-tip.s:after {
+    margin: -9px 0 0 0;
+    top: 0%;
+    left: 0;
+    content: "\25B2";
+}
+.d3-tip.e {
+    margin-left: 5px;
+    margin-top: -2px;
+}
+.d3-tip.e:after {
+    margin: -3px 0 0 0;
+    top: 50%;
+    left: -51%;
+    content: "\25C0";
+}
+/*** TOOLTIPS END ***/
+
+.prereqButton {
+    position: absolute;
+    top: 80px;
+    right: 50px;
+
+}
+.learnmode-true .prereqButton {
+    display: none;
+}
+
+
+.startCircle {
+    /*stroke: #666666;*/
+    fill: #eeeeee;
+}

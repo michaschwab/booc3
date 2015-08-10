@@ -1,0 +1,54 @@
+
+
+<div class="form-group col-md-12">
+    <label for="path">What's the URL of the synch XML?</label><br />
+
+    <div class="input-group" ng-class="{'has-error': contentCreateForm.path.$error.pattern, 'has-success': !contentCreateForm.path.$error.pattern&&source.path.length}">
+        <span class="input-group-addon"><span class="glyphicon glyphicon-globe"></span></span>
+        <input type="text" id="path" ng-model="source.path" name="path" ng-pattern="xmlUrlRegex"  placeholder="http://domain.com/data.xml" class="form-control"/>
+        <span class="error" ng-show="contentCreateForm.path.$error.pattern">That doesn't look like a valid XML URL.</span>
+    </div>
+</div>
+
+<div class="form-group col-md-12">
+    <label for="vidPath">What's the URL of the lecture video?</label><br />
+
+    <div class="input-group" ng-class="{'has-error': contentCreateForm.vidPath.$error.pattern, 'has-success': !contentCreateForm.vidPath.$error.pattern&&source.data.vidPath.length}">
+        <span class="input-group-addon"><span class="glyphicon glyphicon-film"></span></span>
+        <input type="text" id="vidPath" ng-model="source.data.vidPath" name="vidPath" ng-pattern=""  placeholder="http://domain.com/video.mp4" class="form-control"/>
+        <span class="error" ng-show="contentCreateForm.vidPath.$error.pattern">That doesn't look like a valid video URL.</span>
+    </div>
+</div>
+<!--
+<div class="form-group col-md-12">
+    <label for="presPath">What's the URL of the presentation?</label><br />
+
+    <div class="input-group" ng-class="{'has-error': contentCreateForm.presPath.$error.pattern, 'has-success': !contentCreateForm.presPath.$error.pattern&&source.data.presPath.length}">
+        <span class="input-group-addon"><span class="glyphicon glyphicon-th-large"></span></span>
+        <input type="text" id="presPath" ng-model="source.data.presPath" name="presPath" ng-pattern=""  placeholder="http://domain.com/presentation.pdf" class="form-control"/>
+        <span class="error" ng-show="contentCreateForm.presPath.$error.pattern">That doesn't look like a valid pdf URL.</span>
+    </div>
+</div>
+-->
+<div class="form-group" ng-class="{'has-error': contentCreateForm.title.$error.required, 'has-success': !contentCreateForm.title.$error.required&&source.title.length}">
+    <label for="title">What's the title of the lecture?</label><br />
+
+    <div class="input-group">
+        <span class="input-group-addon"><span class="glyphicon glyphicon-pencil"></span></span>
+        <input type="text" id="title" ng-model="source.title" name="title" ng-required placeholder="Title" class="form-control"/>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-5">
+        <ng-include src=" 'modules/contents/views/segmentListPanel.client.view.html' "></ng-include>
+    </div>
+    <div class="col-md-7">
+        <video width="637" controls id="videoPlayer" ng-src="{{source.data.vidPath}}">
+            <source ng-src="{{source.data.vidPath}}" type="video/mp4" />
+            Your browser does not support the video tag.
+        </video>
+    </div>
+</div>
+
+<ng-include src=" 'modules/contents/views/segmentDetailForm.client.view.html' "></ng-include>

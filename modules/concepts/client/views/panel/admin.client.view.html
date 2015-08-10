@@ -1,0 +1,46 @@
+<ul ng-if="activeMode=='admin'" class="concept-list" ui-sortable="sortableOptions" ng-model="activeHierarchyChildren">
+    <li ng-repeat="child in activeHierarchyChildren | orderBy:'order':false" class="concept"  ng-class="{ 'active': activeConcept.concept._id === child.concept._id,
+                        'learned':  active.learnedConceptIds.indexOf(child.concept._id) !== -1}">
+
+        <a class="concept">
+            <span class="glyphicon glyphicon-align-justify handle"></span>
+            <span class="concept-line"></span>
+
+            <input id="concept-title-{{child.concept._id}}" class="concept-title admin" ng-change="titleChange(child)" ng-model="child.concept.title" value="{{child.concept.title}}" ng-blur="titleBlur(child)" ng-keydown="titleKeyPress($event, child)" />
+
+            <a href="" ng-click="removeConcept(child)" class="glyphicon glyphicon-remove remove-concept" title="Remove Concept"></a>
+            <a href="/#!/courses/{{courseId}}/concepts/{{child.concept._id}}/contents/add" class="glyphicon glyphicon-plus add-segment-to-concept" title="Add Content"></a>
+
+        </a>
+        <label for="{{child.concept._id}}_color" class="concept-circle" style="background: {{child.concept.color}}"></label>
+        <input type="color" id="{{child.concept._id}}_color" ng-change="colorChange(child)" data-ng-model="child.concept.color" class="form-control">
+
+        <ul ng-show="activeConcept.concept._id === child.concept._id" class="alternative-segments">
+            <li ng-repeat="seg in active.segments" class="segment" ng-class="{ 'active': seg._id === active.segment._id}">
+
+
+                <a href="/#!/courses/{{courseId}}?goal={{goalConcept.concept._id}}&active={{child.concept._id}}&segment={{seg._id}}&mode={{activeMode}}&learn=yes" title="{{seg.sourcetypeObject.title}}: {{seg.title}}">
+
+                    <span class="concept-line lowest"></span>
+                    <span class="{{seg.sourcetypeObject.icon}} segment-icon"></span>
+                    {{seg.title}}
+
+
+                </a>
+            </li>
+        </ul>
+
+    </li>
+
+    <li class="concept">
+
+        <a class="concept" ng-click="addConcept()" href="">
+            <span class="glyphicon glyphicon-plus addConceptIcon" style=""></span>
+            <span class="concept-circle" style="background: #008800"></span>
+            <span class="concept-line"></span>
+            <span class="concept-title admin" style="color:#008800">Add Concept</span>
+
+        </a>
+
+    </li>
+</ul>

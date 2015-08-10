@@ -1,0 +1,30 @@
+<section data-ng-controller="CourseViewController" style="position:relative">
+
+    <!--<div data-ng-show="(authentication.user)">-->
+
+        <!--<h1>{{course.title}}</h1>-->
+
+    <!--</div>-->
+
+
+    <ng-include src="'/modules/concepts/views/panel.client.view.html'"></ng-include>
+
+
+    <ng-include ng-hide="(learnMode&&activeMode!='minimap')||editSourceMode" style="position:absolute;{{learnMode?'left: -20':'right: 0'}}px; top: {{learnMode?panelOffsetTop-35:0}}px; width: {{learnMode?windowWidth/12*3:windowWidth/12*9}}px; z-index:{{learnMode?5:1}}; background:{{learnMode?'#ffffff':'inherit'}}" src="'/modules/courses/views/course-map.client.view.html'"></ng-include>
+
+    <ng-include ng-if="!learnMode&&!editSourceMode" src="'/modules/concepts/views/search.client.view.html'"></ng-include>
+
+    <ng-include ng-if="learnMode" src="'/modules/learning/views/learn.client.view.html'"></ng-include>
+
+    <ng-include ng-if="editSourceMode" src="'/modules/contents/views/edit-contents.client.view.html'"></ng-include>
+
+
+
+    <!--</ul>-->
+
+
+
+
+
+
+</section>
