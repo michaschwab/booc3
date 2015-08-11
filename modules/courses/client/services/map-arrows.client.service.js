@@ -419,11 +419,12 @@ angular.module('courses').service('MapArrows', function(Tip, ConceptStructure, M
 
             // Adding start before first concept.
             var firstBig = $scope.active.topLevelConcepts[0];
+            var scale = ((firstBig.radius / 0.7) / 2 + 0.5) * $scope.graphMinDim / 700;
             var firstBigPos = $scope.getTranslateAbs(firstBig);
-            var arrowStart = { x: firstBigPos.x - 150 , y: firstBigPos.y - 60  };
+            var arrowStart = { x: firstBigPos.x - scale * 180 , y: firstBigPos.y - scale * 100 + 35  };
 
             pos.push(arrowStart);
-            coveredConcepts.push({radius: 0.1, concept: { _id: 'randomIdHere123456789', color: '#000000'}});
+            coveredConcepts.push({radius: 0.01, concept: { _id: 'randomIdHere123456789', color: '#000000'}});
 
             // Now adding the actual concepts.
 

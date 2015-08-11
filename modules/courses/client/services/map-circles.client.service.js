@@ -241,7 +241,6 @@ angular.module('courses').service('MapCircles', function(Tip, $location, $timeou
         // this function takes about 2ms, including 1ms from setupL.
 
         var vis = $scope.canvas;
-        var params = $scope.visParams;
 
         var l1Circle, l1CircleEnter;
 
@@ -375,18 +374,37 @@ angular.module('courses').service('MapCircles', function(Tip, $location, $timeou
 
     this.makeStartCircle = function()
     {
-        var start = $scope.mainLayer.append('g');
-        var circle = start.append('circle').attr('class', 'startCircle');
+        var layer = d3.select('#mainCanvas');
+        layer.selectAll('.startIconGroup').remove();
+        var start = layer.append('g').classed('startIconGroup', true);
 
+        var lineData = [ { "x": 0,   "y": 0},  { "x": 0,  "y": 50},
+                             { "x": 50,  "y": 25}, { "x": 0,   "y": 0}];
+
+        var lineFunction = d3.svg.line()
+                                 .x(function(d) { return d.x; })
+                                 .y(function(d) { return d.y; })
+                                 .interpolate("linear");
+
+        var lineGraph = start.append("path")
+                                    .attr("d", lineFunction(lineData));
+                                    //.attr("stroke", "blue")
+                                    //.attr("stroke-width", 2)
+                                    //.attr("fill", "none");
+
+        /*var circle = start.append('circle').attr('class', 'startCircle');
+         circle.attr('r', 30);*/
         var firstBig = $scope.active.topLevelConcepts[0];
+        var scale = ((firstBig.radius / 0.7) / 2 + 0.5) * $scope.graphMinDim / 700;
+
         var firstBigPos = $scope.getTranslateAbs(firstBig);
-        var arrowStart = { x: firstBigPos.x - 150 , y: firstBigPos.y - 60  };
+        var arrowStart = { x: firstBigPos.x - scale * 180 , y: firstBigPos.y - scale * 100  };
         //console.log(firstBig, arrowStart);
 
-        start.attr('transform', 'translate(' + arrowStart.x +', ' + arrowStart.y + ')');
-        circle.attr('r', 30);
+        start.attr('transform', 'translate(' + arrowStart.x +', ' + arrowStart.y + ') rotate(17)');
 
-        var text = start.append('text').text('Start').attr('dy', 3);
+
+        //var text = start.append('text').text('Start').attr('dy', 25).attr('dx', 15);
 
     };
 
