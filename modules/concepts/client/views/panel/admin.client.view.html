@@ -9,7 +9,7 @@
             <input id="concept-title-{{child.concept._id}}" class="concept-title admin" ng-change="titleChange(child)" ng-model="child.concept.title" value="{{child.concept.title}}" ng-blur="titleBlur(child)" ng-keydown="titleKeyPress($event, child)" />
 
             <a href="" ng-click="removeConcept(child)" class="glyphicon glyphicon-remove remove-concept" title="Remove Concept"></a>
-            <a href="/#!/courses/{{courseId}}/concepts/{{child.concept._id}}/contents/add" class="glyphicon glyphicon-plus add-segment-to-concept" title="Add Content"></a>
+            <a href="/#!/courses/{{courseId}}/concepts/{{child.concept._id}}/contents/add?mode=admin" class="glyphicon glyphicon-plus add-segment-to-concept" title="Add Content"></a>
 
         </a>
         <label for="{{child.concept._id}}_color" class="concept-circle" style="background: {{child.concept.color}}"></label>
