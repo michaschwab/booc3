@@ -12,6 +12,7 @@
     "angular-ui-utils": "bower",
     "angular-ui-router": "~0.2",
     "angular-file-upload": "1.1.5",
+    "angular-sanitize": "~1.4",
 
     "angular-xml": null,
     "x2js": null,

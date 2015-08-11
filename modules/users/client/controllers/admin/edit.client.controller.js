@@ -23,19 +23,43 @@ angular.module('users').controller('UserEditController',
         };
         $scope.newCourseRole = 'content-editor';
 
+        var initialized = false;
         $scope.$watch('user.roles', function()
         {
-            if($scope.user && $scope.user.roles)
+            if($scope.user && $scope.user.roles && !initialized)
             {
-                for(var role in $scope.roles)
-                {
-                    if($scope.roles.hasOwnProperty(role))
-                    {
-                        $scope.roles[role].active = $scope.user.roles.indexOf(role) != -1;
-                    }
-                }
+                initialized = true;
+                init();
             }
         });
+
+        var init = function()
+        {
+            for(var role in $scope.roles)
+            {
+                if($scope.roles.hasOwnProperty(role))
+                {
+                    $scope.roles[role].active = $scope.user.roles.indexOf(role) != -1;
+                }
+            }
+
+            $scope.courseadmins = [];
+
+            $scope.user.roles.forEach(function(role)
+            {
+                var parts = role.split(';');
+                if(parts[0] == 'courseadmin')
+                {
+                    // this is a course-specific role, no global role.
+                    var courseAdmin = {
+                        type: parts[1],
+                        course: parts[2]
+                    };
+
+                    $scope.courseadmins.push(courseAdmin);
+                }
+            });
+        };
 
         $scope.courses = Courses.query({}, function()
         {
@@ -43,18 +67,12 @@ angular.module('users').controller('UserEditController',
             $scope.courses.forEach(function(c) { $scope.courseDirectory[c._id] = c; });
         });
 
-        //todo
-        $scope.courseadmins = [];
-        /*
-        $scope.courseadmins = Courseadmins.query({user: $scope.userId });
-
         $scope.addCourseRole = function(e)
         {
-            var newRole = new Courseadmins({
+            var newRole = {
                 course: $scope.course._id,
-                type: $scope.newCourseRole,
-                user: $scope.userId
-            });
+                type: $scope.newCourseRole
+            };
 
             $scope.courseadmins.push(newRole);
 
@@ -65,23 +83,11 @@ angular.module('users').controller('UserEditController',
 
         $scope.removeCourseRole = function(admin)
         {
-            var makeIdWithoutId = function(a) { return a.course + '-' + a.type + '-' + a.user; };
+            var makeIdWithoutId = function(a) { return a.course + '-' + a.type; };
             var index = $scope.courseadmins.map(makeIdWithoutId).indexOf(makeIdWithoutId(admin));
 
-            if(admin._id)
-            {
-                // if already persisted to db, and its a previous admin
-                admin.$remove(function()
-                {
-                    $scope.courseadmins.splice(index, 1);
-                });
-            }
-            else
-            {
-                // if just added
-                $scope.courseadmins.splice(index, 1);
-            }
-        };*/
+            $scope.courseadmins.splice(index, 1);
+        };
 
         $scope.submit = function()
         {
@@ -89,6 +95,7 @@ angular.module('users').controller('UserEditController',
             {
                 var newRoles = [];
 
+                // get global roles
                 Object.keys($scope.roles).forEach(function(role)
                 {
                     if($scope.roles[role].active)
@@ -96,33 +103,23 @@ angular.module('users').controller('UserEditController',
                         newRoles.push(role);
                     }
                 });
+
+                // get course-specific roles
+                $scope.courseadmins.forEach(function(courseadmin)
+                {
+                    var roleName = 'courseadmin;' + courseadmin.type + ';' + courseadmin.course;
+                    newRoles.push(roleName);
+                });
+
                 return newRoles;
             };
 
-           /* var saveCourseAdmins = function()
-            {
-                $scope.courseadmins.forEach(function(courseadmin)
-                {
-                    if(courseadmin._id)
-                    {
-                        courseadmin.$update();
-                    }
-                    else
-                    {
-                        courseadmin.$save();
-                    }
-                });
-            };
-
-            saveCourseAdmins();*/
-
             $scope.user.roles = getRoles();
-            console.log($scope.roles, $scope.user.roles);
 
-            /*$scope.user.$update(function()
+            $scope.user.$update(function()
             {
                 $location.path('/admin/users');
-            });*/
+            });
         };
 
         $scope.toggleRole = function(role)

@@ -14,7 +14,8 @@ var ApplicationConfiguration = (function () {
 
     'xml',
     'ui.select',
-    'ngSocketResource'
+    'ngSocketResource',
+    'ngSanitize'
 
   ];
 
