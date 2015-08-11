@@ -20,7 +20,10 @@
     "d3-tip": null,
     "jquery": null,
     "angular-ui-select": null,
-    "font-awesome": null
+    "font-awesome": null,
+
+    "pdfjs-dist": null,
+    "ng-pdfviewer": "michaschwab/ng-pdfviewer#develop"
   },
   "resolutions": {
     "angular": "~1.3"

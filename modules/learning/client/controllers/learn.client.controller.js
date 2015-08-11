@@ -2,9 +2,10 @@
 
 // Segments controller
 angular.module('learning').controller('LearnController',
-    function($scope, $stateParams, $location, $timeout, $route, Concepts, Segments, Sources, Sourcetypes, $interval, LearnHelper, $window, ConceptStructure, Courses)
+    function($scope, $stateParams, $location, $timeout, Concepts, Segments, Sources, Sourcetypes, $interval, LearnHelper, $window, ConceptStructure, Courses)
     {
         var me = this;
+        $scope = angular.element('.course-view').scope();
 
         $scope.launch = function()
         {
@@ -124,6 +125,8 @@ angular.module('learning').controller('LearnController',
 
         $scope.setActives = function()
         {
+            if(!$scope.active.source) return;
+
             if($scope.active.source._id !== $scope.lastSourceId)
             {
                 $scope.lastSourceId = $scope.active.source._id;
