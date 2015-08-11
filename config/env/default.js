@@ -2,9 +2,9 @@
 
 module.exports = {
   app: {
-    title: 'MEAN.JS',
-    description: 'Full-Stack JavaScript with MongoDB, Express, AngularJS, and Node.js',
-    keywords: 'mongodb, express, angularjs, node.js, mongoose, passport',
+    title: 'Course Explorer',
+    description: 'Online Learning - non-linear, and perfect for you',
+    keywords: 'mooc, learning, course, non-linear',
     googleAnalyticsTrackingID: process.env.GOOGLE_ANALYTICS_TRACKING_ID || 'GOOGLE_ANALYTICS_TRACKING_ID'
   },
   port: process.env.PORT || 3000,
