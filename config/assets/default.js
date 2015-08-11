@@ -5,7 +5,8 @@ module.exports = {
     lib: {
       css: [
         'public/lib/bootstrap/dist/css/bootstrap.css',
-        'public/lib/bootstrap/dist/css/bootstrap-theme.css'
+        'public/lib/bootstrap/dist/css/bootstrap-theme.css',
+        'public/lib/angular-ui-select/dist/select.css'
       ],
       js: [
         'public/lib/angular/angular.js',
@@ -21,7 +22,8 @@ module.exports = {
         'public/lib/angular-socket-resource/socket-resource.js',
         'public/lib/d3/d3.js',
         'public/lib/d3-tip/index.js',
-        'public/lib/jquery/dist/jquery.js'
+        'public/lib/jquery/dist/jquery.js',
+        'public/lib/angular-ui-select/dist/select.js'
       ],
       tests: ['public/lib/angular-mocks/angular-mocks.js']
     },

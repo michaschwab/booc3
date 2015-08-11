@@ -23,17 +23,20 @@ angular.module('users').controller('UserEditController',
         };
         $scope.newCourseRole = 'content-editor';
 
-        /*$scope.user = Users.get({userId: $scope.userId }, function()
+        $scope.$watch('user.roles', function()
         {
-
-            for(var role in $scope.roles)
+            if($scope.user && $scope.user.roles)
             {
-                if($scope.roles.hasOwnProperty(role))
+                for(var role in $scope.roles)
                 {
-                    $scope.roles[role].active = $scope.user.roles.indexOf(role) != -1;
+                    if($scope.roles.hasOwnProperty(role))
+                    {
+                        $scope.roles[role].active = $scope.user.roles.indexOf(role) != -1;
+                    }
                 }
             }
-        });*/
+        });
+
         $scope.courses = Courses.query({}, function()
         {
             $scope.courseDirectory = {};
@@ -114,11 +117,12 @@ angular.module('users').controller('UserEditController',
             saveCourseAdmins();*/
 
             $scope.user.roles = getRoles();
+            console.log($scope.roles, $scope.user.roles);
 
-            $scope.user.$save(function()
+            /*$scope.user.$update(function()
             {
-                $location.path('/users');
-            });
+                $location.path('/admin/users');
+            });*/
         };
 
         $scope.toggleRole = function(role)

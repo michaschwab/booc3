@@ -13,6 +13,7 @@ var ApplicationConfiguration = (function () {
     'angularFileUpload',
 
     'xml',
+    'ui.select',
     'ngSocketResource'
 
   ];

@@ -34,3 +34,22 @@
   min-height: 150px;
   max-height: 150px;
 }
+
+
+
+.tracking-consent header h2 {
+  margin-top:0;
+}
+
+.tracking-consent h4 {
+  margin-top: 20px;
+  font-weight: bold;
+}
+.tracking-consent address {
+  display: inline;
+}
+
+.tracking-consent {
+  padding-bottom:70px;
+}
+

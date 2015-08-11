@@ -17,7 +17,8 @@
     "x2js": null,
     "d3": null,
     "d3-tip": null,
-    "jquery": null
+    "jquery": null,
+    "angular-ui-select": null
   },
   "resolutions": {
     "angular": "~1.3"
