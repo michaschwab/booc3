@@ -10,6 +10,7 @@ module.exports = {
         'public/lib/font-awesome/css/font-awesome.css'
       ],
       js: [
+        'public/lib/jquery/dist/jquery.js',
         'public/lib/angular/angular.js',
         'public/lib/angular-resource/angular-resource.js',
         'public/lib/angular-animate/angular-animate.js',
@@ -23,7 +24,7 @@ module.exports = {
         'public/lib/angular-socket-resource/socket-resource.js',
         'public/lib/d3/d3.js',
         'public/lib/d3-tip/index.js',
-        'public/lib/jquery/dist/jquery.js',
+
         'public/lib/angular-ui-select/dist/select.js',
         'public/lib/angular-sanitize/angular-sanitize.js'
       ],
