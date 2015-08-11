@@ -1,35 +1,126 @@
-<section class="container">
-  <div class="page-header">
-    <h1>User <span data-ng-bind="user.username"</span</h1>
-  </div>
-  <div class="col-md-12">
-    <form name="userForm" class="form-horizontal" data-ng-submit="update()" novalidate>
-      <fieldset>
-        <div class="form-group">
-          <label class="control-label" for="firstName">First Name</label>
-          <div class="controls">
-            <input name="firstName" type="text" data-ng-model="user.firstName" id="firstName" class="form-control" placeholder="First Name" required>
-          </div>
+<section data-ng-controller="UserEditController" class="container">
+
+  <header>
+    <h1>Edit User</h1>
+  </header>
+
+  <div class="">
+    <form name="userForm" data-ng-submit="submit()" autocomplete="off">
+
+      <div class="form-group">
+        <label for="firstName">First Name</label>
+        <input type="text" id="firstName" name="firstName" class="form-control" data-ng-model="user.firstName" placeholder="First Name">
+      </div>
+      <div class="form-group">
+        <label for="lastName">Last Name</label>
+        <input type="text" id="lastName" name="lastName" class="form-control" data-ng-model="user.lastName" placeholder="Last Name">
+      </div>
+      <div class="form-group">
+        <label for="email">Email</label>
+        <input type="email" id="email" name="email" class="form-control" data-ng-model="user.email" placeholder="Email">
+      </div>
+      <div class="form-group">
+        <label for="username">Username</label>
+        <input type="text" id="username" name="username" class="form-control" data-ng-model="user.username" placeholder="Username">
+      </div>
+
+      <div class="form-group">
+        <h2>Roles</h2>
+
+        <div ng-repeat="(role, props) in roles" class="checkbox">
+          <label class="noselect">
+            <input type="checkbox" ng-click="toggleRole(role)" name="roles[{{role}}]" value="1" ng-checked="user.roles.indexOf(role)!==-1" /> <b>{{props.display | capitalize}}</b>
+          </label>
+
+          <p>{{props.description}}</p>
         </div>
-        <div class="form-group">
-          <label class="control-label" for="lastName">Last Name</label>
-          <div class="controls">
-            <input type="text" name="lastName" data-ng-model="user.lastName" id="lastName" class="form-control" placeholder="Last Name" />
-          </div>
-        </div>
-        <div class="form-group">
-          <label class="control-label" for="roles">Roles</label>
-          <div class="controls">
-            <input class="form-control" type="text" name="roles" data-ng-model="user.roles" id="roles" ng-list />
-          </div>
-        </div>
-        <div class="form-group">
-          <input type="submit" value="Update" class="btn btn-default">
-        </div>
-        <div data-ng-show="error" class="text-danger">
-          <strong data-ng-bind="error"></strong>
-        </div>
-      </fieldset>
+
+
+      </div>
+
+      <div class="form-group">
+        <h2>Course-Specific Rights</h2>
+
+        <table class="table table-hover">
+          <thead>
+          <tr>
+            <th>Course</th>
+            <th>Role</th>
+            <th>Action</th>
+          </tr>
+          </thead>
+
+          <tbody>
+          <tr ng-repeat="courseadmin in courseadmins">
+
+            <td>{{courseDirectory[courseadmin.course].title}}</td>
+            <td>{{courseRoles[courseadmin.type].display}}</td>
+            <td><a title="Remove" class="btn btn-warning" href ng-click="removeCourseRole(courseadmin)"><span class="glyphicon glyphicon-remove"></span> Remove</a></td>
+
+          </tr>
+          </tbody>
+        </table>
+
+
+        <hr />
+
+        <h3>Add Course Role</h3>
+
+        <p>In the following Course: </p>
+
+        <ui-select class="course-select" ng-model="$parent.course" ng-required name="courseSelect" id="courseSelect" >
+          <ui-select-match placeholder="Select Course...">{{$select.selected.title}}</ui-select-match>
+          <ui-select-choices repeat="course in courses | filter: $select.search">
+            <div ng-bind-html="course.title | highlight: $select.search"></div>
+            <small ng-bind-html="course.description | highlight: $select.search"></small>
+          </ui-select-choices>
+
+
+        </ui-select>
+
+
+        Grant the rights of a..
+
+
+        <select ng-model="newCourseRole" class="form-control" style="display: inline; width: 200px">
+          <option ng-repeat="(id, courseRole) in courseRoles" title="{{courseRole.description}}" value="{{id}}" ng-selected="id==newCourseRole">{{courseRole.display}}</option>
+        </select>.
+
+        <p>{{courseRoles[newCourseRole].description}}</p>
+
+
+        <button class="btn btn-success" ng-click="addCourseRole($event)"><span class="glyphicon glyphicon-plus"></span> Add Course Role</button>
+
+        <!--<ui-select class="course-role-select" ng-model="$parent.courseRole" ng-required name="courseRoleSelect" id="courseRoleSelect">
+            <ui-select-match placeholder="Select Course Role">{{$select.selected.title}}</ui-select-match>
+            <ui-select-choices repeat="courseRole in courseRoles | filter: $select.search">
+                <div ng-bind-html="courseRole.display | highlight: $select.search"></div>
+                <small ng-bind-html="courseRole.description | highlight: $select.search"></small>
+            </ui-select-choices>
+
+
+        </ui-select>-->
+
+
+
+
+      </div>
+
+
+
+      <div class="form-group pull-right">
+        <button type="submit" class="btn btn-large btn-primary">Save User</button>
+      </div>
+
+
+      <div data-ng-show="success" class="text-center text-success">
+        <strong>Profile Saved Successfully</strong>
+      </div>
+      <div data-ng-show="error" class="text-center text-danger">
+        <strong data-ng-bind="error"></strong>
+      </div>
+
     </form>
   </div>
+
 </section>
