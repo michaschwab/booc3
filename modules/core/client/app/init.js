@@ -8,6 +8,24 @@ angular.module(ApplicationConfiguration.applicationModuleName).config(['$locatio
   function ($locationProvider) {
     $locationProvider.html5Mode(true).hashPrefix('!');
   }
+]).config([
+  '$provide', function($provide) {
+    return $provide.decorator('$rootScope', [
+      '$delegate', function($delegate) {
+        $delegate.safeApply = function(fn) {
+          var phase = $delegate.$$phase;
+          if (phase === "$apply" || phase === "$digest") {
+            if (fn && typeof fn === 'function') {
+              fn();
+            }
+          } else {
+            $delegate.$apply(fn);
+          }
+        };
+        return $delegate;
+      }
+    ]);
+  }
 ]);
 
 angular.module(ApplicationConfiguration.applicationModuleName).run(function ($rootScope, $state, Authentication) {
