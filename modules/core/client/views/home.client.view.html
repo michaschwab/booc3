@@ -1,21 +1,20 @@
 <section data-ng-controller="CoursesController" ng-init="find()" class="container">
+
+  <br />
   <div class="jumbotron text-center">
     <h2>
-      Welcome to BOOC!
+      Welcome to CourseX!
     </h2>
-    The non-linear learning environment.
-
-    <div data-ng-hide="(authentication.user)">
-      Please login
-    </div>
-
-    <div data-ng-show="(authentication.user)">
-      Please choose a course:
-    </div>
-
-
+    <i>Course Explorer, the non-linear learning environment.</i>
 
   </div>
+
+  <div class="alert alert-danger" role="alert" data-ng-hide="(authentication.user)">Not authenticated. Please log in.</div>
+
+
+  <h3 data-ng-show="(authentication.user)">
+    Courses
+  </h3>
 
 
   <div data-ng-show="(authentication.user)">
