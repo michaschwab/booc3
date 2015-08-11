@@ -1,0 +1,32 @@
+.jumbotron {
+    background-image: url('../../courses/img/gov2001_big.png');
+    background-size: 150px 150px;
+    background-position: 200px 10px;
+    background-repeat: no-repeat;
+}
+
+.courserow {
+    padding: 0;
+    background: #FFFDFD;
+}
+a.courserow:hover {
+    background: #FFE6E6;
+}
+.courserow:hover .course-description {
+    background: #f5f5f5;
+    border-right: 1px solid #FFCCCC;
+}
+
+.course-description {
+    padding: 20px;
+    background: #fff;
+    min-height: 160px;
+    border-right: 1px solid #FFF5F5;
+}
+
+.progress-info {
+
+    height: 100%;
+    padding: 20px;
+
+}

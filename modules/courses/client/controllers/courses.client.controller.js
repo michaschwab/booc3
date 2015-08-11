@@ -1,8 +1,8 @@
 'use strict';
 
 // Courses controller
-angular.module('courses').controller('CoursesController', ['$scope', '$stateParams', '$location', 'Authentication', 'Courses', 'Concepts',
-	function($scope, $stateParams, $location, Authentication, Courses, Concepts) {
+angular.module('courses').controller('CoursesController',
+	function($scope, $stateParams, $location, Authentication, Courses, Concepts, LearnedConcepts) {
 		$scope.authentication = Authentication;
 
 		/*
@@ -82,8 +82,16 @@ angular.module('courses').controller('CoursesController', ['$scope', '$statePara
 		};
 
 		// Find a list of Courses
-		$scope.find = function() {
-			$scope.courses = Courses.query();
+		$scope.find = function()
+		{
+			$scope.courses = Courses.query(function()
+			{
+				$scope.courses.forEach(function(course)
+				{
+					course.conceptObjects = Concepts.query({courses: course._id });
+					course.learnedConceptObjects = LearnedConcepts.query({course: course._id });
+				});
+			});
 		};
 
 		// Find existing Course
@@ -109,4 +117,4 @@ angular.module('courses').controller('CoursesController', ['$scope', '$statePara
 
 		};
 	}
-]);
+);

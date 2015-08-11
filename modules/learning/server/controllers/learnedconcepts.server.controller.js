@@ -94,6 +94,9 @@ exports.list = function(req, res) {
 	{
 		qObject['user'] = new ObjectId(req.user._id);
 	}
+	if (req.query['course']){
+		qObject['course'] = new ObjectId(req.query['course']);
+	}
 
     LearnedConcept.find(qObject).populate('user', 'displayName').exec(function(err, learnedconcepts) {
 		if (err) {
