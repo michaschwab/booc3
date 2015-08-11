@@ -19,7 +19,8 @@
     "d3": null,
     "d3-tip": null,
     "jquery": null,
-    "angular-ui-select": null
+    "angular-ui-select": null,
+    "font-awesome": null
   },
   "resolutions": {
     "angular": "~1.3"
