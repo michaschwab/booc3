@@ -15,7 +15,7 @@ angular.module('courses').run(['Menus',
 
 		Menus.addSubMenuItem('topbar', 'courses', {
 			title: 'List Courses',
-			state: 'courses'
+			state: 'courses.list'
 		});
 
 		Menus.addSubMenuItem('topbar', 'courses', {
