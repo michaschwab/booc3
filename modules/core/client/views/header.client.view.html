@@ -17,8 +17,7 @@
             <a data-ui-sref="{{subitem.state}}" data-ng-bind="subitem.title"></a>
           </li>
         </ul>
-        <a ng-if="!item.state" ng-switch-default data-ng-bind="item.title"></a>
-        <a ng-if="item.state" ng-switch-default data-ui-sref="{{item.state}}" data-ng-bind="item.title"></a>
+        <a ng-switch-default data-ui-sref="{{item.state}}" data-ng-bind="item.title"></a>
       </li>
     </ul>
     <ul class="nav navbar-nav navbar-right" data-ng-hide="authentication.user">

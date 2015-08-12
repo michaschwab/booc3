@@ -5,20 +5,20 @@ angular.module('courses').config(['$stateProvider', '$locationProvider',
 	function($stateProvider, $locationProvider) {
 		// Courses state routing
 		$stateProvider.
-		state('listCourses', {
+		state('courses', {
 			url: '/courses',
 			templateUrl: '/modules/courses/views/list-courses.client.view.html'
 		}).
-		state('createCourse', {
+		state('courses.create', {
 			url: '/courses/create',
 			templateUrl: '/modules/courses/views/edit-course.client.view.html'
 		}).
-		state('viewCourse', {
+		state('courses.view', {
 			url: '/courses/:courseId',
 			templateUrl: '/modules/courses/views/view-course.client.view.html',
             reloadOnSearch: false
 		}).
-		state('editCourse', {
+		state('courses.edit', {
 			url: '/courses/:courseId/edit',
 			templateUrl: '/modules/courses/views/edit-course.client.view.html'
 		});
