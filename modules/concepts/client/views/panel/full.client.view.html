@@ -3,25 +3,25 @@
 
         <div ng-show="active.watchableConcept&&!learnMode&&activeMode!='lecture'">
             <a title="Watch Lecture on {{active.watchableConcept.concept.title}}" class="pull-right panel-button play learnmode-{{learnMode}}"
-               href="/#!/courses/{{courseId}}?goal={{goalConcept.concept._id}}&active={{active.watchableConcept.concept._id}}&mode={{activeMode}}&learn=yes">
+               data-ui-sref="{active: active.watchableConcept.concept._id, learn: 'yes'}">
                 <span ng-hide="learnMode" class="glyphicon glyphicon-play"></span>
             </a>
         </div>
 
         <div ng-show="activeLectures.length&&!learnMode&&activeMode=='lecture'">
             <a title="Watch {{activeLectures[0].lecture.title}}" class="pull-right panel-button play learnmode-{{learnMode}}"
-               href="/#!/courses/{{courseId}}?source={{activeLectures[0].lecture._id}}&mode={{activeMode}}&learn=yes">
+               data-ui-sref="{source: activeLectures[0].lecture._id, learn: 'yes'}">
                 <span ng-hide="learnMode" class="glyphicon glyphicon-play"></span>
             </a>
         </div>
 
         <a ng-show="learnMode" class="pull-right panel-button play learnmode-{{learnMode}}" title="Show Course Map"
-           href="/#!/courses/{{courseId}}?goal={{goalConcept.concept._id}}&active=&mode={{activeMode}}&learn=no">
+           data-ui-sref="{active: '', learn: 'no'}">
             <span class="glyphicon glyphicon-map-marker"></span>
         </a>
 
         <a ng-show="goalConcept&&activeMode=='plan'" class="pull-right panel-button learnmode-{{learnMode}}" title="Unset goal"
-           href="/#!/courses/{{courseId}}?goal=&active={{activeConcept.concept._id}}&mode={{activeMode}}&learn={{learnModeYesNo}}">
+           data-ui-sref="{goal: ''}">
             <span class="glyphicon glyphicon-flag unsetgoal">/</span>
         </a>
 
@@ -39,43 +39,43 @@
 
         <div ng-show="active.watchableConcept&&!learnMode&&activeMode!='lecture'">
             <a title="Watch Lecture on {{active.watchableConcept.concept.title}}" class="pull-right panel-button play learnmode-{{learnMode}}"
-               href="/#!/courses/{{courseId}}?goal={{goalConcept.concept._id}}&active={{active.watchableConcept.concept._id}}&mode={{activeMode}}&learn=yes">
+               data-ui-sref="{active: active.watchableConcept.concept._id, learn: 'yes'}">
                 <span ng-hide="learnMode" class="glyphicon glyphicon-play"></span>
             </a>
         </div>
 
         <div ng-show="activeLectures.length&&!learnMode&&activeMode=='lecture'">
             <a title="Watch {{activeLectures[0].lecture.title}}" class="pull-right panel-button play learnmode-{{learnMode}}"
-               href="/#!/courses/{{courseId}}?source={{activeLectures[0].lecture._id}}&mode={{activeMode}}&learn=yes">
+               data-ui-sref="{source: activeLectures[0].lecture._id, learn: 'yes'}">
                 <span ng-hide="learnMode" class="glyphicon glyphicon-play"></span>
             </a>
         </div>
 
         <a ng-show="learnMode||editSourceMode" class="pull-right panel-button play learnmode-{{learnMode}}" title="Show Course Map"
-           href="/#!/courses/{{courseId}}?goal={{goalConcept.concept._id}}&active={{activeConcept.concept._id}}&mode={{activeMode=='minimap'?'plan':activeMode}}&learn=no">
+           data-ui-sref="{mode: activeMode=='minimap'?'plan':activeMode, learn: 'no'}">
             <!--<span class="glyphicon glyphicon-map-marker"></span>-->
             <span class="map-icon map-icon-large"></span>
         </a>
 
         <a ng-show="!goalConcept&&activeMode=='plan'" class="pull-right panel-button learnmode-{{learnMode}}" title="Set {{activeConcept.concept.title}} as goal"
-           href="/#!/courses/{{courseId}}?goal={{activeConcept.concept._id}}&active={{activeConcept.concept._id}}&mode={{activeMode}}&learn={{learnModeYesNo}}">
+           data-ui-sref="{goal: activeConcept.concept._id }">
             <span class="glyphicon glyphicon-flag setgoal"></span>
         </a>
 
         <a ng-show="goalConcept&&activeMode=='plan'" class="pull-right panel-button unset-goal learnmode-{{learnMode}}" title="Unset goal"
-           href="/#!/courses/{{courseId}}?goal=&active={{activeConcept.concept._id}}&mode={{activeMode}}&learn={{learnModeYesNo}}">
+           data-ui-sref="{goal: ''}">
             <span class="glyphicon glyphicon-flag unsetgoal">/</span>
         </a>
 
         <ol ng-hide="panelWidth<300">
             <li>
-                <a href="/#!/courses/{{courseId}}?goal={{goalConcept.concept._id}}&active=&mode={{activeMode}}&learn={{learnModeYesNo}}">{{course.short}}</a>
+                <a data-ui-sref="{active: ''}">{{course.short}}</a>
             </li>
             <li ng-if="activeConcept.parentData&&activeMode=='hierarchy'" ng-repeat="selected in active.hierarchy" ng-show="selected.concept._id!==activeConcept.concept._id&&selected.concept._id!==activeHierarchyConcept.concept._id">
-                <a href="/#!/courses/{{courseId}}?active={{selected.concept._id}}&goal={{selected.concept._id}}">{{selected.concept.title}}</a>
+                <a data-ui-sref="{active: selected.concept._id, goal: selected.concept._id}">{{selected.concept.title}}</a>
             </li>
             <li ng-if="activeConcept.parentData&&(activeMode=='plan'||activeMode=='lecture')" ng-repeat="selected in active.hierarchy" ng-show="selected.concept._id!==activeConcept.concept._id">
-                <a href="/#!/courses/{{courseId}}?active={{selected.concept._id}}&goal={{selected.concept._id}}">{{selected.concept.title}}</a>
+                <a data-ui-sref="{active: selected.concept._id, goal: selected.concept._id}" href="/#!/courses/{{courseId}}?active={{selected.concept._id}}&goal={{selected.concept._id}}">{{selected.concept.title}}</a>
             </li>
         </ol>
 
@@ -88,22 +88,22 @@
 <div class="row">
     <ul class="nav nav-tabs nav-justified">
         <li role="presentation" class="panel-tab" ng-class="{ 'active': activeMode==='plan'}" style="background: {{activeConcept.concept.color}}">
-            <a href="/#!/courses/{{courseId}}?goal={{goalConcept.concept._id}}&active={{activeConcept.concept._id}}&learn={{learnModeYesNo}}&mode=plan">
+            <a data-ui-sref="{mode: 'plan'}">
                 <span class="glyphicon glyphicon-road inline-block"></span> <span ng-hide="panelWidth<300">Learning Plan</span></a></li>
         <!--<li role="presentation" class="panel-tab" ng-class="{ 'active': activeMode==='hierarchy'}" style="background: {{activeConcept.concept.color}}">
             <a href="/#!/courses/{{courseId}}?goal={{goalConcept.concept._id}}&active={{activeConcept.concept._id}}&learn={{learnModeYesNo}}&mode=hierarchy">
                 <span class="glyphicon glyphicon-info-sign visible-lg-inline-block"></span> Information</a></li>-->
 
         <li ng-show="learnMode" role="presentation" class="panel-tab" ng-class="{ 'active': activeMode==='minimap'}" style="background: {{activeConcept.concept.color}}">
-            <a href="/#!/courses/{{courseId}}?goal={{goalConcept.concept._id}}&active={{activeConcept.concept._id}}&learn={{learnModeYesNo}}&mode=minimap" ng-disabled="!learnMode">
+            <a data-ui-sref="{mode: 'minimap'}" ng-disabled="!learnMode">
                 <span class="map-icon inline-block"></span> <span ng-hide="panelWidth<300">Minimap</span></a></li>
 
         <li role="presentation" class="panel-tab" ng-class="{ 'active': activeMode==='lecture'}" style="background: {{activeConcept.concept.color}}">
-            <a href="/#!/courses/{{courseId}}?goal={{goalConcept.concept._id}}&active={{activeConcept.concept._id}}&learn={{learnModeYesNo}}&mode=lecture">
+            <a data-ui-sref="{mode: 'lecture'}">
                 <span class="fa fa-university inline-block"></span> <span ng-hide="panelWidth<300">Lectures</span></a></li>
 
         <li role="presentation" ng-show="hasConceptEditRights" class="panel-tab" ng-class="{ 'active': activeMode==='admin'}" style="background: {{activeConcept.concept.color}}">
-            <a href="/#!/courses/{{courseId}}?goal={{goalConcept.concept._id}}&active={{activeConcept.concept._id}}&learn={{learnModeYesNo}}&mode=admin">
+            <a data-ui-sref="{mode: 'admin'}">
                 <span class="fa fa-lock inline-block"></span> <span ng-hide="activeMode!=='admin'">Admin</span></a></li>
 
 
@@ -136,7 +136,7 @@
                 <li ng-repeat="child in activeHierarchyChildren | orderBy:'order':false" class="concept"  ng-class="{ 'active': activeConcept.concept._id === child.concept._id,
                         'learned':  active.learnedConceptIds.indexOf(child.concept._id) !== -1}">
 
-                    <a href="/#!/courses/{{courseId}}?active={{child.concept._id}}&goal={{child.concept._id}}&mode=hierarchy" class="concept">
+                    <a data-ui-sref="{active: child.concept._id, goal: child.concept._id}" class="concept">
                         <span class="concept-circle" style="background: {{child.concept.color}}"></span>
                         <span class="concept-line"></span>
                         {{child.concept.title}}
@@ -146,7 +146,7 @@
                         <li ng-repeat="seg in active.segments" class="segment" ng-class="{ 'active': seg._id === active.segment._id}">
 
 
-                            <a href="/#!/courses/{{courseId}}?goal={{goalConcept.concept._id}}&active={{child.concept._id}}&segment={{seg._id}}&mode={{activeMode}}&learn=yes" title="{{seg.sourcetypeObject.title}}: {{seg.title}}">
+                            <a data-ui-sref="{active: child.concept._id, segment: seg._id, learn: 'yes'}" title="{{seg.sourcetypeObject.title}}: {{seg.title}}">
 
                                 <span class="concept-line lowest"></span>
                                 <span class="{{seg.sourcetypeObject.icon}} segment-icon"></span>
@@ -170,13 +170,13 @@
             <li class="lecture" ng-repeat="lecture in activeLectures">
 
                 <div class="pull-right" style="font-size: 16pt; position: relative; top:-5px">
-                    <a href><i class="fa fa-file-pdf-o"></i></a>
-                    <a href><i class="fa fa-file-video-o"></i></a>
+                    <a  data-ui-sref="{}"><i class="fa fa-file-pdf-o"></i></a>
+                    <a  data-ui-sref="{}"><i class="fa fa-file-video-o"></i></a>
                 </div>
 
                 <span class="concept-line"></span>
 
-                <a href="/#!/courses/{{courseId}}?source={{lecture.lecture._id}}&mode={{activeMode}}&learn=yes">
+                <a  data-ui-sref="{source: lecture.lecture._id, learn: 'yes'}">
 
                     <span class="fa fa-university"></span> <b>{{lecture.lecture.title}}</b>
                 </a>
@@ -189,7 +189,7 @@
 
 
 
-                        <a href="/#!/courses/{{courseId}}?active={{child._id}}&mode={{activeMode}}&learn={{learnModeYesNo}}" class="concept">
+                        <a  data-ui-sref="{active: child._id}" class="concept">
                             <span class="concept-circle" style="background: {{child.color}}"></span>
                             <span class="concept-line"></span>
                             {{child.title}}
@@ -200,7 +200,7 @@
 
 
 
-                                <a href="/#!/courses/{{courseId}}?goal={{goalConcept.concept._id}}&active={{child._id}}&segment={{seg._id}}&mode={{activeMode}}&learn=yes" title="{{seg.sourcetypeObject.title}}: {{seg.title}}">
+                                <a  data-ui-sref="{active: child._id, segment: seg._id, learn: 'yes'}" title="{{seg.sourcetypeObject.title}}: {{seg.title}}">
 
                                     <span class="concept-line lowest"></span>
                                     <span class="{{seg.sourcetypeObject.icon}} segment-icon"></span>
@@ -229,7 +229,7 @@
 
             <li class="concept">
 
-                <a href="/#!/courses/{{courseId}}?goal={{goalConcept.concept._id}}&active=&mode={{activeMode}}&learn={{learnModeYesNo}}">
+                <a data-ui-sref="{active: ''}">
 
                     <span class="concept-circle" style="background: #fff"></span>
                     <span class="concept-line"></span>
@@ -246,7 +246,7 @@
 
                         <span ng-show="goalConcept.concept._id == provider.concept._id" class="flag glyphicon glyphicon-flag"></span>
 
-                        <a href="/#!/courses/{{courseId}}?goal={{goalConcept.concept._id}}&active={{provider.concept._id}}&mode={{activeMode}}&learn={{learnModeYesNo}}"
+                        <a data-ui-sref="{active: provider.concept._id}"
                            ng-mouseover="hoverConceptPanel(provider)" ng-mouseleave="leaveConceptPanel(provider)">
                             <span class="concept-circle" style="background: {{provider.concept.color}}"></span>
                             <span class="concept-line"></span>
@@ -262,7 +262,7 @@
 
                                 <span ng-show="concept.learned" class="concept-tick glyphicon glyphicon-ok"></span>
 
-                                <a href="/#!/courses/{{courseId}}?goal={{goalConcept.concept._id}}&active={{concept.concept._id}}&mode={{activeMode}}&learn={{learnModeYesNo}}"
+                                <a data-ui-sref="{active: concept.concept._id}"
                                    ng-mouseover="hoverConceptPanel(concept)" ng-mouseleave="leaveConceptPanel(concept)">
 
                                     <span class="concept-circle" style="background: {{concept.concept.color}}"></span>
@@ -278,7 +278,7 @@
 
                                         <span ng-show="child.learned" class="concept-tick glyphicon glyphicon-ok"></span>
 
-                                        <a href="/#!/courses/{{courseId}}?goal={{goalConcept.concept._id}}&active={{child.concept._id}}&mode={{activeMode}}&learn={{learnModeYesNo}}"
+                                        <a data-ui-sref="{active: child.concept._id}"
                                            ng-mouseover="hoverConceptPanel(child)" ng-mouseleave="leaveConceptPanel(child)">
 
                                             <span class="concept-circle" style="background: {{child.concept.color}}"></span>
@@ -294,7 +294,7 @@
 
                                                 <span class="concept-line"></span>
 
-                                                <a href="/#!/courses/{{courseId}}?goal={{goalConcept.concept._id}}&active={{child.concept._id}}&segment={{seg._id}}&mode={{activeMode}}&learn=yes" title="{{seg.sourcetypeObject.title}} on {{seg.title}}">
+                                                <a  data-ui-sref="{active: child.concept._id, segment:seg._id, learn: 'yes'}" title="{{seg.sourcetypeObject.title}} on {{seg.title}}">
                                                     <span class="{{seg.sourcetypeObject.icon}} segment-icon"></span>
                                                     <span class="segment-title">{{seg.sourcetypeObject.title}} on <i>{{seg.title}}</i></span>
                                                 </a>
@@ -352,7 +352,7 @@
             </a>
 
             <a type="button" ng-show="nextSegment" ng-click="moreMaterialClick()"
-               ng-href="/#!/courses/{{courseId}}?goal={{goalConcept.concept._id}}&active={{activeConcept.concept._id}}&mode={{activeMode}}&learn={{learnModeYesNo}}&segment={{nextSegment._id}}"
+               data-ui-sref="{segment: nextSegment._id}}}"
                class="btn btn-warning dropdown-toggle pull-left" data-toggle="dropdown" aria-expanded="false">
                 <span class="glyphicon glyphicon-arrow-right"> </span> More on this!
             </a>
@@ -361,7 +361,7 @@
 
         <div class="buttonRow">
             <a type="button" ng-click="previousClick()" ng-show="previousConcept"
-               ng-href="/#!/courses/{{courseId}}?goal={{goalConcept.concept._id}}&active={{previousConcept.concept._id}}&mode={{activeMode}}&learn={{learnModeYesNo}}"
+                data-ui-sref="{active: previousConcept.concept._id}"
                class="btn btn-primary dropdown-toggle pull-left" aria-expanded="false"
                title="Next: {{previousConcept.concept.title}}">
                 <span class="glyphicon glyphicon-arrow-up"> </span>
@@ -369,7 +369,7 @@
             </a>
 
             <a type="button" ng-click="nextClick()" ng-show="nextConcept"
-               ng-href="/#!/courses/{{courseId}}?goal={{goalConcept.concept._id}}&active={{nextConcept.concept._id}}&mode={{activeMode}}&learn={{learnModeYesNo}}"
+                data-ui-sref="{active: nextConcept.concept._id}"
                class="btn btn-primary dropdown-toggle pull-right" aria-expanded="false"
                title="Next: {{nextConcept.concept.title}}">
                 <span class="glyphicon glyphicon-arrow-down"> </span>

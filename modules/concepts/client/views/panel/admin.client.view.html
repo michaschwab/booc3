@@ -8,8 +8,8 @@
 
             <input id="concept-title-{{child.concept._id}}" class="concept-title admin" ng-change="titleChange(child)" ng-model="child.concept.title" value="{{child.concept.title}}" ng-blur="titleBlur(child)" ng-keydown="titleKeyPress($event, child)" />
 
-            <a href="" ng-click="removeConcept(child)" class="glyphicon glyphicon-remove remove-concept" title="Remove Concept"></a>
-            <a href="/#!/courses/{{courseId}}/concepts/{{child.concept._id}}/contents/add?mode=admin" class="glyphicon glyphicon-plus add-segment-to-concept" title="Add Content"></a>
+            <a data-ui-sref="{}" ng-click="removeConcept(child)" class="glyphicon glyphicon-remove remove-concept" title="Remove Concept"></a>
+            <a data-ui-sref="contents.add({concept: child.concept._id })" class="glyphicon glyphicon-plus add-segment-to-concept" title="Add Content"></a>
 
         </a>
         <label for="{{child.concept._id}}_color" class="concept-circle" style="background: {{child.concept.color}}"></label>
@@ -19,7 +19,7 @@
             <li ng-repeat="seg in active.segments" class="segment" ng-class="{ 'active': seg._id === active.segment._id}">
 
 
-                <a href="/#!/courses/{{courseId}}?goal={{goalConcept.concept._id}}&active={{child.concept._id}}&segment={{seg._id}}&mode={{activeMode}}&learn=yes" title="{{seg.sourcetypeObject.title}}: {{seg.title}}">
+                <a data-ui-sref="{active: child.concept._id, segment: seg._id, learn: 'yes'}" title="{{seg.sourcetypeObject.title}}: {{seg.title}}">
 
                     <span class="concept-line lowest"></span>
                     <span class="{{seg.sourcetypeObject.icon}} segment-icon"></span>
@@ -34,7 +34,7 @@
 
     <li class="concept">
 
-        <a class="concept" ng-click="addConcept()" href="">
+        <a class="concept" ng-click="addConcept()" data-ui-sref="{}">
             <span class="glyphicon glyphicon-plus addConceptIcon" style=""></span>
             <span class="concept-circle" style="background: #008800"></span>
             <span class="concept-line"></span>

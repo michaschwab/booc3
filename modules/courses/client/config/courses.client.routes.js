@@ -21,12 +21,12 @@ angular.module('courses').config(['$stateProvider', '$locationProvider',
 			templateUrl: 'modules/courses/views/edit-course.client.view.html'
 		}).
 		state('courses.view', {
-			url: '/courses/:courseId',
+			url: '/:courseId?learn&goal&active&mode&source&segment',
 			templateUrl: 'modules/courses/views/view-course.client.view.html',
             reloadOnSearch: false
 		}).
 		state('courses.edit', {
-			url: '/courses/:courseId/edit',
+			url: '/:courseId/edit',
 			templateUrl: 'modules/courses/views/edit-course.client.view.html'
 		});
 
