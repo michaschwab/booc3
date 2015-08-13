@@ -1,11 +1,17 @@
 <section data-ng-controller="CoursesController" data-ng-init="find()" class="container">
+
     <div class="page-header">
+        <a data-ng-show="courses.length" data-ui-sref="courses.create" class="btn btn-default pull-right">
+            <span class="glyphicon glyphicon-plus"></span>
+            Create New
+        </a>
         <h1>Courses</h1>
     </div>
+
     <div class="list-group">
         <li data-ng-repeat="course in courses" data-ng-href="courses/{{course._id}}" class="list-group-item">
             <div class="pull-right" data-ng-show="(authentication.user)">
-                <a class="btn btn-primary" href="#!/courses/{{course._id}}/edit">
+                <a class="btn btn-primary" data-ui-sref="courses.edit({courseId: course._id})">
                     <i class="glyphicon glyphicon-edit"></i>
                 </a>
                 <a class="btn btn-primary" data-ng-click="remove(course);">
@@ -26,6 +32,6 @@
         </li>
     </div>
     <div class="alert alert-warning text-center" data-ng-hide="!courses.$resolved || courses.length">
-    	No Courses yet, why don't you <a href="/#!/courses/create">create one</a>?
+    	No Courses yet, why don't you <a data-ui-sref="courses.create">create one</a>?
     </div>
 </section>

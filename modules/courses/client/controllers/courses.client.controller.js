@@ -2,7 +2,7 @@
 
 // Courses controller
 angular.module('courses').controller('CoursesController',
-	function($scope, $stateParams, $location, Authentication, Courses, Concepts, LearnedConcepts) {
+	function($scope, $stateParams, $location, Authentication, Courses, Concepts, LearnedConcepts, $state) {
 		$scope.authentication = Authentication;
 
 		/*
@@ -42,7 +42,9 @@ angular.module('courses').controller('CoursesController',
 
 				concept.$save(function(r)
 				{
-					$location.path('courses/' + courseId);
+					$state.go('courses.view', {
+						courseId: courseId
+					});
 				});
 
 				// Clear form fields
@@ -65,7 +67,7 @@ angular.module('courses').controller('CoursesController',
 				}
 			} else {
 				$scope.course.$remove(function() {
-					$location.path('courses');
+					$state.go('courses.list');
 				});
 			}
 		};
@@ -75,7 +77,10 @@ angular.module('courses').controller('CoursesController',
 			var course = $scope.course;
 
 			course.$update(function() {
-				$location.path('courses/' + course._id);
+
+				$state.go('courses.view', {
+					courseId: course._id
+				});
 			}, function(errorResponse) {
 				$scope.error = errorResponse.data.message;
 			});

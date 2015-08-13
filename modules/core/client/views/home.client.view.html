@@ -19,7 +19,7 @@
 
   <div data-ng-show="(authentication.user)">
     <div class="list-group">
-      <a data-ng-repeat="course in courses" data-ng-href="/#!/courses/{{course._id}}" class="list-group-item courserow row">
+      <a data-ng-repeat="course in courses" data-ui-sref="courses.view({courseId: course._id})" class="list-group-item courserow row">
 
         <div class="col-md-9 course-description">
           <h4 class="list-group-item-heading" data-ng-bind="course.title"></h4>
