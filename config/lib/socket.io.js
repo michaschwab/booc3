@@ -118,5 +118,8 @@ module.exports = function (app, db) {
     });
   });
 
+  var actions = require('../../modules/actions/server/controllers/actions.server.controller');
+  actions.setIo(io);
+
   return server;
 };
