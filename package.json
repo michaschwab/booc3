@@ -58,7 +58,7 @@
     "socket.io": "^1.3.5",
     "swig": "^1.4.2",
     "validator": "^3.41.2",
-    "passport.socketio": "0.0.0"
+    "passport.socketio": "^3.5.1"
   },
   "devDependencies": {
     "grunt-concurrent": "^2.0.0",
