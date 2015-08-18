@@ -11,12 +11,30 @@ angular.module('contents').run(['Menus',
 		//Menus.addSubMenuItem('topbar', 'concepts', 'List Concepts', 'concepts');
 		//Menus.addSubMenuItem('topbar', 'concepts', 'New Concept', 'concepts/create');
         //Menus.addSubMenuItem('topbar', 'concepts', 'Bulk Edit Concepts', 'concepts/bulkEdit');
-		Menus.addMenuItem('topbar', 'Events', 'courveevents', 'dropdown', 'courseevents/', true, null, null, function(user)
+
+		Menus.addMenuItem('topbar', {
+			title: 'Course Events',
+			state: 'courseevents',
+			type: 'dropdown',
+			roles: ['admin', 'teacher']
+		});
+
+		Menus.addSubMenuItem('topbar', 'courseevents', {
+			title: 'List Events',
+			state: 'courseevents.list'
+		});
+
+		Menus.addSubMenuItem('topbar', 'courseevents', {
+			title: 'Create Event',
+			state: 'courseevents.create'
+		});
+
+		/*Menus.addMenuItem('topbar', 'Events', 'courveevents', 'dropdown', 'courseevents/', true, null, null, function(user)
 		{
 			return true; //return RightsChecker.isAnyContentEditor();
 		});
 		Menus.addSubMenuItem('topbar', 'courveevents', 'List Events', 'courseevents');
-		Menus.addSubMenuItem('topbar', 'courveevents', 'Create Event', 'courseevents/create');
+		Menus.addSubMenuItem('topbar', 'courveevents', 'Create Event', 'courseevents/create');*/
 		//Menus.addSubMenuItem('topbar', 'concepts', 'New Concept', 'concepts/create');
 		//Menus.addSubMenuItem('topbar', 'concepts', 'Bulk Edit Concepts', 'concepts/bulkEdit');
 	}

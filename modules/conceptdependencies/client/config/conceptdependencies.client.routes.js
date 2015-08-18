@@ -4,11 +4,16 @@
 angular.module('conceptdependencies').config(['$stateProvider',
 	function($stateProvider) {
 		// Conceptdependencies state routing
-		$stateProvider.
-        state('nulkEditConceptdependency', {
-        	url: '/conceptdependencies/bulkEdit',
-        	templateUrl: 'modules/conceptdependencies/views/conceptdependency-bulk-edit.client.view.html'
-        });
+		$stateProvider
+			.state('dependencies', {
+				abstract: true,
+				url: '/dependencies',
+				template: '<ui-view/>'
+			}).
+			state('dependencies.bulk-edit', {
+				url: '/bulkEdit',
+				templateUrl: 'modules/conceptdependencies/views/conceptdependency-bulk-edit.client.view.html'
+			});
 		//state('listConceptdependencies', {
 		//	url: '/conceptdependencies',
 		//	templateUrl: 'modules/conceptdependencies/views/list-conceptdependencies.client.view.html'

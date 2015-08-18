@@ -4,7 +4,35 @@
 angular.module('concepts').config(['$stateProvider',
 	function($stateProvider) {
 		// Concepts state routing
-		$stateProvider.
+
+		$stateProvider
+			.state('concepts', {
+				abstract: true,
+				url: '/concepts',
+				template: '<ui-view/>'
+			}).
+			state('concepts.list', {
+				url: '/concepts',
+				templateUrl: 'modules/concepts/views/list-concepts.client.view.html'
+			}).
+			state('concepts.create', {
+				url: '/concepts/create',
+				templateUrl: 'modules/concepts/views/create-concept.client.view.html'
+			}).
+			state('concepts.view', {
+				url: '/concepts/:conceptId',
+				templateUrl: 'modules/concepts/views/view-concept.client.view.html'
+			}).
+			state('concepts.edit', {
+				url: '/concepts/:conceptId/edit',
+				templateUrl: 'modules/concepts/views/edit-concept.client.view.html'
+			}).
+			state('concepts.bulk-edit', {
+				url: '/bulkEdit',
+				templateUrl: 'modules/concepts/views/concepts-bulk-edit.client.view.html'
+			});
+
+		/*$stateProvider.
 		state('listConcepts', {
 			url: '/concepts',
 			templateUrl: 'modules/concepts/views/list-concepts.client.view.html'
@@ -24,7 +52,7 @@ angular.module('concepts').config(['$stateProvider',
 		state('editConcept', {
 			url: '/concepts/:conceptId/edit',
 			templateUrl: 'modules/concepts/views/edit-concept.client.view.html'
-		});
+		});*/
 
 	}
 ]);

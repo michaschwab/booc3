@@ -7,32 +7,39 @@ angular.module('contents').config(['$stateProvider', '$urlRouterProvider',
         $urlRouterProvider.otherwise('/');
 
         // Home state routing
-        $stateProvider.
-            state('listLectures', {
+        $stateProvider
+
+            .state('contents', {
+                abstract: true,
+                url: '',
+                template: '<ui-view/>'
+            })
+
+            .state('lectures.list', {
                 url: '/courses/:courseId/lectures',
                 templateUrl: 'modules/contents/views/list-lectures.client.view.html'
             })
-            .state('createContents', {
+            .state('contents.createByCourse', {
                 url: '/courses/:courseId/contents/add',
                 templateUrl: 'modules/contents/views/edit-contents.client.view.html'
             })
-            .state('createContents2', {
+            .state('contents.create', {
                 url: '/contents/add',
                 templateUrl: 'modules/contents/views/edit-contents.client.view.html'
             })
-            .state('createContents3', {
+            .state('contents.createByCourseAndConcept', {
                 url: '/courses/:courseId/concepts/:conceptId/contents/add',
                 templateUrl: 'modules/courses/views/view-course.client.view.html'
             })
-            .state('listContents', {
+            .state('contents.list', {
                 url: '/contents/list',
                 templateUrl: 'modules/contents/views/list-contents.client.view.html'
             })
-            .state('editContents', {
+            .state('contents.editByCourse', {
                 url: '/courses/:courseId/contents/:sourceId/edit',
                 templateUrl: 'modules/contents/views/edit-contents.client.view.html'
             })
-            .state('editContents2', {
+            .state('contents.editByCourseAndConcept', {
                 url: '/courses/:courseId/concepts/:conceptId/contents/:sourceId/edit',
                 templateUrl: 'modules/courses/views/view-course.client.view.html'
             });

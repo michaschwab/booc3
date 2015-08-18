@@ -15,12 +15,30 @@ angular.module('contents').run(['Menus',
 		{
 			return RightsChecker.isAnyContentEditor();
 		});*/
-		Menus.addMenuItem('topbar', 'Contents', 'contents', 'dropdown', '/', true, null, null, function(user)
+
+		Menus.addMenuItem('topbar', {
+			title: 'Contents',
+			state: 'contents',
+			type: 'dropdown',
+			roles: ['admin', 'teacher']
+		});
+
+		Menus.addSubMenuItem('topbar', 'contents', {
+			title: 'List Contents',
+			state: 'contents.list'
+		});
+
+		Menus.addSubMenuItem('topbar', 'contents', {
+			title: 'Create Contents',
+			state: 'contents.create'
+		});
+
+		/*Menus.addMenuItem('topbar', 'Contents', 'contents', 'dropdown', '/', true, null, null, function(user)
 		{
 			return true;
 		});
 		Menus.addSubMenuItem('topbar', 'contents', 'List Contents', 'contents/list');
-		Menus.addSubMenuItem('topbar', 'contents', 'Add Content', 'contents/add');
+		Menus.addSubMenuItem('topbar', 'contents', 'Add Content', 'contents/add');*/
 		//Menus.addSubMenuItem('topbar', 'concepts', 'New Concept', 'concepts/create');
 		//Menus.addSubMenuItem('topbar', 'concepts', 'Bulk Edit Concepts', 'concepts/bulkEdit');
 	}
