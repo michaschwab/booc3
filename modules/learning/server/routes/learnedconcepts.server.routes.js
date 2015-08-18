@@ -4,11 +4,11 @@ module.exports = function(app) {
     var learnedconcepts = require('../controllers/learnedconcepts.server.controller');
 
 	// Concepts Routes
-	app.route('/learnedconcepts')
+	app.route('/api/learnedconcepts')
 		.get(learnedconcepts.list)
 		.post(learnedconcepts.create);
 
-	app.route('/learnedconcepts/:learnedconceptId')
+	app.route('/api/learnedconcepts/:learnedconceptId')
 		.get(learnedconcepts.read)
 		.put(learnedconcepts.update)
         .delete(learnedconcepts.delete);

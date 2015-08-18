@@ -5,11 +5,11 @@ module.exports = function(app)
     var actions = require('../controllers/actions.server.controller');
     
     // Messages Routes
-    app.route('/actions')
+    app.route('/api/actions')
         .get(actions.list)
         .post(actions.create);
 
-    app.route('/actions/:actionId')
+    app.route('/api/actions/:actionId')
         .get(actions.read)
         .put(actions.update)
         .delete(actions.delete);

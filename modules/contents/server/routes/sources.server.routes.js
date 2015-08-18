@@ -4,11 +4,11 @@ module.exports = function(app) {
 	var sources = require('../controllers/sources.server.controller');
 
 	// Sources Routes
-	app.route('/sources')
+	app.route('/api/sources')
 		.get(sources.list)
 		.post(sources.create);
 
-	app.route('/sources/:sourceId')
+	app.route('/api/sources/:sourceId')
 		.get(sources.read)
 		.put(sources.update)
 		.delete(sources.delete);

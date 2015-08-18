@@ -4,11 +4,11 @@ module.exports = function(app) {
     var chatparticipants = require('../controllers/chatparticipants.server.controller');
 
     // Messages Routes
-    app.route('/chatparticipants')
+    app.route('/api/chatparticipants')
         .get(chatparticipants.list)
         .post(chatparticipants.create);
 
-    app.route('/chatparticipants/:chatparticipantId')
+    app.route('/api/chatparticipants/:chatparticipantId')
         .get(chatparticipants.read)
         .post(chatparticipants.update)
         .put(chatparticipants.update)

@@ -3,7 +3,7 @@
 //Concepts service used to communicate Concepts REST endpoints
 angular.module('concepts').factory('Concepts', ['$socketResource',
 	function($resource) {
-		return $resource('concepts/:conceptId', { conceptId: '@_id'
+		return $resource('/api/concepts/:conceptId', { conceptId: '@_id'
 		}, {
 			update: {
 				method: 'PUT'
@@ -12,7 +12,7 @@ angular.module('concepts').factory('Concepts', ['$socketResource',
 	}
 ]).factory('LearnedConcepts', ['$resource',
     function($resource) {
-        return $resource('learnedconcepts/:learnedconceptId', { learnedconceptId: '@_id'
+        return $resource('/api/learnedconcepts/:learnedconceptId', { learnedconceptId: '@_id'
         }, {
             update: {
                 method: 'PUT'

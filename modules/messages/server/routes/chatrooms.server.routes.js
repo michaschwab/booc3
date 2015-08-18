@@ -4,10 +4,10 @@ module.exports = function(app) {
     var chatrooms = require('../controllers/chatrooms.server.controller');
 
     // Messages Routes
-    app.route('/chatrooms')
+    app.route('/api/chatrooms')
         .post(chatrooms.create);
 
-    app.route('/chatrooms/:chatroomId')
+    app.route('/api/chatrooms/:chatroomId')
         .get(chatrooms.read)
         .put(chatrooms.update)
         .delete(chatrooms.delete);

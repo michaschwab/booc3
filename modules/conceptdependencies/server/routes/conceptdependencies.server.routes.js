@@ -4,11 +4,11 @@ module.exports = function(app) {
 	var conceptdependencies = require('../controllers/conceptdependencies.server.controller');
 
 	// Conceptdependencies Routes
-	app.route('/conceptdependencies')
+	app.route('/api/conceptdependencies')
 		.get(conceptdependencies.list)
 		.post(conceptdependencies.create);
 
-	app.route('/conceptdependencies/:conceptdependencyId')
+	app.route('/api/conceptdependencies/:conceptdependencyId')
 		.get(conceptdependencies.read)
 		.post(conceptdependencies.create)
 		.put(conceptdependencies.update)

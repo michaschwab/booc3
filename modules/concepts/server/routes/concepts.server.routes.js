@@ -4,11 +4,11 @@ module.exports = function(app) {
 	var concepts = require('../controllers/concepts.server.controller');
 
 	// Concepts Routes
-	app.route('/concepts')
+	app.route('/api/concepts')
 		.get(concepts.list)
 		.post(concepts.create);
 
-	app.route('/concepts/:conceptId')
+	app.route('/api/concepts/:conceptId')
 		.get(concepts.read)
 		.post(concepts.create)
 		.put(concepts.update)

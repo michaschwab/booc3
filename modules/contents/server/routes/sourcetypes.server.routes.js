@@ -4,11 +4,11 @@ module.exports = function(app) {
 	var sourcetype = require('../controllers/sourcetypes.server.controller');
 
 	// Courses Routes
-	app.route('/sourcetypes')
+	app.route('/api/sourcetypes')
 		.get(sourcetype.list)
 		.post(sourcetype.create);
 
-	app.route('/sourcetypes/:sourcetypeId')
+	app.route('/api/sourcetypes/:sourcetypeId')
 		.get(sourcetype.read)
 		.put(sourcetype.update)
 		.delete(sourcetype.delete);
