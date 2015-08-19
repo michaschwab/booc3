@@ -4,7 +4,12 @@
 angular.module('messages').config(['$stateProvider',
 	function($stateProvider) {
 		// Messages state routing
-		$stateProvider.
+		$stateProvider
+			.state('messages', {
+				abstract: true,
+				url: '',
+				template: '<ui-view/>'
+			}).
 			state('messages.list', {
 				url: '/messages',
 				templateUrl: 'modules/messages/views/list-messages.client.view.html'
