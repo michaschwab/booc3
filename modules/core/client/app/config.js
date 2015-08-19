@@ -16,7 +16,8 @@ var ApplicationConfiguration = (function () {
     'ui.select',
     'ngSocketResource',
     'ngSanitize',
-    'ngPDFViewer'
+    'ngPDFViewer',
+    'ngDialog'
 
   ];
 

@@ -7,7 +7,9 @@ module.exports = {
         'public/lib/bootstrap/dist/css/bootstrap.css',
         'public/lib/bootstrap/dist/css/bootstrap-theme.css',
         'public/lib/angular-ui-select/dist/select.css',
-        'public/lib/font-awesome/css/font-awesome.css'
+        'public/lib/font-awesome/css/font-awesome.css',
+        'public/lib/ngDialog/css/ngDialog.css',
+        'public/lib/ngDialog/css/ngDialog-theme-default.css'
       ],
       js: [
         'public/lib/jquery/dist/jquery.js',
@@ -29,7 +31,9 @@ module.exports = {
         'public/lib/ng-pdfviewer/dist/ng-pdfviewer.min.js',
 
         'public/lib/angular-ui-select/dist/select.js',
-        'public/lib/angular-sanitize/angular-sanitize.js'
+        'public/lib/angular-sanitize/angular-sanitize.js',
+
+        'public/lib/ngDialog/js/ngDialog.js'
       ],
       tests: ['public/lib/angular-mocks/angular-mocks.js']
     },

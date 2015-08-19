@@ -1,6 +1,11 @@
 <section data-ng-controller="MessagesController" class="container" ng-init="chatInit()">
     <div class="page-header">
-        <h1>Chat with
+        <h1>
+            <span ng-show="participants.length > 1">Chat with</span>
+            <span ng-show="participants.length < 2">Lonely Solo Chat
+                <small>Add some people!</small>
+            </span>
+
 
             <span ng-repeat="participant in participants" ng-hide="participant.user == user._id">{{userDirectory[participant.user].displayName}}</span>
 
@@ -20,12 +25,10 @@
         <form class="form-horizontal" data-ng-submit="sendMessage()" novalidate>
             <fieldset>
                 <div class="form-group pull-right">
-                    <label class="control-label">Add to chat...</label>
+                    <button class="btn btn-default" ng-click="addParticipants($event)">Add to chat...</button>
                     <!--<div class="controls">
                         <input type="text" data-ng-model="name" id="name" class="form-control" placeholder="Name" required>
                     </div>-->
-
-
 
                 </div>
 

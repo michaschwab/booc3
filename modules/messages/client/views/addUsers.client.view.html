@@ -1,0 +1,13 @@
+<div ng-controller="MessagesController" ng-init="addUserSetup()">
+
+    <h2>Add User To Chat</h2>
+
+    <p>To add users to your chat, you'll need their user ID. Your personal user ID is: <span style="background: #fff; font-family: 'Times New Roman', Times, serif">{{user._id}}</span></p>
+
+    <p>User ID of the User you want to add: <input type="text" ng-model="addedUserId" /></p>
+
+    <button class="btn btn-default" ng-click="addUser()">Add</button>
+    <button class="btn btn-primary" ng-click="addUser() && closeThisDialog()">Add & Close</button>
+
+
+</div>

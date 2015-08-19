@@ -1,19 +1,42 @@
 'use strict';
 
 // Messages controller
-angular.module('messages').controller('MessagesController', ['$scope', '$stateParams', '$location', 'Authentication', 'Messages', 'Users', 'Chatrooms', 'Chatparticipants', '$timeout',
-	function($scope, $stateParams, $location, Authentication, Messages, Users, Chatrooms, Chatparticipants, $timeout) {
+angular.module('messages').controller('MessagesController',
+	function($scope, $stateParams, $location, Authentication, Messages, Users, Chatrooms, Chatparticipants, $timeout, ngDialog, $window) {
 		$scope.authentication = Authentication;
 		$scope.user = Authentication.user;
 
-		$scope.createRoom = function()
+		$scope.addUserSetup = function()
 		{
-			var userId = $stateParams.toUserId;
+
+		};
+
+		$scope.addUser = function()
+		{
+			var userId = $scope.addedUserId;
+
+			Users.get({userId: userId}, function(user)
+			{
+				addParticipants($scope.currentChatroomId, [userId]);
+				$scope.addedUserId = '';
+			},
+			function()
+			{
+				$window.alert('User with User ID '+ userId + ' does not exist!');
+			});
+
+			return true; // needs to happen for the && closeThisDialog call in the template
+		};
+
+		$scope.createRoom = function(toUserIds)
+		{
+			//var userId = $stateParams.toUserId;
 
 			var room = new Chatrooms();
 			room.$save(function()
 			{
 				var roomId = room._id;
+				$scope.currentChatroomId = roomId;
 
 				var from = new Chatparticipants({
 					user: user._id,
@@ -22,6 +45,30 @@ angular.module('messages').controller('MessagesController', ['$scope', '$statePa
 
 				from.$save(function()
 				{
+					addParticipants(roomId, toUserIds);
+					$location.path('chats/' + room._id);
+				});
+			});
+		};
+
+		$scope.addParticipants = function ($event)
+		{
+			ngDialog.open({
+				template: 'modules/messages/views/addUsers.client.view.html',
+				scope: $scope
+			});
+
+			$event.preventDefault();
+
+			return false;
+		};
+
+		var addParticipants = function(roomId, toUserIds)
+		{
+			if(toUserIds)
+			{
+				toUserIds.forEach(function(userId)
+				{
 					var to = new Chatparticipants({
 						user: userId,
 						chatroom: roomId
@@ -29,11 +76,10 @@ angular.module('messages').controller('MessagesController', ['$scope', '$statePa
 
 					to.$save(function()
 					{
-						$location.path('chats/' + room._id);
+						//hi
 					});
 				});
-
-			});
+			}
 		};
 
 		$scope.menuInit = function()
@@ -130,6 +176,7 @@ angular.module('messages').controller('MessagesController', ['$scope', '$statePa
 		{
 			//$scope.toUser = Users.get({userId: $stateParams.toUserId });
 			var chatroomId = $stateParams.chatroomId;
+			$scope.currentChatroomId = chatroomId;
 
 			$scope.chatroom = Chatrooms.get({chatroomId: chatroomId});
 
@@ -234,4 +281,4 @@ angular.module('messages').controller('MessagesController', ['$scope', '$statePa
 			});
 		};
 	}
-]);
+);
