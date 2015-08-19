@@ -34,7 +34,7 @@ exports.isAllowed = function (req, res, next) {
   var roles = (req.user) ? req.user.roles : ['guest'];
 
   // Check for user roles
-  console.log(roles, req.route.path, req.method.toLowerCase());
+  //console.log(roles, req.route.path, req.method.toLowerCase());
   acl.areAnyRolesAllowed(roles, req.route.path, req.method.toLowerCase(), function (err, isAllowed) {
     if (err) {
       // An authorization error occurred.
