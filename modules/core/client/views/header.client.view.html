@@ -19,6 +19,34 @@
         </ul>
         <a ng-switch-default data-ui-sref="{{item.state}}" data-ng-bind="item.title"></a>
       </li>
+      <li ng-controller="MessagesController" ng-init="menuInit()" class="dropdown" dropdown ng-switch="dropdown">
+        <a href class="dropdown-toggle" dropdown-toggle data-toggle="button">
+          <span>Messages</span>
+          <span ng-show="totalNew.length">({{totalNew.length}})</span>
+          <span class="caret"></span>
+        </a>
+
+        <ul class="dropdown-menu">
+
+          <li data-ng-repeat="chatroom in chatrooms">
+            <a href data-ui-sref="messages.viewChatroom({chatroomId: chatroom._id})">Chat with
+
+              <span ng-hide="chatUser._id == user._id" ng-repeat="chatUser in chatroom.users">{{chatUser.displayName}}</span>
+
+              ({{chatroom.newMessages.length}})
+            </a>
+          </li>
+
+          <li>
+            <a data-ui-sref="messages.create">
+
+              Create New
+            </a>
+          </li>
+        </ul>
+        <!--<a ng-switch-default data-ui-sref="{{messages.list}}">Messages</a>-->
+
+      </li>
     </ul>
     <ul class="nav navbar-nav navbar-right" data-ng-hide="authentication.user">
       <li data-ui-sref-active="active">
