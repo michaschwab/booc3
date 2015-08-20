@@ -28,7 +28,7 @@ angular.module(ApplicationConfiguration.applicationModuleName).config(['$locatio
   }
 ]);
 
-angular.module(ApplicationConfiguration.applicationModuleName).run(function ($rootScope, $state, Authentication) {
+angular.module(ApplicationConfiguration.applicationModuleName).run(function ($rootScope, $state, Authentication, $location) {
   // Check authentication before changing state
   $rootScope.$on('$stateChangeStart', function (event, toState, toParams, fromState, fromParams) {
     if (toState.data && toState.data.roles && toState.data.roles.length > 0) {
@@ -58,6 +58,7 @@ angular.module(ApplicationConfiguration.applicationModuleName).run(function ($ro
       params: fromParams,
       href: $state.href(fromState, fromParams)
     };
+    $rootScope.absUrl = $location.absUrl();
   });
 });
 

@@ -385,7 +385,9 @@ angular.module('courses').service('MapArrows', function(Tip, ConceptStructure, M
             if(onDifferent) onDifferent();
 
             var color = goalConcept ? $scope.getPathColor(goalConcept.concept.color) : $scope.getPathColor('#444466');
-            $scope.addColor(color);
+            var colorWithoutHash = color.substr(1);
+            $scope.addColor(colorWithoutHash);
+
 
             var parentChain, hoverChain;
             if(goalConcept && goalInDetail)
@@ -451,6 +453,8 @@ angular.module('courses').service('MapArrows', function(Tip, ConceptStructure, M
             var pathNode = path.node();
             var lines = MapArrowShaping.curvePath(pathNode, pos, coveredConcepts, $scope.visParams.l1.scale, $scope.getTranslateAbs, 0, 0, offsetEach, color);
 
+
+
             if(lines.length > 0)
             {
                 var pathLine = depLayer.selectAll('.' + className + ' concept-' + goalConceptId).data(lines);
@@ -468,7 +472,7 @@ angular.module('courses').service('MapArrows', function(Tip, ConceptStructure, M
                 depLayer.append('path')
                     .attr('d', lineBasis([lines[i].start, lines[i].curvePoint, lines[i].end]))
                     //.attr('marker-end', function() { return i === lines.length - 1 ? 'url(#currentPathEnd)' : '' })
-                    .attr('marker-end', function() { return i === lines.length - 1 ? 'url(#'+className+'End-'+color+')' : '' })
+                    .attr('marker-end', function() { return i === lines.length - 1 ? 'url(' + $scope.absUrl + '#' + className+'End-' + colorWithoutHash + ')' : '' })
                     .attr('class', className + ' end concept-' + goalConceptId)
                     .attr('fill', 'none');
             }
