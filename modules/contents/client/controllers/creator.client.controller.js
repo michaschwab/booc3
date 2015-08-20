@@ -232,81 +232,7 @@ angular.module('contents').controller('CreatorController',
                 var src = new Sources($scope.source);
                 src.$save(cb);
             }
-
-
-
-            /*var source = new Source({
-             type: $scope.activeType._id,
-             title: $scope.source.title,
-             path: $scope.source.path,
-             course: $scope.source.course._id,
-             data: $scope.source.data
-             });*/
-
-
-
-            //skyvar course = Course.$getById($scope.source.course._id);
-
-            /*
-            $scope.source.save(function()
-            {
-                if($scope.segments.length > 0)
-                {
-                    var segIds = [];
-                    var cb = function(seg)
-                    {
-                        return function()
-                        {
-                            segIds.push(seg._id);
-
-                            if(seg.concepts !== undefined && seg.concepts.length === 1)
-                            {
-                                var concept = Concept.$getById(seg.concepts[0], function()
-                                {
-                                    if(concept.segments === undefined)
-                                    {
-                                        concept.segments = [seg._id];
-                                        console.log('updating concept..', concept);
-                                        concept.save();
-                                    }
-                                    else if(concept.segments.indexOf(seg._id) === -1)
-                                    {
-                                        concept.segments.push(seg._id);
-                                        console.log('updating concept..', concept);
-                                        concept.save();
-                                    }
-                                    // Otherwise the concept already has the segment linked.
-                                });
-                            }
-
-                            if(segIds.length === $scope.segments.length)
-                            {
-                                // could add them to course and to source here, but dont need that?
-                            }
-                        }
-                    };
-
-                    for(var i = 0; i < $scope.segments.length; i++)
-                    {
-                        var data = $scope.segments[i];
-                        console.log(data);
-
-                        data.source = source._id;
-                        data.courses = [courseId];
-
-                        data.save(cb(data));
-
-                        $location.path('/sources');
-                    }
-                }
-                else
-                {
-                    //TODO create segment of whole length
-                }
-            });*/
-
         };
-
 
         $scope.$watch('activeReadableType', function(readable)
         {
@@ -349,14 +275,14 @@ angular.module('contents').controller('CreatorController',
             $location.search('type', $scope.getReadableType(type));
         };
 
+        $scope.$watch('activeTimes.startDuration', $scope.activeSegmentTimeChange);
+        $scope.$watch('activeTimes.endDuration', $scope.activeSegmentTimeChange);
+
         $scope.activeSegmentTimeChange = function()
         {
-            var mapToNumbers = function(secs) { return parseInt(secs); };
-            var startSplit = $scope.activeTimes.startFormatted.split(':').map(mapToNumbers);
-            var endSplit = $scope.activeTimes.endFormatted.split(':').map(mapToNumbers);
-
-            $scope.activeSegment.start = 3600 * startSplit[0] + 60 * startSplit[1] + startSplit[2];
-            $scope.activeSegment.end = 3600 * endSplit[0] + 60 * endSplit[1] + endSplit[2];
+            console.log($scope.activeTimes.startDuration, $scope.activeTimes.startDuration.miliseconds());
+            $scope.activeSegment.start = Math.round($scope.activeTimes.startDuration.miliseconds() / 1000);
+            $scope.activeSegment.end = Math.round($scope.activeTimes.endDuration.miliseconds() / 1000);
         };
 
         $scope.addSegment = function()
@@ -383,14 +309,8 @@ angular.module('contents').controller('CreatorController',
         {
             $scope.activeSegment = segment;
 
-            //$scope.activeTimes.start = new Date(1970, 0, 1, 0, 0, segment.start);
-            //$scope.activeTimes.end = new Date(1970, 0, 1, 0, 0, segment.end);
-
             $scope.activeTimes.startDuration = moment.duration(segment.start * 1000);
             $scope.activeTimes.endDuration = moment.duration(segment.end * 1000);
-
-            //$scope.activeTimes.startFormatted = $filter('time')(segment.start, 'HH:mm:ss', 'UTC');
-            //$scope.activeTimes.endFormatted = $filter('time')(segment.end, 'HH:mm:ss', 'UTC');
 
             if(segment.concepts && segment.concepts.length > 0)
             {
