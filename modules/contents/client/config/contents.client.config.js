@@ -42,6 +42,4 @@ angular.module('contents').run(['Menus',
 		//Menus.addSubMenuItem('topbar', 'concepts', 'New Concept', 'concepts/create');
 		//Menus.addSubMenuItem('topbar', 'concepts', 'Bulk Edit Concepts', 'concepts/bulkEdit');
 	}
-]).config(function ($httpProvider) {
-	$httpProvider.interceptors.push('xmlHttpInterceptor');
-});;
+]);

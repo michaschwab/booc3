@@ -21,69 +21,80 @@ angular.module('contents').service('LectureCreator', function($http)
         {
             $http.get($scope.source.path).success(function (data)
             {
-                var time, url;
-                var p = data.presentation;
-                var toc = p.hour.toc.entry;
-                console.log(p);
-                console.log(toc);
-                var vidUrl = p.hour.clipSequence.clip.rtmpLink;
-                var vidDuration = p.hour.clipSequence.clip.durationInSeconds;
-                var lecturePath = $scope.source.path.substr(0,$scope.source.path.lastIndexOf('/'));
-                lecturePath = lecturePath.substr(0,lecturePath.lastIndexOf('/')) + '/';
-
-                var slideFrames = p.hour.timestamps.slide;
-                var timestamps = [];
-
-                function addPdfPath(time)
+                if(!data)
                 {
-                    return function(data)
+                    console.log('problem loading the xml');
+                }
+                else
+                {
+                    var time, url;
+                    var p = data.presentation;
+                    var toc = p.hour.toc.entry;
+                    //console.log(p);
+                    //console.log(toc);
+                    var vidUrl = p.hour.clipSequence.clip.rtmpLink;
+                    var vidDuration = p.hour.clipSequence.clip.durationInSeconds;
+                    var lecturePath = $scope.source.path.substr(0,$scope.source.path.lastIndexOf('/'));
+                    lecturePath = lecturePath.substr(0,lecturePath.lastIndexOf('/')) + '/';
+
+                    var slideFrames = p.hour.timestamps.slide;
+                    var timestamps = [];
+
+                    function addPdfPath(time)
                     {
-                        var slideBodySrc = $(data).find("#slideBody")[0];
+                        return function(data)
+                        {
+                            var slideBodySrc = $(data).find("#slideBody")[0];
 
-                        if (slideBodySrc !== undefined) {
+                            if (slideBodySrc !== undefined) {
 
-                            var slidePdf= slideBodySrc.src.replace(/http:\/\/[a-z.]+(:[0-9]+)?\//g, lecturePath + 'materials/');
+                                var slidePdf= slideBodySrc.src.replace(/http:\/\/[a-z.]+(:[0-9]+)?\//g, lecturePath + 'materials/');
 
-                            timestamps.push({
-                                time: time,
-                                slidepdf: slidePdf
-                            });
+                                timestamps.push({
+                                    time: time,
+                                    slidepdf: slidePdf
+                                });
+                            }
                         }
                     }
-                }
 
-                for(var i = 0; i < slideFrames.length; i++)
-                {
-                    time = slideFrames[i].timeInSeconds;
-                    url = lecturePath + slideFrames[i].url;
-
-                    $http.get(url).success(addPdfPath(parseInt(time)));
-                }
-
-                $scope.source.data.timestamps = timestamps;
-
-
-                if($scope.source.data.vidPath === undefined || $scope.source.data.vidPath === '')
-                {
-                    var newPath = $scope.source.path.substr(0,$scope.source.path.lastIndexOf('/'));
-                    $scope.source.data.vidPath = newPath.substr(0,newPath.lastIndexOf('/')) + '/' + vidUrl;
-                    $scope.player = document.getElementById('videoPlayer');
-                }
-                for(i = 0; i < toc.length; i++)
-                {
-                    time = parseInt(toc[i].timeInSeconds);
-                    var seg = {
-                        title: toc[i].text,
-                        start: time
-                    };
-                    $scope.segments.push(seg);
-
-                    if(i > 0)
+                    for(var i = 0; i < slideFrames.length; i++)
                     {
-                        $scope.segments[i-1].end = time - 1;
+                        time = slideFrames[i].timeInSeconds;
+                        url = lecturePath + slideFrames[i].url;
+
+                        $http.get(url).success(addPdfPath(parseInt(time)));
                     }
+
+                    $scope.source.data.timestamps = timestamps;
+
+
+                    if($scope.source.data.vidPath === undefined || $scope.source.data.vidPath === '')
+                    {
+                        var newPath = $scope.source.path.substr(0,$scope.source.path.lastIndexOf('/'));
+                        $scope.source.data.vidPath = newPath.substr(0,newPath.lastIndexOf('/')) + '/' + vidUrl;
+                        $scope.player = document.getElementById('videoPlayer');
+                    }
+                    for(i = 0; i < toc.length; i++)
+                    {
+                        time = parseInt(toc[i].timeInSeconds);
+                        var seg = {
+                            title: toc[i].text,
+                            start: time
+                        };
+                        $scope.segments.push(seg);
+
+                        if(i > 0)
+                        {
+                            $scope.segments[i-1].end = time - 1;
+                        }
+                    }
+                    $scope.segments[$scope.segments.length-1].end = parseInt(vidDuration);
                 }
-                $scope.segments[$scope.segments.length-1].end = parseInt(vidDuration);
+
+            }).error(function(err)
+            {
+                console.log(err);
             });
         }
     };
