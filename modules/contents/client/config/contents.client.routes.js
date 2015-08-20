@@ -28,7 +28,7 @@ angular.module('contents').config(['$stateProvider', '$urlRouterProvider',
                 templateUrl: 'modules/contents/views/edit-contents.client.view.html'
             })
             .state('contents.createByCourseAndConcept', {
-                url: '/courses/:courseId/concepts/:conceptId/contents/add',
+                url: '/courses/:courseId/concepts/:conceptId/contents/add?mode',
                 templateUrl: 'modules/courses/views/view-course.client.view.html'
             })
             .state('contents.list', {

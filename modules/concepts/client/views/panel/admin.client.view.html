@@ -8,8 +8,8 @@
 
             <input id="concept-title-{{child.concept._id}}" class="concept-title admin" ng-change="titleChange(child)" ng-model="child.concept.title" value="{{child.concept.title}}" ng-blur="titleBlur(child)" ng-keydown="titleKeyPress($event, child)" />
 
-            <a data-ui-sref="{}" ng-click="removeConcept(child)" class="glyphicon glyphicon-remove remove-concept" title="Remove Concept"></a>
-            <a data-ui-sref="contents.add({concept: child.concept._id })" class="glyphicon glyphicon-plus add-segment-to-concept" title="Add Content"></a>
+            <a ng-click="removeConcept(child)" class="glyphicon glyphicon-remove remove-concept" title="Remove Concept"></a>
+            <a data-ui-sref="contents.createByCourseAndConcept({courseId: course._id, conceptId: child.concept._id, mode: 'admin' })" data-ui-sref-opts="{absolute: true, inherit: false}" class="glyphicon glyphicon-plus add-segment-to-concept" title="Add Content"></a>
 
         </a>
         <label for="{{child.concept._id}}_color" class="concept-circle" style="background: {{child.concept.color}}"></label>
