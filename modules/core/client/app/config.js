@@ -17,7 +17,8 @@ var ApplicationConfiguration = (function () {
     'ngSocketResource',
     'ngSanitize',
     'ngPDFViewer',
-    'ngDialog'
+    'ngDialog',
+    'ui.moment-duration'
 
   ];
 

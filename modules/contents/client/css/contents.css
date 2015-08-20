@@ -1,3 +1,13 @@
+/** ADMIN START **/
+
+.input-group input.duration {
+    width: 70px;
+    margin-bottom: 0;
+    height: 39px;
+}
+
+/** ADMIN END **/
+
 
 .lecture-concepts {
     display: inline;

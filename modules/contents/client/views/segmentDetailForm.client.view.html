@@ -58,17 +58,39 @@
             <label for="segmentStart">Which part should be included in the Segment?</label><br />
 
             <div class="col-md-6" style="padding-left: 0">
-                <div class="input-group">
-                    <span class="input-group-addon"><a href="" ng-click="setSegmentStart()"><span class="glyphicon glyphicon-play"></span></a></span>
-                    <input type="time" id="segmentStart" ng-change="activeSegmentTimeChange()" ng-model="activeTimes.startFormatted" step="1" name="segmentStart" placeholder="Start of the Segment" class="form-control"/>
+                <div class="input-group segment-start">
+
+                    <!--<span>Start</span>-->
+
+                    <span class="input-group-addon">
+                        <a href="" ng-click="setSegmentStart()">
+                            <span class="glyphicon glyphicon-play"></span>
+                            Start
+                        </a>
+                    </span>
+
+                    <input momentduration="hours" ng-model="activeTimes.startDuration" class="form-control duration" />
+                    <input momentduration="minutes" ng-model="activeTimes.startDuration" class="form-control duration" />
+                    <input momentduration="seconds" ng-model="activeTimes.startDuration" class="form-control duration" />
+
                     <span ng-show="unit" class="input-group-addon">{{unit}}</span>
                 </div>
             </div>
 
             <div class="col-md-6" style="padding-right: 0">
-                <div class="input-group">
-                    <span class="input-group-addon"><a href="" ng-click="setSegmentEnd()"><span class="glyphicon glyphicon-stop"></span></a></span>
-                    <input type="time" id="segmentEnd" ng-change="activeSegmentTimeChange()" ng-model="activeTimes.endFormatted" step="1" name="segmentEnd" placeholder="End of the Segment" class="form-control"/>
+                <div class="input-group segment-end">
+
+                    <span class="input-group-addon">
+                        <a href="" ng-click="setSegmentEnd()">
+                            <span class="glyphicon glyphicon-stop"></span>
+                            End
+                        </a>
+                    </span>
+
+                    <input momentduration="hours" ng-model="activeTimes.endDuration" class="form-control duration" />
+                    <input momentduration="minutes" ng-model="activeTimes.endDuration" class="form-control duration" />
+                    <input momentduration="seconds" ng-model="activeTimes.endDuration" class="form-control duration" />
+
                     <span ng-show="unit" class="input-group-addon">{{unit}}</span>
                 </div>
             </div>

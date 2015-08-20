@@ -382,8 +382,15 @@ angular.module('contents').controller('CreatorController',
         $scope.selectSegment = function(segment)
         {
             $scope.activeSegment = segment;
-            $scope.activeTimes.startFormatted = $filter('time')(segment.start, 'HH:mm:ss', 'UTC');
-            $scope.activeTimes.endFormatted = $filter('time')(segment.end, 'HH:mm:ss', 'UTC');
+
+            //$scope.activeTimes.start = new Date(1970, 0, 1, 0, 0, segment.start);
+            //$scope.activeTimes.end = new Date(1970, 0, 1, 0, 0, segment.end);
+
+            $scope.activeTimes.startDuration = moment.duration(segment.start * 1000);
+            $scope.activeTimes.endDuration = moment.duration(segment.end * 1000);
+
+            //$scope.activeTimes.startFormatted = $filter('time')(segment.start, 'HH:mm:ss', 'UTC');
+            //$scope.activeTimes.endFormatted = $filter('time')(segment.end, 'HH:mm:ss', 'UTC');
 
             if(segment.concepts && segment.concepts.length > 0)
             {
