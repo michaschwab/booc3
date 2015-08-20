@@ -326,7 +326,7 @@ angular.module('contents').controller('CreatorController',
 
         $scope.$watch('activeType', function()
         {
-            if($scope.activeType !== null)
+            if($scope.activeType)
             {
                 $scope.activeReadableType = $scope.getReadableType($scope.activeType);
             }
