@@ -113,6 +113,10 @@ exports.delete = function(req, res) {
 exports.list = function(req, res) {
 
     var qObject = {};
+    if(!req.user)
+    {
+        return res.jsonp([]);
+    }
     qObject['user'] = new ObjectId(req.user._id);
 
     Action.find(qObject).sort('-time').exec(function(err, actions) {
