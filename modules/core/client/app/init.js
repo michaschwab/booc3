@@ -28,9 +28,17 @@ angular.module(ApplicationConfiguration.applicationModuleName).config(['$locatio
   }
 ]);
 
-angular.module(ApplicationConfiguration.applicationModuleName).run(function ($rootScope, $state, Authentication) {
+angular.module(ApplicationConfiguration.applicationModuleName).run(function ($rootScope, $state, Authentication, $location) {
   // Check authentication before changing state
+
+  $rootScope.$watch(function(){ return $location.search(); }, function(){
+    $rootScope.absUrl = $location.absUrl();
+  }, true);
+
   $rootScope.$on('$stateChangeStart', function (event, toState, toParams, fromState, fromParams) {
+
+    $rootScope.absUrl = $location.absUrl();
+
     if (toState.data && toState.data.roles && toState.data.roles.length > 0) {
       var allowed = false;
       toState.data.roles.forEach(function (role) {
