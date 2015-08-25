@@ -6,7 +6,7 @@ describe('Users E2E Tests:', function ()
     {
         var params = browser.params;
 
-        it('Should report missing credentials', function () {
+        /*it('Should report missing credentials', function () {
             browser.get('http://localhost:3000/authentication/signin');
             element(by.css('button[type=submit]')).click();
             element(by.binding('error')).getText().then(function (errorText) {
@@ -20,7 +20,7 @@ describe('Users E2E Tests:', function ()
             element( by.model('credentials.password') ).sendKeys( params.adminlogin.password );
             element( by.partialButtonText('Sign in')).click();
             //expect( element(by.binding('authentication.user.displayName') ).getText() ).toEqual( params.adminlogin.displayName );
-        });
+        });*/
 
         /*it('should sign up successfully', function() {
             browser.get('http://localhost:3000/authentication/signup');
