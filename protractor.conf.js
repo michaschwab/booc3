@@ -2,5 +2,16 @@
 
 // Protractor configuration
 exports.config = {
-  specs: ['modules/*/tests/e2e/*.js']
+  seleniumAddress: 'http://localhost:4444/wd/hub',
+  specs: ['modules/*/tests/e2e/*.js'],
+  params: {
+    adminlogin: {
+      user: 'admin',
+      password: 'adminadmin',
+      firstName: 'admin',
+      lastName: 'admin',
+      email: 'admin@admin.admin',
+      displayName: 'admin admin'
+    }
+  }
 };
