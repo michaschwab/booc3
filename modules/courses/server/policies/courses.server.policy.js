@@ -4,6 +4,7 @@
  * Module dependencies.
  */
 var acl = require('acl');
+var courseTeacherPolicy = require('../../../users/server/services/courseteacher.server.policyhelper');
 
 // Using the memory backend
 acl = new acl(new acl.memoryBackend());
@@ -44,16 +45,34 @@ exports.invokeRolesPolicies = function () {
     }]);
 };
 
+var courseSpecificRights = {
+    '/api/courses/:courseId': {
+        'post': ['teacher'],
+        'put': ['teacher'],
+        'delete': ['teacher']
+    }
+};
+
 /**
  * Check If Course Policy Allows
  */
-exports.isAllowed = function (req, res, next) {
+exports.isAllowed = function (req, res, next)
+{
     var roles = (req.user) ? req.user.roles : ['guest'];
-    //console.log(roles);
-    
-    // If an course is being processed and the current user created it then allow any manipulation
-    if (req.course && req.user && req.course.user.id === req.user.id) {
-        return next();
+
+    if(courseSpecificRights[req.route.path])
+    {
+        var specificRights = courseSpecificRights[req.route.path];
+        var method = req.method.toLowerCase();
+        var courseId = typeof req.course == 'object' ? req.course._id : req.course;
+
+        if(specificRights[method])
+        {
+            if(courseTeacherPolicy.hasAnyCourseRole(specificRights[method], roles, courseId))
+            {
+                return next();
+            }
+        }
     }
     
     // Check for user roles
