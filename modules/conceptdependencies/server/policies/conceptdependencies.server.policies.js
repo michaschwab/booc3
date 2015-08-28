@@ -53,7 +53,7 @@ var courseSpecificRights = {
 exports.isAllowed = function (req, res, next)
 {
     var roles = (req.user) ? req.user.roles : ['guest'];
-    var courseId = req.coursedependency.courseId;
+    var courseId = req.conceptdependency.courseId;
 
     if(courseTeacherPolicy.checkCourseSpecificRights(req, courseSpecificRights, courseId))
     {
