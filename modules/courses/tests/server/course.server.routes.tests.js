@@ -219,7 +219,6 @@ describe('Course CRUD tests', function () {
                 if (courseSaveErr) {
                   return done(courseSaveErr);
                 }
-                console.log('saving worked');
 
                 // Update course title
                 course.title = 'WHY YOU GOTTA BE SO MEAN?';
@@ -228,9 +227,8 @@ describe('Course CRUD tests', function () {
                 agent.put('/api/courses/' + courseSaveRes.body._id)
                     .send(course)
                     .expect(200)
-                    .end(function (courseUpdateErr, courseUpdateRes) {
-                      console.log('update done');
-                      console.log(courseUpdateErr);
+                    .end(function (courseUpdateErr, courseUpdateRes)
+                    {
                       // Handle course update error
                       if (courseUpdateErr) {
                         return done(courseUpdateErr);
@@ -246,7 +244,7 @@ describe('Course CRUD tests', function () {
               });
         });
   });
-  /*it('should not be able to get a list of courses if not signed in', function (done) {
+  it('should not be able to get a list of courses if not signed in', function (done) {
     // Create new course model instance
     var courseObj = new Course(course);
 
@@ -254,47 +252,59 @@ describe('Course CRUD tests', function () {
     courseObj.save(function () {
       // Request courses
       request(app).get('/api/courses')
-          .end(function (req, res) {
-            // Set assertion
-            res.body.should.be.instanceof(Array).and.have.lengthOf(1);
+          .expect(403)
+          .end(function (courseSaveErr, courseSaveRes) {
 
-            // Call the assertion callback
-            done();
+            // Handle course save error
+            done(courseSaveErr);
           });
 
     });
   });
 
-  it('should be able to get a single course if not signed in', function (done) {
+  it('should not be able to get a single course if not signed in', function (done) {
     // Create new course model instance
     var courseObj = new Course(course);
 
     // Save the course
     courseObj.save(function () {
       request(app).get('/api/courses/' + courseObj._id)
-          .end(function (req, res) {
-            // Set assertion
-            res.body.should.be.instanceof(Object).and.have.property('title', course.title);
+          .expect(403)
+          .end(function (courseSaveErr, courseSaveRes) {
 
-            // Call the assertion callback
-            done();
+            // Handle course save error
+            done(courseSaveErr);
           });
     });
   });
 
-  it('should return proper error for single course with an invalid Id, if not signed in', function (done) {
+  it('should return proper error for single course with an invalid Id, if signed in as user', function (done) {
     // test is not a valid mongoose Id
-    request(app).get('/api/courses/test')
-        .end(function (req, res) {
-          // Set assertion
-          res.body.should.be.instanceof(Object).and.have.property('message', 'Course is invalid');
+    agent.post('/api/auth/signin')
+        .send(credentials)
+        .expect(200)
+        .end(function (signinErr, signinRes) {
+          // Handle signin error
+          if (signinErr) {
+            return done(signinErr);
+          }
 
-          // Call the assertion callback
-          done();
+          request(app).get('/api/courses/test')
+              .expect(404)
+              .end(function (req, res) {
+                // Set assertion
+                //res.body.should.be.instanceof(Object).and.have.property('message', 'Course is invalid');
+
+                // Call the assertion callback
+                done();
+              });
+
         });
+
+
   });
 
-  it('should return proper error for single course which doesnt exist, if not signed in', function (done) {
+  /*it('should return proper error for single course which doesnt exist, if not signed in', function (done) {
     // This is a valid mongoose Id but a non-existent course
     request(app).get('/api/courses/559e9cd815f80b4c256a8f41')
         .end(function (req, res) {
@@ -304,9 +314,9 @@ describe('Course CRUD tests', function () {
           // Call the assertion callback
           done();
         });
-  });
+  });*/
 
-  it('should be able to delete an course if signed in', function (done) {
+  /*it('should be able to delete an course if signed in', function (done) {
     agent.post('/api/auth/signin')
         .send(credentials)
         .expect(200)
@@ -347,9 +357,9 @@ describe('Course CRUD tests', function () {
                     });
               });
         });
-  });
+  });*/
 
-  it('should not be able to delete an course if not signed in', function (done) {
+  /*it('should not be able to delete an course if not signed in', function (done) {
     // Set course user
     course.user = user;
 

@@ -106,7 +106,11 @@ exports.list = function(req, res) {
 exports.courseByID = function(req, res, next, id) { 
 	Course.findById(id).populate('user', 'displayName').exec(function(err, course) {
 		if (err) return next(err);
-		if (! course) return next(new Error('Failed to load Course ' + id));
+		if (! course)
+		{
+			res.status(404);
+			return next(new Error('Failed to load Course ' + id));
+		}
 		req.course = course ;
 		next();
 	});
