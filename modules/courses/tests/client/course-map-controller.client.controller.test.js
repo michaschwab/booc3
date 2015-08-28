@@ -4,7 +4,7 @@
 	// Course map controller Controller Spec
 	describe('Course map controller Controller Tests', function() {
 		// Initialize global variables
-		var CourseMapControllerController,
+		/*var CourseMapController,
 			scope,
 			$httpBackend,
 			$stateParams,
@@ -45,7 +45,7 @@
 			$location = _$location_;
 
 			// Initialize the Course map controller controller.
-			CourseMapControllerController = $controller('CourseMapControllerController', {
+			CourseMapController = $controller('CourseMapController', {
 				$scope: scope
 			});
 		}));
@@ -53,6 +53,6 @@
 		it('Should do some controller test', inject(function() {
 			// The test logic
 			// ...
-		}));
+		}));*/
 	});
 }());

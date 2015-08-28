@@ -6,23 +6,34 @@
 var path = require('path'),
 	mongoose = require('mongoose'),
 	errorHandler = require(path.resolve('./modules/core/server/controllers/errors.server.controller')),
+	courseAdmin = require(path.resolve('./modules/users/server/controllers/courseadmin.server.controller')),
 	Course = mongoose.model('Course'),
 	_ = require('lodash');
 
 /**
  * Create a Course
  */
-exports.create = function(req, res) {
+exports.create = function(req, res)
+{
 	var course = new Course(req.body);
 	course.user = req.user;
 
-	course.save(function(err) {
+	course.save(function(err)
+	{
 		if (err) {
 			return res.status(400).send({
 				message: errorHandler.getErrorMessage(err)
 			});
-		} else {
-			res.jsonp(course);
+		}
+		else
+		{
+			// todo ensure that the creating user is made course admin.
+			courseAdmin.addTeacherRole(course.user, course._id, function(err)
+			{
+				if(err) console.log(err);
+				res.jsonp(course);
+			});
+
 		}
 	});
 };
@@ -105,6 +116,7 @@ exports.courseByID = function(req, res, next, id) {
  * Course authorization middleware
  */
 exports.hasAuthorization = function(req, res, next) {
+	//todo
     if (false){//req.user.roles === undefined || req.user.roles.indexOf("admin") <0) {
 		return res.status(403).send('User is not authorized');
 	}

@@ -68,27 +68,12 @@ var courseSpecificRights = {
 exports.isAllowed = function (req, res, next)
 {
     var roles = (req.user) ? req.user.roles : ['guest'];
-
     var courseId = typeof req.course == 'object' ? req.course._id : req.course;
+
     if(courseTeacherPolicy.checkCourseSpecificRights(req, courseSpecificRights, courseId))
     {
-        next();
+        return next();
     }
-
-    /*if(courseSpecificRights[req.route.path])
-    {
-        var specificRights = courseSpecificRights[req.route.path];
-        var method = req.method.toLowerCase();
-        var courseId = typeof req.course == 'object' ? req.course._id : req.course;
-
-        if(specificRights[method])
-        {
-            if(courseTeacherPolicy.hasAnyCourseRole(specificRights[method], roles, courseId))
-            {
-                return next();
-            }
-        }
-    }*/
     
     // Check for user roles
     acl.areAnyRolesAllowed(roles, req.route.path, req.method.toLowerCase(), function (err, isAllowed) {
