@@ -80,11 +80,13 @@ exports.delete = function(req, res)
 /**
  * List of Concepts
  */
-exports.list = function(req, res) {
+exports.list = function(req, res)
+{
 
     var qObject = {};
+	var roles = (req.user) ? req.user.roles : ['guest'];
 
-	if(req.user.roles.indexOf('admin') == -1)
+	if(roles.indexOf('admin') == -1)
 	{
 		if (req.query['user']){
 			qObject['user'] = new ObjectId(req.query['user']);
