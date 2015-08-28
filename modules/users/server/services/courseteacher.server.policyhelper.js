@@ -70,9 +70,10 @@ exports.hasAnyCourseRole = function(roles, userRoles, courseId)
     return false;
 };
 
-exports.checkCourseSpecificRights = function(req, courseSpecificRights, courseId)
+exports.checkCourseSpecificRights = function(req, courseSpecificRights, courseIds)
 {
     var roles = (req.user) ? req.user.roles : ['guest'];
+    if(!Array.isArray(courseIds)) courseIds = [courseIds];
 
     if(courseSpecificRights[req.route.path])
     {
@@ -81,10 +82,16 @@ exports.checkCourseSpecificRights = function(req, courseSpecificRights, courseId
 
         if(specificRights[method])
         {
-            if(exports.hasAnyCourseRole(specificRights[method], roles, courseId))
+            for(var i = 0; i < courseIds.length; i++)
             {
-                return true;
+                var courseId = courseIds[i];
+
+                if(exports.hasAnyCourseRole(specificRights[method], roles, courseId))
+                {
+                    return true;
+                }
             }
+
         }
     }
     return false;
