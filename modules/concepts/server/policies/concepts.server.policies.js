@@ -4,68 +4,62 @@
  * Module dependencies.
  */
 var acl = require('acl');
+var courseTeacherPolicy = require('../../../users/server/services/courseteacher.server.policyhelper');
 
 // Using the memory backend
 acl = new acl(new acl.memoryBackend());
 
-
-/*
-app.route('/concepts')
- .get(concepts.list)
- .post(users.requiresLogin, users.isAnyTa, concepts.hasReqAuthorization, concepts.create);
-
- app.route('/concepts/:conceptId')
- .get(concepts.read)
- .post(users.requiresLogin, users.isAnyTa, concepts.hasReqAuthorization, concepts.create)
- .put(users.requiresLogin, users.isAnyTa, concepts.hasReqAuthorization, concepts.update)
- .delete(users.requiresLogin, users.isAnyTa, concepts.hasReqAuthorization, concepts.delete);
- */
-
 /**
- * Invoke Conceptdependencies Permissions
+ * Invoke concepts Permissions
  */
+
 exports.invokeRolesPolicies = function () {
     acl.allow([{
         roles: ['admin'],
         allows: [{
-            resources: '/api/conceptdependencies',
+            resources: '/api/concepts',
             permissions: '*'
         }, {
-            resources: '/api/conceptdependencies/:conceptdependencyId',
+            resources: '/api/concepts/:conceptId',
             permissions: '*'
         }]
     }, {
         roles: ['user'],
         allows: [{
-            resources: '/api/conceptdependencies',
+            resources: '/api/concepts',
             permissions: ['get', 'post']
         }, {
-            resources: '/api/conceptdependencies/:conceptdependencyId',
-            permissions: ['get']
-        }]
-    }, {
-        roles: ['guest'],
-        allows: [{
-            resources: '/api/conceptdependencies',
-            permissions: ['get']
-        }, {
-            resources: '/api/conceptdependencies/:conceptdependencyId',
+            resources: '/api/concepts/:conceptId',
             permissions: ['get']
         }]
     }]);
 };
 
-/**
- * Check If Conceptdependencies Policy Allows
- */
-exports.isAllowed = function (req, res, next) {
-    /*var roles = (req.user) ? req.user.roles : ['guest'];
-    
-    // If an conceptdependency is being processed and the current user created it then allow any manipulation
-    if (req.conceptdependency && req.user && req.conceptdependency.user.id === req.user.id) {
-        return next();
+var courseSpecificRights = {
+    '/api/concepts': {
+        'post': ['ta'], // only teaching assistants of a specific course can create dependencies in it
+        'put': ['ta'] // only teaching assistants of a specific course can create dependencies in it
+    },
+    '/api/concepts/:conceptId': {
+        'post': ['ta'], // only teachers of a specific course can edit it
+        'put': ['ta'], // only teachers of a specific course can edit it
+        'delete': ['ta'] // only teachers of a specific course can delete it
     }
-    
+};
+
+/**
+ * Check If concepts Policy Allows
+ */
+exports.isAllowed = function (req, res, next)
+{
+    var roles = (req.user) ? req.user.roles : ['guest'];
+    var courseIds = req.concept.courses;
+
+    if(courseTeacherPolicy.checkCourseSpecificRights(req, courseSpecificRights, courseIds))
+    {
+        next();
+    }
+
     // Check for user roles
     acl.areAnyRolesAllowed(roles, req.route.path, req.method.toLowerCase(), function (err, isAllowed) {
         if (err) {
@@ -81,5 +75,5 @@ exports.isAllowed = function (req, res, next) {
                 });
             }
         }
-    });*/
+    });
 };
