@@ -34,6 +34,15 @@ exports.invokeRolesPolicies = function () {
             permissions: '*'
         }]
     }, {
+        roles: ['teacher'],
+        allows: [{
+            resources: '/api/courses',
+            permissions: ['get', 'put', 'post'] // 'global' teachers can create courses
+        }, {
+            resources: '/api/courses/:courseId',
+            permissions: ['get']
+        }]
+    }, {
         roles: ['user'],
         allows: [{
             resources: '/api/courses',
@@ -47,9 +56,9 @@ exports.invokeRolesPolicies = function () {
 
 var courseSpecificRights = {
     '/api/courses/:courseId': {
-        'post': ['teacher'],
-        'put': ['teacher'],
-        'delete': ['teacher']
+        'post': ['teacher'], // only teachers of a specific course can edit it
+        'put': ['teacher'], // only teachers of a specific course can edit it
+        'delete': ['teacher'] // only teachers of a specific course can delete it
     }
 };
 
@@ -60,7 +69,13 @@ exports.isAllowed = function (req, res, next)
 {
     var roles = (req.user) ? req.user.roles : ['guest'];
 
-    if(courseSpecificRights[req.route.path])
+    var courseId = typeof req.course == 'object' ? req.course._id : req.course;
+    if(courseTeacherPolicy.checkCourseSpecificRights(req, courseSpecificRights, courseId))
+    {
+        next();
+    }
+
+    /*if(courseSpecificRights[req.route.path])
     {
         var specificRights = courseSpecificRights[req.route.path];
         var method = req.method.toLowerCase();
@@ -73,7 +88,7 @@ exports.isAllowed = function (req, res, next)
                 return next();
             }
         }
-    }
+    }*/
     
     // Check for user roles
     acl.areAnyRolesAllowed(roles, req.route.path, req.method.toLowerCase(), function (err, isAllowed) {

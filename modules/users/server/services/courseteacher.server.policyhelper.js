@@ -70,6 +70,26 @@ exports.hasAnyCourseRole = function(roles, userRoles, courseId)
     return false;
 };
 
+exports.checkCourseSpecificRights = function(req, courseSpecificRights, courseId)
+{
+    var roles = (req.user) ? req.user.roles : ['guest'];
+
+    if(courseSpecificRights[req.route.path])
+    {
+        var specificRights = courseSpecificRights[req.route.path];
+        var method = req.method.toLowerCase();
+
+        if(specificRights[method])
+        {
+            if(exports.hasAnyCourseRole(specificRights[method], roles, courseId))
+            {
+                return true;
+            }
+        }
+    }
+    return false;
+};
+
 function hasCourseRole(role, req, res)
 {
     var courseId = typeof req.course == 'object' ? req.course._id : req.course;
