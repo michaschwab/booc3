@@ -67,8 +67,9 @@ exports.update = function(req, res) {
 /**
  * Delete an Course
  */
-exports.delete = function(req, res) {
-	var course = req.course ;
+exports.delete = function(req, res)
+{
+	var course = req.course;
 
 	// todo remove dependencies, and concepts that are not used by other courses, courseadmins,..
 
@@ -86,9 +87,8 @@ exports.delete = function(req, res) {
 /**
  * List of Courses
  */
-exports.list = function(req, res) {
-
-
+exports.list = function(req, res)
+{
 	Course.find().sort('+created').exec(function(err, courses) {
 		if (err) {
 			return res.status(400).send({
@@ -115,16 +115,4 @@ exports.courseByID = function(req, res, next, id) {
 		next();
 	});
 };
-
-/**
- * Course authorization middleware
- */
-exports.hasAuthorization = function(req, res, next) {
-	//todo
-    if (false){//req.user.roles === undefined || req.user.roles.indexOf("admin") <0) {
-		return res.status(403).send('User is not authorized');
-	}
-	next();
-};
-
 
