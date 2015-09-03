@@ -34,12 +34,12 @@ exports.config = {
       },
       logout: function()
       {
-          element(by.binding('authentication.user.displayName') ).isPresent().then(function(present)
+          var userDropdown = element(by.binding('authentication.user.displayName')).element(by.xpath('..'));
+
+          userDropdown.isDisplayed().then(function(present)
           {
               if(present)
               {
-                  var userDropdown = element(by.binding('authentication.user.displayName')).element(by.xpath('..'));
-
                   userDropdown.click();
 
                   element( by.css('.signout-link')).click();
