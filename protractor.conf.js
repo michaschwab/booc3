@@ -4,6 +4,7 @@
 exports.config = {
   seleniumAddress: 'http://localhost:4444/wd/hub',
   specs: ['modules/*/tests/e2e/*.js'],
+  framework: 'jasmine2',
   params: {
       adminlogin:
       {

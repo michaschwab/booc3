@@ -1,5 +1,5 @@
 describe('angularjs homepage todo list', function() {
-    it('should add a todo', function() {
+    /*it('should add a todo', function() {
         browser.get('https://angularjs.org');
 
         element(by.model('todoList.todoText')).sendKeys('write first protractor test');
@@ -13,5 +13,5 @@ describe('angularjs homepage todo list', function() {
         todoList.get(2).element(by.css('input')).click();
         var completedAmount = element.all(by.css('.done-true'));
         expect(completedAmount.count()).toEqual(2);
-    });
+    });*/
 });
