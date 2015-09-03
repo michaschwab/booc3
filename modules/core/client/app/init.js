@@ -61,6 +61,7 @@ angular.module(ApplicationConfiguration.applicationModuleName).run(function ($ro
 
   // Record previous state
   $rootScope.$on('$stateChangeSuccess', function (event, toState, toParams, fromState, fromParams) {
+    $rootScope.absUrl = $location.absUrl();
     $state.previous = {
       state: fromState,
       params: fromParams,
