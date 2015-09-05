@@ -192,11 +192,12 @@ angular.module('contents').controller('CreatorController',
 
                         var cb2 = function()
                         {
-
+                            //TODO do some smart redirect.
                         };
 
                         if(segment._id)
                         {
+                            console.log('updating semgnet');
                             Segments.update({_id: segment._id}, segment, cb2,
                                 function(err){
                                     console.log("ERROR saving:", err);
@@ -207,6 +208,7 @@ angular.module('contents').controller('CreatorController',
                         }
                         else
                         {
+                            console.log('creating new segment');
                             var seg = new Segments(segment);
                             seg.$save(cb2);
                         }

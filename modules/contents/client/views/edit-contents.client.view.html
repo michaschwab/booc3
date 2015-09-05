@@ -1,6 +1,7 @@
 <section data-ng-controller="CreatorController" class="contentCol" data-ng-init="init()" style="margin-bottom: 200px; width: {{contentWidth}}px; padding: 0 40px">
     <div class="page-header">
-        <h1>Content Creator</h1>
+        <h1 ng-show="source._id">Edit Material</h1>
+        <h1 ng-show="!source._id">Add Material</h1>
     </div>
 
     <form name="contentCreateForm" novalidate role="form">
@@ -47,7 +48,16 @@
 
         <div class="row">
             <div class="col-md-4"><button type="button" class="btn btn-warning"><span class="glyphicon glyphicon-trash"></span> Cancel</button></div>
-            <div class="col-md-8 text-right"><button ng-click="createContents()" type="button" class="btn btn-primary"><span class="glyphicon glyphicon-ok"></span> Save</button></div>
+            <div class="col-md-8 text-right">
+                <button ng-click="createContents()" type="button" class="btn btn-primary">
+
+                    <span class="glyphicon glyphicon-ok"></span>
+
+                    <span ng-show="source._id">Save Changes</span>
+                    <span ng-show="!source._id">Save new Material</span>
+
+                </button>
+            </div>
         </div>
 
     </form>
