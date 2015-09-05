@@ -21,11 +21,11 @@ angular.module('contents').config(['$stateProvider', '$urlRouterProvider',
             })
             .state('contents.createByCourse', {
                 url: '/courses/:courseId/contents/add',
-                templateUrl: 'modules/contents/views/edit-contents.client.view.html'
+                templateUrl: 'modules/contents/views/edit-contents-wrapper.client.view.html'
             })
             .state('contents.create', {
                 url: '/contents/add',
-                templateUrl: 'modules/contents/views/edit-contents.client.view.html'
+                templateUrl: 'modules/contents/views/edit-contents-wrapper.client.view.html'
             })
             .state('contents.createByCourseAndConcept', {
                 url: '/courses/:courseId/concepts/:conceptId/contents/add?mode',
@@ -37,7 +37,7 @@ angular.module('contents').config(['$stateProvider', '$urlRouterProvider',
             })
             .state('contents.editByCourse', {
                 url: '/courses/:courseId/contents/:sourceId/edit',
-                templateUrl: 'modules/contents/views/edit-contents.client.view.html'
+                templateUrl: 'modules/contents/views/edit-contents-wrapper.client.view.html'
             })
             .state('contents.editByCourseAndConcept', {
                 url: '/courses/:courseId/concepts/:conceptId/contents/:sourceId/edit',
