@@ -1,23 +1,20 @@
 'use strict';
 
-module.exports = function(app) {
-    var learnedconcepts = require('../controllers/learnedconcepts.server.controller');
+module.exports = function (app)
+{
+	// User Routes
+	var learnedConceptPolicy = require('../policies/learnedconcepts.server.policies'),
+		learnedconcepts = require('../controllers/learnedconcepts.server.controller');
 
-	// Concepts Routes
 	app.route('/api/learnedconcepts')
 		.get(learnedconcepts.list)
 		.post(learnedconcepts.create);
 
 	app.route('/api/learnedconcepts/:learnedconceptId')
-		.get(learnedconcepts.read)
-		.put(learnedconcepts.update)
-        .delete(learnedconcepts.delete);
-		//.delete(users.requiresLogin, learnedconcepts.hasAuthorization, learnedconcepts.delete);
+		.get(learnedConceptPolicy.isAllowed, learnedconcepts.read)
+		.put(learnedConceptPolicy.isAllowed, learnedconcepts.update)
+		.delete(learnedConceptPolicy.isAllowed, learnedconcepts.delete);
 
-	// Finish by binding the Concept middleware
+	// Finish by binding the user middleware
 	app.param('learnedconceptId', learnedconcepts.learnedconceptByID);
-
-
-
-
 };
