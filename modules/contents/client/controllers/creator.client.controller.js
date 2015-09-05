@@ -167,10 +167,10 @@ angular.module('contents').controller('CreatorController',
 
         $scope.createContents = function()
         {
-            var courseId = $scope.source.course._id;
+            //var courseId = $scope.source.course._id;
             $scope.source.type = $scope.activeType._id;
-            $scope.source.courses = [$scope.source.course._id];
-            delete $scope.source.course;
+            $scope.source.courses = [$scope.course._id];
+            //delete $scope.course;
 
             var cb = function(v)
             {
@@ -182,12 +182,13 @@ angular.module('contents').controller('CreatorController',
                     console.log($scope.segments);
                     $scope.segments.forEach(function(segment)
                     {
-                        var conceptIds = segment.conceptObjects.map(function(concept)
+                        var conceptIds = !segment.conceptObjects ? [] : segment.conceptObjects.map(function(concept)
                         {
                             return concept._id;
                         });
                         delete segment.conceptObjects;
                         segment.concepts = conceptIds;
+                        segment.source = v._id;
 
                         var cb2 = function()
                         {
