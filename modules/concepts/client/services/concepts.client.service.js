@@ -19,4 +19,13 @@ angular.module('concepts').factory('Concepts', ['$socketResource',
             }
         });
     }
+]).factory('SeenConcepts', ['$resource',
+    function($resource) {
+        return $resource('/api/seenconcepts/:seenconceptId', { seenconceptId: '@_id'
+        }, {
+            update: {
+                method: 'PUT'
+            }
+        });
+    }
 ]);

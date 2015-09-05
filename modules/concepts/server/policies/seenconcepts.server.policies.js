@@ -15,7 +15,7 @@ exports.invokeRolesPolicies = function () {
     acl.allow([{
         roles: ['user'],
         allows: [{
-            resources: '/api/learnedconcepts',
+            resources: '/api/seenconcepts',
             permissions: '*'
         }]
     }]);
