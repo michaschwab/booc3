@@ -1,0 +1,33 @@
+<section data-ng-controller="ContentsController" data-ng-init="findContents()" class="container">
+    <div class="page-header">
+        <h1>Contents</h1>
+    </div>
+    <div class="list-group">
+        <a data-ng-repeat="source in sources" data-ng-href="#!/courses/{{courseId}}/lectures/{{source._id}}" class="list-group-item">
+
+            <h4 class="list-group-item-heading">
+
+                <span class="{{sourceTypeMap[source.type].icon}}"></span>
+                <!--<button class="btn btn-default pull-right" ng-click="playVideoClick(source._id,source.course, $event)">
+                    <span class="glyphicon glyphicon-play"></span>
+                    Play video with slides
+                </button>-->
+                <span data-ng-bind="source.title"></span>
+            </h4>
+
+            <div class="list-group-item-text">
+                Concepts:{{getConceptsNumberShort(3, source)}}
+                <ul class="lecture-concepts">
+                    <li ng-repeat="i in getConceptsNumberShort(3, source) track by $index">
+                        <span style="background: {{conceptMap[sourceSegments[source._id][$index].concepts[0]].color}}" class="concept-color-circle"></span>
+                        <small>{{conceptMap[sourceSegments[source._id][$index].concepts[0]].title}}</small>
+                    </li>
+                </ul>
+
+                <span ng-show="getConceptsNumberShort(3, source).length<sourceSegments[source._id].length">...</span>
+            </div>
+
+
+        </a>
+    </div>
+</section>
