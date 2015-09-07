@@ -108,14 +108,14 @@ angular.module('contents').controller('CreatorController',
                 });
             });
         };
-/*
+
         $scope.addConcept = function(concept, scope)
         {
-            console.log(concept);
+            if(!$scope.activeSegment.conceptObjects) $scope.activeSegment.conceptObjects = [];
             $scope.activeSegment.conceptObjects.push(concept);
             scope.$select.selected = null;
         };
-*/
+
         $scope.$watch('editSource', function()
         {
             var source = $scope.editSource;
@@ -197,7 +197,7 @@ angular.module('contents').controller('CreatorController',
 
                         if(segment._id)
                         {
-                            console.log('updating semgnet');
+                            console.log('updating segment');
                             Segments.update({_id: segment._id}, segment, cb2,
                                 function(err){
                                     console.log("ERROR saving:", err);
