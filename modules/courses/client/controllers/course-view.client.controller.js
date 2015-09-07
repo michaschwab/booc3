@@ -48,27 +48,7 @@ angular.module('courses').controller('CourseViewController',
         ConceptStructure.getConceptsAndDeps(function(deps)
         {
             $scope.dependencies = deps;
-            Segments.query({courses:$stateParams.courseId}).$promise.then(function(segments) {
-                $scope.segments = segments;
-                $scope.segmentMap = {};
-                $scope.segmentPerConceptMap = {};
 
-                segments.forEach(function (segment)
-                {
-                    $scope.segmentMap[segment._id] = segment;
-
-                    segment.concepts.forEach(function(conceptId)
-                    {
-                        // If that concept is relevant here (in course)
-                        if($scope.conceptMap[conceptId])
-                        {
-                            $scope.segmentPerConceptMap[conceptId]
-                                ? $scope.segmentPerConceptMap[conceptId].push(segment)
-                                : $scope.segmentPerConceptMap[conceptId] = [segment];
-                        }
-                    });
-                });
-            });
 
             Sources.query().$promise.then(function(sources) {
                 $scope.sources = sources;
@@ -100,6 +80,28 @@ angular.module('courses').controller('CourseViewController',
                     LearnedConcepts.query(function(learned)
                     {
                         $scope.learned = learned;
+                    });
+
+                    Segments.query({courses:$stateParams.courseId}).$promise.then(function(segments) {
+                        $scope.segments = segments;
+                        $scope.segmentMap = {};
+                        $scope.segmentPerConceptMap = {};
+
+                        segments.forEach(function (segment)
+                        {
+                            $scope.segmentMap[segment._id] = segment;
+
+                            segment.concepts.forEach(function(conceptId)
+                            {
+                                // If that concept is relevant here (in course)
+                                if($scope.conceptMap[conceptId])
+                                {
+                                    $scope.segmentPerConceptMap[conceptId]
+                                        ? $scope.segmentPerConceptMap[conceptId].push(segment)
+                                        : $scope.segmentPerConceptMap[conceptId] = [segment];
+                                }
+                            });
+                        });
                     });
 
                     updateActive();
@@ -225,6 +227,16 @@ angular.module('courses').controller('CourseViewController',
 
         $scope.$watch('activeConcept', function()
         {
+            setActiveSegments();
+
+            $scope.updateTodo();
+            updateCurrentGoal();
+        });
+
+        $scope.$watchCollection('segments', setActiveSegments);
+
+        function setActiveSegments()
+        {
             if($scope.activeConcept)
             {
                 $location.search('active', $scope.activeConcept.concept._id);
@@ -243,6 +255,7 @@ angular.module('courses').controller('CourseViewController',
                 {
                     return segment.concepts.indexOf($scope.activeConcept.concept._id) !== -1;
                 });
+                console.log($scope.active.segments);
 
                 setSegment();
             }
@@ -251,10 +264,7 @@ angular.module('courses').controller('CourseViewController',
                 $scope.active.hierarchy = [];
                 //$location.search('active', '');
             }
-
-            $scope.updateTodo();
-            updateCurrentGoal();
-        });
+        }
 
         $scope.$watch('goalConcept', function()
         {
@@ -328,6 +338,7 @@ angular.module('courses').controller('CourseViewController',
         function setSegment()
         {
             // Default is to take the lecture duo segment.
+            console.log($scope.active.segments.length);
 
             if($scope.active.segments.length > 0)
             {
@@ -350,7 +361,6 @@ angular.module('courses').controller('CourseViewController',
                     });
                     $scope.active.segment = lectures.length > 0 ? lectures[0] : $scope.active.segments[0]; //todo
                 }
-
 
                 //$scope.active.source = $scope.sourceMap[$scope.active.segment.source];
                 //$scope.active.sourcetype = $scope.sourcetypeMap[$scope.active.source.type];
