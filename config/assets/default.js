@@ -28,7 +28,7 @@ module.exports = {
         'public/lib/d3-tip/index.js',
 
         'public/lib/pdfjs-dist/build/pdf.combined.js',
-        'public/lib/ng-pdfviewer/dist/ng-pdfviewer.min.js',
+        'public/lib/ng-pdfviewer/ng-pdfviewer.js',
 
         'public/lib/angular-ui-select/dist/select.js',
         'public/lib/angular-sanitize/angular-sanitize.js',

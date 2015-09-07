@@ -255,7 +255,7 @@ angular.module('courses').controller('CourseViewController',
                 {
                     return segment.concepts.indexOf($scope.activeConcept.concept._id) !== -1;
                 });
-                console.log($scope.active.segments);
+                //console.log($scope.active.segments);
 
                 setSegment();
             }
@@ -338,7 +338,7 @@ angular.module('courses').controller('CourseViewController',
         function setSegment()
         {
             // Default is to take the lecture duo segment.
-            console.log($scope.active.segments.length);
+            //console.log($scope.active.segments.length);
 
             if($scope.active.segments.length > 0)
             {
