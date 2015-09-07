@@ -170,6 +170,7 @@ angular.module('contents').controller('CreatorController',
             //var courseId = $scope.source.course._id;
             $scope.source.type = $scope.activeType._id;
             $scope.source.courses = [$scope.course._id];
+            //todo be more flexible and allow multiple courses
             //delete $scope.course;
 
             var cb = function(v)
@@ -186,9 +187,13 @@ angular.module('contents').controller('CreatorController',
                         {
                             return concept._id;
                         });
+
                         delete segment.conceptObjects;
                         segment.concepts = conceptIds;
                         segment.source = v._id;
+
+                        //todo be more flexible and allow multiple courses
+                        segment.courses = [$scope.course._id];
 
                         var cb2 = function()
                         {
