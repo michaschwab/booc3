@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('courseevents').controller('CourseeventsController',
-	function($scope, $stateParams, $location, Courseevents, Courses, Concepts, $route, $window)
+	function($scope, $stateParams, $location, Courseevents, Courses, Concepts, $window)
 	{
 		//todo need to handle errors, eg no concept selected.
 

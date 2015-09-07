@@ -1,6 +1,6 @@
 <section data-ng-controller="CourseeventsController" ng-init="list()" class="container">
 
-	<h1>Course Events</h1>
+	<h1>Manage Course Events</h1>
 
 	Course:
 	<ui-select class="course-select" ng-model="active.course" ng-required name="courseSelect" id="courseSelect">
@@ -13,7 +13,7 @@
 
 	</ui-select>
 
-	<a ng-show="active.course" class="btn btn-default pull-right" style="margin-top: 20px" href="#!/courses/{{active.course._id}}">
+	<a ng-show="active.course" class="btn btn-default pull-right" style="margin-top: 20px" data-ui-sref="courses.view({courseId: active.course._id})">
 		<span class="map-icon"></span>
 		Show Course Map
 	</a>
@@ -46,14 +46,19 @@
 
 				</td>
 				<td>
-					<a href="#!/courseevents/{{event._id}}/edit" class="btn btn-primary"><span class="glyphicon glyphicon-pencil"></span> Edit</a>
+					<a data-ui-sref="courseevents.edit({courseeventId: event._id})" class="btn btn-primary"><span class="glyphicon glyphicon-pencil"></span> Edit</a>
 					<button ng-click="remove(event)" class="btn btn-danger"><span class="glyphicon glyphicon-remove"></span> Delete</button>
 				</td>
 			</tr>
 		</tbody>
 	</table>
 
-	<a class="btn btn-success pull-right" href="#!/courses/{{active.course._id}}/courseevents/create">
+	<a ng-show="active.course" class="btn btn-success pull-right" data-ui-sref="courseevents.createByCourse({courseId: active.course._id})">
+		<span class="glyphicon glyphicon-plus"></span>
+		Create
+	</a>
+
+	<a ng-show="!active.course" class="btn btn-success pull-right" data-ui-sref="courseevents.create">
 		<span class="glyphicon glyphicon-plus"></span>
 		Create
 	</a>

@@ -20,8 +20,8 @@ angular.module('contents').run(['Menus',
 		});
 
 		Menus.addSubMenuItem('topbar', 'courseevents', {
-			title: 'List Events',
-			state: 'courseevents.list'
+			title: 'Manage Events',
+			state: 'courseevents.manage'
 		});
 
 		Menus.addSubMenuItem('topbar', 'courseevents', {

@@ -11,14 +11,14 @@ angular.module('courseevents').config(['$stateProvider',
 				url: '',
 				template: '<ui-view/>'
 			})
-			.state('courseevents.list',
+			.state('courseevents.manage',
 			{
-				url: '/courseevents',
-				templateUrl: 'modules/courseevents/views/list.client.view.html'
+				url: '/courseevents/manage',
+				templateUrl: 'modules/courseevents/views/manage.client.view.html'
 			}).state('courseevents.listByCourse',
 			{
 				url: '/courses/:courseId/courseevents',
-				templateUrl: 'modules/courseevents/views/list.client.view.html'
+				templateUrl: 'modules/courseevents/views/manage.client.view.html'
 			}).state('courseevents.create',
 			{
 				url: '/courseevents/create',
