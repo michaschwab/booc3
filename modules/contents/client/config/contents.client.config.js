@@ -24,8 +24,8 @@ angular.module('contents').run(['Menus',
 		});
 
 		Menus.addSubMenuItem('topbar', 'contents', {
-			title: 'List Contents',
-			state: 'contents.list'
+			title: 'Manage Contents',
+			state: 'contents.manage'
 		});
 
 		Menus.addSubMenuItem('topbar', 'contents', {

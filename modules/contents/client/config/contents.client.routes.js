@@ -31,9 +31,13 @@ angular.module('contents').config(['$stateProvider', '$urlRouterProvider',
                 url: '/courses/:courseId/concepts/:conceptId/contents/add?mode',
                 templateUrl: 'modules/courses/views/view-course.client.view.html'
             })
-            .state('contents.list', {
-                url: '/contents/list',
-                templateUrl: 'modules/contents/views/list-contents.client.view.html'
+            .state('contents.manage', {
+                url: '/contents/manage',
+                templateUrl: 'modules/contents/views/manage-contents.client.view.html'
+            })
+            .state('contents.edit', {
+                url: '/contents/:sourceId/edit',
+                templateUrl: 'modules/contents/views/edit-contents-wrapper.client.view.html'
             })
             .state('contents.editByCourse', {
                 url: '/courses/:courseId/contents/:sourceId/edit',
