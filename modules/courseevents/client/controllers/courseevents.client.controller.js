@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('courseevents').controller('CourseeventsController',
-	function($scope, $stateParams, $location, Courseevents, Courses, Concepts, $window)
+	function($scope, $stateParams, $location, Courseevents, Courses, Concepts, $window, $state)
 	{
 		//todo need to handle errors, eg no concept selected.
 
@@ -13,7 +13,8 @@ angular.module('courseevents').controller('CourseeventsController',
 			//console.log(event);
 
 			event.$update(function() {
-				$location.path('courses/' + event.course + '/courseevents');
+				//$location.path('courses/' + event.course + '/courseevents');
+				$state.go('courseevents.manageByCourse', { courseId: event.course });
 			}, function(errorResponse) {
 				$scope.error = errorResponse.data.message;
 			});
@@ -39,7 +40,7 @@ angular.module('courseevents').controller('CourseeventsController',
 			{
 				var courseId = response._id;
 
-				$location.path('courses/' + $scope.event.course + '/courseevents');
+				$state.go('courseevents.manageByCourse', { courseId: $scope.event.course });
 
 			}, function(errorResponse) {
 				$scope.error = errorResponse.data.message;
@@ -89,7 +90,8 @@ angular.module('courseevents').controller('CourseeventsController',
 				{
 					courseId = $scope.active.course._id;
 
-					$location.path('courses/' + courseId + '/courseevents');
+					//$location.path('courses/' + courseId + '/courseevents');
+					$state.go('courseevents.manageByCourse', { courseId: courseId });
 				}
 			});
 		};

@@ -64,9 +64,14 @@
 
                 <div class="form-group">
 
-                    <a class="btn btn-warning" href="#!{{event.course ? '/courses/' + event.course._id : ''}}/courseevents">
+                    <a ng-show="event.course" class="btn btn-warning" data-ui-sref="courseevents.manageByCourse({ courseId: event.course._id })">
                         <span class="glyphicon glyphicon-remove-circle"></span>
-                        Cancel and back to list
+                        Cancel and back to Manage
+                    </a>
+
+                    <a ng-show="!event.course" class="btn btn-warning" data-ui-sref="courseevents.manage">
+                        <span class="glyphicon glyphicon-remove-circle"></span>
+                        Cancel and back to Manage
                     </a>
 
                     <button ng-disabled="!event.course||!event.concept" ng-show="event.added" type="submit" class="btn btn-primary pull-right">

@@ -15,9 +15,9 @@ angular.module('courseevents').config(['$stateProvider',
 			{
 				url: '/courseevents/manage',
 				templateUrl: 'modules/courseevents/views/manage.client.view.html'
-			}).state('courseevents.listByCourse',
+			}).state('courseevents.manageByCourse',
 			{
-				url: '/courses/:courseId/courseevents',
+				url: '/courses/:courseId/courseevents/manage',
 				templateUrl: 'modules/courseevents/views/manage.client.view.html'
 			}).state('courseevents.create',
 			{
