@@ -1,6 +1,6 @@
 
 angular.module('courses').controller('CourseViewController',
-    function($scope, $stateParams, Courses, Concepts, Conceptdependencies, Authentication, $window, $location, ConceptStructure, Segments, Sources, Sourcetypes, LearnedConcepts, $timeout)
+    function($scope, $stateParams, Courses, Concepts, Conceptdependencies, Authentication, $window, $location, ConceptStructure, Segments, Sources, Sourcetypes, LearnedConcepts, SeenConcepts, $timeout)
     {
         $scope.learnMode = false;
         $scope.learnModeYesNo = 'no';
@@ -102,6 +102,20 @@ angular.module('courses').controller('CourseViewController',
                                 }
                             });
                         });
+                    });
+
+                    SeenConcepts.query(function(seen)
+                    {
+                        $scope.seen = seen;
+                        $scope.seenMap = {};
+                        $scope.seenMapByConcept = {};
+
+                        seen.forEach(function(seenConcept)
+                        {
+                            $scope.seenMap[seenConcept._id] = seenConcept;
+                            $scope.seenMapByConcept[seenConcept.concept] = seenConcept;
+                        });
+                        //console.log($scope.seenMap);
                     });
 
                     updateActive();

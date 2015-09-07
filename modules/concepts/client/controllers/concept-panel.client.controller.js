@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('concepts').controller('ConceptPanelController',
-    function($scope, $rootScope, $stateParams, $location, Authentication, Concepts, Conceptdependencies, Courses, Sourcetypes, Segments, Sources, ConceptStructure, $timeout, LearnedConcepts, $window, PanelAdmin)
+    function($scope, $rootScope, $stateParams, $location, Authentication, Concepts, Conceptdependencies, Courses, Sourcetypes, Segments, Sources, ConceptStructure, $timeout, LearnedConcepts, SeenConcepts, $window, PanelAdmin)
     {
         $scope.unfold = true;
         $scope.minimized = false;
@@ -206,7 +206,7 @@ angular.module('concepts').controller('ConceptPanelController',
 
         }
 
-        $scope.$watch('activeConcept', function() { updateLectures(); updateNext(); });
+        $scope.$watch('activeConcept', function() { updateLectures(); updateNext(); checkSeen(); });
         $scope.$watch('active.segment', updateNext);
 
         $scope.$watch('lectureduoType', updateLectures);
@@ -456,6 +456,27 @@ angular.module('concepts').controller('ConceptPanelController',
             }
         });
 
+        $scope.$watch('learnMode', checkSeen);
+        $scope.$watch('seenMapByConcept', checkSeen);
+
+        function checkSeen()
+        {
+            if($scope.learnMode && $scope.activeConcept && $scope.seenMapByConcept && !$scope.seenMapByConcept[$scope.activeConcept.concept._id])
+            {
+                //console.log('gotta mark concept ', $scope.activeConcept.concept._id,  ' as seen');
+
+                var data = {};
+                data.concept = $scope.activeConcept.concept._id;
+                data.course = $scope.course._id;
+
+                var seen = new SeenConcepts(data);
+                seen.$save();
+            }
+            else
+            {
+                //console.log($scope.learnMode, $scope.activeConcept);
+            }
+        }
 
         $scope.$watch('activeLecture', function()
         {
