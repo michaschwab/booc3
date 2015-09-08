@@ -162,7 +162,7 @@ a, a:focus {
 
 a[disabled] {
     pointer-events: none;
-    color: #666;
+    /*color: #666;*/
 }
 a[disabled] .map-icon {
     -webkit-filter: grayscale(100%);

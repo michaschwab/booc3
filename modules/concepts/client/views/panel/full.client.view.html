@@ -124,7 +124,7 @@
 <div class="concept-panel row">
     <!--<h3>Concepts in {{activeHierarchyConcept.concept.title}}</h3>-->
 
-    <div ng-show="activeMode=='hierarchy'||activeMode=='admin'" class="panel-content" ng-class="{'panel-content-active': activeMode=='hierarchy'||activeMode=='admin'}" style="height: {{panelContentHeightMax-115}}px; ">
+    <div ng-show="activeMode=='hierarchy'||activeMode=='admin'" class="panel-content" ng-class="{'panel-content-active': activeMode=='hierarchy'||activeMode=='admin'}" style="height: {{panelContentHeightMax-160}}px; ">
 
         <p><i>What's within {{activeHierarchyConcept.concept.title}}?</i></p>
 
@@ -160,7 +160,7 @@
         </div>
     </div>
 
-    <div ng-show="activeMode=='lecture'" class="panel-content" ng-class="{'panel-content-active': activeMode=='lecture'}" style="height: {{panelContentHeightMax-115}}px; ">
+    <div ng-show="activeMode=='lecture'" class="panel-content" ng-class="{'panel-content-active': activeMode=='lecture'}" style="height: {{panelContentHeightMax-160}}px; ">
 
         <!--<h3>Concepts in {{activeLecture.title}}</h3>-->
         <p ng-show="activeConcept"><i>Which Lectures cover parts of {{activeConcept.concept.title}}?</i></p>
@@ -216,7 +216,7 @@
         </ul>
     </div>
 
-    <div ng-show="activeMode=='plan'" class="panel-content" ng-class="{'panel-content-active': activeMode=='plan'}" style="height: {{activeConcept ? panelContentHeightMax-115 : panelContentHeightMax}}px; ">
+    <div ng-show="activeMode=='plan'" class="panel-content" ng-class="{'panel-content-active': activeMode=='plan'}" style="height: {{activeConcept ? panelContentHeightMax-160 : panelContentHeightMax}}px; ">
 
         <p><i>How do I learn
 
@@ -335,6 +335,24 @@
 
         <hr />
 
+        <div class="buttonRow" ng-show="active.learnedConceptIds.indexOf(activeConcept.concept._id)===-1">
+
+            <a ng-disabled="!seenMapByConcept[activeConcept.concept._id]" type="button" ng-click=""
+               class="btn btn-warning dropdown-toggle pull-left" aria-expanded="false"
+               title="Mark {{activeConcept.concept.title}} as not seen"
+                    >
+                <span class="glyphicon glyphicon-eye-close"> </span> Mark Not Seen.
+            </a>
+
+            <a ng-disabled="seenMapByConcept[activeConcept.concept._id]" type="button" ng-click=""
+               class="btn btn-success dropdown-toggle pull-right" aria-expanded="false"
+               title="Mark {{activeConcept.concept.title}} as seen"
+                    >
+                <span class="glyphicon glyphicon-eye-open"> </span> Mark Seen.
+            </a>
+
+        </div>
+
         <div class="buttonRow">
 
             <a ng-show="active.learnedConceptIds.indexOf(activeConcept.concept._id)===-1" type="button" ng-click="understoodClick()"
@@ -351,7 +369,7 @@
                 <span class="glyphicon glyphicon-remove"> </span> Not Understood.
             </a>
 
-            <a type="button" ng-show="nextSegment" ng-click="moreMaterialClick()"
+            <a type="button" ng-disabled="!nextSegment" ng-click="moreMaterialClick()"
                data-ui-sref="{segment: nextSegment._id}}}"
                class="btn btn-warning dropdown-toggle pull-left" data-toggle="dropdown" aria-expanded="false">
                 <span class="glyphicon glyphicon-arrow-right"> </span> More on this!
@@ -360,7 +378,7 @@
         </div>
 
         <div class="buttonRow">
-            <a type="button" ng-click="previousClick()" ng-show="previousConcept"
+            <a type="button" ng-click="previousClick()" ng-disabled="!previousConcept"
                 data-ui-sref="{active: previousConcept.concept._id}"
                class="btn btn-primary dropdown-toggle pull-left" aria-expanded="false"
                title="Next: {{previousConcept.concept.title}}">
