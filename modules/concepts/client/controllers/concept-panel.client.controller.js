@@ -465,18 +465,36 @@ angular.module('concepts').controller('ConceptPanelController',
             {
                 //console.log('gotta mark concept ', $scope.activeConcept.concept._id,  ' as seen');
 
-                var data = {};
-                data.concept = $scope.activeConcept.concept._id;
-                data.course = $scope.course._id;
-
-                var seen = new SeenConcepts(data);
-                seen.$save();
+                $scope.seeConcept();
             }
             else
             {
                 //console.log($scope.learnMode, $scope.activeConcept);
             }
         }
+
+        $scope.seeConcept = function(conceptId)
+        {
+            var data = {};
+            data.concept = conceptId ? conceptId : $scope.activeConcept.concept._id;
+            data.course = $scope.course._id;
+
+            var seen = new SeenConcepts(data);
+            seen.$save();
+        };
+
+        $scope.unseeConcept = function(conceptId)
+        {
+            if($scope.seenMapByConcept[conceptId])
+            {
+                var seen = $scope.seenMapByConcept[conceptId];
+                seen.$remove();
+            }
+            else
+            {
+                console.log('cant unsee concept ' + conceptId + ' because it doesnt seem to be marked as seen.');
+            }
+        };
 
         $scope.$watch('activeLecture', function()
         {

@@ -337,14 +337,14 @@
 
         <div class="buttonRow" ng-show="active.learnedConceptIds.indexOf(activeConcept.concept._id)===-1">
 
-            <a ng-disabled="!seenMapByConcept[activeConcept.concept._id]" type="button" ng-click=""
+            <a ng-disabled="!seenMapByConcept[activeConcept.concept._id]" type="button" ng-click="unseeConcept(activeConcept.concept._id)"
                class="btn btn-warning dropdown-toggle pull-left" aria-expanded="false"
                title="Mark {{activeConcept.concept.title}} as not seen"
                     >
                 <span class="glyphicon glyphicon-eye-close"> </span> Mark Not Seen.
             </a>
 
-            <a ng-disabled="seenMapByConcept[activeConcept.concept._id]" type="button" ng-click=""
+            <a ng-disabled="seenMapByConcept[activeConcept.concept._id]" type="button" ng-click="seeConcept(activeConcept.concept._id)"
                class="btn btn-success dropdown-toggle pull-right" aria-expanded="false"
                title="Mark {{activeConcept.concept.title}} as seen"
                     >
