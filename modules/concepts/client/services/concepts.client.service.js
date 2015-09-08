@@ -10,22 +10,4 @@ angular.module('concepts').factory('Concepts', ['$socketResource',
 			}
 		});
 	}
-]).factory('LearnedConcepts', ['$resource',
-    function($resource) {
-        return $resource('/api/learnedconcepts/:learnedconceptId', { learnedconceptId: '@_id'
-        }, {
-            update: {
-                method: 'PUT'
-            }
-        });
-    }
-]).factory('SeenConcepts', ['$socketResource',
-    function($resource) {
-        return $resource('/api/seenconcepts/:seenconceptId', { seenconceptId: '@_id'
-        }, {
-            update: {
-                method: 'PUT'
-            }
-        });
-    }
 ]);
