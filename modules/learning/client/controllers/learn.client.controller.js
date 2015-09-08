@@ -338,6 +338,8 @@ angular.module('learning').controller('LearnController',
 
         function checkWithinSegment()
         {
+            if(!$scope.learnMode) return;
+
             var pos = $scope.currentPosition;
 
             if(pos < $scope.active.segment.start || pos > $scope.active.segment.end)
