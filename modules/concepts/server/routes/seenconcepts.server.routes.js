@@ -10,7 +10,7 @@ module.exports = function (app)
 		.get(seenconcepts.list)
 		.post(seenconcepts.create);
 
-	app.route('/api/seenconcepts/:learnedconceptId')
+	app.route('/api/seenconcepts/:seenconceptId')
 		.get(learnedConceptPolicy.isAllowed, seenconcepts.read)
 		.put(learnedConceptPolicy.isAllowed, seenconcepts.update)
 		.delete(learnedConceptPolicy.isAllowed, seenconcepts.delete);

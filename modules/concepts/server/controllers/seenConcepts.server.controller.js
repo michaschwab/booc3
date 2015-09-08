@@ -63,7 +63,7 @@ exports.update = function(req, res)
  */
 exports.delete = function(req, res)
 {
-    console.log(req);
+    //console.log(req);
 	var seenconcept = req.seenconcept ;
 
 	seenconcept.remove(function(err) {

@@ -17,6 +17,10 @@ exports.invokeRolesPolicies = function () {
         allows: [{
             resources: '/api/seenconcepts',
             permissions: '*'
+        },
+        {
+            resources: '/api/seenconcepts/:seenconceptId',
+            permissions: '*'
         }]
     }]);
 };
@@ -27,6 +31,15 @@ exports.invokeRolesPolicies = function () {
 exports.isAllowed = function (req, res, next) {
     var roles = (req.user) ? req.user.roles : ['guest'];
 
+    if(req.seenconcept && req.seenconcept.user.__id != req.user.__id)
+    {
+        /*console.log(req.seenconcept.user);
+         console.log(req.user);*/
+
+        return res.status(403).json({
+            message: 'User is not authorized'
+        });
+    }
     // Check for user roles
     //console.log(roles, req.route.path, req.method.toLowerCase());
     acl.areAnyRolesAllowed(roles, req.route.path, req.method.toLowerCase(), function (err, isAllowed) {
