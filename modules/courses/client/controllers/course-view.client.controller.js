@@ -107,15 +107,7 @@ angular.module('courses').controller('CourseViewController',
                     SeenConcepts.query(function(seen)
                     {
                         $scope.seen = seen;
-                        $scope.seenMap = {};
-                        $scope.seenMapByConcept = {};
 
-                        seen.forEach(function(seenConcept)
-                        {
-                            $scope.seenMap[seenConcept._id] = seenConcept;
-                            $scope.seenMapByConcept[seenConcept.concept] = seenConcept;
-                        });
-                        //console.log($scope.seenMap);
                     });
 
                     updateActive();
@@ -125,6 +117,24 @@ angular.module('courses').controller('CourseViewController',
             //ConceptStructure.getConceptChildren($scope.topLevelConcepts, null, null, 1, function() {});
             //console.log($scope.topLevelConcepts);
         });
+
+        $scope.$watchCollection('seen', makeSeenMap);
+
+        function makeSeenMap()
+        {
+            $scope.seenMap = {};
+            $scope.seenMapByConcept = {};
+
+            if($scope.seen)
+            {
+                $scope.seen.forEach(function(seenConcept)
+                {
+                    $scope.seenMap[seenConcept._id] = seenConcept;
+                    $scope.seenMapByConcept[seenConcept.concept] = seenConcept;
+                });
+                //console.log($scope.seenMap);
+            }
+        }
 
         var updateTodoTimeout = null;
         $scope.$watchCollection('active.hoveringConceptIds', function()

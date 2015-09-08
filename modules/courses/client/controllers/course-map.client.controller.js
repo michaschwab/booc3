@@ -104,7 +104,8 @@ angular.module('courses').controller('CourseMapController', ['$scope','$statePar
             'zoomMode': { type: 'normal', redraw: 'everything' },
             'active.hierarchyIds': { type: 'normal', redraw: 'everything' },
             //'active.hoveringConceptIds': { type: 'collection', redraw: 'hover' },
-            'conceptColorChange': { type: 'event', redraw: 'hover' }
+            'conceptColorChange': { type: 'event', redraw: 'hover' },
+            'seenMapByConcept': { type: 'normal', redraw: 'everything' }
         };
 
         var timeout;

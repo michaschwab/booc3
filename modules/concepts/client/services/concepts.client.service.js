@@ -19,7 +19,7 @@ angular.module('concepts').factory('Concepts', ['$socketResource',
             }
         });
     }
-]).factory('SeenConcepts', ['$resource',
+]).factory('SeenConcepts', ['$socketResource',
     function($resource) {
         return $resource('/api/seenconcepts/:seenconceptId', { seenconceptId: '@_id'
         }, {
