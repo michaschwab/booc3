@@ -16,5 +16,5 @@ module.exports = function (app)
 		.delete(learnedConceptPolicy.isAllowed, seenconcepts.delete);
 
 	// Finish by binding the user middleware
-	app.param('learnedconceptId', seenconcepts.seenconceptByID);
+	app.param('seenconceptId', seenconcepts.seenconceptByID);
 };
