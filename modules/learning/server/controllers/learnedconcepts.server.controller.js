@@ -63,7 +63,7 @@ exports.update = function(req, res)
  */
 exports.delete = function(req, res)
 {
-    console.log(req);
+    //console.log(req);
 	var learnedconcept = req.learnedconcept ;
 
 	learnedconcept.remove(function(err) {
@@ -86,7 +86,7 @@ exports.list = function(req, res)
     var qObject = {};
 	var roles = (req.user) ? req.user.roles : ['guest'];
 
-	if(roles.indexOf('admin') == -1)
+	if(roles.indexOf('admin') != -1)
 	{
 		if (req.query['user']){
 			qObject['user'] = new ObjectId(req.query['user']);
