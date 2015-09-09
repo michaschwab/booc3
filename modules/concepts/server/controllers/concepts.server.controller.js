@@ -67,16 +67,28 @@ exports.update = function(req, res)
 exports.delete = function(req, res)
 {
 	var concept = req.concept;
+
+	removeConcept(concept, function(msg)
+	{
+		return res.status(400).send({message: msg });
+	}, function(deletedData)
+	{
+		actions.doDelete(req.user, deletedData, function()
+		{
+			res.jsonp(concept);
+		});
+	});
+};
+
+function removeConcept(concept, onerror, callback)
+{
 	var conceptId = concept._id;
 
 	//todo also delete from course concept list, segment concept list, ..
-	//Todo also remove child concepts
 
 	concept.remove(function(err) {
 		if (err) {
-			return res.status(400).send({
-				message: errorHandler.getErrorMessage(err)
-			});
+			return onerror(errorHandler.getErrorMessage(err));
 		}
 		else
 		{
@@ -98,21 +110,44 @@ exports.delete = function(req, res)
 								{
 									var conceptdependencies = conceptdependencies1.concat(conceptdependencies2);
 									var deletedData = { LearnedConcept: learnedconcepts, Conceptdependency: conceptdependencies, Concept: [concept] };
-									actions.doDelete(req.user, deletedData, function()
+
+									Concept.find({parents: {$in: [conceptId]}}).exec(function(err, childConcepts)
 									{
-										res.jsonp(concept);
+										var totalCbs = childConcepts.length;
+										var currentCbs = 0;
+
+										if(!childConcepts.length)
+										{
+											callback(deletedData);
+										}
+										else
+										{
+											childConcepts.forEach(function(child)
+											{
+												removeConcept(child, onerror, function(deletedChildData)
+												{
+													deletedData.LearnedConcept = deletedData.LearnedConcept.concat(deletedChildData.LearnedConcept);
+													deletedData.Conceptdependency = deletedData.Conceptdependency.concat(deletedChildData.Conceptdependency);
+													deletedData.Concept = deletedData.Concept.concat(deletedChildData.Concept);
+													currentCbs++;
+
+													if(currentCbs == totalCbs)
+													{
+														callback(deletedData);
+													}
+												});
+											});
+										}
 									});
 								});
-
 							});
 						});
-
 					});
 				});
 			});
 		}
 	});
-};
+}
 
 /**
  * List of Concepts
