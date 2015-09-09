@@ -497,7 +497,9 @@ angular.module('courses').service('MapArrows', function(Tip, ConceptStructure, M
         var depLayer = d3.select('#pathLayer');
 
         color = $scope.getPathColor(color);
-        var colorWithoutHash = color.substr(1);
+        //var colorWithoutHash = color.substr(1);
+        $scope.addColor(color);
+
         var strokeWidthMax = $scope.graphMinDim / 150;
         var strokeWidth = strokeWidthMax / Math.pow(3, $scope.zoomLevel);
         var d = lineBasis(pos);
@@ -505,7 +507,7 @@ angular.module('courses').service('MapArrows', function(Tip, ConceptStructure, M
         depLayer.append('path')
             .attr('d', d)
             //.attr('marker-end', function() { return i === lines.length - 1 ? 'url(#currentPathEnd)' : '' })
-            .attr('marker-end', 'url(' + $scope.absUrl + '#' + className+'End-' + colorWithoutHash + ')')
+            .attr('marker-end', 'url(' + $scope.absUrl + '#' + className+'End-' + color + ')')
             //.attr('marker-end', 'url(#'+className+'End-'+color+')')
             .attr('class', className + ' end')
             .attr('stroke-width', strokeWidth / 2.5)
