@@ -33,3 +33,17 @@ a:hover .header-profile-image {
   padding-top: 11px !important;
   padding-bottom: 11px !important;
 }
+
+
+.disable-animations.ng-enter,
+.disable-animations.ng-leave,
+.disable-animations.ng-animate {
+  -webkit-transition: none !important;
+  transition: none !important;
+}
+
+/* Use this for keyframe animations */
+.disable-animations.ng-animate {
+  -webkit-animation: none 0s;
+  animation: none 0s;
+}
