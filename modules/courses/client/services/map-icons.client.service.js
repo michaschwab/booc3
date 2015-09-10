@@ -28,7 +28,7 @@ angular.module('courses').service('MapIcons', function(Tip, ConceptStructure, $l
 
         d.playText.append('tspan').attr({
             'font-family': 'Glyphicons Halflings'
-        }).text('?');
+        }).text("\uE072");
 
         d.seenText = el.append('text').attr({
             'fill-opacity': 0,
@@ -45,7 +45,7 @@ angular.module('courses').service('MapIcons', function(Tip, ConceptStructure, $l
 
         d.seenText.append('tspan').attr({
             'font-family': 'Glyphicons Halflings'
-        }).text('?');
+        }).text("\uE105");
 
 
         d.learnedText = el.append('text').attr({
@@ -57,7 +57,7 @@ angular.module('courses').service('MapIcons', function(Tip, ConceptStructure, $l
         });
         d.learnedText.append('tspan').attr({
             'font-family': 'Glyphicons Halflings'
-        }).text('?');
+        }).text("\uE013");
 
         d.goalText = el.append('text').attr({
             //y: -(d.splitTexts.length*params.l1.textYOffset/2)
@@ -72,7 +72,7 @@ angular.module('courses').service('MapIcons', function(Tip, ConceptStructure, $l
         });
         d.goalText.append('tspan').attr({
             'font-family': 'Glyphicons Halflings'
-        }).text('?');
+        }).text("\uE034");
 
         /*el.append('g').attr({
          class: 'path'
