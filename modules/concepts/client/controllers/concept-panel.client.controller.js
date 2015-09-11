@@ -475,12 +475,15 @@ angular.module('concepts').controller('ConceptPanelController',
 
         $scope.seeConcept = function(conceptId)
         {
-            var data = {};
-            data.concept = conceptId ? conceptId : $scope.activeConcept.concept._id;
-            data.course = $scope.course._id;
+            if(!$scope.seenMapByConcept[conceptId])
+            {
+                var data = {};
+                data.concept = conceptId ? conceptId : $scope.activeConcept.concept._id;
+                data.course = $scope.course._id;
 
-            var seen = new SeenConcepts(data);
-            seen.$save();
+                var seen = new SeenConcepts(data);
+                seen.$save();
+            }
         };
 
         $scope.unseeConcept = function(conceptId)

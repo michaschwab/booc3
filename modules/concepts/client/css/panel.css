@@ -458,8 +458,21 @@ input.concept-title.admin {
 }
 
 
-.maximized .learning-buttons .btn {
+.maximized .learning-buttons .halfWidthBtn {
     width: 48.5%;
+}
+
+.maximized .learning-buttons .btn-group {
+    width: 100%;
+}
+.maximized .learning-buttons .btn-group .btn {
+    width: 33.3%;
+}
+
+.learning-buttons .btn[disabled] {
+    opacity: 1;
+    cursor: default;
+    pointer-events: none;
 }
 
 .minimized .learning-buttons {
