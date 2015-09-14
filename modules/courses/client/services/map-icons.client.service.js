@@ -142,15 +142,20 @@ angular.module('courses').service('MapIcons', function(Tip, ConceptStructure, $l
             var within2Levels = $scope.activeConcept ? Math.abs(d.depth - $scope.activeConcept.depth) < 3 : d.depth < 3;
             var depFontSize = d.depth > 2 ? 8.2 * $scope.graphHeight * d.radius / 10 : 3 * $scope.graphHeight * d.radius / 10;
             var depDy = d.depth > 2 ? 3.8 * $scope.graphHeight * d.radius / 10 : 1.5 * $scope.graphHeight * d.radius / 10;
+            var showDepCreate = within2Levels && adminMode;
 
-            el.select('.depCreate').classed('active', within2Levels && adminMode)
-                .transition().attr(
-                {
-                    'fill-opacity': within2Levels && adminMode ? 0.7 : 0,
-                    'dy': depDy
-                }).style({
-                    'font-size': depFontSize + 'px'
-                });
+            if(!lastData[conceptId]['showDepCreate'] || lastData[conceptId]['showDepCreate'] !== showDepCreate)
+            {
+                lastData[conceptId]['showDepCreate'] = showDepCreate;
+                el.select('.depCreate').classed('active', within2Levels && adminMode)
+                    .transition().attr(
+                    {
+                        'fill-opacity': within2Levels && adminMode ? 0.7 : 0,
+                        'dy': depDy
+                    }).style({
+                        'font-size': depFontSize + 'px'
+                    });
+            }
 
             /**
              * This hides concept titles for lower level concepts.

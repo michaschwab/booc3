@@ -15,7 +15,7 @@
             </a>
         </div>
 
-        <a ng-show="learnMode" class="pull-right panel-button play learnmode-{{learnMode}}" title="Show Course Map"
+        <a ng-show="learnMode" class="pull-right panel-button play learnmode-true" title="Show Course Map"
            data-ui-sref="{active: '', learn: 'no'}">
             <span class="glyphicon glyphicon-map-marker"></span>
         </a>
@@ -38,9 +38,9 @@
     <header ng-swipe-left="minimize()"  ng-swipe-right="maximize()" class="row" style="background: {{activeConcept.concept.color}}; border-right: 1px solid {{activeColorDarker}}; {{panelWidth<300 ? 'height: 80px;' : ''}} " tabindex="-1">
 
         <div class="col-md-7">
-            <ol ng-hide="panelWidth<300">
+            <ol ng-if="panelWidth>300">
                 <li>
-                    <a data-ui-sref="{active: ''}" tabindex="0"><span class="sr-only">Course: </span> {{course.short}}</a>
+                    <a data-ui-sref="{active: ''}" tabindex="0"><span class="sr-only">Course: </span> {{::course.short}}</a>
                 </li>
                 <li ng-if="activeConcept.parentData&&activeMode=='hierarchy'" ng-repeat="selected in active.hierarchy" ng-show="selected.concept._id!==activeConcept.concept._id&&selected.concept._id!==activeHierarchyConcept.concept._id">
                     <a data-ui-sref="{active: selected.concept._id, goal: selected.concept._id}">{{selected.concept.title}}</a>
@@ -50,8 +50,8 @@
                 </li>
             </ol>
 
-            <h2 ng-if="activeMode=='hierarchy'" ng-hide="panelWidth<300" tabindex="0">{{activeHierarchyConcept.concept.title}}</h2>
-            <h2 ng-if="activeMode=='plan'||activeMode=='lecture'||activeMode=='minimap'||activeMode=='admin'" ng-hide="panelWidth<300" tabindex="0">{{activeConcept.concept.title}}</h2>
+            <h2 ng-if="activeMode=='hierarchy'" ng-if="panelWidth>300" tabindex="0">{{activeHierarchyConcept.concept.title}}</h2>
+            <h2 ng-if="activeMode=='plan'||activeMode=='lecture'||activeMode=='minimap'||activeMode=='admin'" ng-if="panelWidth>300" tabindex="0">{{activeConcept.concept.title}}</h2>
 
         </div>
 
@@ -97,22 +97,22 @@
     <ul class="nav nav-tabs nav-justified">
         <li role="presentation" class="panel-tab" ng-class="{ 'active': activeMode==='plan'}" style="background: {{activeConcept.concept.color}}">
             <a data-ui-sref="{mode: 'plan'}">
-                <span class="glyphicon glyphicon-road inline-block"></span> <span ng-hide="panelWidth<300">Learning Plan</span></a></li>
+                <span class="glyphicon glyphicon-road inline-block"></span> <span ng-if="panelWidth>300">Learning Plan</span></a></li>
         <!--<li role="presentation" class="panel-tab" ng-class="{ 'active': activeMode==='hierarchy'}" style="background: {{activeConcept.concept.color}}">
             <a href="/#!/courses/{{courseId}}?goal={{goalConcept.concept._id}}&active={{activeConcept.concept._id}}&learn={{learnModeYesNo}}&mode=hierarchy">
                 <span class="glyphicon glyphicon-info-sign visible-lg-inline-block"></span> Information</a></li>-->
 
         <li ng-show="learnMode" role="presentation" class="panel-tab" ng-class="{ 'active': activeMode==='minimap'}" style="background: {{activeConcept.concept.color}}">
             <a data-ui-sref="{mode: 'minimap'}" ng-disabled="!learnMode">
-                <span class="map-icon inline-block"></span> <span ng-hide="panelWidth<300">Minimap</span></a></li>
+                <span class="map-icon inline-block"></span> <span ng-if="panelWidth>300">Minimap</span></a></li>
 
         <li role="presentation" class="panel-tab" ng-class="{ 'active': activeMode==='lecture'}" style="background: {{activeConcept.concept.color}}">
             <a data-ui-sref="{mode: 'lecture'}">
-                <span class="fa fa-university inline-block"></span> <span ng-hide="panelWidth<300">Lectures</span></a></li>
+                <span class="fa fa-university inline-block"></span> <span ng-if="panelWidth>300">Lectures</span></a></li>
 
         <li role="presentation" ng-show="hasConceptEditRights" class="panel-tab" ng-class="{ 'active': activeMode==='admin'}" style="background: {{activeConcept.concept.color}}">
             <a data-ui-sref="{mode: 'admin'}">
-                <span class="fa fa-lock inline-block"></span> <span ng-hide="activeMode!=='admin'">Admin</span></a></li>
+                <span class="fa fa-lock inline-block"></span> <span ng-if="activeMode!=='admin'">Admin</span></a></li>
 
 
 
@@ -140,7 +140,7 @@
 
             <ng-include src="'/modules/concepts/views/panel/admin.client.view.html'" />
 
-            <ul ng-hide="activeMode=='admin'" class="concept-list">
+            <ul ng-if="activeMode=='admin'" class="concept-list">
                 <li ng-repeat="child in activeHierarchyChildren | orderBy:'order':false" class="concept"  ng-class="{ 'active': activeConcept.concept._id === child.concept._id,
                         'learned':  active.learnedConceptIds.indexOf(child.concept._id) !== -1}">
 
@@ -229,7 +229,7 @@
         <p><i>How do I learn
 
             <span ng-if="currentGoal">{{currentGoal.concept.title}}?</span>
-            <span ng-if="!currentGoal">{{course.short}}?</span>
+            <span ng-if="!currentGoal">{{::course.short}}?</span>
 
         </i></p>
 
@@ -241,12 +241,12 @@
 
                     <span class="concept-circle" style="background: #fff"></span>
                     <span class="concept-line"></span>
-                    <span  class="concept-title">{{course.short}}</span>
+                    <span  class="concept-title">{{::course.short}}</span>
 
                 </a>
 
                 <ul class="concept-list">
-                    <li ng-repeat="provider in planConcepts" class="concept" ng-class="{ 'active': d.active, 'inactive': !d.active && provider.inGoalHierarchy && active.hoverHierarchyIds.indexOf(provider.concept._id) === -1, 'hover': active.hoveringConceptIds.indexOf(provider.concept._id) !== -1,
+                    <li ng-repeat="provider in planConcepts track by provider.concept._id" class="concept" ng-class="{ 'active': d.active, 'inactive': !d.active && provider.inGoalHierarchy && active.hoverHierarchyIds.indexOf(provider.concept._id) === -1, 'hover': active.hoveringConceptIds.indexOf(provider.concept._id) !== -1,
                             'learned':  active.learnedConceptIds.indexOf(provider.concept._id) !== -1, 'goal': provider.goal }">
 
 
@@ -257,20 +257,20 @@
 
                         <a data-ui-sref="{active: provider.concept._id}"
                            ng-mouseover="hoverConceptPanel(provider)" ng-mouseleave="leaveConceptPanel(provider)"
-                                title="{{provider.concept.title}}">
-                            <span class="concept-circle" style="background: {{provider.concept.color}}"></span>
+                                title="{{::provider.concept.title}}">
+                            <span class="concept-circle" style="background: {{::provider.concept.color}}"></span>
                             <span class="concept-line"></span>
                             <span class="flag glyphicon glyphicon-flag"></span>
 
-                            <span class="concept-title">{{provider.concept.title}}</span>
+                            <span class="concept-title">{{::provider.concept.title}}</span>
                         </a>
 
                         <ul class="concept-list concept-list-nested" ng-if="provider.planChildren.length">
 
                             <li class="concept"
-                                ng-repeat="concept in provider.planChildren"
+                                ng-repeat="concept in provider.planChildren track by concept.concept._id"
                                 ng-class="{ 'active': concept.active, 'inactive': !concept.active && concept.inGoalHierarchy && concept.inHoverHierarchy, 'hover': concept.hover, 'goal': concept.goal }"
-                                aria-label="{{concept.concept.title}}">
+                                aria-label="{{::concept.concept.title}}">
 
 
                                 <span ng-show="concept.learned" class="concept-tick glyphicon glyphicon-ok"></span>
@@ -279,42 +279,42 @@
                                 <a data-ui-sref="{active: concept.concept._id}"
                                    ng-mouseover="hoverConceptPanel(concept)" ng-mouseleave="leaveConceptPanel(concept)"
                                    tabindex="0"
-                                   title="{{concept.concept.title}}">
+                                   title="{{::concept.concept.title}}">
 
-                                    <span class="concept-circle" style="background: {{concept.concept.color}}"></span>
+                                    <span class="concept-circle" style="background: {{::concept.concept.color}}"></span>
                                     <span class="concept-line"></span>
                                     <span class="flag glyphicon glyphicon-flag"></span>
 
-                                    <span class="concept-title">{{concept.concept.title}}</span>
+                                    <span class="concept-title">{{::concept.concept.title}}</span>
                                 </a>
 
                                 <ul class="concept-list concept-list-nested" ng-if="concept.planChildren.length">
 
-                                    <li class="concept" ng-repeat="child in concept.planChildren" ng-class="{ 'active': child.active, 'inactive': !child.active && child.inGoalHierarchy && child.inHoverHierarchy, 'hover': child.hover, 'goal': child.goal }">
+                                    <li class="concept" ng-repeat="child in concept.planChildren track by child.concept._id" ng-class="{ 'active': child.active, 'inactive': !child.active && child.inGoalHierarchy && child.inHoverHierarchy, 'hover': child.hover, 'goal': child.goal }">
 
                                         <span ng-show="child.learned" class="concept-tick glyphicon glyphicon-ok"></span>
                                         <span ng-show="child.learned" class="sr-only">Learned: </span>
 
                                         <a data-ui-sref="{active: child.concept._id}"
                                            ng-mouseover="hoverConceptPanel(child)" ng-mouseleave="leaveConceptPanel(child)"
-                                           title="{{child.concept.title}}">
+                                           title="{{::child.concept.title}}">
 
-                                            <span class="concept-circle" style="background: {{child.concept.color}}"></span>
+                                            <span class="concept-circle" style="background: {{::child.concept.color}}"></span>
                                             <span class="concept-line"></span>
                                             <span class="flag glyphicon glyphicon-flag"></span>
 
-                                            <span class="concept-title">{{child.concept.title}}</span>
+                                            <span class="concept-title">{{::child.concept.title}}</span>
 
                                         </a>
 
                                         <ul ng-show="activeConcept.concept._id === child.concept._id" class="alternative-segments">
-                                            <li ng-repeat="seg in active.segments" class="segment" ng-class="{ 'active': seg._id === active.segment._id}">
+                                            <li ng-repeat="seg in active.segments track by seg._id" class="segment" ng-class="{ 'active': seg._id === active.segment._id}">
 
                                                 <span class="concept-line"></span>
 
-                                                <a data-ui-sref="{active: child.concept._id, segment:seg._id, learn: 'yes'}" title="{{sourcetypeMap[sourceMap[seg.source].type].title}} on {{sourceMap[seg.source].title}}">
-                                                    <span class="{{sourcetypeMap[sourceMap[seg.source].type].icon}} segment-icon"></span>
-                                                    <span class="segment-title">{{sourcetypeMap[sourceMap[seg.source].type].title}} on <i>{{sourceMap[seg.source].title}}</i></span>
+                                                <a data-ui-sref="{active: child.concept._id, segment:seg._id, learn: 'yes'}" title="{{::sourcetypeMap[sourceMap[seg.source].type].title}} on {{::sourceMap[seg.source].title}}">
+                                                    <span class="{{::sourcetypeMap[sourceMap[seg.source].type].icon}} segment-icon"></span>
+                                                    <span class="segment-title">{{::sourcetypeMap[sourceMap[seg.source].type].title}} on <i>{{::sourceMap[seg.source].title}}</i></span>
                                                 </a>
                                             </li>
                                         </ul>
@@ -329,13 +329,13 @@
         </ul>
     </div>
 
-    <div ng-show="activeMode=='minimap'" class="panel-content"  ng-class="{'panel-content-active': activeMode=='minimap'}" style="height: {{panelContentHeightMax-115}}px; ">
+    <div ng-if="activeMode=='minimap'" class="panel-content"  ng-class="{'panel-content-active': activeMode=='minimap'}" style="height: {{panelContentHeightMax-115}}px; ">
 
 
 
     </div>
 
-    <footer class="learning-buttons col-md-3" ng-show="activeMode=='admin'">
+    <footer class="learning-buttons col-md-3" ng-if="activeMode=='admin'">
 
         <hr />
 

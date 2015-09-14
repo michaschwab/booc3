@@ -291,7 +291,7 @@ angular.module('courses').service('MapCircles', function(Tip, $location, $timeou
             lxCircles[level] = lxCircle;
 
             var lxCircleEnter = lxCircle.enter().append('g').attr({
-                'class': function(d) { return !$scope.segmentPerConceptMap[d.concept._id] ? className + ' lxCircle l23Circle' : className + ' lxCircle l23Circle playable'; },
+                'class': className + ' lxCircle l23Circle',
                 'data-concept-id': function(d) { return d.concept._id; },
                 'id': function(d) { return 'concept-' + d.concept._id; }
             });
@@ -495,6 +495,7 @@ angular.module('courses').service('MapCircles', function(Tip, $location, $timeou
             var config = getConfig(d);
             if(!lastUpdateData[conceptId]) lastUpdateData[conceptId] = {};
             var lastUpdate = lastUpdateData[conceptId];
+            var isPlayable = $scope.segmentPerConceptMap && $scope.segmentPerConceptMap[conceptId] && $scope.segmentPerConceptMap[conceptId].length;
 
             // The titles need to be remade because the radius of the circles change in non-zoomMode, or because of renaming.
             me.makeTitle(d, el);
@@ -531,6 +532,11 @@ angular.module('courses').service('MapCircles', function(Tip, $location, $timeou
                     {
                         'fill': color
                     });
+                }
+                if(!lastUpdate['playable'] || lastUpdate['playable'] !== isPlayable)
+                {
+                    lastUpdate['playable'] = isPlayable;
+                    el.classed('playable', isPlayable);
                 }
             }
         });
