@@ -211,6 +211,16 @@ function($timeout, ConceptStructure)
         {
             this.showEvent(tip, d);
         }
+        else if(d.from)
+        {
+            this.showDependency(tip, d);
+        }
+    };
+
+    this.showDependency = function(tip, d)
+    {
+        var id = 'd3-tip-' + d.from.concept._id + '-' + d.to.concept._id;
+        this.showById(tip, d, id);
     };
 
     this.showEvent = function(tip, d)
