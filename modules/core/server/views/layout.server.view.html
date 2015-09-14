@@ -40,14 +40,14 @@
 
 <body class="ng-cloak disable-animations">
   <header data-ng-include="'/modules/core/views/header.client.view.html'" class="navbar navbar-fixed-top navbar-inverse"></header>
-  <section class="content">
+  <div class="content">
     <div class="container undo-container">
       <ng-include src="'/modules/actions/views/undoMessage.client.view.html'"></ng-include>
     </div>
-    <section class="fluid-container">
+    <div class="fluid-container">
       {% block content %}{% endblock %}
-    </section>
-  </section>
+    </div>
+  </div>
 
   <!--Embedding The User Object-->
   <script type="text/javascript">
