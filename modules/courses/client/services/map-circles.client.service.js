@@ -378,30 +378,38 @@ angular.module('courses').service('MapCircles', function(Tip, $location, $timeou
         layer.selectAll('.startIconGroup').remove();
         var start = layer.append('g').classed('startIconGroup', true);
 
-        var lineData = [ { "x": 0,   "y": 0},  { "x": 0,  "y": 50},
-                             { "x": 50,  "y": 25}, { "x": 0,   "y": 0}];
+        var lineData = [ { "x": 0,   "y": 0},  { "x": 0,  "y": 40},
+                             { "x": 34.64,  "y": 20}, { "x": 0,   "y": 0}];
 
         var lineFunction = d3.svg.line()
                                  .x(function(d) { return d.x; })
                                  .y(function(d) { return d.y; })
                                  .interpolate("linear");
 
-        var lineGraph = start.append("path")
-                                    .attr("d", lineFunction(lineData));
-                                    //.attr("stroke", "blue")
-                                    //.attr("stroke-width", 2)
-                                    //.attr("fill", "none");
 
-        /*var circle = start.append('circle').attr('class', 'startCircle');
-         circle.attr('r', 30);*/
+
         var firstBig = $scope.active.topLevelConcepts[0];
         var scale = ((firstBig.radius / 0.7) / 2 + 0.5) * $scope.graphMinDim / 700;
+
+        var circleStart = {};
+        circleStart.x = scale * 12;
+        circleStart.y = scale * 24;
+        var circle = start.append('circle').attr('class', 'startCircle');
+         circle.attr('r', 30)
+            .attr('transform', 'translate(' + circleStart.x +', ' + circleStart.y + ')');
+
 
         var firstBigPos = $scope.getTranslateAbs(firstBig);
         var arrowStart = { x: firstBigPos.x - scale * 180 , y: firstBigPos.y - scale * 100  };
         //console.log(firstBig, arrowStart);
 
         start.attr('transform', 'translate(' + arrowStart.x +', ' + arrowStart.y + ') rotate(17)');
+
+        var lineGraph = start.append("path")
+            .attr("d", lineFunction(lineData));
+        //.attr("stroke", "blue")
+        //.attr("stroke-width", 2)
+        //.attr("fill", "none");
 
 
         //var text = start.append('text').text('Start').attr('dy', 25).attr('dx', 15);

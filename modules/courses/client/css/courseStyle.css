@@ -314,5 +314,9 @@ text.learned, text.goal {
 
 .startIconGroup path {
     /*stroke: #666666;*/
-    fill: #ddd;
+    fill: #aaa;
+}
+.startIconGroup circle {
+    /*stroke: #666666;*/
+    fill: #eee;
 }
