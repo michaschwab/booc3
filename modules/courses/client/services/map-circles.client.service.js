@@ -291,7 +291,7 @@ angular.module('courses').service('MapCircles', function(Tip, $location, $timeou
             lxCircles[level] = lxCircle;
 
             var lxCircleEnter = lxCircle.enter().append('g').attr({
-                'class': className + ' lxCircle l23Circle',
+                'class': function(d) { return !$scope.segmentPerConceptMap[d.concept._id] ? className + ' lxCircle l23Circle' : className + ' lxCircle l23Circle playable'; },
                 'data-concept-id': function(d) { return d.concept._id; },
                 'id': function(d) { return 'concept-' + d.concept._id; }
             });

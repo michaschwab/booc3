@@ -177,7 +177,12 @@ angular.module('courses').service('MapIcons', function(Tip, ConceptStructure, $l
             {
                 var showThis = me.hasIcon(d, icons[i]);
                 if(showThis)
+                {
+                    el.classed('icon-' + icons[i], true);
                     break;
+                }
+                else
+                    el.classed('icon-' + icons[i], false);
             }
 
             var currentIcon = icons[i];

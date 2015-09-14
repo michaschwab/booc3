@@ -75,7 +75,8 @@ describe('Course CRUD tests', function () {
     });
   });
 
-  it('should not be able to save a course if logged in as user', function (done) {
+  it('should not be able to create a course if logged in as user', function (done)
+  {
     agent.post('/api/auth/signin')
         .send(credentials)
         .expect(200)

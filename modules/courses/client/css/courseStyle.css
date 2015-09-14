@@ -86,11 +86,15 @@ svg #mainLayer text.active.depCreate {
     /*pointer-events: all;*/
     cursor: crosshair;
 }
-text.active.play {
-    fill: #ccc;
+svg.zooming-true .lxCircle.playable {
     pointer-events: visible;
     cursor: pointer;
 }
+/*text.active.play {
+    fill: #ccc;
+    pointer-events: visible;
+    cursor: pointer;
+}*/
 
 text.learned, text.goal {
     fill: #ccc;
