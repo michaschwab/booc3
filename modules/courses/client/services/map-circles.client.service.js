@@ -379,7 +379,6 @@ angular.module('courses').service('MapCircles', function(Tip, $location, $timeou
         var start = layer.append('g').classed('startIconGroup', true);
 
         var firstBig = $scope.active.topLevelConcepts[0];
-        console.log($scope.graphMinDim );
         var scale = ((firstBig.radius / 0.7) / 2 + 0.5) * $scope.graphMinDim / 700;
 
         var lineData = [ { "x": 0,   "y": 0},  { "x": 0,  "y": 40 * scale},
@@ -423,7 +422,7 @@ angular.module('courses').service('MapCircles', function(Tip, $location, $timeou
 
     this.makeTitle = function(d, el, t)
     {
-        var index = d.radius + '-' + d.concept.title;
+        var index = d.radius + '-' + d.concept.title + '-' + $scope.graphMinDim;
 
         if(titlesDone[d.concept._id] !== index)
         {
