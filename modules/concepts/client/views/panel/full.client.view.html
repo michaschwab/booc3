@@ -1,43 +1,10 @@
-<div ng-hide="activeConcept">
-    <header style="background: #f0f0f0" ng-swipe-left="minimize()"  ng-swipe-right="maximize()" tabindex="-1">
 
-        <div ng-show="active.watchableConcept&&!learnMode&&activeMode!='lecture'">
-            <a title="Watch Lecture on {{active.watchableConcept.concept.title}}" class="pull-right panel-button play learnmode-{{learnMode}}"
-               data-ui-sref="{active: active.watchableConcept.concept._id, learn: 'yes'}">
-                <span ng-hide="learnMode" class="glyphicon glyphicon-play"></span>
-            </a>
-        </div>
 
-        <div ng-show="activeLectures.length&&!learnMode&&activeMode=='lecture'">
-            <a title="Watch {{activeLectures[0].lecture.title}}" class="pull-right panel-button play learnmode-{{learnMode}}"
-               data-ui-sref="{source: activeLectures[0].lecture._id, learn: 'yes'}">
-                <span ng-hide="learnMode" class="glyphicon glyphicon-play"></span>
-            </a>
-        </div>
+<div>
 
-        <a ng-show="learnMode" class="pull-right panel-button play learnmode-true" title="Show Course Map"
-           data-ui-sref="{active: '', learn: 'no'}">
-            <span class="glyphicon glyphicon-map-marker"></span>
-        </a>
+    <header ng-swipe-left="minimize()"  ng-swipe-right="maximize()" class="row" style="background: {{activeConcept ? activeConcept.concept.color : '#f0f0f0'}}; border-right: 1px solid {{activeConcept ? activeColorDarker : '#f0f0f0'}}; {{panelWidth<300 ? 'height: 80px;' : ''}} " tabindex="-1">
 
-        <a ng-show="goalConcept&&activeMode=='plan'" class="pull-right panel-button learnmode-{{learnMode}}" title="Unset goal"
-           data-ui-sref="{goal: ''}">
-            <span class="glyphicon glyphicon-flag unsetgoal">/</span>
-        </a>
-
-        <ol>
-        </ol>
-        <h2>{{course.title}}</h2>
-    </header>
-
-    <!--<p ng-show="course.description">{{course.description}}</p>-->
-</div>
-
-<div ng-show="activeConcept">
-
-    <header ng-swipe-left="minimize()"  ng-swipe-right="maximize()" class="row" style="background: {{activeConcept.concept.color}}; border-right: 1px solid {{activeColorDarker}}; {{panelWidth<300 ? 'height: 80px;' : ''}} " tabindex="-1">
-
-        <div style="width: {{panelWidth-160}}px; float: left">
+        <div ng-show="activeConcept" style="width: {{panelWidth-160}}px; float: left">
             <ol ng-if="panelWidth>300">
                 <li>
                     <a data-ui-sref="{active: ''}" tabindex="0"><span class="sr-only">Course: </span> {{::course.short}}</a>
@@ -54,8 +21,14 @@
             <h2 ng-if="activeMode=='plan'||activeMode=='lecture'||activeMode=='minimap'||activeMode=='admin'" ng-if="panelWidth>300" tabindex="0">{{activeConcept.concept.title}}</h2>
 
         </div>
+        <div ng-show="!activeConcept" style="width: {{panelWidth-160}}px; float: left">
+
+            <h2>{{course.title}}</h2>
+
+        </div>
 
         <div style="width: 120px; float: right">
+
 
             <div ng-show="active.watchableConcept&&!learnMode&&activeMode!='lecture'">
                 <a title="Watch Lecture on {{active.watchableConcept.concept.title}}" class="pull-right panel-button play learnmode-{{learnMode}}"
@@ -77,12 +50,12 @@
                 <span class="map-icon map-icon-large"></span>
             </a>
 
-            <a ng-show="!goalConcept&&activeMode=='plan'" class="pull-right panel-button learnmode-{{learnMode}}" title="Set {{activeConcept.concept.title}} as goal"
+            <a ng-show="!goalConcept&&activeMode=='plan'&&activeConcept" class="pull-left panel-button learnmode-{{learnMode}}" title="Set {{activeConcept.concept.title}} as goal"
                data-ui-sref="{goal: activeConcept.concept._id }">
                 <span class="glyphicon glyphicon-flag setgoal"></span>
             </a>
 
-            <a ng-show="goalConcept&&activeMode=='plan'" class="pull-right panel-button unset-goal learnmode-{{learnMode}}" title="Unset goal"
+            <a ng-show="goalConcept&&activeMode=='plan'" class="pull-left panel-button unset-goal learnmode-{{learnMode}}" title="Unset goal"
                data-ui-sref="{goal: ''}">
                 <span class="glyphicon glyphicon-flag unsetgoal">/</span>
             </a>
