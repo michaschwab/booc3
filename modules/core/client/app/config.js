@@ -18,7 +18,8 @@ var ApplicationConfiguration = (function () {
     'ngSanitize',
     'ngPDFViewer',
     'ngDialog',
-    'ui.moment-duration'
+    'ui.moment-duration',
+    'ui.sortable'
 
   ];
 

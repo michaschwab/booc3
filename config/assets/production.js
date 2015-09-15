@@ -13,6 +13,7 @@ module.exports = {
       ],
       js: [
         'public/lib/jquery/dist/jquery.js',
+        'public/lib/jquery-ui/jquery-ui.js',
         'public/lib/angular/angular.min.js',
         'public/lib/angular-resource/angular-resource.min.js',
         'public/lib/angular-animate/angular-animate.min.js',
@@ -32,6 +33,7 @@ module.exports = {
 
         'public/lib/angular-ui-select/dist/select.js',
         'public/lib/angular-sanitize/angular-sanitize.js',
+        'public/lib/angular-ui-sortable/sortable.js',
 
         'public/lib/ngDialog/js/ngDialog.js',
         'public/lib/moment/moment.js',
