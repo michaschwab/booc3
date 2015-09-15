@@ -21,6 +21,7 @@ module.exports = {
         'public/lib/angular-ui-utils/ui-utils.js',
         'public/lib/angular-bootstrap/ui-bootstrap-tpls.js',
         'public/lib/angular-file-upload/angular-file-upload.js',
+        'public/lib/angular-recursion/angular-recursion.js',
 
         'public/lib/x2js/xml2json.js',
         'public/lib/angular-xml/angular-xml.js',

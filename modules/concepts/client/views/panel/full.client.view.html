@@ -246,84 +246,9 @@
                 </a>
 
                 <ul class="concept-list">
-                    <li ng-repeat="provider in planConcepts track by provider.concept._id" class="concept" ng-class="{ 'active': d.active, 'inactive': !d.active && provider.inGoalHierarchy && active.hoverHierarchyIds.indexOf(provider.concept._id) === -1, 'hover': active.hoveringConceptIds.indexOf(provider.concept._id) !== -1,
-                            'learned':  active.learnedConceptIds.indexOf(provider.concept._id) !== -1, 'goal': provider.goal }">
+                    <concept concept="concept" ng-repeat="concept in planConcepts track by concept.concept._id">
 
-
-                        <span ng-show="provider.learned" class="concept-tick glyphicon glyphicon-ok"></span>
-                        <span ng-show="provider.learned" class="sr-only">Learned: </span>
-
-                        <!--<span ng-show="goalConcept.concept._id == provider.concept._id" class="flag glyphicon glyphicon-flag"></span>-->
-
-                        <a data-ui-sref="{active: provider.concept._id}"
-                           ng-mouseover="hoverConceptPanel(provider)" ng-mouseleave="leaveConceptPanel(provider)"
-                                title="{{::provider.concept.title}}">
-                            <span class="concept-circle" style="background: {{::provider.concept.color}}"></span>
-                            <span class="concept-line"></span>
-                            <span class="flag glyphicon glyphicon-flag"></span>
-
-                            <span class="concept-title">{{::provider.concept.title}}</span>
-                        </a>
-
-                        <ul class="concept-list concept-list-nested" ng-if="provider.planChildren.length">
-
-                            <li class="concept"
-                                ng-repeat="concept in provider.planChildren track by concept.concept._id"
-                                ng-class="{ 'active': concept.active, 'inactive': !concept.active && concept.inGoalHierarchy && concept.inHoverHierarchy, 'hover': concept.hover, 'goal': concept.goal }"
-                                aria-label="{{::concept.concept.title}}">
-
-
-                                <span ng-show="concept.learned" class="concept-tick glyphicon glyphicon-ok"></span>
-                                <span ng-show="concept.learned" class="sr-only">Learned: </span>
-
-                                <a data-ui-sref="{active: concept.concept._id}"
-                                   ng-mouseover="hoverConceptPanel(concept)" ng-mouseleave="leaveConceptPanel(concept)"
-                                   tabindex="0"
-                                   title="{{::concept.concept.title}}">
-
-                                    <span class="concept-circle" style="background: {{::concept.concept.color}}"></span>
-                                    <span class="concept-line"></span>
-                                    <span class="flag glyphicon glyphicon-flag"></span>
-
-                                    <span class="concept-title">{{::concept.concept.title}}</span>
-                                </a>
-
-                                <ul class="concept-list concept-list-nested" ng-if="concept.planChildren.length">
-
-                                    <li class="concept" ng-repeat="child in concept.planChildren track by child.concept._id" ng-class="{ 'active': child.active, 'inactive': !child.active && child.inGoalHierarchy && child.inHoverHierarchy, 'hover': child.hover, 'goal': child.goal }">
-
-                                        <span ng-show="child.learned" class="concept-tick glyphicon glyphicon-ok"></span>
-                                        <span ng-show="child.learned" class="sr-only">Learned: </span>
-
-                                        <a data-ui-sref="{active: child.concept._id}"
-                                           ng-mouseover="hoverConceptPanel(child)" ng-mouseleave="leaveConceptPanel(child)"
-                                           title="{{::child.concept.title}}">
-
-                                            <span class="concept-circle" style="background: {{::child.concept.color}}"></span>
-                                            <span class="concept-line"></span>
-                                            <span class="flag glyphicon glyphicon-flag"></span>
-
-                                            <span class="concept-title">{{::child.concept.title}}</span>
-
-                                        </a>
-
-                                        <ul ng-show="activeConcept.concept._id === child.concept._id" class="alternative-segments">
-                                            <li ng-repeat="seg in active.segments track by seg._id" class="segment" ng-class="{ 'active': seg._id === active.segment._id}">
-
-                                                <span class="concept-line"></span>
-
-                                                <a data-ui-sref="{active: child.concept._id, segment:seg._id, learn: 'yes'}" title="{{::sourcetypeMap[sourceMap[seg.source].type].title}} on {{::sourceMap[seg.source].title}}">
-                                                    <span class="{{::sourcetypeMap[sourceMap[seg.source].type].icon}} segment-icon"></span>
-                                                    <span class="segment-title">{{::sourcetypeMap[sourceMap[seg.source].type].title}} on <i>{{::sourceMap[seg.source].title}}</i></span>
-                                                </a>
-                                            </li>
-                                        </ul>
-                                    </li>
-                                </ul>
-
-                            </li>
-                        </ul>
-                    </li>
+                    </concept>
                 </ul>
             </li>
         </ul>

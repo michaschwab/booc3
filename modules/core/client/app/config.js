@@ -12,6 +12,8 @@ var ApplicationConfiguration = (function () {
     'ui.utils',
     'angularFileUpload',
 
+    'RecursionHelper',
+
     'xml',
     'ui.select',
     'ngSocketResource',
