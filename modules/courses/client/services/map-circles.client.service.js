@@ -311,6 +311,10 @@ angular.module('courses').service('MapCircles', function(Tip, $location, $timeou
                 {
                     var segments = $scope.segmentPerConceptMap[d.concept._id];
 
+                    // Disable the current hover, as things might be moving around and the currently hovered concept
+                    // might not be hovered after that any more.
+                    $scope.leaveConcept(d);
+
                     // If it's already selected and it has viewable contents, show them.
                     if($scope.activeConcept !== null && $scope.activeConcept.concept._id === d.concept._id && segments && segments.length > 0)
                     {
@@ -322,10 +326,6 @@ angular.module('courses').service('MapCircles', function(Tip, $location, $timeou
 
                     // Close tooltips that would otherwise be overlapping with possible animations following this.
                     Tip.closeOpenTips();
-
-                    // Disable the current hover, as things might be moving around and the currently hovered concept
-                    // might not be hovered after that any more.
-                    $scope.leaveConcept(d);
 
                     d3.event.preventDefault();
                     d3.event.stopPropagation();

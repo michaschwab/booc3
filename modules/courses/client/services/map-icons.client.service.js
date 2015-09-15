@@ -60,23 +60,14 @@ angular.module('courses').service('MapIcons', function(Tip, ConceptStructure, $l
         }).text("\uE013");
 
         d.goalText = el.append('text').attr({
-            //y: -(d.splitTexts.length*params.l1.textYOffset/2)
-            'fill-opacity': 0,/*function(d){
-                //if(d === undefined || !$scope.goalConcept) { console.log(d, $scope.goalConcept); }
-                return !$scope.goalConcept || $scope.goalConcept.concept._id !== d.concept._id === -1 ? 0 : 0.7;
-            },*/
+            'fill-opacity': 0,
             class: 'goal icon',
             id: 'goal-'+ d.concept._id,
-            fill:(config.textColor)//,
-            //dy: function(d) { return d.depth > 2 ? -1 / 1000 * $scope.graphHeight : 10 * $scope.graphHeight / 1000; }
+            fill:(config.textColor)
         });
         d.goalText.append('tspan').attr({
             'font-family': 'Glyphicons Halflings'
         }).text("\uE034");
-
-        /*el.append('g').attr({
-         class: 'path'
-         });*/
     };
 
     this.addToCircleEnter = function(lxCircleEnter)
