@@ -61,10 +61,10 @@ angular.module('courses').service('MapIcons', function(Tip, ConceptStructure, $l
 
         d.goalText = el.append('text').attr({
             //y: -(d.splitTexts.length*params.l1.textYOffset/2)
-            'fill-opacity':function(d){
+            'fill-opacity': 0,/*function(d){
                 //if(d === undefined || !$scope.goalConcept) { console.log(d, $scope.goalConcept); }
                 return !$scope.goalConcept || $scope.goalConcept.concept._id !== d.concept._id === -1 ? 0 : 0.7;
-            },
+            },*/
             class: 'goal icon',
             id: 'goal-'+ d.concept._id,
             fill:(config.textColor)//,
