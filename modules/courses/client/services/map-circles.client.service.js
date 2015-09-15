@@ -378,8 +378,12 @@ angular.module('courses').service('MapCircles', function(Tip, $location, $timeou
         layer.selectAll('.startIconGroup').remove();
         var start = layer.append('g').classed('startIconGroup', true);
 
-        var lineData = [ { "x": 0,   "y": 0},  { "x": 0,  "y": 40},
-                             { "x": 34.64,  "y": 20}, { "x": 0,   "y": 0}];
+        var firstBig = $scope.active.topLevelConcepts[0];
+        console.log($scope.graphMinDim );
+        var scale = ((firstBig.radius / 0.7) / 2 + 0.5) * $scope.graphMinDim / 700;
+
+        var lineData = [ { "x": 0,   "y": 0},  { "x": 0,  "y": 40 * scale},
+                             { "x": 34.64 * scale,  "y": 20 * scale}, { "x": 0,   "y": 0}];
 
         var lineFunction = d3.svg.line()
                                  .x(function(d) { return d.x; })
@@ -388,14 +392,13 @@ angular.module('courses').service('MapCircles', function(Tip, $location, $timeou
 
 
 
-        var firstBig = $scope.active.topLevelConcepts[0];
-        var scale = ((firstBig.radius / 0.7) / 2 + 0.5) * $scope.graphMinDim / 700;
+
 
         var circleStart = {};
         circleStart.x = scale * 12;
         circleStart.y = scale * 24;
         var circle = start.append('circle').attr('class', 'startCircle');
-         circle.attr('r', 30)
+         circle.attr('r', 30 * scale)
             .attr('transform', 'translate(' + circleStart.x +', ' + circleStart.y + ')');
 
 

@@ -424,7 +424,7 @@ angular.module('courses').service('MapArrows', function(Tip, ConceptStructure, M
             var firstBig = $scope.active.topLevelConcepts[0];
             var scale = ((firstBig.radius / 0.7) / 2 + 0.5) * $scope.graphMinDim / 700;
             var firstBigPos = $scope.getTranslateAbs(firstBig);
-            var arrowStart = { x: firstBigPos.x - scale * 180 , y: firstBigPos.y - scale * 100 + 35  };
+            var arrowStart = { x: firstBigPos.x - scale * 180 , y: firstBigPos.y - scale * 60  };
 
             pos.push(arrowStart);
             coveredConcepts.push({radius: 0.01, concept: { _id: 'randomIdHere123456789', color: '#000000'}});
