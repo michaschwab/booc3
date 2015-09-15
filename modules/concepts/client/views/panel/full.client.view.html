@@ -37,7 +37,7 @@
 
     <header ng-swipe-left="minimize()"  ng-swipe-right="maximize()" class="row" style="background: {{activeConcept.concept.color}}; border-right: 1px solid {{activeColorDarker}}; {{panelWidth<300 ? 'height: 80px;' : ''}} " tabindex="-1">
 
-        <div class="col-md-7">
+        <div style="width: {{panelWidth-160}}px; float: left">
             <ol ng-if="panelWidth>300">
                 <li>
                     <a data-ui-sref="{active: ''}" tabindex="0"><span class="sr-only">Course: </span> {{::course.short}}</a>
@@ -55,7 +55,7 @@
 
         </div>
 
-        <div class="col-md-5">
+        <div style="width: 120px; float: right">
 
             <div ng-show="active.watchableConcept&&!learnMode&&activeMode!='lecture'">
                 <a title="Watch Lecture on {{active.watchableConcept.concept.title}}" class="pull-right panel-button play learnmode-{{learnMode}}"
