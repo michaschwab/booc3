@@ -3,15 +3,18 @@
                         'learned':  active.learnedConceptIds.indexOf(child.concept._id) !== -1}">
 
         <a class="concept">
-            <span class="glyphicon glyphicon-align-justify handle"></span>
+
             <span class="concept-line"></span>
 
             <input id="concept-title-{{child.concept._id}}" class="concept-title admin" ng-change="titleChange(child)" ng-model="child.concept.title" value="{{child.concept.title}}" ng-blur="titleBlur(child)" ng-keydown="titleKeyPress($event, child)" />
 
-            <a ng-click="removeConcept(child)" class="glyphicon glyphicon-remove remove-concept" title="Remove Concept"></a>
-            <a data-ui-sref="contents.createByCourseAndConcept({courseId: course._id, conceptId: child.concept._id, mode: 'admin' })" data-ui-sref-opts="{absolute: true, inherit: false}" class="glyphicon glyphicon-plus add-segment-to-concept" title="Add Content"></a>
-
         </a>
+
+            <span class="glyphicon glyphicon-align-justify action-icon handle"></span>
+            <a href ng-click="removeConcept(child)" class="glyphicon glyphicon-remove remove-concept action-icon" title="Remove Concept"></a>
+            <a href data-ui-sref="contents.createByCourseAndConcept({courseId: course._id, conceptId: child.concept._id, mode: 'admin' })" data-ui-sref-opts="{absolute: true, inherit: false}" class="glyphicon glyphicon-plus add-segment-to-concept action-icon" title="Add Content"></a>
+
+
         <label for="{{child.concept._id}}_color" class="concept-circle" style="background: {{child.concept.color}}"></label>
         <input type="color" id="{{child.concept._id}}_color" ng-change="colorChange(child)" data-ng-model="child.concept.color" class="form-control">
 
@@ -32,7 +35,7 @@
 
     </li>
 
-    <li class="concept">
+    <li class="concept not-sortable">
 
         <a class="concept" ng-click="addConcept()" data-ui-sref="{}">
             <span class="glyphicon glyphicon-plus addConceptIcon" style=""></span>

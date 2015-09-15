@@ -263,9 +263,9 @@ a[disabled] .map-icon {
 
 }
 
-.concept > a {
+/*.concept > a {
     padding-bottom: 19px;
-}
+}*/
 .concept > a > .concept-title {
     position: relative;
     left: 30pt;
@@ -382,7 +382,7 @@ input.concept-title.admin {
 }
 
 .panel-content {
-    padding: 0 50px 0 20px;
+    padding: 0 25px 0 20px;
     overflow: auto;
 }
 
@@ -582,26 +582,28 @@ input.concept-title.admin {
 
 /**** ADMIN STUFF ***/
 
-.concept .remove-concept {
-    color: darkred;
-    padding: 0 0 0 15px;
+.action-icon {
+    padding: 0 0 0 8px;
     top: 3px;
     float: right;
     padding-top: 3px;
 }
 
+.concept .remove-concept {
+    color: darkred;
+
+}
+
 .concept .add-segment-to-concept {
-    padding: 0 0 0 15px;
-    top: 3px;
     color: darkgreen;
-    float: right;
-    padding-top: 3px;
 }
 
 .handle {
     cursor: pointer;
-    top: 5px;
-    left: -25px;
+    color: cornflowerblue;
+    top: 0;
+    /*top: 5px;
+    right: -80px;*/
 }
 
 .addConceptIcon {

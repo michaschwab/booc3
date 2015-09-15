@@ -125,6 +125,7 @@ angular.module('courses').service('PanelAdmin', function(Concepts, $rootScope, $
 
         $scope.sortableOptions = {
             handle: '.handle',
+            items: "li:not(.not-sortable)",
             update: function(e, ui) {
                 /*var logEntry = tmpList.map(function(i){
                  return i.value;
