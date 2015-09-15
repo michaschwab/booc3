@@ -5,3 +5,18 @@
     width: 320px;
     z-index: 2;
 }
+
+.search-container .ui-select-toggle {
+    background: #ffffff;
+}
+
+.selectResetter {
+    position: absolute;
+    top: 6px;
+    right: 30px;
+    background: #dddddd;
+    border-radius: 10px;
+    width: 18px;
+    height: 18px;
+    padding-left: 5px;
+}

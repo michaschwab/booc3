@@ -4,7 +4,7 @@
         <ui-select-match placeholder="Search Learning Concept...">
             <div style="width:20px; height:20px; background: {{$select.selected.color}}; float: left; margin-right: 15pt; border-radius: 10px"></div>
             {{$select.selected.title}}
-            <div class="selectResetter" class="pull-right" ng-click="searchUnselect(this)">x</div>
+            <div class="selectResetter" class="pull-right" ng-click="searchUnselect(this)">&times;</div>
         </ui-select-match>
         <ui-select-choices repeat="concept in searchConcepts | filter: $select.search">
             <div style="width:20px; height:20px; background: {{concept.color}}; float: left; margin-right: 15pt; border-radius: 10px"></div>
