@@ -435,6 +435,8 @@ angular.module('concepts').controller('ConceptPanelController',
             updateHierarchy();
         });
 
+        $scope.$watchCollection('active.hoverHierarchyIds', updateHierarchy);
+
         $rootScope.$on('conceptStructureLoaded', function()
         {
             updateHierarchy();
