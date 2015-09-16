@@ -1,8 +1,8 @@
 
 
-<div>
+<div ng-class="{ 'panel-minimized': minimized, 'maximized': !minimized }">
 
-    <header ng-swipe-left="minimize()"  ng-swipe-right="maximize()" class="row" style="background: {{activeConcept ? activeConcept.concept.color : '#f0f0f0'}}; border-right: 1px solid {{activeConcept ? activeColorDarker : '#f0f0f0'}}; {{panelWidth<300 ? 'height: 80px;' : ''}} " tabindex="-1">
+    <header ng-swipe-left="minimize()"  ng-swipe-right="maximize()" class="row panel-header" style="background: {{activeConcept ? activeConcept.concept.color : '#f0f0f0'}}; border-right: 1px solid {{activeConcept ? activeColorDarker : '#f0f0f0'}}; {{panelWidth<300 ? 'height: 80px;' : ''}} " tabindex="-1">
 
         <div ng-show="activeConcept" style="width: {{panelWidth-160}}px; float: left">
             <ol ng-if="panelWidth>300">
@@ -64,9 +64,9 @@
 
     </header>
 
-</div>
 
-<div class="row">
+
+<div class="row tab-selection">
     <ul class="nav nav-tabs nav-justified">
         <li role="presentation" class="panel-tab" ng-class="{ 'active': activeMode==='plan'}" style="background: {{activeConcept.concept.color}}">
             <a data-ui-sref="{mode: 'plan'}">
@@ -199,7 +199,7 @@
 
     <div ng-show="activeMode=='plan'" class="panel-content" ng-class="{'panel-content-active': activeMode=='plan'}" style="height: {{activeConcept ? panelContentHeightMax-120 : panelContentHeightMax}}px; ">
 
-        <p><i>How do I learn
+        <p class="plan-intro"><i>How do I learn
 
             <span ng-if="currentGoal">{{currentGoal.concept.title}}?</span>
             <span ng-if="!currentGoal">{{::course.short}}?</span>
@@ -253,27 +253,27 @@
 
         <div class="buttonRow">
 
-            <div class="btn-group" role="group" aria-label="...">
+            <div ng-class="{'btn-group': !minimized, 'btn-group-vertical': minimized}" role="group" aria-label="...">
                 <button type="button" class="btn btn-default"
                         ng-class="{'btn-primary': !seenMapByConcept[activeConcept.concept._id] && active.learnedConceptIds.indexOf(activeConcept.concept._id)===-1 }"
                         ng-click="notUnderstoodClick();unseeConcept(activeConcept.concept._id)"
                         ng-disabled="!seenMapByConcept[activeConcept.concept._id] && active.learnedConceptIds.indexOf(activeConcept.concept._id)===-1">
                     <span class="glyphicon glyphicon-eye-close"></span>
-                    Not Seen
+                    <span class="btn-label">Not Seen</span>
                 </button>
                 <button type="button" class="btn btn-default"
                         ng-class="{'btn-primary': seenMapByConcept[activeConcept.concept._id] && active.learnedConceptIds.indexOf(activeConcept.concept._id)===-1 }"
                         ng-click="notUnderstoodClick();seeConcept(activeConcept.concept._id)"
                         ng-disabled="seenMapByConcept[activeConcept.concept._id] && active.learnedConceptIds.indexOf(activeConcept.concept._id)===-1">
                     <span class="glyphicon glyphicon-eye-open"></span>
-                    Seen
+                    <span class="btn-label">Seen</span>
                 </button>
                 <button type="button" class="btn btn-default"
                         ng-class="{'btn-primary': active.learnedConceptIds.indexOf(activeConcept.concept._id)!==-1 }"
                         ng-click="understoodClick()"
                         ng-disabled="active.learnedConceptIds.indexOf(activeConcept.concept._id)!==-1">
                     <span class="glyphicon glyphicon-ok"></span>
-                    Understood
+                    <span class="btn-label">Understood</span>
                 </button>
             </div>
 
@@ -314,7 +314,8 @@
             <a type="button" ng-disabled="!nextSegment" ng-click="moreMaterialClick()"
                data-ui-sref="{segment: nextSegment._id}}}"
                class="btn btn-warning dropdown-toggle pull-left halfWidthBtn" data-toggle="dropdown" aria-expanded="false">
-                <span class="glyphicon glyphicon-arrow-right"> </span> More on this!
+                <span class="glyphicon glyphicon-arrow-right"> </span>
+                <span class="btn-label">More on this!</span>
             </a>
 
         </div>
@@ -325,7 +326,7 @@
                class="btn btn-primary dropdown-toggle pull-left halfWidthBtn" aria-expanded="false"
                title="Next: {{previousConcept.concept.title}}">
                 <span class="glyphicon glyphicon-arrow-up"> </span>
-                <span>Previous</span>
+                <span class="btn-label">Previous</span>
             </a>
 
             <a type="button" ng-click="nextClick()" ng-show="nextConcept"
@@ -333,7 +334,7 @@
                class="btn btn-primary dropdown-toggle pull-right halfWidthBtn" aria-expanded="false"
                title="Next: {{nextConcept.concept.title}}">
                 <span class="glyphicon glyphicon-arrow-down"> </span>
-                <span>Next!</span>
+                <span class="btn-label">Next!</span>
             </a>
         </div>
 
@@ -341,5 +342,7 @@
 
 
     </footer>
+
+</div>
 
 </div>

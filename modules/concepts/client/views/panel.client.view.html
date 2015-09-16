@@ -2,24 +2,26 @@
      style="{{activeMode!='minimap'?'z-index:10; position:relative;':''}}height:{{windowHeight-55}}px; width:{{courseScope.panelWidth}}px" ng-class="{minimized: minimized, maximized: !minimized}"
      >
 
-    <div ng-show="!minimized" class="fadein maximized">
+    <div class="fadein">
 
-        <div class="sidepanelOptions" aria-hidden="true">
+        <div ng-show="!minimized" class="sidepanelOptions" aria-hidden="true">
             <a aria-hidden="true" class="minimizerToggle minimizer fa fa-caret-square-o-left" href="" ng-click="minimize()" title="Hide Panel"></a>
+        </div>
+
+        <div ng-if="minimized" class="sidepanelOptions" role="presentation">
+            <a aria-hidden="true" class="minimizerToggle maximizer fa fa-caret-square-o-right" href="" ng-click="maximize()" title="Show Panel"></a>
         </div>
 
         <ng-include src="'modules/concepts/views/panel/full.client.view.html'"></ng-include>
 
     </div>
 
-    <div ng-if="minimized" class="minimized">
+    <!--<div class="minimized">
 
-        <div class="sidepanelOptions" role="presentation">
-            <a aria-hidden="true" class="minimizerToggle maximizer fa fa-caret-square-o-right" href="" ng-click="maximize()" title="Show Panel"></a>
-        </div>
+
 
         <ng-include src="'modules/concepts/views/panel/minimized.client.view.html'"></ng-include>
 
-    </div>
+    </div>-->
 
 </div>

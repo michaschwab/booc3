@@ -475,23 +475,7 @@ input.concept-title.admin {
     pointer-events: none;
 }
 
-.minimized .learning-buttons {
-    position: fixed;
-    left: 0;
-    width: 100%;
-    background: #f6f6f6;
-    bottom: 5px;
-    padding: 0 2px;
-    height: 150px;
 
-    vertical-align: text-bottom;
-}
-
-.minimized .learning-buttons .btn {
-    width: 100%;
-    margin-bottom: 2px;
-    vertical-align: text-bottom;
-}
 
 /** lecture **/
 .lectureList {
@@ -652,11 +636,22 @@ input[type=color] {
 
 /** MINIMIZED **/
 .panel-minimized {
-    margin-left: -10.5pt;
+    margin-left: -8pt;
+    font-size: 0;
+}
+.panel-minimized .panel-header h2, .panel-minimized .tab-selection, .panel-minimized .plan-intro {
+    display: none;
+}
+.panel-minimized .panel-content {
+    /*padding: 0;*/
+    padding: 0 0 0 25px;
 }
 .panel-minimized > .course-list {
     padding-top: 50px;
     left: 18px;
+}
+.panel-minimized .row {
+    margin: 0;
 }
 .panel-minimized .concept-list, .panel-minimized .alternative-segments {
     list-style: none;
@@ -715,4 +710,32 @@ input[type=color] {
 .maximizer {
     position: absolute;
     top: 5px;
+}
+
+.minimized .learning-buttons {
+    padding-left: 12px;
+    /*position: fixed;*/
+    left: 0;
+    /*width: 100%;*/
+    background: #f6f6f6;
+    bottom: 5px;
+    /*padding: 0 2px;*/
+    height: 150px;
+
+    vertical-align: text-bottom;
+}
+
+.minimized .buttonRow {
+    width: 105%;
+}
+.minimized .learning-buttons .btn {
+    width: 85%;
+    margin-bottom: 2px;
+    vertical-align: text-bottom;
+    padding-left: 10px;
+    /*text-indent: -9999px;*/
+}
+
+.minimized .learning-buttons .btn .btn-label {
+    display:none;
 }
