@@ -430,22 +430,14 @@ angular.module('concepts').controller('ConceptPanelController',
             updatePlan();
         }
 
-        $scope.$watch('activeConcept.children', function()
-        {
-            updateHierarchy();
-        });
+        $scope.$watch('activeConcept.children', updateHierarchy);
 
+        $scope.$watchCollection('activeDependencyProviderIds', updateHierarchy);
+        $scope.$watchCollection('active.hierarchyIds', updateHierarchy);
         $scope.$watchCollection('active.hoverHierarchyIds', updateHierarchy);
 
-        $rootScope.$on('conceptStructureLoaded', function()
-        {
-            updateHierarchy();
-        });
-
-        $scope.$watch('active.topLevelConcepts', function()
-        {
-            updateHierarchy();
-        });
+        $rootScope.$on('conceptStructureLoaded', updateHierarchy);
+        $scope.$watch('active.topLevelConcepts', updateHierarchy);
 
         $scope.$watch('activeSegment', function()
         {
