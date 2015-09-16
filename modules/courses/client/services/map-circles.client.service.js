@@ -389,13 +389,9 @@ angular.module('courses').service('MapCircles', function(Tip, $location, $timeou
                                  .y(function(d) { return d.y; })
                                  .interpolate("linear");
 
-
-
-
-
         var circleStart = {};
-        circleStart.x = scale * 12;
-        circleStart.y = scale * 24;
+        circleStart.x = scale * 11;
+        circleStart.y = scale * 22;
         var circle = start.append('circle').attr('class', 'startCircle');
          circle.attr('r', 30 * scale)
             .attr('transform', 'translate(' + circleStart.x +', ' + circleStart.y + ')');
@@ -409,12 +405,23 @@ angular.module('courses').service('MapCircles', function(Tip, $location, $timeou
 
         var lineGraph = start.append("path")
             .attr("d", lineFunction(lineData));
-        //.attr("stroke", "blue")
-        //.attr("stroke-width", 2)
-        //.attr("fill", "none");
 
+        start.append('text').attr({
+            class: 'concept-title'
+        }).html('Start').attr({
+            'dy': 24 * scale,
+            'fill': '#ffffff',
+            'font-size': 13 * scale
+        });
 
-        //var text = start.append('text').text('Start').attr('dy', 25).attr('dx', 15);
+        start.on('click', function()
+        {
+            if($scope.active.watchableConcept)
+            {
+                $location.search('active', $scope.active.watchableConcept.concept._id);
+                $location.search('learn', 'yes');
+            }
+        });
 
     };
 

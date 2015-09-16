@@ -320,3 +320,6 @@ text.learned, text.goal {
     /*stroke: #666666;*/
     fill: #eee;
 }
+.startIconGroup {
+    cursor: pointer;
+}
