@@ -68,7 +68,11 @@
     <ul class="nav nav-tabs nav-justified">
         <li role="presentation" class="panel-tab" ng-class="{ 'active': activeMode==='plan'}" style="background: {{activeConcept.concept.color}}">
             <a data-ui-sref="{mode: 'plan'}">
-                <span class="glyphicon glyphicon-road inline-block"></span> <span ng-if="panelWidth>300">Learning Plan</span></a></li>
+                <span class="glyphicon glyphicon-road inline-block"></span>
+                <span ng-if="panelWidth>400">Learning Plan</span>
+                <span ng-if="panelWidth>300&&panelWidth<=400">Plan</span>
+            </a>
+        </li>
         <!--<li role="presentation" class="panel-tab" ng-class="{ 'active': activeMode==='hierarchy'}" style="background: {{activeConcept.concept.color}}">
             <a href="/#!/courses/{{courseId}}?goal={{goalConcept.concept._id}}&active={{activeConcept.concept._id}}&learn={{learnModeYesNo}}&mode=hierarchy">
                 <span class="glyphicon glyphicon-info-sign visible-lg-inline-block"></span> Information</a></li>-->
@@ -83,7 +87,7 @@
 
         <li role="presentation" ng-show="hasConceptEditRights" class="panel-tab" ng-class="{ 'active': activeMode==='admin'}" style="background: {{activeConcept.concept.color}}">
             <a data-ui-sref="{mode: 'admin'}">
-                <span class="fa fa-lock inline-block"></span> <span ng-if="activeMode!=='admin'">Admin</span></a></li>
+                <span class="fa fa-lock inline-block"></span> <span ng-if="activeMode==='admin'">Admin</span></a></li>
 
 
 
