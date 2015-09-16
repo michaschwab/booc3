@@ -439,6 +439,7 @@ input.concept-title.admin {
     width: 24%;
     background: #f6f6f6;
     bottom: 20px;
+    padding: 0 10px;
 }
 .buttonRow {
     padding-top: 10px;
@@ -465,7 +466,7 @@ input.concept-title.admin {
 .maximized .learning-buttons .btn-group {
     width: 100%;
 }
-.maximized .learning-buttons .btn-group .btn {
+.maximized .learning-buttons .learned-state .btn-group .btn {
     width: 33.3%;
 }
 
@@ -713,23 +714,21 @@ input[type=color] {
 }
 
 .minimized .learning-buttons {
-    padding-left: 12px;
-    /*position: fixed;*/
+    padding-left: 1px;
+    position: fixed;
     left: 0;
+    width: 30px;
     /*width: 100%;*/
     background: #f6f6f6;
     bottom: 5px;
     /*padding: 0 2px;*/
-    height: 150px;
+    /*height: 150px;*/
 
     vertical-align: text-bottom;
 }
 
-.minimized .buttonRow {
-    width: 105%;
-}
 .minimized .learning-buttons .btn {
-    width: 85%;
+    width: 88%;
     margin-bottom: 2px;
     vertical-align: text-bottom;
     padding-left: 10px;

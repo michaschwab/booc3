@@ -233,7 +233,7 @@
 
     </div>
 
-    <footer class="learning-buttons col-md-3" ng-if="activeMode=='admin'">
+    <footer class="learning-buttons" ng-if="activeMode=='admin'">
 
         <hr />
 
@@ -247,11 +247,11 @@
 
     </footer>
 
-    <footer class="learning-buttons col-md-3" ng-show="activeConcept&&activeMode!='admin'">
+    <footer class="learning-buttons" ng-show="activeConcept&&activeMode!='admin'">
 
         <hr />
 
-        <div class="buttonRow">
+        <div class="buttonRow learned-state">
 
             <div ng-class="{'btn-group': !minimized, 'btn-group-vertical': minimized}" role="group" aria-label="...">
                 <button type="button" class="btn btn-default"
@@ -309,8 +309,6 @@
                 <span class="glyphicon glyphicon-remove"> </span> Not Understood.
             </a>-->
 
-
-
             <a type="button" ng-disabled="!nextSegment" ng-click="moreMaterialClick()"
                data-ui-sref="{segment: nextSegment._id}}}"
                class="btn btn-warning dropdown-toggle pull-left halfWidthBtn" data-toggle="dropdown" aria-expanded="false">
@@ -321,21 +319,24 @@
         </div>
 
         <div class="buttonRow">
-            <a type="button" ng-click="previousClick()" ng-disabled="!previousConcept"
-                data-ui-sref="{active: previousConcept.concept._id}"
-               class="btn btn-primary dropdown-toggle pull-left halfWidthBtn" aria-expanded="false"
-               title="Next: {{previousConcept.concept.title}}">
-                <span class="glyphicon glyphicon-arrow-up"> </span>
-                <span class="btn-label">Previous</span>
-            </a>
 
-            <a type="button" ng-click="nextClick()" ng-show="nextConcept"
-                data-ui-sref="{active: nextConcept.concept._id}"
-               class="btn btn-primary dropdown-toggle pull-right halfWidthBtn" aria-expanded="false"
-               title="Next: {{nextConcept.concept.title}}">
-                <span class="glyphicon glyphicon-arrow-down"> </span>
-                <span class="btn-label">Next!</span>
-            </a>
+            <div ng-class="{'btn-group-vertical': minimized}" role="group" aria-label="...">
+                <a type="button" ng-click="previousClick()" ng-disabled="!previousConcept"
+                    data-ui-sref="{active: previousConcept.concept._id}"
+                   class="btn btn-primary dropdown-toggle halfWidthBtn" aria-expanded="false"
+                   title="Next: {{previousConcept.concept.title}}">
+                    <span class="glyphicon glyphicon-arrow-up"> </span>
+                    <span class="btn-label">Previous</span>
+                </a>
+
+                <a type="button" ng-click="nextClick()" ng-show="nextConcept"
+                    data-ui-sref="{active: nextConcept.concept._id}"
+                   class="btn btn-primary dropdown-toggle halfWidthBtn" aria-expanded="false"
+                   title="Next: {{nextConcept.concept.title}}">
+                    <span class="glyphicon glyphicon-arrow-down"> </span>
+                    <span class="btn-label">Next!</span>
+                </a>
+            </div>
         </div>
 
 
