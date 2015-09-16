@@ -1,26 +1,16 @@
 'use strict';
 
 angular.module('concepts').controller('ConceptPanelController',
-    function($scope, $rootScope, $stateParams, $location, Authentication, Concepts, Conceptdependencies, Courses, Sourcetypes, Segments, Sources, ConceptStructure, $timeout, LearnedConcepts, SeenConcepts, $window, PanelAdmin)
+    function($scope, $rootScope, $stateParams, $location, Authentication, Concepts, Conceptdependencies, Courses, Sourcetypes, Segments, Sources, ConceptStructure, $timeout, LearnedConcepts, SeenConcepts, $window, PanelAdmin, ConceptPanelView, ConceptActions)
     {
         $scope.unfold = true;
         $scope.minimized = false;
         $scope.courseScope = $scope.$parent.$parent;
         $scope.planConcepts = [];
-        PanelAdmin.init($scope);
 
-        $scope.getPanelWidth = function()
-        {
-            if($scope.minimized)
-            {
-                return 36;
-            }
-            else
-            {
-                // go full screen for small devices
-                return $scope.windowWidth < 800 ? $scope.windowWidth : $scope.windowWidth / 4;
-            }
-        };
+        PanelAdmin.init($scope);
+        ConceptPanelView.init($scope);
+        ConceptActions.init($scope);
 
         function getChildIds(concept)
         {
@@ -38,43 +28,6 @@ angular.module('concepts').controller('ConceptPanelController',
                 return [concept.concept._id];
             }
         }
-
-        $scope.animatePanelWidth = function(goalWidth, onEnd)
-        {
-            /*var start = $scope.courseScope.panelWidth;
-            var distance = start - goalWidth;
-            $('#sidepanel').animate({ width: goalWidth }, {progress: function(promise, remaining)
-            {
-                $scope.courseScope.panelWidth = start - remaining * distance;
-            }});*/
-
-            d3.select('#sidepanel').transition()
-                .style('width', goalWidth + 'px')
-                .each('end', onEnd);
-            //
-        };
-
-        $scope.minimize = function()
-        {
-            $scope.minimized = true;
-            var newWidth = $scope.getPanelWidth();
-
-            $scope.animatePanelWidth(newWidth, function()
-            {
-                $scope.courseScope.panelWidth = newWidth;
-                $scope.safeApply();
-            });
-        };
-
-        $scope.maximize = function()
-        {
-            $scope.minimized = false;
-            var newWidth = $scope.getPanelWidth();
-
-            $scope.courseScope.panelWidth = newWidth;
-            $scope.safeApply();
-            $scope.animatePanelWidth(newWidth);
-        };
 
         function updateLectures()
         {
@@ -257,15 +210,8 @@ angular.module('concepts').controller('ConceptPanelController',
             updatePlan();
         };
 
-        $scope.$watch('goalConcept', function()
-        {
-            $scope.updateDepProviders();
-        });
-
-        $scope.$watch('todoIds', function()
-        {
-            $scope.updateDepProviders();
-        });
+        $scope.$watch('goalConcept', $scope.updateDepProviders);
+        $scope.$watch('todoIds', $scope.updateDepProviders);
 
         var updatePlan = function()
         {
@@ -467,31 +413,7 @@ angular.module('concepts').controller('ConceptPanelController',
             }
         }
 
-        $scope.seeConcept = function(conceptId)
-        {
-            if(!$scope.seenMapByConcept[conceptId])
-            {
-                var data = {};
-                data.concept = conceptId ? conceptId : $scope.activeConcept.concept._id;
-                data.course = $scope.course._id;
 
-                var seen = new SeenConcepts(data);
-                seen.$save();
-            }
-        };
-
-        $scope.unseeConcept = function(conceptId)
-        {
-            if($scope.seenMapByConcept[conceptId])
-            {
-                var seen = $scope.seenMapByConcept[conceptId];
-                seen.$remove();
-            }
-            else
-            {
-                console.log('cant unsee concept ' + conceptId + ' because it doesnt seem to be marked as seen.');
-            }
-        };
 
         $scope.$watch('activeLecture', function()
         {
@@ -520,19 +442,6 @@ angular.module('concepts').controller('ConceptPanelController',
             }
         });
 
-        $scope.clickConcept = function(concept, $event)
-        {
-            if($scope.learnMode)
-            {
-
-            }
-            else
-            {
-                //$scope.activateConcept(concept, 1);
-                $event.preventDefault();
-            }
-        };
-
         $scope.$watch('activeConcept.concept.color', function()
         {
             if($scope.activeConcept !== null && $scope.activeConcept !== undefined)
@@ -541,27 +450,6 @@ angular.module('concepts').controller('ConceptPanelController',
             }
         });
 
-        $scope.understoodClick = function()
-        {
-            $scope.understood($scope.activeConcept);
-        };
-
-        $scope.notUnderstoodClick = function()
-        {
-            $scope.notUnderstood($scope.activeConcept);
-        };
-
-        $scope.hoverConceptPanel = function()
-        {
-            //$scope.unfold = false;console.log('false');
-            //$scope.hoverConcept.apply(this, arguments);
-
-        };
-        $scope.leaveConceptPanel = function()
-        {
-            //$scope.leaveConcept.apply(this, arguments);
-            //$scope.unfold = true;console.log('true');
-        };
 
         function updateActive()
         {
@@ -582,15 +470,5 @@ angular.module('concepts').controller('ConceptPanelController',
         {
             updateActive();
         });
-
-        $scope.updatePanelHeight = function()
-        {
-            $scope.panelContentHeightMax = $scope.windowHeight - $scope.panelOffsetTop;
-            $scope.courseScope.panelWidth = $scope.getPanelWidth();
-        };
-
-        var w = angular.element($window);
-        w.bind('resize', $scope.updatePanelHeight);
-        $scope.$watch('panelOffsetTop', $scope.updatePanelHeight);
 
     });
