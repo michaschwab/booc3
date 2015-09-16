@@ -206,7 +206,7 @@ angular.module('courses').service('MapCircles', function(Tip, $location, $timeou
                 };
                 l2 = {
                     scale:d3.scale.linear().domain([0,1]),
-                    radiusSelected: l2maxRadius *1.82,
+                    radiusSelected: l2maxRadius *1.83,
                     radius: l2maxRadius *.7,
                     radiusNonSelected:l2maxRadius *.6,
                     radiusNonSelectedButParent:l2maxRadius *.5,
@@ -228,7 +228,7 @@ angular.module('courses').service('MapCircles', function(Tip, $location, $timeou
                     radius: l3maxRadius *.8,
                     radiusNonSelected:l3maxRadius *.5,
                     radiusNonSelectedButParent:l3maxRadius *.5,
-                    radiusParentSelected:l3maxRadius *1.0,
+                    radiusParentSelected:l3maxRadius *0.8,
                     positionSelected:function() { return 0; },
                     position: function(d) { return d *.78; },
                     positionParentInSelection: function(pos) { return pos * .85; },

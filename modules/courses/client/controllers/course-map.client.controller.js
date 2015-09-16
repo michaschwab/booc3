@@ -288,32 +288,31 @@ angular.module('courses').controller('CourseMapController', ['$scope','$statePar
                 MapCircles.update();
                 MapEvents.update();
 
+                var canvas = $scope.canvas;
+                var scale = 1;
+                var translate = [w/2, h/2];
+
                 if($scope.zoomMode)
                 {
-                    var canvas = $scope.canvas;
-                    var scale = 1;
-                    var translate = [w/2, h/2];
-
-                    if($scope.active.hierarchy.length > 0)
+                    if ($scope.active.hierarchy.length > 0)
                     {
                         var trans = $scope.getTranslateAbs($scope.activeConcept, 2);
 
-                        var sortedHierarchy = $scope.active.hierarchy.sort(function(a, b)
-                        {
+                        var sortedHierarchy = $scope.active.hierarchy.sort(function (a, b) {
                             return a.depth - b.depth;
                         });
 
-                        var index = sortedHierarchy[sortedHierarchy.length-1].depth === 3 ? sortedHierarchy.length-2 : sortedHierarchy.length-1;
+                        var index = sortedHierarchy[sortedHierarchy.length - 1].depth === 3 ? sortedHierarchy.length - 2 : sortedHierarchy.length - 1;
                         var selectedConcept = sortedHierarchy[index];
 
                         var radius = $scope.visParams.l1.scale(selectedConcept.radius);
 
                         var scaleRelative = 0.75; // If 1, then the element fills out the full screen.
                         scale = smallerDim / radius / 2 * scaleRelative;
-                        var topLeft = { x: trans.x - radius, y: trans.y - radius };
+                        var topLeft = {x: trans.x - radius, y: trans.y - radius};
 
 
-                        var relativeMove = radius * (1-scaleRelative) * scale;
+                        var relativeMove = radius * (1 - scaleRelative) * scale;
                         // Dunno why 25, but seems to work well
                         var fixingAmount = 25 * $scope.graphMinDim / 800;
 
@@ -321,41 +320,43 @@ angular.module('courses').controller('CourseMapController', ['$scope','$statePar
 
                         translate = [topLeft.x * scale * -1 + relativeMove + fixingAmount + proportionsFix, topLeft.y * scale * -1 + relativeMove + fixingAmount];
                     }
+                }
 
-                    var zoom = d3.behavior.zoom()
-                        .translate([0, 0])
-                        //.translate([w/2, h/2])
-                        .scale(1)
-                        .scaleExtent([1, 8])
-                        .on('zoom', function()
-                        {
-                            canvas.attr('transform', 'translate(' + d3.event.translate + ')scale(' + d3.event.scale + ')');
-                        });
+                // Make sure it's zoomed out, in case zoomMode was on before.
 
-                    if(translate[0] != $scope.currentZoomGoal[0] || translate[1] != $scope.currentZoomGoal[1])
+                var zoom = d3.behavior.zoom()
+                    .translate([0, 0])
+                    //.translate([w/2, h/2])
+                    .scale(1)
+                    .scaleExtent([1, 8])
+                    .on('zoom', function()
                     {
-                        //console.log(translate, $scope.currentZoomGoal);
-                        $scope.zoomLevel = selectedConcept ? selectedConcept.depth : 0;
+                        canvas.attr('transform', 'translate(' + d3.event.translate + ')scale(' + d3.event.scale + ')');
+                    });
 
-                        canvas.transition()
-                            .duration(750)
-                            .call(zoom.translate(translate).scale(scale).event)
-                            .each('start', function()
-                            {
-                                //console.log('zooming with duration 750');
-                                $scope.zoomLevel = selectedConcept ? selectedConcept.depth : 0;
-                                //console.log($scope.zoomLevel);
-                                $scope.currentZoomGoal = translate;
-                                $scope.zooming = true;
-                                $scope.$apply();
-                            }).each('end', function()
-                            {
-                                $scope.currentZoomGoal = translate;
-                                $scope.zooming = false;
-                                $scope.redrawHover();
-                                $scope.$apply();
-                            });
-                    }
+                if(translate[0] != $scope.currentZoomGoal[0] || translate[1] != $scope.currentZoomGoal[1])
+                {
+                    //console.log(translate, $scope.currentZoomGoal);
+                    $scope.zoomLevel = selectedConcept ? selectedConcept.depth : 0;
+
+                    canvas.transition()
+                        .duration(750)
+                        .call(zoom.translate(translate).scale(scale).event)
+                        .each('start', function()
+                        {
+                            //console.log('zooming with duration 750');
+                            $scope.zoomLevel = selectedConcept ? selectedConcept.depth : 0;
+                            //console.log($scope.zoomLevel);
+                            $scope.currentZoomGoal = translate;
+                            $scope.zooming = true;
+                            $scope.$apply();
+                        }).each('end', function()
+                        {
+                            $scope.currentZoomGoal = translate;
+                            $scope.zooming = false;
+                            $scope.redrawHover();
+                            $scope.$apply();
+                        });
                 }
 
                 MapArrows.drawDeps();
@@ -462,6 +463,11 @@ angular.module('courses').controller('CourseMapController', ['$scope','$statePar
             $scope.windowWidth = $window.innerWidth;
 
             $scope.setGraphSize();
+        });
+
+        $scope.$watch('zoomMode', function()
+        {
+            $timeout($scope.redraw, 500);
         });
 
         for(var key in redraws)
