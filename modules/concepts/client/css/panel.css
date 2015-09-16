@@ -96,13 +96,15 @@ a, a:focus {
     font-size: 10pt;
     width: 20pt;
     height: 20pt;
-    margin: 3pt 0 0 1pt;
+    margin: 6pt 0 0 3pt;
+    /*padding: 2pt 0 0 3pt;*/
     /*box-shadow: 2px 2px 4px #999;*/
     border-radius: 5pt;
     border: 1px solid #ddd;
     background: #f6f6f6;
     display: block;
     color: #333333;
+    float: none !important;
 }
 .minimized .play.learnmode-true {
     padding: 2pt 0 0 3pt;
@@ -503,6 +505,16 @@ input.concept-title.admin {
     height: 18px;
 }
 
+.minimized .unsetgoal:before {
+    font-size:11pt;
+    left: 10px;
+}
+.minimized .unsetgoal {
+    font-size:16pt;
+    left: -3px;
+    top: -2px;
+}
+
 .unsetgoal:before {
     color: #333;
     position: relative;
@@ -516,8 +528,11 @@ input.concept-title.admin {
     left: -9px;
     top: -4px;
     z-index:5;
-    font-size:30pt;
 
+    font-size:30pt;
+}
+.maximized .unsetgoal {
+    font-size:30pt;
 }
 .maximized .setgoal {
     padding: 8px 0 0 11px;
@@ -637,7 +652,7 @@ input[type=color] {
 
 /** MINIMIZED **/
 .panel-minimized {
-    margin-left: -8pt;
+    /*margin-left: -8pt;*/
     font-size: 0;
 }
 .panel-minimized .panel-header h2, .panel-minimized .tab-selection, .panel-minimized .plan-intro {
@@ -645,7 +660,7 @@ input[type=color] {
 }
 .panel-minimized .panel-content {
     /*padding: 0;*/
-    padding: 0 0 0 25px;
+    padding: 10px 0 0 15px;
 }
 .panel-minimized > .course-list {
     padding-top: 50px;
