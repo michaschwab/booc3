@@ -81,10 +81,14 @@ angular.module('courses').service('MapCircles', function(Tip, $location, $timeou
             {
                 positionFct = config.positionSelected;
             }
+            else if($scope.active.hierarchy.indexOf(d.parentData) > -1 && $scope.active.hierarchy.indexOf(d.parentData) != $scope.active.hierarchy.length - 1)
+            {
+                positionFct = config.positionParentInSelection;
+            }
 
             translate = {
-                x: $scope.visParams.l1.scale(parentRadius * positionFct(d.x)),
-                y: $scope.visParams.l1.scale(parentRadius * positionFct(d.y)),
+                x: $scope.visParams.l1.scale(parentRadius * positionFct(d.x, d)),
+                y: $scope.visParams.l1.scale(parentRadius * positionFct(d.y, d)),
                 radius: $scope.visParams.l1.scale(parentRadius)
             };
 
@@ -145,7 +149,7 @@ angular.module('courses').service('MapCircles', function(Tip, $location, $timeou
                     radiusSelected: .7,
                     radius: .7,
                     radiusNonSelected: .7,
-                    positionSelected:function(d){return d},
+                    positionSelected:function(pos, d){return pos;},
                     textYOffset: 0.02,
                     textColor:'#000'
                 };
@@ -155,10 +159,12 @@ angular.module('courses').service('MapCircles', function(Tip, $location, $timeou
                     radiusSelected: l2maxRadius *.7,
                     radius: l2maxRadius *.7,
                     radiusNonSelected:l2maxRadius *.7,
+                    radiusNonSelectedButParent:l2maxRadius *.7,
                     radiusParentSelected:l2maxRadius *.7,
 
-                    positionSelected:function(d){return d*.75},
-                    position:function(d){return d *.75},
+                    positionSelected:function(pos){return pos*.75;},
+                    position:function(pos){return pos *.75;},
+                    positionParentInSelection: function(pos) { return pos * .75; },
 
                     textYOffset: 0.012,
                     textPos:function(d){
@@ -172,9 +178,11 @@ angular.module('courses').service('MapCircles', function(Tip, $location, $timeou
                     radiusSelected: l3maxRadius*.8,
                     radius: l3maxRadius *.8,
                     radiusNonSelected:l3maxRadius *.8,
+                    radiusNonSelectedButParent:l3maxRadius *.8,
                     radiusParentSelected:l3maxRadius *.8,
-                    positionSelected:function(d){return d*1},
-                    position:function(d){return d *1},
+                    positionSelected:function(pos){return pos*1;},
+                    position:function(pos){return pos *1;},
+                    positionParentInSelection: function(pos) { return pos * 1; },
                     textYOffset: 0.003,
                     textPos:function(d){
                         if (d.splitTexts.length>0) return -((d.splitTexts.length-1)*3/2); // depends on textYOffset
@@ -189,22 +197,24 @@ angular.module('courses').service('MapCircles', function(Tip, $location, $timeou
             {
                 l1 = {
                     scale:d3.scale.linear().domain([0,1]),
-                    radiusSelected:1.5,
+                    radiusSelected:1.6,
                     radius: .8,
-                    radiusNonSelected: .5,
-                    positionSelected:function() { return 0 },
+                    radiusNonSelected: .4,
+                    positionSelected:function() { return 0; },
                     textYOffset: 0.02,
                     textColor:'#000'
                 };
                 l2 = {
                     scale:d3.scale.linear().domain([0,1]),
-                    radiusSelected: l2maxRadius *1.2,
+                    radiusSelected: l2maxRadius *1.82,
                     radius: l2maxRadius *.7,
-                    radiusNonSelected:l2maxRadius *.5,
+                    radiusNonSelected:l2maxRadius *.6,
+                    radiusNonSelectedButParent:l2maxRadius *.5,
                     radiusParentSelected:l2maxRadius *.8,
-                    positionSelected:function() { return 0 },
-                    position:function(d){return d *.75},
-                    textYOffset: 0.012,
+                    positionSelected:function() { return 0; },
+                    position:function(d){ return d *.75;},
+                    positionParentInSelection: function(pos) { return pos * .85; },
+                    textYOffset: 0.018,
                     textPos:function(d, scale){
                         //console.log(d.radius, scale(d.radius));
                         if (d.radius)return (scale(d.radius)+10);
@@ -214,13 +224,15 @@ angular.module('courses').service('MapCircles', function(Tip, $location, $timeou
                 };
                 l3 = {
                     scale:d3.scale.linear().domain([0,1]),
-                    radiusSelected: l3maxRadius*1.2,
+                    radiusSelected: l3maxRadius*1.8,
                     radius: l3maxRadius *.8,
                     radiusNonSelected:l3maxRadius *.5,
-                    radiusParentSelected:l3maxRadius *.8,
-                    positionSelected:function() { return 0 },
-                    position: function(d) { return d *.7 },
-                    textYOffset: 0.003,
+                    radiusNonSelectedButParent:l3maxRadius *.5,
+                    radiusParentSelected:l3maxRadius *1.0,
+                    positionSelected:function() { return 0; },
+                    position: function(d) { return d *.78; },
+                    positionParentInSelection: function(pos) { return pos * .85; },
+                    textYOffset: 0.012,
                     textPos:function(d){
                         if (d.splitTexts.length>0) return -((d.splitTexts.length-1)*10/2); // depends on textYOffset
                         else return 0;
@@ -590,8 +602,11 @@ angular.module('courses').service('MapCircles', function(Tip, $location, $timeou
             if ($scope.active.hierarchy.indexOf(d) > -1) { // I am selected
                 d.radius = parentRadius * scale * config.radiusSelected;
             }
-            else if (d.parentData && $scope.active.hierarchy.indexOf(d.parentData) > -1) {
+            else if (d.parentData && $scope.active.hierarchy.indexOf(d.parentData) > -1 && $scope.active.hierarchy.indexOf(d.parentData) == $scope.active.hierarchy.length - 1) {
                 d.radius = parentRadius * scale  * config.radiusParentSelected;
+            }
+            else if (d.parentData && $scope.active.hierarchy.indexOf(d.parentData) > -1) {
+                d.radius = parentRadius * scale  * config.radiusNonSelectedButParent;
             }
             else if ($scope.active.hierarchy.length > 0) { // someone else is selected
                 d.radius = parentRadius * scale  * config.radiusNonSelected;
