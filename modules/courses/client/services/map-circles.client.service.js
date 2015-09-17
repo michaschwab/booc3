@@ -360,6 +360,8 @@ angular.module('courses').service('MapCircles', function(Tip, $location, $timeou
                 //console.log('enter:',d, this, d3.select(this));
                 var el = d3.select(this);
 
+                el.append('g').attr('class', 'icons');
+
                 el.append('text').attr({
                     class: 'concept-title'
                 });

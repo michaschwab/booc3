@@ -3,6 +3,8 @@ angular.module('courses').service('MapIcons', function(Tip, ConceptStructure, $l
     var me = this;
     var $scope;
 
+    var OPACITY = 0.3;
+
     this.init = function(scope)
     {
         $scope = scope;
@@ -11,13 +13,15 @@ angular.module('courses').service('MapIcons', function(Tip, ConceptStructure, $l
     this.add = function(el, d)
     {
         var config = $scope.getConfig(d);
+        /*var iconColor = $scope.darker($scope.depthColorModification(d));
+        el.attr('fill', iconColor);*/
 
         d.playText = el.append('text').attr({
             //y: -(d.splitTexts.length*params.l1.textYOffset/2)
             'fill-opacity': 0,
             class: 'play icon',
             id: 'play-'+ d.concept._id,
-            fill:(config.textColor),
+            //fill:(config.textColor),
             dy: 3.5 / 1000 * $scope.graphHeight
         }).on('click', function(d)
         {
@@ -34,7 +38,7 @@ angular.module('courses').service('MapIcons', function(Tip, ConceptStructure, $l
             'fill-opacity': 0,
             class: 'seen icon',
             id: 'seen-'+ d.concept._id,
-            fill:(config.textColor),
+            //fill:(config.textColor),
             dy: 3.5 / 1000 * $scope.graphHeight
         }).on('click', function(d)
         {
@@ -52,7 +56,7 @@ angular.module('courses').service('MapIcons', function(Tip, ConceptStructure, $l
             'fill-opacity': 0,
             class: 'learned icon',
             id: 'learned-'+ d.concept._id,
-            fill:(config.textColor),
+            //fill:(config.textColor),
             dy: function(d) { return d.depth > 2 ? 150 * d.radius : 150 * d.radius; }
         });
         d.learnedText.append('tspan').attr({
@@ -62,8 +66,8 @@ angular.module('courses').service('MapIcons', function(Tip, ConceptStructure, $l
         d.goalText = el.append('text').attr({
             'fill-opacity': 0,
             class: 'goal icon',
-            id: 'goal-'+ d.concept._id,
-            fill:(config.textColor)
+            id: 'goal-'+ d.concept._id
+            //fill:(config.textColor)
         });
         d.goalText.append('tspan').attr({
             'font-family': 'Glyphicons Halflings'
@@ -98,13 +102,14 @@ angular.module('courses').service('MapIcons', function(Tip, ConceptStructure, $l
         lxCircle.each(function(d)
         {
             var el = d3.select(this);
+            var iconEl = el.select('.icons');
             var conceptId = d.concept._id;
             if(!lastData[conceptId]) lastData[conceptId] = {};
 
             // If icons are not set up for some reason (eg after creating new concept), set them up now.
             if(!d.goalText)
             {
-                me.add(el, d);
+                me.add(iconEl, d);
             }
 
             var size = $scope.graphHeight + '-' + d.radius;
@@ -113,7 +118,7 @@ angular.module('courses').service('MapIcons', function(Tip, ConceptStructure, $l
             {
                 lastData[conceptId]['size'] = size;
 
-                el.selectAll('.icon').attr(
+                iconEl.selectAll('.icon').attr(
                 {
                     'dy': 2 * $scope.graphHeight * d.radius / 10
                 }).style(
@@ -138,10 +143,10 @@ angular.module('courses').service('MapIcons', function(Tip, ConceptStructure, $l
             if(!lastData[conceptId]['showDepCreate'] || lastData[conceptId]['showDepCreate'] !== showDepCreate)
             {
                 lastData[conceptId]['showDepCreate'] = showDepCreate;
-                el.select('.depCreate').classed('active', within2Levels && adminMode)
+                iconEl.select('.depCreate').classed('active', within2Levels && adminMode)
                     .transition().attr(
                     {
-                        'fill-opacity': within2Levels && adminMode ? 0.7 : 0,
+                        'fill-opacity': within2Levels && adminMode ? OPACITY : 0,
                         'dy': depDy
                     }).style({
                         'font-size': depFontSize + 'px'
@@ -174,11 +179,11 @@ angular.module('courses').service('MapIcons', function(Tip, ConceptStructure, $l
                 var showThis = me.hasIcon(d, icons[i]);
                 if(showThis)
                 {
-                    el.classed('icon-' + icons[i], true);
+                    iconEl.classed('icon-' + icons[i], true);
                     break;
                 }
                 else
-                    el.classed('icon-' + icons[i], false);
+                    iconEl.classed('icon-' + icons[i], false);
             }
 
             var currentIcon = icons[i];
@@ -192,7 +197,7 @@ angular.module('courses').service('MapIcons', function(Tip, ConceptStructure, $l
                     if(icon == currentIcon)
                     {
                         d[icon + 'Text'].classed('active', true)
-                            .transition().attr({'fill-opacity': 0.7});
+                            .transition().attr({'fill-opacity': OPACITY});
                     }
                     else
                     {

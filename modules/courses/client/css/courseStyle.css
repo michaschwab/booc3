@@ -97,7 +97,7 @@ svg.zooming-true .lxCircle.playable {
 }*/
 
 text.learned, text.goal {
-    fill: #ccc;
+    /*fill: #ccc;*/
     overflow: visible;
 }
 
