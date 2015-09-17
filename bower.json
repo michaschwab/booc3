@@ -28,7 +28,8 @@
     "ng-pdfviewer": "michaschwab/ng-pdfviewer#develop",
     "ngDialog": "~0.5.1",
     "pdfjs-dist": null,
-    "x2js": null
+    "x2js": null,
+    "bootstrap-toggle": null
   },
   "resolutions": {
     "angular": "~1.4"
