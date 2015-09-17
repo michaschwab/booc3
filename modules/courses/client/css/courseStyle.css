@@ -301,12 +301,17 @@ text.learned, text.goal {
 }
 /*** TOOLTIPS END ***/
 
-.prereqButton {
+.prereqToggle {
     position: absolute;
     top: 80px;
     right: 50px;
-
 }
+.futurePlansToggle {
+    position: absolute;
+    top: 130px;
+    right: 50px;
+}
+
 .learnmode-true .prereqButton {
     display: none;
 }

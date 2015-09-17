@@ -12,10 +12,46 @@ angular.module('courses').service('MapArrows', function(Tip, ConceptStructure, M
         .x(function(d) { return d.x; })
         .y(function(d) { return d.y; });
 
+    var OPTIONS_PLANS = {
+        zoomMode: true,
+        showAllDeps: false,
+        showCurrentDeps: false,
+        showCurrentProvidings: false,
+        showCurrentProvidingsImplicit: false,
+        showAllProvidingsImplicit: false,
+        showCurrentPath: false,
+        showCurrentPathHierarchy: true,
+        showCurrentPathFutureHierarchy: true,
+        showAllShortestPathsHierarchy: true,
+        showPathWhenInactive: false,
+        grayInactiveConcepts: true,
+        grayInactiveDependencies: false,
+        hideInactiveDependencies: false,
+        depsColorOfConcept: true
+    };
+
+    var OPTIONS_PREREQS = {
+        zoomMode: true,
+        showAllDeps: true,
+        showCurrentDeps: true,
+        showCurrentProvidings: true,
+        showCurrentProvidingsImplicit: false,
+        showAllProvidingsImplicit: false,
+        showCurrentPath: false,
+        showCurrentPathHierarchy: false,
+        showCurrentPathFutureHierarchy: false,
+        showAllShortestPathsHierarchy: false,
+        showPathWhenInactive: false,
+        grayInactiveConcepts: true,
+        grayInactiveDependencies: true,
+        hideInactiveDependencies: true,
+        depsColorOfConcept: true
+    };
+
     this.init = function(scope)
     {
         $scope = scope;
-
+        $scope.learningPlansOn = true;
         this.setUpWatch();
         MapArrowShaping.init($scope);
     };
@@ -563,59 +599,19 @@ angular.module('courses').service('MapArrows', function(Tip, ConceptStructure, M
 
         var setToPrerequisites = function()
         {
-            $scope.prereqButtonText = 'Exploring Learning Plans';
-            $scope.preReqButtonClick();
+            $scope.learningPlansOn = false;
         };
 
-        $scope.prereqButtonText = !adminMode ? 'Exploring Prerequisites' : 'Exploring Learning Plans';
-        $scope.preReqButtonClick = function()
+        $scope.setLearningPlans = function(onOff)
         {
-            if($scope.prereqButtonText == 'Exploring Prerequisites')
-            {
-                $scope.prereqButtonText = 'Exploring Learning Plans';
-
-                $scope.options = {
-                    zoomMode: true,
-                    showAllDeps: false,
-                    showCurrentDeps: false,
-                    showCurrentProvidings: false,
-                    showCurrentProvidingsImplicit: false,
-                    showAllProvidingsImplicit: false,
-                    showCurrentPath: false,
-                    showCurrentPathHierarchy: true,
-                    showCurrentPathFutureHierarchy: true,
-                    showAllShortestPathsHierarchy: true,
-                    showPathWhenInactive: false,
-                    grayInactiveConcepts: true,
-                    grayInactiveDependencies: false,
-                    hideInactiveDependencies: false,
-                    depsColorOfConcept: true
-                };
-            }
-            else
-            {
-                $scope.prereqButtonText = 'Exploring Prerequisites';
-
-                $scope.options = {
-                    zoomMode: true,
-                    showAllDeps: true,
-                    showCurrentDeps: true,
-                    showCurrentProvidings: true,
-                    showCurrentProvidingsImplicit: false,
-                    showAllProvidingsImplicit: false,
-                    showCurrentPath: false,
-                    showCurrentPathHierarchy: false,
-                    showCurrentPathFutureHierarchy: false,
-                    showAllShortestPathsHierarchy: false,
-                    showPathWhenInactive: false,
-                    grayInactiveConcepts: true,
-                    grayInactiveDependencies: true,
-                    hideInactiveDependencies: true,
-                    depsColorOfConcept: true
-                };
-            }
+            $scope.learningPlansOn = onOff;
         };
 
-        $scope.preReqButtonClick();
+        $scope.$watch('learningPlansOn', function()
+        {
+            $scope.options = $scope.learningPlansOn ? OPTIONS_PLANS : OPTIONS_PREREQS;
+        });
+
+        //$scope.preReqButtonClick();
     };
 });

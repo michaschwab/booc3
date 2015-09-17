@@ -9,7 +9,8 @@ module.exports = {
         'public/lib/angular-ui-select/dist/select.css',
         'public/lib/font-awesome/css/font-awesome.css',
         'public/lib/ngDialog/css/ngDialog.css',
-        'public/lib/ngDialog/css/ngDialog-theme-default.css'
+        'public/lib/ngDialog/css/ngDialog-theme-default.css',
+          'public/lib/bootstrap-toggle/css/bootstrap-toggle.css'
       ],
       js: [
         'public/lib/jquery/dist/jquery.js',
@@ -22,6 +23,7 @@ module.exports = {
         'public/lib/angular-bootstrap/ui-bootstrap-tpls.min.js',
         'public/lib/angular-file-upload/angular-file-upload.min.js',
         'public/lib/angular-recursion/angular-recursion.js',
+          'public/lib/bootstrap-toggle/js/bootstrap-toggle.js',
 
         'public/lib/x2js/xml2json.js',
         'public/lib/angular-xml/angular-xml.js',
