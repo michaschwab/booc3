@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('concepts').service('ConceptActions',
-    function($window)
+    function(SeenConcepts)
     {
         var $scope;
 

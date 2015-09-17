@@ -88,13 +88,13 @@ exports.list = function(req, res)
 
 	if(roles.indexOf('admin') == -1)
 	{
-		if (req.query['user']){
-			qObject['user'] = new ObjectId(req.query['user']);
-		}
+		qObject['user'] = new ObjectId(req.user._id);
 	}
 	else
 	{
-		qObject['user'] = new ObjectId(req.user._id);
+		if (req.query['user']){
+			qObject['user'] = new ObjectId(req.query['user']);
+		}
 	}
 	if (req.query['course']){
 		qObject['course'] = new ObjectId(req.query['course']);
