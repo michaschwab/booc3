@@ -5,9 +5,9 @@
 
     <!--</div>-->
 
-    <!--<button id="prereqButton" class="btn btn-default prereqButton" ng-click="preReqButtonClick()" ng-hide="windowWidth<800">{{prereqButtonText}}</button>
+    <!--<button id="prereqButton" class="btn btn-default prereqButton" ng-click="preReqButtonClick()" ng-hide="graphWidth<800">{{prereqButtonText}}</button>
 -->
-    <div class="prereqToggle">
+    <div class="prereqToggle" ng-hide="graphWidth<800">
 
         Exploring <input checked="checked" type="checkbox" id="prereqButton">
         <input type="checkbox" id="learningPlansOnVal"  class="ng-hide" ng-model="learningPlansOn" />
@@ -22,7 +22,7 @@
         </script>
     </div>
 
-    <div class="futurePlansToggle">
+    <div class="futurePlansToggle" ng-hide="graphWidth<800">
 
         Show Future Concepts <input checked="checked"  data-toggle="toggle" type="checkbox" id="futurePlansButton">
         <input type="checkbox" id="showCurrentPathFutureHierarchyVal"  class="ng-hide" ng-model="options.showCurrentPathFutureHierarchy" />
@@ -38,7 +38,7 @@
 
     <svg id = "vis" ng-right-click="rightClick($event)" setGoalId class="noselect zooming-{{zoomMode}} zoom-{{zoomLevel}} pull-right"
          ng-class="{noactive: !activeConcept, hasActingGoal: activeConcept!=null&&goalConcept!=null&&!active.hoveringConceptIds.length, zooming: zooming, currentGoal: currentGoal !== null, grayInactiveDependencies: options.grayInactiveDependencies===true,
-         hideInactiveDependencies: options.hideInactiveDependencies, depsColorOfConcept: options.depsColorOfConcept, depsColorDefault: !options.depsColorOfConcept }" style="font-size:{{graphWidth/100}}pt; width: {{contentWidth}}px">
+         hideInactiveDependencies: options.hideInactiveDependencies, depsColorOfConcept: options.depsColorOfConcept, depsColorDefault: !options.depsColorOfConcept }" style="font-size:{{graphWidth/100}}pt; width: {{graphWidth}}px">
 
         <defs>
             <marker id="lineEnd" class="lineEnd" markerWidth="13" markerHeight="13" refx="3" refy="6.5"
