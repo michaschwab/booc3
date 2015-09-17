@@ -339,8 +339,10 @@ angular.module('courses').controller('CourseMapController', ['$scope','$statePar
                     //console.log(translate, $scope.currentZoomGoal);
                     $scope.zoomLevel = selectedConcept ? selectedConcept.depth : 0;
 
+                    var duration = !$scope.lastGraphResize || Date.now() - $scope.lastGraphResize > 500 ? 750 : 0;
+
                     canvas.transition()
-                        .duration(750)
+                        .duration(duration)
                         .call(zoom.translate(translate).scale(scale).event)
                         .each('start', function()
                         {
@@ -422,6 +424,7 @@ angular.module('courses').controller('CourseMapController', ['$scope','$statePar
 
         $scope.setGraphSize = function()
         {
+            $scope.lastGraphResize = Date.now();
             $scope.graphWidth = $scope.learnMode ? parseInt($scope.contentWidth/3)-30 : parseInt($scope.contentWidth);
             $scope.graphHeight = $scope.learnMode ? $scope.graphWidth : parseInt($scope.windowHeight)-55;
             $scope.graphMinDim = $scope.graphWidth < $scope.graphHeight ? $scope.graphWidth : $scope.graphHeight;
