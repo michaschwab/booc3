@@ -94,6 +94,9 @@ var UserSchema = new Schema({
     type: Date,
     default: Date.now
   },
+  tourChecked: {
+    type: Date
+  },
   /* For reset password */
   resetPasswordToken: {
     type: String

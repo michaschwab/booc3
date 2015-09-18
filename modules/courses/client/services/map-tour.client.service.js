@@ -1,19 +1,29 @@
-angular.module('courses').service('MapTour', function($timeout, $location)
+angular.module('courses').service('MapTour', function(Authentication, $timeout, $location, Users)
 {
     var me = this;
     var $scope;
     var tour;
+    var user = Authentication.user;
 
     this.init = function (scope)
     {
         $scope = scope;
 
-        $timeout(function()
+        if(!user.tourChecked)
         {
-            console.log('starting tour..');
-            makeTour();
-            tour.start();
-        }, 2000);
+            $timeout(me.initTour, 2000);
+        }
+    };
+
+    this.initTour = function()
+    {
+        var dbUser = new Users($scope.user);
+        dbUser.tourChecked = Date.now();
+        dbUser.$update();
+
+        console.log('starting tour..');
+        makeTour();
+        tour.start();
     };
 
     var makeTour = function()
