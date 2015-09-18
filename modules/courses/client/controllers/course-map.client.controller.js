@@ -1,7 +1,7 @@
 'use strict';
 
-angular.module('courses').controller('CourseMapController', ['$scope','$stateParams','Courses','Concepts','Conceptdependencies','Authentication','$window','$location', 'ConceptStructure', '$timeout', 'Tip', 'MapArrows', 'MapCircles', 'MapActions', 'MapIcons', '$rootScope', 'MapEvents',
-	function($scope, $stateParams, Courses, Concepts, Conceptdependencies, Authentication, $window, $location, ConceptStructure, $timeout, Tip, MapArrows, MapCircles, MapActions, MapIcons, $rootScope, MapEvents)
+angular.module('courses').controller('CourseMapController', ['$scope','$stateParams','Courses','Concepts','Conceptdependencies','Authentication','$window','$location', 'ConceptStructure', '$timeout', 'Tip', 'MapArrows', 'MapCircles', 'MapActions', 'MapIcons', '$rootScope', 'MapEvents', 'MapTour',
+	function($scope, $stateParams, Courses, Concepts, Conceptdependencies, Authentication, $window, $location, ConceptStructure, $timeout, Tip, MapArrows, MapCircles, MapActions, MapIcons, $rootScope, MapEvents, MapTour)
     {
         $scope.authentication = Authentication;
 
@@ -53,6 +53,7 @@ angular.module('courses').controller('CourseMapController', ['$scope','$statePar
 
             ConceptStructure.init($scope, $stateParams.courseId);
             MapEvents.init($scope, $stateParams.courseId);
+            MapTour.init($scope);
 
             $scope.$watchCollection('concepts.downloadedUpdates',function()
             {

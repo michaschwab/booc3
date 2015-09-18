@@ -29,7 +29,9 @@
     "ngDialog": "~0.5.1",
     "pdfjs-dist": null,
     "x2js": null,
-    "bootstrap-toggle": null
+    "bootstrap-toggle": null,
+    "shepherd.js": null,
+    "tether": null
   },
   "resolutions": {
     "angular": "~1.4"

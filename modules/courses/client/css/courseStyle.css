@@ -328,3 +328,6 @@ text.learned, text.goal {
 .startIconGroup {
     cursor: pointer;
 }
+.shepherd {
+    z-index: 10000;
+}
