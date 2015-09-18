@@ -490,7 +490,7 @@ angular.module('courses').controller('CourseMapController', ['$scope','$statePar
             }
         }
 	}
-]).directive('ngRightClick', function($parse) {
+])/*.directive('ngRightClick', function($parse) {
     return function(scope, element, attrs) {
         var fn = $parse(attrs.ngRightClick);
         element.bind('contextmenu', function(event) {
@@ -500,7 +500,7 @@ angular.module('courses').controller('CourseMapController', ['$scope','$statePar
             });
         });
     };
-});
+})*/;
 
 window.requestAnimFrame = (function(){
     return  window.requestAnimationFrame       ||
