@@ -637,4 +637,9 @@ angular.module('courses').service('MapArrows', function(Tip, ConceptStructure, M
     {
         $scope.options = OPTIONS_NOARROWS;
     };
+
+    this.setOption = function(optionName, value)
+    {
+        $scope.options[optionName] = value;
+    };
 });

@@ -96,7 +96,7 @@ angular.module('courses').service('MapTour', function(Authentication, $timeout, 
 
         tour.addStep('conceptmap', {
             title: 'Concept Map',
-            text: 'This is the concept map. It contains all course concepts and their relationships.',
+            text: 'This is the concept map. <br />It contains all course concepts and their relationships.',
             attachTo: '.startIconGroup',
             classes: 'shepherd shepherd-open shepherd-theme-arrows shepherd-transparent-text',
             buttons: [{
@@ -115,7 +115,7 @@ angular.module('courses').service('MapTour', function(Authentication, $timeout, 
 
         tour.addStep('concepts1', {
             title: 'Concepts',
-            text: 'Each concept is a circle. Concepts are arranged into zoomable hierarchies.',
+            text: 'Each concept is a circle. <br />Concepts are arranged into zoomable hierarchies.',
             attachTo: '#' + firstTlcId,
             classes: 'shepherd shepherd-open shepherd-theme-arrows shepherd-transparent-text',
             buttons: [{
@@ -153,8 +153,38 @@ angular.module('courses').service('MapTour', function(Authentication, $timeout, 
 
         tour.addStep('learning-material', {
             title: 'Learning Material',
-            text: 'Concepts hold learning material, accessible with a click or tap of the play button, or on the left panel.',
+            text: 'Concepts hold learning material, <br />accessible with a click or tap of the play button, or on the left panel.',
             attachTo: '#' + firstL3Id,
+            classes: 'shepherd shepherd-open shepherd-theme-arrows shepherd-transparent-text',
+            buttons: [{
+                text: 'Next',
+                classes: 'shepherd-button-secondary',
+                action: function() {
+                    $location.search('active', '');
+                    MapArrows.setOption('showCurrentPathHierarchy', true);
+                    $timeout(tour.next, 2000);
+                }
+            }, exitButton]
+        });
+
+        tour.addStep('arrangement', {
+            title: 'Arrangement of Concepts',
+            text: 'Concepts are arranged in a circle, around a clock face. <br />The order in which material is taught in the course runs around the outside, <br />starting from the top or 12 o’clock.',
+            attachTo: '#' + firstTlcId,
+            classes: 'shepherd shepherd-open shepherd-theme-arrows shepherd-transparent-text',
+            buttons: [{
+                text: 'Next',
+                classes: 'shepherd-button-secondary',
+                action: function() {
+                    $location.search('active', firstTlcId.substr('concept-'.length));
+                    $timeout(tour.next, 2000);
+                }
+            }, exitButton]
+        });
+        tour.addStep('arrangement2', {
+            title: 'Arrangement of Concepts',
+            text: 'This continues down the hierarchy. <br />We can follow the taught course by moving around the outside of the circles.',
+            attachTo: '#' + firstL2Id,
             classes: 'shepherd shepherd-open shepherd-theme-arrows shepherd-transparent-text',
             buttons: [nextButton, exitButton]
         });
