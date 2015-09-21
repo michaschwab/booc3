@@ -1,4 +1,4 @@
-angular.module('courses').service('MapTour', function(Authentication, $timeout, $location, Users, MapArrows)
+angular.module('courses').service('MapTour', function(Authentication, $timeout, $location, Users, MapArrows, ConceptStructure)
 {
     var me = this;
     var $scope;
@@ -36,6 +36,37 @@ angular.module('courses').service('MapTour', function(Authentication, $timeout, 
 
         var firstL3Id = $('.l3Circle:last').attr('id');
         var firstL2ChildrenData = d3.select('#' + firstL2Id).selectAll('.l3Circle').data();
+
+        var skipData = findTlcThatSkipsOtherTlcs();
+
+        function findTlcThatSkipsOtherTlcs()
+        {
+            for(var i = 0; i < $scope.active.topLevelConcepts.length; i++)
+            {
+                var tlc = $scope.active.topLevelConcepts[i];
+
+                var todoIds = ConceptStructure.getTodoListSorted(tlc).map(function(todo)
+                {
+                    return todo.concept._id;
+                });
+
+                // Go through all top level concepts before the current one and check if it is required.
+                for(var j = 0; j < i; j++)
+                {
+                    if(todoIds.indexOf($scope.active.topLevelConcepts[j].concept._id) == -1)
+                    {
+                        //console.log(tlc.concept.title + ' skips ' + $scope.active.topLevelConcepts[j].concept.title);
+                        return {
+                            concept: tlc,
+                            skipped: $scope.active.topLevelConcepts[j]
+                        };
+                    }
+                }
+
+                i++;
+            }
+            return null;
+        }
 
         tour = new Shepherd.Tour({
             defaults: {
@@ -137,7 +168,7 @@ angular.module('courses').service('MapTour', function(Authentication, $timeout, 
 
         tour.addStep('concepts2', {
             title: 'Sub-Concepts',
-            text: 'For example, <b>' + firstL2Data.concept.title + '</b> is part of <b>' + firstTlcData.concept.title + '</b>. <br /><b>' + firstL2Data.concept.title + '</b> contains <b>' + firstL2ChildrenData[0].concept.title + '</b> and ' + childrenCountMinusOne + ' more sub-concepts.',
+            text: 'For example, <b>' + firstL2Data.concept.title + '</b> is part of <b>' + firstTlcData.concept.title + '</b>. <br /><b>' + firstL2Data.concept.title + '</b> contains <b>' + firstL2ChildrenData[firstL2ChildrenData.length-1].concept.title + '</b> and ' + childrenCountMinusOne + ' more sub-concepts.',
             attachTo: '#' + firstL2Id,
             classes: 'shepherd shepherd-open shepherd-theme-arrows shepherd-transparent-text',
             buttons: [{
@@ -186,8 +217,55 @@ angular.module('courses').service('MapTour', function(Authentication, $timeout, 
             text: 'This continues down the hierarchy. <br />We can follow the taught course by moving around the outside of the circles.',
             attachTo: '#' + firstL2Id,
             classes: 'shepherd shepherd-open shepherd-theme-arrows shepherd-transparent-text',
-            buttons: [nextButton, exitButton]
+            buttons: [{
+                text: 'Next',
+                classes: 'shepherd-button-secondary',
+                action: function() {
+                    $location.search('active', '');
+                    //todo show shortcut path to tlc that skips stuff.
+                    $timeout(tour.next, 2000);
+                }
+            }, exitButton]
         });
+
+        if(skipData)
+        {
+            tour.addStep('arrangement3', {
+                title: 'Arrangement of Concepts',
+                text: 'However, some concepts don’t require you to learn every concept taught before. <br />For some concepts, we can ‘short-cut’ by moving inside the circle.',
+                attachTo: '#' + firstTlcId,
+                classes: 'shepherd shepherd-open shepherd-theme-arrows shepherd-transparent-text',
+                buttons: [{
+                    text: 'Next',
+                    classes: 'shepherd-button-secondary',
+                    action: function() {
+                        //$location.search('active', '');
+                        $scope.hoveringConceptIds = [skipData.concept.concept._id];
+                        //todo show shortcut path to tlc that skips stuff.
+                        $timeout(tour.next, 200);
+                    }
+                }, exitButton]
+            });
+
+            tour.addStep('arrangement4', {
+                title: 'Arrangement of Concepts',
+                text: 'For Example, ' + skipData.concept.concept.title + ' skips ' + skipData.skipped.concept.title + '. <br />Hover it with your mouse to see!',
+                attachTo: '#concept-' + skipData.concept.concept._id,
+                classes: 'shepherd shepherd-open shepherd-theme-arrows shepherd-transparent-text',
+                buttons: [nextButton, exitButton]
+            });
+        }
+        else
+        {
+            tour.addStep('arrangement3', {
+                title: 'Arrangement of Concepts',
+                text: 'However, some concepts don’t require you to learn every concept taught before. <br />For some concepts, we can ‘short-cut’ by moving inside the circle. <br />Unfortunately, that is not the case for any top level concepts in this course.',
+                attachTo: '#' + firstTlcId,
+                classes: 'shepherd shepherd-open shepherd-theme-arrows shepherd-transparent-text',
+                buttons: [nextButton, exitButton]
+            });
+        }
+
     };
 
     return (this);
