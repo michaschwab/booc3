@@ -252,6 +252,7 @@ angular.module('courses').controller('CourseViewController',
         $scope.$watch('activeConcept', function()
         {
             setActiveSegments();
+            $scope.active.hoveringConceptIds = [];
 
             $scope.updateTodo();
             updateCurrentGoal();
