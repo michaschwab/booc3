@@ -48,6 +48,24 @@ angular.module('courses').service('MapArrows', function(Tip, ConceptStructure, M
         depsColorOfConcept: true
     };
 
+    var OPTIONS_NOARROWS = {
+        zoomMode: true,
+        showAllDeps: false,
+        showCurrentDeps: false,
+        showCurrentProvidings: false,
+        showCurrentProvidingsImplicit: false,
+        showAllProvidingsImplicit: false,
+        showCurrentPath: false,
+        showCurrentPathHierarchy: false,
+        showCurrentPathFutureHierarchy: false,
+        showAllShortestPathsHierarchy: false,
+        showPathWhenInactive: false,
+        grayInactiveConcepts: true,
+        grayInactiveDependencies: true,
+        hideInactiveDependencies: true,
+        depsColorOfConcept: true
+    };
+
     this.init = function(scope)
     {
         $scope = scope;
@@ -613,5 +631,10 @@ angular.module('courses').service('MapArrows', function(Tip, ConceptStructure, M
         });
 
         //$scope.preReqButtonClick();
+    };
+
+    this.disableArrows = function()
+    {
+        $scope.options = OPTIONS_NOARROWS;
     };
 });
