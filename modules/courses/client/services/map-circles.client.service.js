@@ -526,7 +526,7 @@ angular.module('courses').service('MapCircles', function(Tip, $location, $timeou
             var config = getConfig(d);
             if(!lastUpdateData[conceptId]) lastUpdateData[conceptId] = {};
             var lastUpdate = lastUpdateData[conceptId];
-            var isPlayable = $scope.segmentPerConceptMap && $scope.segmentPerConceptMap[conceptId] && $scope.segmentPerConceptMap[conceptId].length;
+            var isPlayable = Boolean($scope.segmentPerConceptMap && $scope.segmentPerConceptMap[conceptId] && $scope.segmentPerConceptMap[conceptId].length);
 
             // The titles need to be remade because the radius of the circles change in non-zoomMode, or because of renaming.
             me.makeTitle(d, el);
@@ -564,11 +564,11 @@ angular.module('courses').service('MapCircles', function(Tip, $location, $timeou
                         'fill': color
                     });
                 }
-                if(!lastUpdate['playable'] || lastUpdate['playable'] !== isPlayable)
-                {
-                    lastUpdate['playable'] = isPlayable;
-                    el.classed('playable', isPlayable);
-                }
+            }
+            if(!lastUpdate['playable'] || lastUpdate['playable'] !== isPlayable)
+            {
+                lastUpdate['playable'] = isPlayable;
+                el.classed('playable', isPlayable);
             }
         });
     };
