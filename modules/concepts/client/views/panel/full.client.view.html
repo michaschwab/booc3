@@ -174,7 +174,8 @@
                         <a  data-ui-sref="{active: child._id}" class="concept">
                             <span class="concept-circle" style="background: {{child.color}}"></span>
                             <span class="concept-line"></span>
-                            {{child.title}}
+                            <span class="concept-title">{{child.title}}</span>
+
                         </a>
 
                         <ul ng-show="activeConcept.concept._id === child._id" class="alternative-segments">
