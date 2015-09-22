@@ -314,7 +314,20 @@ angular.module('courses').service('MapTour', function(Authentication, $timeout, 
                 classes: 'shepherd-button-secondary',
                 action: function() {
 
-                    $location.search('goal', skippingFirstL3Id.substr('concept-'.length));
+                    var newGoal = skippingFirstL3Id.substr('concept-'.length);
+                    var currentGoal = $location.search('goal');
+
+                    if(newGoal == currentGoal)
+                    {
+                        doAfterGoalIsSet();
+                    }
+                    else
+                    {
+                        $location.search('goal', newGoal);
+
+                        // Wait so the user sees the Flag marking the Concept as Goal Concept
+                        $timeout(doAfterGoalIsSet, 2000);
+                    }
 
                     var setActive = function(delay, activeId)
                     {
@@ -324,15 +337,14 @@ angular.module('courses').service('MapTour', function(Authentication, $timeout, 
                         }, delay);
                     };
 
-                    // Wait so the user sees the Flag marking the Concept as Goal Concept
-                    $timeout(function()
+                    function doAfterGoalIsSet()
                     {
                         $location.search('active', '');
 
                         // Wait until zoomed out
                         $timeout(function()
                         {
-                            for(var i = 0; i < 8; i++)
+                            for(var i = 0; i < 9; i++)
                             {
                                 //var newActive = skippingFirstL3Todo[i];
                                 var newActive = skippingFirstL3TodoL1L2[i];
@@ -341,10 +353,9 @@ angular.module('courses').service('MapTour', function(Authentication, $timeout, 
                                 setActive(i * 2200, newActive.concept._id);
                             }
 
-                            $timeout(tour.next, (i+1) * 2200);
+                            $timeout(tour.next, i * 2200);
                         }, 3000);
-                    }, 2000);
-
+                    }
                 }
             }, exitButton]
         });
