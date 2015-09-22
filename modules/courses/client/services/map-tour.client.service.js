@@ -28,7 +28,7 @@ angular.module('courses').service('MapTour', function(Authentication, $timeout, 
 
     var makeTour = function()
     {
-        //console.log($('.l1Circle:last').scope());
+        var waitTime = 1700;
         var firstTlcId = $('.l1Circle:last').attr('id');
         var firstTlcData = d3.select('#' + firstTlcId).data()[0];
         var firstL2Id = $('.l2Circle:last').attr('id');
@@ -120,7 +120,8 @@ angular.module('courses').service('MapTour', function(Authentication, $timeout, 
                         {
                             $location.search('active', '');
                             $location.search('goal', '');
-                            $timeout(tour.next, 1500);
+                            MapArrows.disableArrows();
+                            $timeout(tour.next, waitTime);
                         }
                     }
                 },
@@ -144,8 +145,7 @@ angular.module('courses').service('MapTour', function(Authentication, $timeout, 
                 classes: 'shepherd-button-secondary',
                 action: function() {
                     //$('#' + firstTlcId).trigger('click');
-                    //todo turn off all lines.
-                    MapArrows.disableArrows();
+
                     tour.next();
                     /*$location.search('active', firstTlcId.substr('concept-'.length));
                     $timeout(tour.next, 1000);*/
@@ -163,8 +163,9 @@ angular.module('courses').service('MapTour', function(Authentication, $timeout, 
                 classes: 'shepherd-button-secondary',
                 action: function() {
                     //$('#' + firstTlcId).trigger('click');
+                    tour.hide();
                     $location.search('active', firstTlcId.substr('concept-'.length));
-                    $timeout(tour.next, 2000);
+                    $timeout(tour.next, waitTime);
                 }
             }, exitButton]
         });
@@ -185,8 +186,9 @@ angular.module('courses').service('MapTour', function(Authentication, $timeout, 
                 classes: 'shepherd-button-secondary',
                 action: function() {
                     //$('#' + firstTlcId).trigger('click');
+                    tour.hide();
                     $location.search('active', firstL3Id.substr('concept-'.length));
-                    $timeout(tour.next, 2000);
+                    $timeout(tour.next, waitTime);
                 }
             }, exitButton]
         });
@@ -200,9 +202,10 @@ angular.module('courses').service('MapTour', function(Authentication, $timeout, 
                 text: 'Next',
                 classes: 'shepherd-button-secondary',
                 action: function() {
+                    tour.hide();
                     $location.search('active', '');
                     MapArrows.setOption('showCurrentPathHierarchy', true);
-                    $timeout(tour.next, 2000);
+                    $timeout(tour.next, waitTime);
                 }
             }, exitButton]
         });
@@ -216,8 +219,9 @@ angular.module('courses').service('MapTour', function(Authentication, $timeout, 
                 text: 'Next',
                 classes: 'shepherd-button-secondary',
                 action: function() {
+                    tour.hide();
                     $location.search('active', firstTlcId.substr('concept-'.length));
-                    $timeout(tour.next, 2000);
+                    $timeout(tour.next, waitTime);
                 }
             }, exitButton]
         });
@@ -230,9 +234,10 @@ angular.module('courses').service('MapTour', function(Authentication, $timeout, 
                 text: 'Next',
                 classes: 'shepherd-button-secondary',
                 action: function() {
+                    tour.hide();
                     $location.search('active', '');
                     //todo show shortcut path to tlc that skips stuff.
-                    $timeout(tour.next, 2000);
+                    $timeout(tour.next, waitTime);
                 }
             }, exitButton]
         });
@@ -242,12 +247,13 @@ angular.module('courses').service('MapTour', function(Authentication, $timeout, 
             classes: 'shepherd-button-secondary',
             action: function()
             {
+                tour.hide();
                 $location.search('active', skippingFirstL3Id.substr('concept-'.length));
                 $timeout(function()
                 {
                     $('.understood-button').css('border', '5px solid #00cccc');
                     tour.next();
-                }, 1500);
+                }, waitTime);
             }
         };
 
@@ -291,7 +297,7 @@ angular.module('courses').service('MapTour', function(Authentication, $timeout, 
 
         tour.addStep('understood', {
             title: 'Learning Progress',
-            text: 'To tell us what you already know, you can hit the ‘Understood’ button, <br />and your learning plans will now short cut past these concepts.',
+            text: 'To tell us what you already know, you can hit the <b>Understood</b> button <br />so you don‘t need to look at those concepts again.',
             attachTo: '.understood-button',
             classes: 'shepherd shepherd-open shepherd-theme-arrows shepherd-transparent-text',
             buttons: [{
@@ -307,7 +313,7 @@ angular.module('courses').service('MapTour', function(Authentication, $timeout, 
 
         tour.addStep('setgoal', {
             title: 'Learning Goals',
-            text: 'You can also use the flag to set a goal concept, and then explore the learning plan in more detail. <br /><br />Let`s see what that looks like.',
+            text: 'You can also use the flag to set a goal concept, and then explore the learning plan in more detail. <br /><br />Let‘s see what that looks like.',
             attachTo: '.set-goal',
             classes: 'shepherd shepherd-open shepherd-theme-arrows shepherd-transparent-text',
             buttons: [{
@@ -317,6 +323,7 @@ angular.module('courses').service('MapTour', function(Authentication, $timeout, 
 
                     var newGoal = skippingFirstL3Id.substr('concept-'.length);
                     var currentGoal = $location.search('goal').toString();
+                    tour.hide();
 
                     if(newGoal == currentGoal)
                     {
@@ -327,7 +334,7 @@ angular.module('courses').service('MapTour', function(Authentication, $timeout, 
                         $location.search('goal', newGoal);
 
                         // Wait so the user sees the Flag marking the Concept as Goal Concept
-                        $timeout(doAfterGoalIsSet, 2000);
+                        $timeout(doAfterGoalIsSet, waitTime);
                     }
 
                     var setActive = function(delay, activeId)
@@ -361,7 +368,7 @@ angular.module('courses').service('MapTour', function(Authentication, $timeout, 
                                 $location.search('active', '');
                                 $location.search('goal', '');
 
-                                $timeout(tour.next, 2000);
+                                $timeout(tour.next, waitTime);
                             }, i * 2200);
                         }, 3000);
                     }
