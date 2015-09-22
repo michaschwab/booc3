@@ -42,6 +42,10 @@ angular.module('courses').service('MapTour', function(Authentication, $timeout, 
         var skippingFirstL3 = skippingChildrenData[skippingChildrenData.length-1];
         var skippingFirstL3Id = 'concept-' + skippingFirstL3.concept._id;
         var skippingFirstL3Todo = ConceptStructure.getTodoListSorted(skippingFirstL3);
+        var skippingFirstL3TodoL1L2 = skippingFirstL3Todo.filter(function(c)
+        {
+            return c.depth < 3;
+        });
 
         function findTlcThatSkipsOtherTlcs()
         {
@@ -311,7 +315,6 @@ angular.module('courses').service('MapTour', function(Authentication, $timeout, 
                 action: function() {
 
                     $location.search('goal', skippingFirstL3Id.substr('concept-'.length));
-                    $location.search('active', '');
 
                     var setActive = function(delay, activeId)
                     {
@@ -321,17 +324,27 @@ angular.module('courses').service('MapTour', function(Authentication, $timeout, 
                         }, delay);
                     };
 
+                    // Wait so the user sees the Flag marking the Concept as Goal Concept
                     $timeout(function()
                     {
-                        for(var i = 0; i < 10; i++)
-                        {
-                            var newActive = skippingFirstL3Todo[i];
-                            //$location.search('active', newActive.concept._id);
-                            setActive(i * 2200, newActive.concept._id);
-                        }
+                        $location.search('active', '');
 
-                        $timeout(tour.next, (i+1) * 2200);
-                    }, 3000);
+                        // Wait until zoomed out
+                        $timeout(function()
+                        {
+                            for(var i = 0; i < 8; i++)
+                            {
+                                //var newActive = skippingFirstL3Todo[i];
+                                var newActive = skippingFirstL3TodoL1L2[i];
+
+                                //$location.search('active', newActive.concept._id);
+                                setActive(i * 2200, newActive.concept._id);
+                            }
+
+                            $timeout(tour.next, (i+1) * 2200);
+                        }, 3000);
+                    }, 2000);
+
                 }
             }, exitButton]
         });
