@@ -256,7 +256,7 @@ a[disabled] .map-icon {
     border-left-style: solid;
     width: 2px;
     z-index: 0 !important;
-    min-height: 39px;
+    min-height: 37px;
     position: absolute;
     display: block;
     left: 14px;
@@ -305,8 +305,11 @@ input.concept-title.admin {
     height: 1px;
     position: relative;
     left: -10px;
-    top: -1px;
+    top: 0px;
     display: block;
+}
+.concept-list-nested .concept-list-nested:after {
+    top: -2px;
 }/*
 .concept-list-nested .concept-list-nested:before {
     left: -1px;
@@ -342,7 +345,7 @@ input.concept-title.admin {
 
 .concept-list-nested .concept-line {
     left: 14px;
-    min-height: 35px;
+    /*min-height: 35px;*/
     margin-bottom: -5px;
 
 }
@@ -376,7 +379,7 @@ input.concept-title.admin {
     margin-top: -4px;
     /* margin-bottom: 11px; */
 
-    padding-bottom: 7px;
+    padding-bottom: 4px;
     /*margin-bottom: -4px;*/
 }
 .concept-list-nested > .concept:last-child > .concept-list-nested {
