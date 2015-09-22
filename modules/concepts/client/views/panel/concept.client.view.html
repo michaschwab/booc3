@@ -2,7 +2,7 @@
     ng-class="{ 'active': concept.active, 'inactive': !concept.active && concept.inGoalHierarchy && concept.inHoverHierarchy, 'hover': concept.hover, 'goal': concept.goal }"
     aria-label="{{::concept.concept.title}}">
 
-    <span ng-show="concept.learned" class="concept-tick glyphicon glyphicon-ok"></span>
+    <span ng-show="concept.learned&&!concept.goal" class="concept-tick glyphicon glyphicon-ok"></span>
     <span ng-show="concept.learned" class="sr-only">Learned: </span>
 
     <a data-ui-sref="{active: concept.concept._id}"

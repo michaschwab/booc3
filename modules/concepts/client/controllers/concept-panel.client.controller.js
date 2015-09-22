@@ -212,6 +212,7 @@ angular.module('concepts').controller('ConceptPanelController',
 
         $scope.$watch('goalConcept', $scope.updateDepProviders);
         $scope.$watch('todoIds', $scope.updateDepProviders);
+        $scope.$watchCollection('learned', $scope.updateDepProviders);
 
         var updatePlan = function()
         {
