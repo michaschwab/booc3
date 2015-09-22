@@ -331,3 +331,7 @@ text.learned, text.goal {
 .shepherd {
     z-index: 10000;
 }
+
+.startIconGroup .start-title {
+    fill: #444444;
+}
