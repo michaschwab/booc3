@@ -161,7 +161,7 @@ angular.module('concepts').controller('ConceptPanelController',
 
         $scope.$watch('activeConcept', function() { updateLectures(); updateNext(); checkSeen(); });
         $scope.$watch('active.segment', updateNext);
-
+        $scope.$watchCollection('segments', updateLectures);
         $scope.$watch('lectureduoType', updateLectures);
 
         $scope.updateDepProviders = function()
