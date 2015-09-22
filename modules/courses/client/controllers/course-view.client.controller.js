@@ -2,6 +2,7 @@
 angular.module('courses').controller('CourseViewController',
     function($scope, $stateParams, Courses, Concepts, Conceptdependencies, Authentication, $window, $location, ConceptStructure, Segments, Sources, Sourcetypes, LearnedConcepts, SeenConcepts, $timeout)
     {
+        $scope.authentication = Authentication;
         $scope.learnMode = false;
         $scope.learnModeYesNo = 'no';
         $scope.editSourceMode = $location.url().indexOf('contents') !== -1;

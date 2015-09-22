@@ -1,4 +1,4 @@
-<section data-ng-controller="CoursesController" ng-init="find()" class="container">
+<section data-ng-controller="CoursesController" ng-init="find()" class="container" ng-show="(authentication.user)">
 
   <br />
   <div class="jumbotron text-center">
@@ -8,16 +8,16 @@
     <i>Booc, the non-linear learning environment.</i>
 
   </div>
+  <!--
+    <div class="alert alert-danger" role="alert" data-ng-hide="(authentication.user)">Not authenticated. Please log in.</div>
+  -->
 
-  <div class="alert alert-danger" role="alert" data-ng-hide="(authentication.user)">Not authenticated. Please log in.</div>
-
-
-  <h3 data-ng-show="(authentication.user)">
+  <h3>
     Courses
   </h3>
 
 
-  <div data-ng-show="(authentication.user)">
+  <div>
     <div class="list-group">
       <a data-ng-repeat="course in courses" data-ui-sref="courses.view({courseId: course._id})" class="list-group-item courserow row">
 
