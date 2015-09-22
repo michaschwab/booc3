@@ -38,13 +38,13 @@ angular.module('courses').service('MapTour', function(Authentication, $timeout, 
         var firstL2ChildrenData = d3.select('#' + firstL2Id).selectAll('.l3Circle').data();
 
         var skipData = findTlcThatSkipsOtherTlcs();
-        var skippingChildrenData = d3.select('#concept-' + skipData.concept.concept._id).selectAll('.l3Circle').data();
+        var skippingChildrenData = d3.select('#concept-' + skipData.concept.concept._id).selectAll('.l2Circle').data();
         var skippingFirstL3 = skippingChildrenData[skippingChildrenData.length-1];
         var skippingFirstL3Id = 'concept-' + skippingFirstL3.concept._id;
         var skippingFirstL3Todo = ConceptStructure.getTodoListSorted(skippingFirstL3);
-        var skippingFirstL3TodoL1L2 = skippingFirstL3Todo.filter(function(c)
+        var skippingFirstL3TodoL1 = skippingFirstL3Todo.filter(function(c)
         {
-            return c.depth < 3;
+            return c.depth < 2;
         });
 
         function findTlcThatSkipsOtherTlcs()
@@ -119,6 +119,7 @@ angular.module('courses').service('MapTour', function(Authentication, $timeout, 
                         else
                         {
                             $location.search('active', '');
+                            $location.search('goal', '');
                             $timeout(tour.next, 1500);
                         }
                     }
@@ -315,7 +316,7 @@ angular.module('courses').service('MapTour', function(Authentication, $timeout, 
                 action: function() {
 
                     var newGoal = skippingFirstL3Id.substr('concept-'.length);
-                    var currentGoal = $location.search('goal');
+                    var currentGoal = $location.search('goal').toString();
 
                     if(newGoal == currentGoal)
                     {
@@ -344,16 +345,24 @@ angular.module('courses').service('MapTour', function(Authentication, $timeout, 
                         // Wait until zoomed out
                         $timeout(function()
                         {
-                            for(var i = 0; i < 9; i++)
+
+                            //for(var i = 0; i < 9; i++)
+                            for(var i = 0; i < skippingFirstL3TodoL1.length; i++)
                             {
                                 //var newActive = skippingFirstL3Todo[i];
-                                var newActive = skippingFirstL3TodoL1L2[i];
+                                var newActive = skippingFirstL3TodoL1[i];
 
                                 //$location.search('active', newActive.concept._id);
                                 setActive(i * 2200, newActive.concept._id);
                             }
 
-                            $timeout(tour.next, i * 2200);
+                            $timeout(function()
+                            {
+                                $location.search('active', '');
+                                $location.search('goal', '');
+
+                                $timeout(tour.next, 2000);
+                            }, i * 2200);
                         }, 3000);
                     }
                 }
@@ -362,7 +371,7 @@ angular.module('courses').service('MapTour', function(Authentication, $timeout, 
 
         tour.addStep('lectures', {
             title: 'Lectures',
-            text: '..and so on. Oh, and if you just want to quickly access the lecture videos or <br />slides in linear order, then use this tab. You can download them from here, too.',
+            text: 'Oh, and if you just want to quickly access the lecture videos or slides <br />in linear order, then use this tab. You can download them from here, too.',
             attachTo: '.tab-lectures',
             classes: 'shepherd shepherd-open shepherd-theme-arrows shepherd-transparent-text',
             buttons: [nextButton, exitButton]
