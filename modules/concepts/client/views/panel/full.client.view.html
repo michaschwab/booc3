@@ -48,7 +48,7 @@
                 <span class="map-icon map-icon-large"></span>
             </a>
 
-            <a ng-show="!goalConcept&&activeMode=='plan'&&activeConcept" class="pull-left panel-button learnmode-{{learnMode}}" title="Set {{activeConcept.concept.title}} as goal"
+            <a ng-show="!goalConcept&&activeMode=='plan'&&activeConcept" class="pull-left panel-button set-goal learnmode-{{learnMode}}" title="Set {{activeConcept.concept.title}} as goal"
                data-ui-sref="{goal: activeConcept.concept._id }">
                 <span class="glyphicon glyphicon-flag setgoal"></span>
             </a>
@@ -66,7 +66,7 @@
 
 <div class="row tab-selection">
     <ul class="nav nav-tabs nav-justified">
-        <li role="presentation" class="panel-tab" ng-class="{ 'active': activeMode==='plan'}" style="background: {{activeConcept.concept.color}}">
+        <li role="presentation" class="panel-tab tab-plan" ng-class="{ 'active': activeMode==='plan'}" style="background: {{activeConcept.concept.color}}">
             <a data-ui-sref="{mode: 'plan'}">
                 <span class="glyphicon glyphicon-road inline-block"></span>
                 <span ng-if="panelWidth>400">Learning Plan</span>
@@ -77,15 +77,15 @@
             <a href="/#!/courses/{{courseId}}?goal={{goalConcept.concept._id}}&active={{activeConcept.concept._id}}&learn={{learnModeYesNo}}&mode=hierarchy">
                 <span class="glyphicon glyphicon-info-sign visible-lg-inline-block"></span> Information</a></li>-->
 
-        <li ng-show="learnMode" role="presentation" class="panel-tab" ng-class="{ 'active': activeMode==='minimap'}" style="background: {{activeConcept.concept.color}}">
+        <li ng-show="learnMode" role="presentation" class="panel-tab tab-minimap" ng-class="{ 'active': activeMode==='minimap'}" style="background: {{activeConcept.concept.color}}">
             <a data-ui-sref="{mode: 'minimap'}" ng-disabled="!learnMode">
                 <span class="map-icon inline-block"></span> <span ng-if="panelWidth>300">Minimap</span></a></li>
 
-        <li role="presentation" class="panel-tab" ng-class="{ 'active': activeMode==='lecture'}" style="background: {{activeConcept.concept.color}}">
+        <li role="presentation" class="panel-tab tab-lectures" ng-class="{ 'active': activeMode==='lecture'}" style="background: {{activeConcept.concept.color}}">
             <a data-ui-sref="{mode: 'lecture'}">
                 <span class="fa fa-university inline-block"></span> <span ng-if="panelWidth>300">Lectures</span></a></li>
 
-        <li role="presentation" ng-show="hasConceptEditRights" class="panel-tab" ng-class="{ 'active': activeMode==='admin'}" style="background: {{activeConcept.concept.color}}">
+        <li role="presentation" ng-show="hasConceptEditRights" class="panel-tab tab-admin" ng-class="{ 'active': activeMode==='admin'}" style="background: {{activeConcept.concept.color}}">
             <a data-ui-sref="{mode: 'admin'}">
                 <span class="fa fa-lock inline-block"></span> <span ng-if="activeMode==='admin'">Admin</span></a></li>
 
@@ -255,21 +255,21 @@
         <div class="buttonRow learned-state">
 
             <div ng-class="{'btn-group': !minimized, 'btn-group-vertical': minimized}" role="group" aria-label="...">
-                <button type="button" class="btn btn-default"
+                <button type="button" class="btn btn-default notseen-button"
                         ng-class="{'btn-primary': !seenMapByConcept[activeConcept.concept._id] && active.learnedConceptIds.indexOf(activeConcept.concept._id)===-1 }"
                         ng-click="notUnderstoodClick();unseeConcept(activeConcept.concept._id)"
                         ng-disabled="!seenMapByConcept[activeConcept.concept._id] && active.learnedConceptIds.indexOf(activeConcept.concept._id)===-1">
                     <span class="glyphicon glyphicon-eye-close"></span>
                     <span class="btn-label">Not Seen</span>
                 </button>
-                <button type="button" class="btn btn-default"
+                <button type="button" class="btn btn-default seen-button"
                         ng-class="{'btn-primary': seenMapByConcept[activeConcept.concept._id] && active.learnedConceptIds.indexOf(activeConcept.concept._id)===-1 }"
                         ng-click="notUnderstoodClick();seeConcept(activeConcept.concept._id)"
                         ng-disabled="seenMapByConcept[activeConcept.concept._id] && active.learnedConceptIds.indexOf(activeConcept.concept._id)===-1">
                     <span class="glyphicon glyphicon-eye-open"></span>
                     <span class="btn-label">Seen</span>
                 </button>
-                <button type="button" class="btn btn-default"
+                <button type="button" class="btn btn-default understood-button"
                         ng-class="{'btn-primary': active.learnedConceptIds.indexOf(activeConcept.concept._id)!==-1 }"
                         ng-click="understoodClick()"
                         ng-disabled="active.learnedConceptIds.indexOf(activeConcept.concept._id)!==-1">

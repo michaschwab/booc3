@@ -38,6 +38,10 @@ angular.module('courses').service('MapTour', function(Authentication, $timeout, 
         var firstL2ChildrenData = d3.select('#' + firstL2Id).selectAll('.l3Circle').data();
 
         var skipData = findTlcThatSkipsOtherTlcs();
+        var skippingChildrenData = d3.select('#concept-' + skipData.concept.concept._id).selectAll('.l3Circle').data();
+        var skippingFirstL3 = skippingChildrenData[skippingChildrenData.length-1];
+        var skippingFirstL3Id = 'concept-' + skippingFirstL3.concept._id;
+        var skippingFirstL3Todo = ConceptStructure.getTodoListSorted(skippingFirstL3);
 
         function findTlcThatSkipsOtherTlcs()
         {
@@ -184,7 +188,7 @@ angular.module('courses').service('MapTour', function(Authentication, $timeout, 
 
         tour.addStep('learning-material', {
             title: 'Learning Material',
-            text: 'Concepts hold learning material, <br />accessible with a click or tap of the play button, or on the left panel.',
+            text: 'Concepts hold learning material, accessible with <br />a click or tap of the play button, or on the left panel.',
             attachTo: '#' + firstL3Id,
             classes: 'shepherd shepherd-open shepherd-theme-arrows shepherd-transparent-text',
             buttons: [{
@@ -228,6 +232,20 @@ angular.module('courses').service('MapTour', function(Authentication, $timeout, 
             }, exitButton]
         });
 
+        var beforeUnderstoodButton = {
+            text: 'Next',
+            classes: 'shepherd-button-secondary',
+            action: function()
+            {
+                $location.search('active', skippingFirstL3Id.substr('concept-'.length));
+                $timeout(function()
+                {
+                    $('.understood-button').css('border', '5px solid #00cccc');
+                    tour.next();
+                }, 1500);
+            }
+        };
+
         if(skipData)
         {
             tour.addStep('arrangement3', {
@@ -249,10 +267,10 @@ angular.module('courses').service('MapTour', function(Authentication, $timeout, 
 
             tour.addStep('arrangement4', {
                 title: 'Arrangement of Concepts',
-                text: 'For Example, ' + skipData.concept.concept.title + ' skips ' + skipData.skipped.concept.title + '. <br />Hover it with your mouse to see!',
+                text: 'In this way, we can show you learning plans to specific <br />material by short-cutting past what you don’t need to know, <br />or what you already know. <br /><br />For Example, <b>' + skipData.concept.concept.title + '</b> skips <br /><b>' + skipData.skipped.concept.title + '</b>. Hover it with your mouse to see the learning plan.',
                 attachTo: '#concept-' + skipData.concept.concept._id,
                 classes: 'shepherd shepherd-open shepherd-theme-arrows shepherd-transparent-text',
-                buttons: [nextButton, exitButton]
+                buttons: [beforeUnderstoodButton, exitButton]
             });
         }
         else
@@ -262,9 +280,83 @@ angular.module('courses').service('MapTour', function(Authentication, $timeout, 
                 text: 'However, some concepts don’t require you to learn every concept taught before. <br />For some concepts, we can ‘short-cut’ by moving inside the circle. <br />Unfortunately, that is not the case for any top level concepts in this course.',
                 attachTo: '#' + firstTlcId,
                 classes: 'shepherd shepherd-open shepherd-theme-arrows shepherd-transparent-text',
-                buttons: [nextButton, exitButton]
+                buttons: [beforeUnderstoodButton, exitButton]
             });
         }
+
+        tour.addStep('understood', {
+            title: 'Learning Progress',
+            text: 'To tell us what you already know, you can hit the ‘Understood’ button, <br />and your learning plans will now short cut past these concepts.',
+            attachTo: '.understood-button',
+            classes: 'shepherd shepherd-open shepherd-theme-arrows shepherd-transparent-text',
+            buttons: [{
+                text: 'Next',
+                classes: 'shepherd-button-secondary',
+                action: function() {
+                    $('.understood-button').css('border', '');
+                    $('.set-goal').css('border', '5px solid #00cccc');
+                    $timeout(tour.next, 200);
+                }
+            }, exitButton]
+        });
+
+        tour.addStep('setgoal', {
+            title: 'Learning Goals',
+            text: 'You can also use the flag to set a goal concept, and then explore the learning plan in more detail. <br /><br />Let`s see what that looks like.',
+            attachTo: '.set-goal',
+            classes: 'shepherd shepherd-open shepherd-theme-arrows shepherd-transparent-text',
+            buttons: [{
+                text: 'Next',
+                classes: 'shepherd-button-secondary',
+                action: function() {
+
+                    $location.search('goal', skippingFirstL3Id.substr('concept-'.length));
+                    $location.search('active', '');
+
+                    var setActive = function(delay, activeId)
+                    {
+                        $timeout(function()
+                        {
+                            $location.search('active', activeId);
+                        }, delay);
+                    };
+
+                    $timeout(function()
+                    {
+                        for(var i = 0; i < 10; i++)
+                        {
+                            var newActive = skippingFirstL3Todo[i];
+                            //$location.search('active', newActive.concept._id);
+                            setActive(i * 2200, newActive.concept._id);
+                        }
+
+                        $timeout(tour.next, (i+1) * 2200);
+                    }, 3000);
+                }
+            }, exitButton]
+        });
+
+        tour.addStep('lectures', {
+            title: 'Lectures',
+            text: '..and so on. Oh, and if you just want to quickly access the lecture videos or <br />slides in linear order, then use this tab. You can download them from here, too.',
+            attachTo: '.tab-lectures',
+            classes: 'shepherd shepherd-open shepherd-theme-arrows shepherd-transparent-text',
+            buttons: [nextButton, exitButton]
+        });
+
+        tour.addStep('feedback', {
+            title: 'Feedback',
+            text: 'Please try it! <br />Tell us what you like, what you don’t like, or even what’s broken (!)<br /> using the feedback tools in the top right [work in progress].<br /><br />Wishing you happy non-linear learning from the booc.io team!',
+            attachTo: '.tab-lectures',
+            classes: 'shepherd shepherd-open shepherd-theme-arrows shepherd-transparent-text',
+            buttons: [{
+                text: 'Finish',
+                classes: 'shepherd-button-secondary',
+                action: function() {
+                    return tour.hide();
+                }
+            }]
+        });
 
     };
 
