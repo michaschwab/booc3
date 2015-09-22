@@ -27,6 +27,12 @@ module.exports = function (app, db) {
 
     // Create new HTTPS Server
     server = https.createServer(options, app);
+
+    // Forward HTTP to HTTPS
+    http.createServer(function (req, res) {
+      res.writeHead(301, { "Location": "https://" + req.headers['host'] + req.url });
+      res.end();
+    }).listen(80);
   } else {
     // Create a new HTTP server
     server = http.createServer(app);
