@@ -426,15 +426,12 @@ angular.module('courses').controller('CourseMapController', ['$scope','$statePar
         $scope.setGraphSize = function()
         {
             $scope.lastGraphResize = Date.now();
-            $scope.graphWidth = $scope.learnMode ? parseInt($scope.contentWidth/3)-30 : parseInt($scope.contentWidth);
-            $scope.graphHeight = $scope.learnMode ? $scope.graphWidth : parseInt($scope.windowHeight)-55;
+            $scope.graphWidth = $scope.activeMode == 'minimap' ? parseInt($scope.contentWidth/3)-30 : parseInt($scope.contentWidth);
+            $scope.graphHeight = $scope.activeMode == 'minimap' ? $scope.graphWidth : parseInt($scope.windowHeight)-55;
             $scope.graphMinDim = $scope.graphWidth < $scope.graphHeight ? $scope.graphWidth : $scope.graphHeight;
         };
 
-        $scope.$watch('learnMode', function()
-        {
-            $scope.setGraphSize();
-        });
+        $scope.$watch('activeMode', $scope.setGraphSize);
 
         $scope.courseViewScope = $scope.$parent.$parent;
         $scope.courseViewScope.$watch('contentWidth', function()
