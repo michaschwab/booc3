@@ -257,23 +257,23 @@
 
             <div ng-class="{'btn-group': !minimized, 'btn-group-vertical': minimized}" role="group" aria-label="...">
                 <button type="button" class="btn btn-default notseen-button"
-                        ng-class="{'btn-primary': !seenMapByConcept[activeConcept.concept._id] && active.learnedConceptIds.indexOf(activeConcept.concept._id)===-1 }"
+                        ng-class="{'btn-primary': !seenMapByConcept[activeConcept.concept._id] && !activeConcept.learned }"
                         ng-click="notUnderstoodClick();unseeConcept(activeConcept.concept._id)"
-                        ng-disabled="!seenMapByConcept[activeConcept.concept._id] && active.learnedConceptIds.indexOf(activeConcept.concept._id)===-1">
+                        ng-disabled="!seenMapByConcept[activeConcept.concept._id] && !activeConcept.learned">
                     <span class="glyphicon glyphicon-eye-close"></span>
                     <span class="btn-label">Not Seen</span>
                 </button>
                 <button type="button" class="btn btn-default seen-button"
-                        ng-class="{'btn-primary': seenMapByConcept[activeConcept.concept._id] && active.learnedConceptIds.indexOf(activeConcept.concept._id)===-1 }"
+                        ng-class="{'btn-primary': seenMapByConcept[activeConcept.concept._id] && !activeConcept.learned }"
                         ng-click="notUnderstoodClick();seeConcept(activeConcept.concept._id)"
-                        ng-disabled="seenMapByConcept[activeConcept.concept._id] && active.learnedConceptIds.indexOf(activeConcept.concept._id)===-1">
+                        ng-disabled="seenMapByConcept[activeConcept.concept._id] && !activeConcept.learned">
                     <span class="glyphicon glyphicon-eye-open"></span>
                     <span class="btn-label">Seen</span>
                 </button>
                 <button type="button" class="btn btn-default understood-button"
-                        ng-class="{'btn-primary': active.learnedConceptIds.indexOf(activeConcept.concept._id)!==-1 }"
+                        ng-class="{'btn-primary': activeConcept.learned }"
                         ng-click="understoodClick()"
-                        ng-disabled="active.learnedConceptIds.indexOf(activeConcept.concept._id)!==-1">
+                        ng-disabled="activeConcept.learned">
                     <span class="glyphicon glyphicon-ok"></span>
                     <span class="btn-label">Understood</span>
                 </button>

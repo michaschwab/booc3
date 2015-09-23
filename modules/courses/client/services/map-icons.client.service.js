@@ -218,7 +218,7 @@ angular.module('courses').service('MapIcons', function(Tip, ConceptStructure, $l
             return this.isGoal(d);
 
         if(iconName === 'learned')
-            return $scope.active.learnedConceptIds.indexOf(d.concept._id) !== -1;
+            return $scope.isLearned(d) && (!d.parentData || !$scope.isLearned(d.parentData));
 
         if(iconName === 'seen')
             return ($scope.seenMapByConcept && $scope.seenMapByConcept[d.concept._id]);

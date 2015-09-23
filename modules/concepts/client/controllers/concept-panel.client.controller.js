@@ -224,10 +224,6 @@ angular.module('concepts').controller('ConceptPanelController',
                 return $scope.activeDependencyProviderIds.indexOf(d.concept._id) !== -1;
             };
 
-            var isLearned = function(d)
-            {
-                return $scope.active.learnedConceptIds.indexOf(d.concept._id) !== -1;
-            };
             var isActive = function(d)
             {
                 return $scope.active.hierarchyIds.indexOf(d.concept._id) !== -1;
@@ -251,7 +247,7 @@ angular.module('concepts').controller('ConceptPanelController',
 
             var setAttributes = function(d)
             {
-                d.learned = isLearned(d);
+                d.learned = $scope.isLearned(d);
                 d.active = isActive(d);
                 d.goal = isGoal(d);
                 d.inGoalHierarchy = isInGoalHierarchy(d);

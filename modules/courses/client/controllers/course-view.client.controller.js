@@ -460,25 +460,39 @@ angular.module('courses').controller('CourseViewController',
 
         $scope.understood = function(concept)
         {
-            var userId = Authentication.user._id;
-            var learned = new LearnedConcepts();
-            learned.course = $scope.courseId;
-            learned.concept = concept.concept._id;
-            learned.user = userId;
-
-            learned.$save(function(learnedconcept)
+            if(concept.children && concept.children.length)
             {
-                $scope.learned.push(learnedconcept);
-            });
+                concept.children.forEach(function(child)
+                {
+                    $scope.understood(child);
+                });
+            }
+            else
+            {
+                var userId = Authentication.user._id;
+
+                var learned = new LearnedConcepts();
+                learned.course = $scope.courseId;
+                learned.concept = concept.concept._id;
+                learned.user = userId;
+
+                learned.$save(function(learnedconcept)
+                {
+                    $scope.learned.push(learnedconcept);
+                });
+            }
         };
+
+
 
         $scope.notUnderstood = function(concept)
         {
-            var conceptId = concept.concept._id;
+            var conceptIds = ConceptStructure.getConceptChildrenFlat(concept)
+                .map(function(d) { return d.concept._id; });
 
             $scope.learned.filter(function(l)
             {
-                return l.concept === conceptId;
+                return conceptIds.indexOf(l.concept) !== -1;
             }).forEach(function(learned, i)
             {
                 learned.$remove(function()
@@ -550,6 +564,28 @@ angular.module('courses').controller('CourseViewController',
             // Should automatically do this after that instead of some timer.
             $timeout(updateActive, 5);
         });
+
+        $scope.isLearned = function(d)
+        {
+            if(d.children && d.children.length)
+            {
+                var isLearned = true;
+
+                for(var i = 0; i < d.children.length; i++)
+                {
+                    if(!this.isLearned(d.children[i]))
+                    {
+                        isLearned = false;
+                    }
+                }
+
+                return isLearned;
+            }
+            else
+            {
+                return $scope.active.learnedConceptIds.indexOf(d.concept._id) !== -1;
+            }
+        };
 
         function updateActive()
         {
