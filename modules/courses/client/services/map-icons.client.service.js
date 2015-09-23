@@ -221,7 +221,7 @@ angular.module('courses').service('MapIcons', function(Tip, ConceptStructure, $l
             return $scope.isLearned(d) && (!d.parentData || !$scope.isLearned(d.parentData));
 
         if(iconName === 'seen')
-            return ($scope.seenMapByConcept && $scope.seenMapByConcept[d.concept._id]);
+            return $scope.isSeen(d) && (!d.parentData || !$scope.isSeen(d.parentData));
     };
 
     this.isActive = function(d)

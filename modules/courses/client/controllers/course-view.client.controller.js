@@ -458,51 +458,6 @@ angular.module('courses').controller('CourseViewController',
             $location.search('goal', id);
         };
 
-        $scope.understood = function(concept)
-        {
-            if(concept.children && concept.children.length)
-            {
-                concept.children.forEach(function(child)
-                {
-                    $scope.understood(child);
-                });
-            }
-            else
-            {
-                var userId = Authentication.user._id;
-
-                var learned = new LearnedConcepts();
-                learned.course = $scope.courseId;
-                learned.concept = concept.concept._id;
-                learned.user = userId;
-
-                learned.$save(function(learnedconcept)
-                {
-                    $scope.learned.push(learnedconcept);
-                });
-            }
-        };
-
-
-
-        $scope.notUnderstood = function(concept)
-        {
-            var conceptIds = ConceptStructure.getConceptChildrenFlat(concept)
-                .map(function(d) { return d.concept._id; });
-
-            $scope.learned.filter(function(l)
-            {
-                return conceptIds.indexOf(l.concept) !== -1;
-            }).forEach(function(learned, i)
-            {
-                learned.$remove(function()
-                {
-                    $scope.learned.splice($scope.learned.indexOf(learned), 1);
-                });
-
-            });
-        };
-
         $scope.addDependency = function(providerId, dependantId, callback)
         {
             var cd = new Conceptdependencies({
@@ -584,6 +539,28 @@ angular.module('courses').controller('CourseViewController',
             else
             {
                 return $scope.active.learnedConceptIds.indexOf(d.concept._id) !== -1;
+            }
+        };
+
+        $scope.isSeen = function(d)
+        {
+            if(d.children && d.children.length)
+            {
+                var isSeen = true;
+
+                for(var i = 0; i < d.children.length; i++)
+                {
+                    if(!this.isSeen(d.children[i]))
+                    {
+                        isSeen = false;
+                    }
+                }
+
+                return isSeen;
+            }
+            else
+            {
+                return ($scope.seenMapByConcept && $scope.seenMapByConcept[d.concept._id]);
             }
         };
 

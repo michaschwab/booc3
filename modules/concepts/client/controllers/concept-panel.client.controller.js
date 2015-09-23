@@ -253,6 +253,7 @@ angular.module('concepts').controller('ConceptPanelController',
                 d.inGoalHierarchy = isInGoalHierarchy(d);
                 d.inHoverHierarchy = isInHoverHierarchy(d);
                 d.hover = isHover(d);
+                d.isSeen = $scope.isSeen(d);
             };
 
             $scope.planConcepts = $scope.active.topLevelConcepts.filter(function(d)
