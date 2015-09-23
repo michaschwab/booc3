@@ -188,7 +188,7 @@ a[disabled] .map-icon {
 }
 
 
-.concept-tick {
+.concept-tick, .concept-seen {
     left: 5pt;
     top: 4pt;
     position: absolute;
@@ -199,9 +199,9 @@ a[disabled] .map-icon {
     font-size: 70%;
 }
 
-.concept-list-nested .concept-list-nested .concept-tick {
+.concept-list-nested .concept-list-nested .concept-tick, .concept-list-nested .concept-list-nested .concept-seen {
     top: 6px;
-    left: 9px;
+    left: 10px;
 }
 .concept-list-nested .concept-list-nested .flag {
     top: -6px;
