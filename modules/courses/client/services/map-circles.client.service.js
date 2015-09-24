@@ -396,10 +396,11 @@ angular.module('courses').service('MapCircles', function(Tip, $location, $timeou
         var scale = ((firstBig.radius / 0.7) / 2 + 0.5) * $scope.graphMinDim / 700;
 
         var firstBigPos = $scope.getTranslateAbs(firstBig);
-        var arrowStart = { x: firstBigPos.x - scale * 180 , y: firstBigPos.y - scale * 100  };
+        //var arrowStart = { x: firstBigPos.x - scale * 180 , y: firstBigPos.y - scale * 100  };
+        var startPos = { x: firstBigPos.x - scale * 169 , y: firstBigPos.y - scale * 72  };
 
         //start.attr('transform', 'translate(' + arrowStart.x +', ' + arrowStart.y + ') rotate(17)');
-        start.attr('transform', 'translate(' + arrowStart.x +', ' + arrowStart.y + ')');
+        start.attr('transform', 'translate(' + startPos.x +', ' + startPos.y + ')');
 
         function makeCircle()
         {
@@ -407,8 +408,8 @@ angular.module('courses').service('MapCircles', function(Tip, $location, $timeou
             circleStart.x = scale * 11;
             circleStart.y = scale * 22;
             var circle = start.append('circle').attr('class', 'startCircle');
-            circle.attr('r', 30 * scale)
-                .attr('transform', 'translate(' + circleStart.x +', ' + circleStart.y + ')');
+            circle.attr('r', 30 * scale);
+                //.attr('transform', 'translate(' + circleStart.x +', ' + circleStart.y + ')');
         }
 
         function makeTriangle()
@@ -430,11 +431,12 @@ angular.module('courses').service('MapCircles', function(Tip, $location, $timeou
 
         start.append('text').attr({
             class: 'concept-title start-title'
-        }).html('Start').attr({
-            'dy': 24 * scale,
+        }).attr({
+            /*x: 15 * scale,
+            y: 15 * scale*/
             /*'fill': '#ffffff',*/
-            'font-size': 13 * scale
-        });
+
+        }).style({'font-size': 16 * scale}).html('Start');
 
         start.on('click', function()
         {

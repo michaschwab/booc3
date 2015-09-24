@@ -23,14 +23,15 @@ svg.zooming {
     user-select: none;
 }
 
-svg #mainLayer text {
-    font-family: 'Open Sans', sans-serif;;
+svg #mainLayer text, svg .startIconGroup text, svg .startIconGroup {
+    font-family: 'Open Sans', sans-serif;
     font-weight: 300;
     text-anchor: middle;
     font-size: 11pt;
     transition-property: font-size;
     transition-duration: 500ms;
     pointer-events: none;
+    alignment-baseline: middle;
 }
 svg #mainLayer .concept-title {
 
