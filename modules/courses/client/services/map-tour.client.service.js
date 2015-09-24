@@ -127,6 +127,7 @@ angular.module('courses').service('MapTour', function(Authentication, $timeout, 
                     {
                         MapArrows.disableArrows();
                         $location.search('goal', '');
+                        $location.search('mode', 'plan');
 
                         var isActive = $location.search()['active'];
 
@@ -334,6 +335,7 @@ angular.module('courses').service('MapTour', function(Authentication, $timeout, 
 
                     var newGoal = skippingFirstL3Id.substr('concept-'.length);
                     var currentGoal = $location.search()['goal'];
+                    $('.set-goal').css('border', '');
                     tour.hide();
 
                     if(newGoal == currentGoal)
@@ -379,7 +381,11 @@ angular.module('courses').service('MapTour', function(Authentication, $timeout, 
                                 $location.search('active', '');
                                 $location.search('goal', '');
 
-                                $timeout(tour.next, waitTime);
+                                $timeout(function()
+                                {
+                                    $location.search('mode', 'lecture');
+                                    tour.next();
+                                }, waitTime);
                             }, i * 2200);
                         }, 2000);
                     }
@@ -392,7 +398,14 @@ angular.module('courses').service('MapTour', function(Authentication, $timeout, 
             text: 'Oh, and if you just want to quickly access the lecture videos or slides <br />in linear order, then use this tab. You can download them from here, too.',
             attachTo: '.tab-lectures',
             classes: 'shepherd shepherd-open shepherd-theme-arrows shepherd-transparent-text',
-            buttons: [backButton, exitButton, nextButton]
+            buttons: [backButton, exitButton, {
+                text: 'Next',
+                classes: 'shepherd-button-primary',
+                action: function() {
+
+                    $location.search('mode', 'plan');
+                    $timeout(tour.next, 200);
+                }}]
         });
 
         tour.addStep('feedback', {
