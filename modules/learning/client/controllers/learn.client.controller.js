@@ -123,7 +123,7 @@ angular.module('learning').controller('LearnController',
             $scope.setActives();
         });
 
-        $scope.$watch('learnMode', function()
+        function checkPlayPause()
         {
             if(!$scope.learnMode)
             {
@@ -133,7 +133,10 @@ angular.module('learning').controller('LearnController',
             {
                 LearnHelper.playSource($scope.active.sourcetype);
             }
-        });
+        }
+
+        $scope.$watch('learnMode', checkPlayPause);
+        $scope.$watch('active.sourcetype', checkPlayPause);
 
         $scope.setActives = function()
         {

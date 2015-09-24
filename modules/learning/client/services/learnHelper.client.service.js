@@ -1,4 +1,4 @@
-angular.module('learning').service('LearnHelper', function($http, $sce, $interval)
+angular.module('learning').service('LearnHelper', function($http, $sce, $interval, $timeout)
 {
     var me = this;
 
@@ -101,6 +101,10 @@ angular.module('learning').service('LearnHelper', function($http, $sce, $interva
             if(player !== null)
             {
                 player.play();
+            }else
+            {
+                //console.log('player not found');
+                $timeout(function() { me.playSource(sourcetype); }, 100);
             }
         }
     };
