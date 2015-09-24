@@ -400,7 +400,11 @@ angular.module('concepts').controller('ConceptPanelController',
 
         function checkSeen()
         {
-            if($scope.learnMode && $scope.activeConcept && $scope.seenMapByConcept && !$scope.seenMapByConcept[$scope.activeConcept.concept._id])
+            if($scope.learnMode
+                && $scope.activeConcept
+                && Object.keys($scope.seenMapByConcept).length
+                && !$scope.seenMapByConcept[$scope.activeConcept.concept._id]
+                && (!$scope.activeConcept.children || !$scope.activeConcept.children.length))
             {
                 //console.log('gotta mark concept ', $scope.activeConcept.concept._id,  ' as seen');
 
