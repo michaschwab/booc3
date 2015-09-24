@@ -633,6 +633,11 @@ angular.module('courses').service('MapArrows', function(Tip, ConceptStructure, M
         //$scope.preReqButtonClick();
     };
 
+    this.setOptionsDefault = function()
+    {
+        $scope.options = OPTIONS_PLANS;
+    };
+
     this.disableArrows = function()
     {
         $scope.options = OPTIONS_NOARROWS;

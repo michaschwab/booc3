@@ -103,6 +103,7 @@ angular.module('courses').service('MapTour', function(Authentication, $timeout, 
             text: 'Exit',
             classes: 'shepherd-button-secondary',
             action: function() {
+                MapArrows.setOptionsDefault();
                 return tour.hide();
             }
         };
@@ -124,7 +125,10 @@ angular.module('courses').service('MapTour', function(Authentication, $timeout, 
                     classes: 'shepherd-button-primary',
                     action: function()
                     {
-                        var isActive = $location.search('active');
+                        MapArrows.disableArrows();
+                        $location.search('goal', '');
+
+                        var isActive = $location.search()['active'];
 
                         if(!isActive)
                         {
@@ -132,9 +136,9 @@ angular.module('courses').service('MapTour', function(Authentication, $timeout, 
                         }
                         else
                         {
+                            tour.hide();
                             $location.search('active', '');
-                            $location.search('goal', '');
-                            MapArrows.disableArrows();
+
                             $timeout(tour.next, waitTime);
                         }
                     }
@@ -329,7 +333,7 @@ angular.module('courses').service('MapTour', function(Authentication, $timeout, 
                 action: function() {
 
                     var newGoal = skippingFirstL3Id.substr('concept-'.length);
-                    var currentGoal = $location.search('goal').toString();
+                    var currentGoal = $location.search()['goal'];
                     tour.hide();
 
                     if(newGoal == currentGoal)
@@ -377,7 +381,7 @@ angular.module('courses').service('MapTour', function(Authentication, $timeout, 
 
                                 $timeout(tour.next, waitTime);
                             }, i * 2200);
-                        }, 3000);
+                        }, 2000);
                     }
                 }
             }]
@@ -400,6 +404,7 @@ angular.module('courses').service('MapTour', function(Authentication, $timeout, 
                 text: 'Finish',
                 classes: 'shepherd-button-primary',
                 action: function() {
+                    MapArrows.setOptionsDefault();
                     return tour.hide();
                 }
             }]
