@@ -91,6 +91,16 @@ a, a:focus {
     background: #f6f6f6;
     display: block;
     color: #333333;
+    top: 5px;
+    position:absolute;
+}
+.maximized .panel-button.play {
+    right: 10px;
+
+}
+.maximized .panel-button.goal {
+    right: 70px;
+
 }
 .minimized .panel-button {
     font-size: 10pt;
@@ -570,10 +580,14 @@ input.concept-title.admin {
 
 .map-icon {
     background: url('../../../modules/courses/img/gov2001_big.png');
+    background-repeat: no-repeat;
     background-size: 22px 22px;
     width:22px;
     height:22px;
-
+}
+.panel-minimized .map-icon {
+    background-size: 16px 16px;
+    background-position: 8px 2px;
 }
 .map-icon-large {
     background-size: 40px 40px;
