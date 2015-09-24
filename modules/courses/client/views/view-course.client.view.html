@@ -15,7 +15,7 @@
 
     <ng-include ng-if="!learnMode&&!editSourceMode" src="'/modules/concepts/views/search.client.view.html'"></ng-include>
 
-    <ng-include ng-if="learnMode" src="'/modules/learning/views/learn.client.view.html'"></ng-include>
+    <ng-include ng-show="learnMode" src="'/modules/learning/views/learn.client.view.html'"></ng-include>
 
     <ng-include ng-if="editSourceMode" src="'/modules/contents/views/edit-contents.client.view.html'"></ng-include>
 

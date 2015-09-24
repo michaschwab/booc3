@@ -77,6 +77,32 @@ angular.module('learning').service('LearnHelper', function($http, $sce, $interva
         this.setPosition(scope, player, sourcetype);
     };
 
+    this.pauseSource = function(sourcetype)
+    {
+        if(sourcetype.title === 'Lecture')
+        {
+            var player = document.querySelector('#videoPlayer');
+            if(player !== null)
+            {
+                player.pause();
+            }
+        }
+    };
+
+    this.playSource = function(sourcetype)
+    {
+        if(!sourcetype) return;
+
+        if(sourcetype.title === 'Lecture')
+        {
+            var player = document.querySelector('#videoPlayer');
+            if(player !== null)
+            {
+                player.play();
+            }
+        }
+    };
+
     this.getSourceEnd = function(source, player, totalPages)
     {
         if(source.type.title === 'youtube')

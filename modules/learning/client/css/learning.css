@@ -140,7 +140,8 @@ a.concept:hover {
     display: inline-block;
     /*top: -30px;
     right: -30px;*/
-    right: -15px;
+    /*right: -15px;*/
+    top: 15px;
     float: right;
     position: absolute;
 }
