@@ -79,6 +79,8 @@ angular.module('learning').service('LearnHelper', function($http, $sce, $interva
 
     this.pauseSource = function(sourcetype)
     {
+        if(!sourcetype) return;
+
         if(sourcetype.title === 'Lecture')
         {
             var player = document.querySelector('#videoPlayer');
