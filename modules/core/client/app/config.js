@@ -21,8 +21,8 @@ var ApplicationConfiguration = (function () {
     'ngPDFViewer',
     'ngDialog',
     'ui.moment-duration',
-    'ui.sortable'
-
+    'ui.sortable',
+    'youtube-embed'
   ];
 
   // Add a new vertical module

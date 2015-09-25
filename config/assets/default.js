@@ -43,7 +43,8 @@ module.exports = {
 
         'public/lib/ngDialog/js/ngDialog.js',
         'public/lib/moment/moment.js',
-        'public/lib/angular-moment-duration/src/angular-moment-duration.js'
+        'public/lib/angular-moment-duration/src/angular-moment-duration.js',
+          'public/lib/angular-youtube-mb/src/angular-youtube-embed.js'
       ],
       tests: ['public/lib/angular-mocks/angular-mocks.js']
     },
