@@ -190,7 +190,7 @@ angular.module('contents').controller('CreatorController',
 
                 if($scope.segments.length > 0)
                 {
-                    console.log($scope.segments);
+                    //console.log($scope.segments);
                     $scope.segments.forEach(function(segment)
                     {
                         var conceptIds = !segment.conceptObjects ? [] : segment.conceptObjects.map(function(concept)
@@ -224,6 +224,12 @@ angular.module('contents').controller('CreatorController',
                         else
                         {
                             console.log('creating new segment');
+
+                            if(!segment.title)
+                            {
+                                segment.title = $scope.source.title;
+                            }
+
                             var seg = new Segments(segment);
                             seg.$save(cb2);
                         }

@@ -42,11 +42,15 @@ angular.module('contents').service('WikiCreator', function($http, $sce)
                 $scope.activeSegment = segment;
                 console.log('doing stuff with my wiki segment..');
 
-                /*segment.conceptObjects = segment.conceptObjects.concat($scope.allConcepts.filter(function(c)
+                segment.conceptObjects = segment.conceptObjects.concat($scope.allConcepts.filter(function(c)
                 {
-                    return segment.concepts.indexOf(c._id) !== -1;
-                }));*/
+                    return segment.concepts.indexOf(c._id) !== -1 && segment.conceptObjects.indexOf(c) === -1;
+                }));
 
+            }
+            else if($scope.segments.length === 0)
+            {
+                $scope.segments.push({concepts: [], conceptObjects:[]});
             }
             else
             {
