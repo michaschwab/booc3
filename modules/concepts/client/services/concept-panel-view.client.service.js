@@ -102,25 +102,20 @@ angular.module('concepts').service('ConceptPanelView',
                 }
             };
 
-            var lastSweep = 0;
             $scope.updatePanelHeight = function()
             {
                 $scope.panelContentHeightMax = $scope.windowHeight - $scope.panelOffsetTop;
                 $scope.courseScope.panelWidth = $scope.getPanelWidth();
-
-                // Always better to do a second and third sweep.
-                if(Date.now() - lastSweep > 600)
-                {
-                    $timeout($scope.updatePanelHeight, 100);
-                    $timeout($scope.updatePanelHeight, 300);
-                }
-
-                lastSweep = Date.now();
             };
 
             var w = angular.element($window);
             w.bind('resize', $scope.updatePanelHeight);
-            $scope.$watch('panelOffsetTop', $scope.updatePanelHeight);
+            $scope.$watch('panelOffsetTop', function()
+            {
+                $scope.updatePanelHeight();
+                $timeout($scope.updatePanelHeight, 100);
+                $timeout($scope.updatePanelHeight, 300);
+            });
 
             /*// to be sure.
             $timeout($scope.updatePanelHeight, 1000);
