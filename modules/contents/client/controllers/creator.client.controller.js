@@ -30,7 +30,11 @@ angular.module('contents').controller('CreatorController',
                     $scope.courseIds = courses.map(function(c) { return c._id; });
 
                     var courseSearchScope = angular.element('.course-select').scope().$$childHead;
-                    courseSearchScope.$select.selected = $scope.courses[$scope.courseIds.indexOf($scope.courseId)];
+
+                    if($scope.courseId)
+                    {
+                        courseSearchScope.$select.selected = $scope.courses[$scope.courseIds.indexOf($scope.courseId)];
+                    }
                 }
             });
 
@@ -97,6 +101,12 @@ angular.module('contents').controller('CreatorController',
 
                                 var type = $scope.sourcetypes.filter(function(t) { return t._id == $scope.source.type; })[0];
                                 $scope.setSourcetype(type);
+                                var activeCourseIds = $scope.source.courses;
+                                if(activeCourseIds.length === 1)
+                                {
+                                    $scope.courseId = activeCourseIds[0];
+                                    $scope.course = $scope.courses[$scope.courseIds.indexOf($scope.courseId)];
+                                }
                             }
                             else
                             {
