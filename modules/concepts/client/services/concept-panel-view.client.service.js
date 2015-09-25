@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('concepts').service('ConceptPanelView',
-    function($window)
+    function($window, $location)
     {
         var $scope;
 
@@ -37,9 +37,15 @@ angular.module('concepts').service('ConceptPanelView',
                 //
             };
 
+            var lastMode = '';
+
             $scope.minimize = function()
             {
                 $scope.minimized = true;
+                lastMode = $location.search()['mode'];
+                $location.search('mode', 'plan');
+
+
                 var newWidth = $scope.getPanelWidth();
 
                 $scope.animatePanelWidth(newWidth, function()
@@ -52,6 +58,8 @@ angular.module('concepts').service('ConceptPanelView',
             $scope.maximize = function()
             {
                 $scope.minimized = false;
+                $location.search('mode', lastMode);
+
                 var newWidth = $scope.getPanelWidth();
 
                 $scope.courseScope.panelWidth = newWidth;
