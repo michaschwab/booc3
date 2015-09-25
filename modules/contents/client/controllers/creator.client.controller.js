@@ -286,7 +286,17 @@ angular.module('contents').controller('CreatorController',
 
         $scope.setSegmentStart = function()
         {
-            sourceHelper.getCurrentPosition();
+            if($scope.activeSegment)
+            {
+                $scope.activeTimes.startDuration = moment.duration(sourceHelper.getCurrentPosition() * 1000);
+            }
+        };
+        $scope.setSegmentEnd = function()
+        {
+            if($scope.activeSegment)
+            {
+                $scope.activeTimes.endDuration = moment.duration(sourceHelper.getCurrentPosition() * 1000);
+            }
         };
 
         $scope.$watch('activeType', function()
