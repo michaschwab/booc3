@@ -410,8 +410,8 @@ angular.module('courses').service('MapTour', function(Authentication, $timeout, 
 
         tour.addStep('feedback', {
             title: 'Feedback',
-            text: 'Please try it! <br />Tell us what you like, what you don’t like, or even what’s broken (!)<br /> using the feedback button.<br /><br />You can relaunch this tour by clicking on the question mark.<br /><br />Wishing you happy non-linear learning from the booc.io team!',
-            attachTo: '.tour-launcher',
+            text: 'Please try it! <br />Tell us what you like, what you don’t like, or even what’s broken<br /> using the <span class="fa fa-comment"></span> feedback button.<br /><br />You can relaunch this tour by clicking on the <span class="glyphicon glyphicon-question-sign"></span> question mark.<br /><br />Wishing you happy non-linear learning from the booc.io team!',
+            attachTo: '.feedback-button',
             classes: 'shepherd shepherd-open shepherd-theme-arrows shepherd-transparent-text',
             buttons: [{
                 text: 'Finish',
