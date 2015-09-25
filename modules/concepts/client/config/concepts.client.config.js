@@ -5,7 +5,7 @@ angular.module('concepts').run(['Menus',
 	function(Menus) {
 		// Set top bar menu items
 
-		Menus.addMenuItem('topbar', {
+		/*Menus.addMenuItem('topbar', {
 			title: 'Concepts',
 			state: 'concepts',
 			type: 'dropdown',
@@ -15,7 +15,7 @@ angular.module('concepts').run(['Menus',
 		Menus.addSubMenuItem('topbar', 'concepts', {
 			title: 'Bulk Edit Concepts',
 			state: 'concepts.bulk-edit'
-		});
+		});*/
 
 		/*Menus.addMenuItem('topbar', 'Concepts', 'concepts', 'dropdown', '/concepts(/create)?', false, ['admin']);
 		//Menus.addSubMenuItem('topbar', 'concepts', 'List Concepts', 'concepts');

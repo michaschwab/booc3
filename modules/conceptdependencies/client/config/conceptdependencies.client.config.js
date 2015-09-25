@@ -4,7 +4,7 @@ angular.module('conceptdependencies').run(['Menus',
     function(Menus) {
         // Set top bar menu items
 
-        Menus.addMenuItem('topbar', {
+        /*Menus.addMenuItem('topbar', {
             title: 'Dependencies',
             state: 'dependencies',
             type: 'dropdown',
@@ -14,6 +14,6 @@ angular.module('conceptdependencies').run(['Menus',
         Menus.addSubMenuItem('topbar', 'dependencies', {
             title: 'Bulk Edit Dependencies',
             state: 'dependencies.bulk-edit'
-        });
+        });*/
     }
 ]);
