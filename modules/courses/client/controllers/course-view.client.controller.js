@@ -620,7 +620,7 @@ angular.module('courses').controller('CourseViewController',
             updateCurrentGoal();
         }
 
-        $scope.$on('$locationChangeSuccess', function() { updateActive(); $timeout(updatePanelContentHeight, 20); });
+        $scope.$on('$locationChangeSuccess', function() { updateActive(); $timeout(updatePanelContentHeight, 20); $timeout(updatePanelContentHeight, 100); $timeout(updatePanelContentHeight, 200); });
 
         //TODO set the TLC here instead of in the map. It's a more general thing.
         /*$scope.$watchCollection('concepts.downloadedUpdates',function()
