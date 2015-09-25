@@ -406,10 +406,10 @@ input.concept-title.admin {
 
 /** Segments **/
 
-
+/*
 .minimized .segment {
     margin-right: 20px;
-}
+}*/
 .segment {
     list-style: none;
     margin: 5px 5px -15px 5px;
@@ -421,6 +421,7 @@ input.concept-title.admin {
     display: block;
     padding: 5px 15px;
     text-decoration: none;
+    height: 30px;
 }
 
 .segment.active a, .segment.hover a {
