@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('concepts').service('ConceptPanelView',
-    function($window, $location)
+    function($window, $location, $timeout)
     {
         var $scope;
 
@@ -111,6 +111,11 @@ angular.module('concepts').service('ConceptPanelView',
             var w = angular.element($window);
             w.bind('resize', $scope.updatePanelHeight);
             $scope.$watch('panelOffsetTop', $scope.updatePanelHeight);
+
+            // to be sure.
+            $timeout($scope.updatePanelHeight, 1000);
+            $timeout($scope.updatePanelHeight, 2000);
+            $timeout($scope.updatePanelHeight, 4000);
         };
 
         return (this);
