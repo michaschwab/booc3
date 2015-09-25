@@ -44,7 +44,8 @@ module.exports = {
         'public/lib/ngDialog/js/ngDialog.js',
         'public/lib/moment/moment.js',
         'public/lib/angular-moment-duration/src/angular-moment-duration.js',
-          'public/lib/angular-youtube-mb/src/angular-youtube-embed.js'
+          'public/lib/angular-youtube-mb/src/angular-youtube-embed.js',
+        'https://www.youtube.com/iframe_api'
       ]
     },
     css: 'public/dist/application.min.css',

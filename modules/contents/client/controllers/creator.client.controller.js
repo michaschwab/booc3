@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('contents').controller('CreatorController',
-    function($scope, $stateParams, Courses, Sourcetypes, Sources, Segments, $timeout, $location, LectureCreator, WikiCreator, LTICreator, Concepts, $filter)
+    function($scope, $stateParams, Courses, Sourcetypes, Sources, Segments, $timeout, $location, LectureCreator, WikiCreator, LTICreator, Concepts, $filter, YoutubeCreator)
     {
         $scope.courseId = $stateParams.courseId;
         $scope.activeReadableType = '';
@@ -271,6 +271,10 @@ angular.module('contents').controller('CreatorController',
             else if(readable === 'lti')
             {
                 LTICreator.start($scope);
+            }
+            else if(readable === 'youtube')
+            {
+                YoutubeCreator.start($scope);
             }
         });
 
