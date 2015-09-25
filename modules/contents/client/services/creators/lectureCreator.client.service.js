@@ -135,6 +135,11 @@ angular.module('contents').service('LectureCreator', function($http)
         }
     };
 
+    this.getCurrentPosition = function()
+    {
+        return 0;
+    };
+
     this.stop = function()
     {
 

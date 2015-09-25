@@ -62,13 +62,19 @@ angular.module('contents').service('YoutubeCreator', function(ytapi, youtubeEmbe
         });
     };
 
+    this.getCurrentPosition = function()
+    {
+        return parseInt($scope.player.getCurrentTime());
+    };
+
     this.stop = function()
     {
 
     };
 
     return (this);
-}).factory('ytapi', ['$http',
+})
+.factory('ytapi', ['$http',
     function($http) {
 
         return function(ytId)

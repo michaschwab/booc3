@@ -40,6 +40,11 @@ angular.module('contents').service('LTICreator', function($http, $resource)
         }
     };
 
+    this.getCurrentPosition = function()
+    {
+        return 0;
+    };
+
     this.stop = function()
     {
 

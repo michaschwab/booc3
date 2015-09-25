@@ -12,6 +12,7 @@ angular.module('contents').controller('CreatorController',
         $scope.concepts = [];
         $scope.readableTypes = [];
         $scope.segments = [];
+        var sourceHelper;
 
         $scope.activeTimes = {start: 0, end: 0};
         $scope.activeSegment = null;
@@ -262,21 +263,31 @@ angular.module('contents').controller('CreatorController',
         {
             if(readable === 'lecture')
             {
-                LectureCreator.start($scope);
+                sourceHelper = LectureCreator;
             }
             else if(readable === 'wikipediaarticle')
             {
-                WikiCreator.start($scope);
+                sourceHelper = WikiCreator;
             }
             else if(readable === 'lti')
             {
-                LTICreator.start($scope);
+                sourceHelper = LTICreator;
             }
             else if(readable === 'youtube')
             {
-                YoutubeCreator.start($scope);
+                sourceHelper = YoutubeCreator;
+            }
+
+            if(sourceHelper)
+            {
+                sourceHelper.start($scope);
             }
         });
+
+        $scope.setSegmentStart = function()
+        {
+            sourceHelper.getCurrentPosition();
+        };
 
         $scope.$watch('activeType', function()
         {

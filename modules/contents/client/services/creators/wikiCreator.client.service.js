@@ -60,6 +60,11 @@ angular.module('contents').service('WikiCreator', function($http, $sce)
 
     };
 
+    this.getCurrentPosition = function()
+    {
+        return 0;
+    };
+
     this.stop = function()
     {
 
