@@ -16,7 +16,7 @@
             </h4>
 
             <div class="list-group-item-text">
-                Concepts:{{getConceptsNumberShort(3, source)}}
+                Concepts:
                 <ul class="lecture-concepts">
                     <li ng-repeat="i in getConceptsNumberShort(3, source) track by $index">
                         <span style="background: {{conceptMap[sourceSegments[source._id][$index].concepts[0]].color}}" class="concept-color-circle"></span>

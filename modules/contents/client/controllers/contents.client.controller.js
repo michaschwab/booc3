@@ -86,13 +86,18 @@ angular.module('contents').controller('ContentsController',
 
         $scope.getConceptsNumberShort = function(num, source)
         {
-            if(!$scope.sourceSegments[source._id] || !$scope.sourceSegments[source._id].concepts)
+            if(!$scope.sourceSegments[source._id])
             {
                 num = 0;
             }
-            else if(num > $scope.sourceSegments[source._id].concepts.length)
+            else
             {
-                num = $scope.sourceSegments[source._id].concepts.length;
+                var conceptNum = 0;
+                $scope.sourceSegments[source._id].forEach(function(seg) { conceptNum += seg.concepts.length; });
+
+
+                if(num > conceptNum)
+                    num = conceptNum;
             }
 
             return new Array(num);
