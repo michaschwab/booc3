@@ -1,4 +1,4 @@
-angular.module('courses').service('MapArrows', function(Tip, ConceptStructure, MapArrowShaping, $location)
+angular.module('courses').service('MapArrows', function(Tip, ConceptStructure, MapArrowShaping, $location, $timeout)
 {
     var me = this;
     var $scope;
@@ -604,7 +604,7 @@ angular.module('courses').service('MapArrows', function(Tip, ConceptStructure, M
         var search = $location.search();
         var adminMode = search && search.mode && search.mode == 'admin';
 
-        $scope.$on('$locationChangeSuccess', function()
+        var checkAdmin = function()
         {
             search = $location.search();
             adminMode = search && search.mode && search.mode == 'admin';
@@ -613,16 +613,22 @@ angular.module('courses').service('MapArrows', function(Tip, ConceptStructure, M
             {
                 setToPrerequisites();
             }
-        });
+        };
+        $timeout(checkAdmin, 50);
+
+        $scope.$on('$locationChangeSuccess', checkAdmin);
 
         var setToPrerequisites = function()
         {
-            $scope.learningPlansOn = false;
+            $scope.setLearningPlans(false);
         };
 
         $scope.setLearningPlans = function(onOff)
         {
             $scope.learningPlansOn = onOff;
+
+            var onOffText = onOff ? 'on' : 'off';
+            $('#prereqButton').bootstrapToggle(onOffText);
         };
 
         $scope.$watch('learningPlansOn', function()
