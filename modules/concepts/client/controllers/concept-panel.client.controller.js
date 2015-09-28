@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('concepts').controller('ConceptPanelController',
-    function($scope, $rootScope, $stateParams, $location, Authentication, Concepts, Conceptdependencies, Courses, Sourcetypes, Segments, Sources, ConceptStructure, $timeout, LearnedConcepts, SeenConcepts, $window, PanelAdmin, ConceptPanelView, ConceptActions)
+    function($scope, $rootScope, $stateParams, $location, Authentication, Concepts, Conceptdependencies, Courses, Sourcetypes, Segments, Sources, ConceptStructure, $timeout, LearnedConcepts, SeenConcepts, $window, PanelAdmin, ConceptPanelView, ConceptActions, $interval)
     {
         $scope.unfold = true;
         $scope.minimized = false;
@@ -375,6 +375,7 @@ angular.module('concepts').controller('ConceptPanelController',
             updatePlan();
         }
 
+        $interval(updateHierarchy, 200);
         $scope.$watch('activeConcept.children', updateHierarchy);
 
         $scope.$watchCollection('activeDependencyProviderIds', updateHierarchy);
