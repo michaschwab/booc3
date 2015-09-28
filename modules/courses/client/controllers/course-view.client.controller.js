@@ -1,6 +1,6 @@
 
 angular.module('courses').controller('CourseViewController',
-    function($scope, $stateParams, Courses, Concepts, Conceptdependencies, Authentication, $window, $location, ConceptStructure, Segments, Sources, Sourcetypes, LearnedConcepts, SeenConcepts, $timeout)
+    function($scope, $stateParams, Courses, Concepts, Conceptdependencies, Authentication, $window, $location, ConceptStructure, Segments, Sources, Sourcetypes, LearnedConcepts, SeenConcepts, $timeout, $interval)
     {
         $scope.authentication = Authentication;
         $scope.learnMode = false;
@@ -517,9 +517,9 @@ angular.module('courses').controller('CourseViewController',
         {
             //TODO have to do this because have to wait for the childconcepts to be set by getConceptChildren.
             // Should automatically do this after that instead of some timer.
-            $timeout(updateActive, 5);
+//            $timeout(function() { updateActive(); console.log('updated active'); }, 100);
         });
-
+$interval(updateActive, 200);
         $scope.isLearned = function(d)
         {
             if(d.children && d.children.length)
