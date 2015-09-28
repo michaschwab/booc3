@@ -11,6 +11,7 @@ var path = require('path'),
 	_ = require('lodash');
 
 var ObjectId = mongoose.Types.ObjectId;
+var actions = require('../../../actions/server/controllers/actions.server.controller');
 
 /**
  * Create a Conceptdependency
@@ -68,7 +69,13 @@ exports.delete = function(req, res) {
 				message: errorHandler.getErrorMessage(err)
 			});
 		} else {
-			res.jsonp(conceptdependency);
+			var deletedData = { Conceptdependency: [conceptdependency] };
+			//res.jsonp(conceptdependency);
+
+			actions.doDelete(req.user, deletedData, function()
+			{
+				res.jsonp(conceptdependency);
+			});
 		}
 	});
 };
@@ -115,7 +122,6 @@ exports.conceptdependencyByID = function(req, res, next, id) {
 /**
  * Conceptdependency authorization middleware
  */
-
 
 
 exports.hasReqAuthorization = function(req, res, next)
