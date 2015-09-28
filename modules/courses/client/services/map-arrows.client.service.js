@@ -69,7 +69,13 @@ angular.module('courses').service('MapArrows', function(Tip, ConceptStructure, M
     this.init = function(scope)
     {
         $scope = scope;
-        $scope.learningPlansOn = true;
+
+        if($scope.learningPlansOn !== false)
+        {
+            // If not set at all, set it to true.
+            $scope.learningPlansOn = true;
+        }
+
         this.setUpWatch();
         MapArrowShaping.init($scope);
     };
@@ -625,10 +631,13 @@ angular.module('courses').service('MapArrows', function(Tip, ConceptStructure, M
 
         $scope.setLearningPlans = function(onOff)
         {
-            $scope.learningPlansOn = onOff;
+            if($scope.learningPlansOn !== onOff)
+            {
+                $scope.learningPlansOn = onOff;
 
-            var onOffText = onOff ? 'on' : 'off';
-            $('#prereqButton').bootstrapToggle(onOffText);
+                var onOffText = onOff ? 'on' : 'off';
+                $('#prereqButton').bootstrapToggle(onOffText);
+            }
         };
 
         $scope.$watch('learningPlansOn', function()
