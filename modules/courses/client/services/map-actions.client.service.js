@@ -131,6 +131,7 @@ angular.module('courses').service('MapActions', function(Tip, ConceptStructure, 
             }
         };
 
+        //todo move this to map icons.
         $scope.addDependencyCreator = function(el, d)
         {
             var t2b = el.append('text').attr({

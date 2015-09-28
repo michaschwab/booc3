@@ -139,11 +139,13 @@ angular.module('courses').service('MapIcons', function(Tip, ConceptStructure, $l
             var depFontSize = d.depth > 2 ? 8.2 * $scope.graphHeight * d.radius / 10 : 3 * $scope.graphHeight * d.radius / 10;
             var depDy = d.depth > 2 ? 3.8 * $scope.graphHeight * d.radius / 10 : 1.5 * $scope.graphHeight * d.radius / 10;
             var showDepCreate = within2Levels && adminMode;
+            //console.log(showDepCreate);
 
             if(!lastData[conceptId]['showDepCreate'] || lastData[conceptId]['showDepCreate'] !== showDepCreate)
             {
                 lastData[conceptId]['showDepCreate'] = showDepCreate;
-                iconEl.select('.depCreate').classed('active', within2Levels && adminMode)
+                //todo switch 'el' to 'iconEl' once $scope.addDependencyCreator has been moved to this file.
+                el.select('.depCreate').classed('active', within2Levels && adminMode)
                     .transition().attr(
                     {
                         'fill-opacity': within2Levels && adminMode ? OPACITY : 0,
