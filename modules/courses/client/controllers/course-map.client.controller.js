@@ -24,7 +24,7 @@ angular.module('courses').controller('CourseMapController', ['$scope','$statePar
                 $scope.initDraw();
 
                 $scope.resizeFunction();
-                $scope.resetZoom(0);
+                //$scope.resetZoom(0);
 
                 $scope.$watch('graphWidth', onGraphResize);
                 $scope.$watch('graphHeight', onGraphResize);
