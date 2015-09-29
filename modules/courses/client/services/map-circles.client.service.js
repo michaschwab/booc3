@@ -76,6 +76,7 @@ angular.module('courses').service('MapCircles', function(Tip, $location, $timeou
             {
                 config = $scope.getConfig(d);
             }
+
             var positionFct = config.position === undefined ? function(x) { return x; } : config.position;
 
             if($scope.active.hierarchy.indexOf(d) > -1)
@@ -93,7 +94,15 @@ angular.module('courses').service('MapCircles', function(Tip, $location, $timeou
                 radius: $scope.visParams.l1.scale(parentRadius)
             };
 
-            return translate;
+            if(!isNaN(translate.x))
+            {
+                return translate;
+            }
+            else
+            {
+                console.error('getting the position didnt work out. parentRadius:', parentRadius, 'd.x:', d.x, 'rel x: ', positionFct(d.x, d));
+                return {x: 0, y: 0, radius: 0};
+            }
         };
 
         $scope.getTranslateAbs = function(d, lastDepth)
@@ -249,7 +258,24 @@ angular.module('courses').service('MapCircles', function(Tip, $location, $timeou
         };
         $scope.$watch('zoomMode', setupParams);
 
+
+        var setupCircles = function(array, depth)
+        {
+            for(var i = 0; i < array.length; i++)
+            {
+                var concept = array[i];
+                $scope.configCircle(array, depth, concept, i);
+
+                if(concept.children)
+                {
+                    setupCircles(concept.children, depth + 1);
+                }
+            }
+
+        };
+
         setupParams();
+        setupCircles(tlc, 1);
     };
 
     this.setup = function()
@@ -468,7 +494,7 @@ angular.module('courses').service('MapCircles', function(Tip, $location, $timeou
 
             var radiusFactor = d.radius ? 0.5 + d.radius * 4 : 1;
             var offset = getConfig(d).textYOffset * $scope.graphHeight * radiusFactor;
-//console.log(offset, getConfig(d), getConfig(d).textYOffset, $scope.graphHeight, radiusFactor);
+            //console.log(offset, getConfig(d), getConfig(d).textYOffset, $scope.graphHeight, radiusFactor);
             d.splitTexts.forEach(function(split, splitIndex){
                 t.append('tspan').attr({
                     'dy': function()
