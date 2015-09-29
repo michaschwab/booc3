@@ -33,6 +33,7 @@ angular.module('concepts').service('ConceptActions',
                         seen.$save();
                     }
                 }
+                $scope.updateSeenMap();
             };
 
             $scope.unseeConcept = function(conceptId)
@@ -57,6 +58,7 @@ angular.module('concepts').service('ConceptActions',
                         console.log('cant unsee concept ' + conceptId + ' because it doesnt seem to be marked as seen.');
                     }
                 }
+                $scope.updateSeenMap();
             };
 
             $scope.understood = function(concept)

@@ -7,7 +7,7 @@
 
     <!--</div>-->
 
-
+<div ng-if="active.topLevelConcepts.length">
     <ng-include src="'/modules/concepts/views/panel.client.view.html'"></ng-include>
 
 
@@ -18,7 +18,7 @@
     <ng-include ng-show="learnMode" src="'/modules/learning/views/learn.client.view.html'"></ng-include>
 
     <ng-include ng-if="editSourceMode" src="'/modules/contents/views/edit-contents.client.view.html'"></ng-include>
-
+</div>
 
 
     <!--</ul>-->

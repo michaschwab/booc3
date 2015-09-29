@@ -8,6 +8,7 @@ angular.module('courses').service('MapCircles', function(Tip, $location, $timeou
     this.init = function(scope)
     {
         $scope = scope;
+        $scope.options.grayInactiveConcepts = true;
 
         $scope.splitTitle = function(title, depth)
         {
@@ -138,7 +139,7 @@ angular.module('courses').service('MapCircles', function(Tip, $location, $timeou
         var l2maxRadius = Math.PI/10; // maximum 9 blobbs along the circle
         var l3maxRadius = Math.PI/10; // maximum 9 blobbs along the circle
 
-        $scope.$watch('zoomMode', function()
+        var setupParams = function()
         {
             var l1, l2, l3;
 
@@ -245,7 +246,10 @@ angular.module('courses').service('MapCircles', function(Tip, $location, $timeou
             $scope.visParams.l1=l1;
             $scope.visParams.l2=l2;
             $scope.visParams.l3=l3;
-        });
+        };
+        $scope.$watch('zoomMode', setupParams);
+
+        setupParams();
     };
 
     this.setup = function()
@@ -464,7 +468,7 @@ angular.module('courses').service('MapCircles', function(Tip, $location, $timeou
 
             var radiusFactor = d.radius ? 0.5 + d.radius * 4 : 1;
             var offset = getConfig(d).textYOffset * $scope.graphHeight * radiusFactor;
-
+//console.log(offset, getConfig(d), getConfig(d).textYOffset, $scope.graphHeight, radiusFactor);
             d.splitTexts.forEach(function(split, splitIndex){
                 t.append('tspan').attr({
                     'dy': function()

@@ -7,21 +7,22 @@ angular.module('courses').controller('CourseMapController', ['$scope','$statePar
 
         var init = false;
         $scope.initTime = 0;
+        $scope.options = {};
 
         $scope.initMap = function()
         {
             var n = $scope.concepts;
 
-            if(n.length > 0)
+            if(n.length > 0 && $scope.active.topLevelConcepts.length)
             {
                 console.log('initiating map..');
                 init = true;
                 $scope.initTime = new Date().getTime();
                 //console.log('initializing map');
 
+                $scope.initDraw();
                 $scope.createLayout();
 
-                $scope.initDraw();
 
                 $scope.resizeFunction();
                 //$scope.resetZoom(0);
@@ -51,7 +52,7 @@ angular.module('courses').controller('CourseMapController', ['$scope','$statePar
             $scope.vis = null;
             $scope.canvas = null;
 
-            ConceptStructure.init($scope, $stateParams.courseId);
+            //ConceptStructure.init($scope, $stateParams.courseId);
             MapEvents.init($scope, $stateParams.courseId);
             MapTour.init($scope);
 
@@ -146,13 +147,12 @@ angular.module('courses').controller('CourseMapController', ['$scope','$statePar
 
         $scope.createLayout = function()
         {
-            var tlc = [];
+            /*var tlc = [];
 
             ConceptStructure.getConceptChildren(tlc, null, null, 1, $scope.configCircle);
 
             $scope.active.topLevelConcepts = tlc;
-            $rootScope.$broadcast('conceptStructureLoaded');
-
+            $rootScope.$broadcast('conceptStructureLoaded');*/
             MapCircles.createLayout($scope.active.topLevelConcepts);
         };
 
@@ -242,8 +242,8 @@ angular.module('courses').controller('CourseMapController', ['$scope','$statePar
 
         $scope.redraw = function(){
 
-            if ($scope.active.topLevelConcepts.length==0) return;
-            //console.log('redraw');
+            if (!$scope.active.topLevelConcepts.length) return;
+            if(!init) $scope.initMap();
 
             var time = new Date().getTime();
             if(time - $scope.lastRedraw < 10)

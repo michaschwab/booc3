@@ -8,8 +8,6 @@ angular.module('courses').controller('CourseViewController',
         $scope.editSourceMode = $location.url().indexOf('contents') !== -1;
         $scope.courseId = $stateParams.courseId;
         $scope.concepts = [];
-        //$scope.remoteConcepts = [];
-        //$scope.dependencies = [];
         $scope.learned = [];
         $scope.segments = [];
         $scope.sources = [];
@@ -17,7 +15,6 @@ angular.module('courses').controller('CourseViewController',
         $scope.todo = [];
         $scope.todoIds = [];
         $scope.colors = [];
-        //$scope.directories.concepts = {};
         $scope.goalConcept = null;
         $scope.directories = {
             concepts: []
@@ -108,20 +105,20 @@ angular.module('courses').controller('CourseViewController',
                     SeenConcepts.query(function(seen)
                     {
                         $scope.seen = seen;
-
+                        $scope.updateSeenMap();
                     });
 
                     updateActive();
                 });
             });
 
-            //ConceptStructure.getConceptChildren($scope.topLevelConcepts, null, null, 1, function() {});
+            ConceptStructure.getConceptChildren($scope.active.topLevelConcepts, null, null, 1, function() {});
             //console.log($scope.topLevelConcepts);
         });
 
-        $scope.$watchCollection('seen', makeSeenMap);
+        //$scope.$watchCollection('seen', makeSeenMap);
 
-        function makeSeenMap()
+        $scope.updateSeenMap = function()
         {
             $scope.seenMap = {};
             $scope.seenMapByConcept = {};
@@ -135,7 +132,7 @@ angular.module('courses').controller('CourseViewController',
                 });
                 //console.log($scope.seenMap);
             }
-        }
+        };
 
         var updateTodoTimeout = null;
         $scope.$watchCollection('active.hoveringConceptIds', function()

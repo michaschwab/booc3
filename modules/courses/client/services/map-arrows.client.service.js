@@ -24,7 +24,6 @@ angular.module('courses').service('MapArrows', function(Tip, ConceptStructure, M
         showCurrentPathFutureHierarchy: true,
         showAllShortestPathsHierarchy: true,
         showPathWhenInactive: false,
-        grayInactiveConcepts: true,
         grayInactiveDependencies: false,
         hideInactiveDependencies: false,
         depsColorOfConcept: true
@@ -42,7 +41,6 @@ angular.module('courses').service('MapArrows', function(Tip, ConceptStructure, M
         showCurrentPathFutureHierarchy: false,
         showAllShortestPathsHierarchy: false,
         showPathWhenInactive: false,
-        grayInactiveConcepts: true,
         grayInactiveDependencies: true,
         hideInactiveDependencies: true,
         depsColorOfConcept: true
