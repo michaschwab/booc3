@@ -1,11 +1,37 @@
 'use strict';
 
+var HtmlScreenshotReporter = require('protractor-jasmine2-screenshot-reporter');
+var path = require('path');
+
+var i = 0;
+
 // Protractor configuration
 exports.config = {
-  seleniumAddress: 'http://localhost:4444/wd/hub',
-  specs: ['modules/*/tests/e2e/*.js'],
-  framework: 'jasmine2',
-  params: {
+    seleniumAddress: 'http://localhost:4444/wd/hub',
+    specs: ['modules/*/tests/e2e/*.js'],
+    framework: 'jasmine2',
+    multiCapabilities: [{
+        'browserName': 'chrome',
+        'chromeOptions' : {
+            args: ['--lang=en',
+                '--window-size=1400,900']
+        }
+    }, {
+        'browserName': 'chrome',
+        'chromeOptions' : {
+            args: ['--lang=en',
+                '--window-size=1280,860']
+        }
+    }, {
+        'browserName': 'chrome',
+        'chromeOptions' : {
+            args: ['--lang=en',
+                '--window-size=2048,1536']
+        }
+    }, {
+        'browserName': 'firefox'
+    }],
+    params: {
       adminlogin:
       {
           user: 'admin',
@@ -51,9 +77,22 @@ exports.config = {
                   }, 4000);
               }
           });
-
-
       }
-  }
+  },
+    onPrepare: function() {
+        jasmine.getEnv().defaultTimeoutInterval = 20000;// e.g. 15000 milliseconds
+
+        jasmine.getEnv().addReporter(
+            new HtmlScreenshotReporter({
+                dest: 'test-screenshots/',
+                filename: 'my-report.html',
+                pathBuilder: function(currentSpec, suites, browserCapabilities, windowSize) {
+                    // will return chrome/your-spec-name.png
+                    //console.log(browserCapabilities);
+                    return browserCapabilities.get('browserName') + '-' + windowSize.width + '/' + currentSpec.fullName;
+                }
+            })
+        );
+    }
 
 };
