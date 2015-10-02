@@ -42,20 +42,7 @@
   <header data-ng-include="'/modules/core/views/header.client.view.html'" class="navbar navbar-fixed-top navbar-inverse"></header>
   <div class="content">
 
-    {% if !user %}
-    <div class="container">
-      {{user}}
-      <br />
-      <div class="jumbotron text-center">
-        <h2>
-          Welcome to booc.io!
-        </h2>
-        <i>Booc, the non-linear learning environment.</i>
-
-      </div>
-      <div class="alert alert-danger" role="alert">Not authenticated. Please log in.</div>
-    </div>
-    {% endif %}
+    <div data-ng-include="'/modules/core/views/notloggedin.client.view.html'"></div>
 
     <div class="container undo-container">
       <ng-include src="'/modules/actions/views/undoMessage.client.view.html'"></ng-include>
