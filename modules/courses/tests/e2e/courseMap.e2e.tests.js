@@ -36,7 +36,7 @@ describe('Courses E2E Tests:', function () {
             //browser.params.logout();
         });
 
-        it('Should activate a concept when clicked', function ()
+        it('Should activate a concept when clicked', function (done)
         {
             //browser.params.login.admin();
             var mapUrl = 'http://localhost:3000/courses/547e663e14e4e78d17677b6b';
@@ -68,14 +68,76 @@ describe('Courses E2E Tests:', function () {
                         {
                             // Making sure the URL was updated.
                             expect(url.substr(mapUrl.length)).toBe('?active=' + conceptId);
+
+                            done();
                         });
                     });
                 });
             });
-
-            browser.params.logout();
         });
 
+        it('Should show learning content in both panel and map', function (done)
+        {
+            //browser.params.login.admin();
+            var activeConceptId = '54c179d0bea45f77edabd379';
+            var mapUrl = 'http://localhost:3000/courses/547e663e14e4e78d17677b6b?active=' + activeConceptId;
+            browser.get(mapUrl);
 
+            // Making sure a concept is active right now.
+            expect(element.all(by.css('.lxCircle.active')).count()).toBe(1);
+
+
+            expect(element.all(by.css('.lxCircle.active .icon.play')).count()).toBe(1);
+
+            expect(element.all(by.css('.sidepanel .concept-' + activeConceptId + ' .segment')).count()).toBe(3);
+            //expect(element(by.css('.lxCircle.active .icon.play').isPresent())).toBe(true);
+            //expect(element(by.css('.lxCircle.active .icon.play'))).toHaveAttr('opacity','0.3');
+
+            done();
+        });
+
+        it('Should let you set concepts as goal', function(done)
+        {
+            var mapUrl = 'http://localhost:3000/courses/547e663e14e4e78d17677b6b';
+            browser.get(mapUrl);
+
+            // Making sure no concept is active right now.
+            expect(element.all(by.css('.lxCircle.active')).count()).toBe(0);
+
+            element.all(by.css('.lxCircle')).then(function(concepts)
+            {
+                var index = Math.round(Math.random() * (concepts.length - 1));
+                var theConcept = concepts[index];
+
+                theConcept.getAttribute('id').then(function(theConceptElId)
+                {
+                    var conceptId = theConceptElId.substr('concept-'.length);
+
+                    theConcept.click().then(function()
+                    {
+                        browser.driver.sleep(1);
+
+                        element(by.css('.set-goal')).click().then(function()
+                        {
+                            browser.getCurrentUrl().then(function(url)
+                            {
+                                // Making sure the URL was updated.
+                                expect(url.substr(mapUrl.length)).toBe('?goal=' + conceptId + '&active=' + conceptId);
+
+                                done();
+                            });
+                        });
+
+                        // Making sure the clicked concept has the 'active' CSS class.
+                        /*expect(hasClass(theConcept, 'active')).toBeTruthy();
+
+                        // Making sure the clicked concept is the only active concept.
+                        expect(element.all(by.css('.lxCircle.active')).count()).toBe(1);*/
+
+
+                    });
+                });
+            });
+        });
     });
 });

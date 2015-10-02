@@ -18,7 +18,7 @@ describe('Courses E2E Tests:', function () {
 
             expect(element.all(by.repeater('course in courses')).count()).toBeGreaterThan(0);
 
-            browser.params.logout();
+            //browser.params.logout();
         });
 
 

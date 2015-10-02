@@ -22,7 +22,7 @@ exports.config = {
             args: ['--lang=en',
                 '--window-size=1280,860']
         }
-    }, {
+    }/*, {
         'browserName': 'chrome',
         'chromeOptions' : {
             args: ['--lang=en',
@@ -30,7 +30,7 @@ exports.config = {
         }
     }, {
         'browserName': 'firefox'
-    }],
+    }*/],
     params: {
       adminlogin:
       {
@@ -80,7 +80,8 @@ exports.config = {
       }
   },
     onPrepare: function() {
-        jasmine.getEnv().defaultTimeoutInterval = 20000;// e.g. 15000 milliseconds
+        jasmine.getEnv().defaultTimeoutInterval = 20000;
+        jasmine.DEFAULT_TIMEOUT_INTERVAL = 20000;
 
         jasmine.getEnv().addReporter(
             new HtmlScreenshotReporter({
