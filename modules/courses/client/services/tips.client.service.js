@@ -292,12 +292,7 @@ function($timeout, ConceptStructure)
 
             $scope.vis.call(tip);
 
-            segment.on('click', function(d)
-            {
-                hideTimeout = $timeout(function(d) { hidden = true; me.closeOpenTips(); }, 50);
-                //todo click underlying concept
-                //fixHover(d3.event);
-            })
+            segment
                 .on('mouseover', function(d)
                 {
                     $timeout.cancel(hideTimeout);
@@ -322,7 +317,8 @@ function($timeout, ConceptStructure)
                 })
                 .on('click', function(d)
                 {
-                    function isActive(concept)
+                    //todo figure out what i was thinking here, and then hopefully remove this.
+                    /*function isActive(concept)
                     {
                         return currentChildrenIds.indexOf(concept.concept._id) !== -1;
                     }
@@ -346,10 +342,11 @@ function($timeout, ConceptStructure)
                             console.log('zoom out or do nothing');
                         }
                     }
-
+                     */
                     $timeout.cancel(hideTimeout);
                     hideTimeout = $timeout(function(d) { hidden = true; me.closeOpenTips(); }, 50);
-                    d3.event.stopPropagation();
+                    //d3.event.stopPropagation();
+                    fixClick(d3.event);
                 });
         }
 
@@ -365,6 +362,19 @@ function($timeout, ConceptStructure)
             var concept = $scope.directories.concepts[conceptId];
 
             $scope.hoverConcept(concept);
+        }
+    }
+
+    function fixClick(evt)
+    {
+        var list = getEventElements(evt, $scope.mainLayer.node());
+
+        for(var i = 0; i < list.length; i++)
+        {
+            var conceptId = list[i].parentNode.getAttribute('data-concept-id');
+            var concept = $scope.directories.concepts[conceptId];
+
+            $scope.activateConcept(concept);
         }
     }
 
