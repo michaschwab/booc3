@@ -512,10 +512,17 @@ angular.module('courses').service('MapArrows', function(Tip, ConceptStructure, M
             var pathNode = path.node();
             var lines = MapArrowShaping.curvePath(pathNode, pos, coveredConcepts, $scope.visParams.l1.scale, $scope.getTranslateAbs, 0, 0, offsetEach, color);
 
-
-
             if(lines.length > 0)
             {
+                var i = lines.length - 1;
+
+                depLayer.append('path')
+                    .attr('d', lineBasis([lines[i].start, lines[i].curvePoint, lines[i].end]))
+                    //.attr('marker-end', function() { return i === lines.length - 1 ? 'url(#currentPathEnd)' : '' })
+                    .attr('marker-end', function() { return i === lines.length - 1 ? 'url(' + $scope.absUrl + '#' + className+'End-' + color + ')' : '' })
+                    .attr('class', className + ' end concept-' + goalConceptId)
+                    .attr('fill', 'none');
+
                 var pathLine = depLayer.selectAll('.' + className + ' concept-' + goalConceptId).data(lines);
                 var seg = pathLine.enter().append('path')
                     .attr('d', function(d) { return d.curvePoint ? lineBasis([d.start, d.curvePoint, d.end]) : lineLinear([d.start, d.end]); })
@@ -525,15 +532,6 @@ angular.module('courses').service('MapArrows', function(Tip, ConceptStructure, M
                     .attr('fill', 'none');
 
                 Tip.forDependency(seg);
-
-                var i = lines.length - 1;
-
-                depLayer.append('path')
-                    .attr('d', lineBasis([lines[i].start, lines[i].curvePoint, lines[i].end]))
-                    //.attr('marker-end', function() { return i === lines.length - 1 ? 'url(#currentPathEnd)' : '' })
-                    .attr('marker-end', function() { return i === lines.length - 1 ? 'url(' + $scope.absUrl + '#' + className+'End-' + color + ')' : '' })
-                    .attr('class', className + ' end concept-' + goalConceptId)
-                    .attr('fill', 'none');
             }
 
             path.remove();

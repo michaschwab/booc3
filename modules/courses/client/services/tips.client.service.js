@@ -187,6 +187,7 @@ function($timeout, ConceptStructure)
 
     this.closeOpenTips = function()
     {
+        hidden = true;
         shown = '';
         if(openTip !== null)
         {
