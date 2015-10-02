@@ -119,6 +119,8 @@ describe('Courses E2E Tests:', function () {
 
                         element(by.css('.set-goal')).click().then(function()
                         {
+                            expect(element(by.css('.sidepanel .concept-' + conceptId + '> a > .flag')).isPresent()).toBe(true);
+
                             browser.getCurrentUrl().then(function(url)
                             {
                                 // Making sure the URL was updated.
