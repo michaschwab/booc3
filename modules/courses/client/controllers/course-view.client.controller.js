@@ -103,17 +103,12 @@ angular.module('courses').controller('CourseViewController',
                             });
                         });
 
-                        $scope.seen = SeenConcepts.query(function(seen)
+                        $scope.seen = SeenConcepts.query(function()
                         {
-                            //$scope.seen = seen;
+                            SeenDataManager.updateSeenMap();
 
-
-                                console.log(seen);
-                                SeenDataManager.updateSeenMap();
-
-                                ActiveDataManager.updateActive();
-                                $scope.$broadcast('dataReady');
-
+                            ActiveDataManager.updateActive();
+                            $scope.$broadcast('dataReady');
                         });
                     });
                 });

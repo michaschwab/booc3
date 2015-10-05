@@ -12,10 +12,10 @@ angular.module('courses').service('SeenDataManager', function(Authentication, $t
         //$scope.seenMapByConcept = {};
         $scope.isSeen = this.isSeen;
 
-        $scope.$watch('seen.downloadedUpdates', function()
+        $scope.$watchCollection('seen.downloadedUpdates', function()
         {
-            console.log('ya');
-        })
+            me.updateSeenMap();
+        });
     };
 
     this.updateSeenMap = function()
@@ -30,9 +30,7 @@ angular.module('courses').service('SeenDataManager', function(Authentication, $t
                 $scope.seenMap[seenConcept._id] = seenConcept;
                 $scope.seenMapByConcept[seenConcept.concept] = seenConcept;
             });
-            //console.log($scope.seenMap);
         }
-        console.log($scope.seenMapByConcept);
     };
 
     this.isSeen = function(d)

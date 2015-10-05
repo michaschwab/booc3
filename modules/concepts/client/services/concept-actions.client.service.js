@@ -55,9 +55,7 @@ angular.module('concepts').service('ConceptActions',
                     if ($scope.seenMapByConcept[conceptId])
                     {
                         var seen = $scope.seenMapByConcept[conceptId];
-                        console.log(seen);
                         seen.$remove();
-                        //$scope.seen.splice($scope.seen.indexOf(seen),1);
                     }
                     else {
                         console.log('cant unsee concept ' + conceptId + ' because it doesnt seem to be marked as seen.');
