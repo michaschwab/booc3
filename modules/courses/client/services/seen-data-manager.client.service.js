@@ -9,7 +9,13 @@ angular.module('courses').service('SeenDataManager', function(Authentication, $t
     {
         $scope = scope;
 
+        //$scope.seenMapByConcept = {};
         $scope.isSeen = this.isSeen;
+
+        $scope.$watch('seen.downloadedUpdates', function()
+        {
+            console.log('ya');
+        })
     };
 
     this.updateSeenMap = function()
@@ -26,6 +32,7 @@ angular.module('courses').service('SeenDataManager', function(Authentication, $t
             });
             //console.log($scope.seenMap);
         }
+        console.log($scope.seenMapByConcept);
     };
 
     this.isSeen = function(d)

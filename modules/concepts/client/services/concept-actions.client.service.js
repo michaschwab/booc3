@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('concepts').service('ConceptActions',
-    function(SeenConcepts, Authentication, LearnedConcepts, ConceptStructure)
+    function(SeenConcepts, Authentication, LearnedConcepts, ConceptStructure, SeenDataManager)
     {
         var $scope;
 
@@ -33,11 +33,13 @@ angular.module('concepts').service('ConceptActions',
                         seen.$save();
                     }
                 }
-                $scope.updateSeenMap();
+                SeenDataManager.updateSeenMap();
             };
 
             $scope.unseeConcept = function(conceptId)
             {
+                SeenDataManager.updateSeenMap();
+
                 if(!conceptId) conceptId = $scope.activeConcept.concept._id;
                 var concept = $scope.directories.concepts[conceptId];
 
@@ -50,15 +52,18 @@ angular.module('concepts').service('ConceptActions',
                 }
                 else
                 {
-                    if ($scope.seenMapByConcept[conceptId]) {
+                    if ($scope.seenMapByConcept[conceptId])
+                    {
                         var seen = $scope.seenMapByConcept[conceptId];
+                        console.log(seen);
                         seen.$remove();
+                        //$scope.seen.splice($scope.seen.indexOf(seen),1);
                     }
                     else {
                         console.log('cant unsee concept ' + conceptId + ' because it doesnt seem to be marked as seen.');
                     }
                 }
-                $scope.updateSeenMap();
+                SeenDataManager.updateSeenMap();
             };
 
             $scope.understood = function(concept)

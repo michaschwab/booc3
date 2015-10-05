@@ -397,13 +397,13 @@ angular.module('concepts').controller('ConceptPanelController',
         });
 
         $scope.$watch('learnMode', checkSeen);
-        $scope.$watch('seenMapByConcept', checkSeen);
+        //$scope.$watch('seenMapByConcept', checkSeen);
 
         function checkSeen()
         {
             if($scope.learnMode
                 && $scope.activeConcept
-                && Object.keys($scope.seenMapByConcept).length
+                && $scope.seenMapByConcept
                 && !$scope.seenMapByConcept[$scope.activeConcept.concept._id]
                 && (!$scope.activeConcept.children || !$scope.activeConcept.children.length))
             {
@@ -413,11 +413,14 @@ angular.module('concepts').controller('ConceptPanelController',
             }
             else
             {
-                //console.log($scope.learnMode, $scope.activeConcept);
+                //console.log($scope.learnMode, $scope.activeConcept, $scope.seenMapByConcept);
             }
         }
 
-
+        $scope.$on('dataReady', function()
+        {
+            checkSeen();
+        });
 
         $scope.$watch('activeLecture', function()
         {

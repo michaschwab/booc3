@@ -33,6 +33,32 @@ angular.module('courses').service('ActiveDataManager', function(Authentication, 
         $scope.currentGoal = goalConcept;
     };
 
+    this.updateTodoIds = function()
+    {
+        //console.log('updating to do ids');
+        $scope.todoIds = $scope.todo.map(function(t) { return t.concept._id; });
+    };
+
+    this.setGoalHierarchy = function()
+    {
+        if($scope.goalConcept !== null)
+        {
+            var hierarchy = [];
+            var concept = $scope.goalConcept;
+            while(concept !== null && concept !== undefined)
+            {
+                hierarchy.push(concept);
+                concept = concept.parentData;
+            }
+
+            $scope.active.goalHierarchy = hierarchy.reverse();
+        }
+        else
+        {
+            $scope.active.goalHierarchy = [];
+        }
+    };
+
     this.setActiveHierarchy = function()
     {
         var hoverHierarchyIds = [];
@@ -142,6 +168,11 @@ angular.module('courses').service('ActiveDataManager', function(Authentication, 
     {
         // Default is to take the lecture duo segment.
         //console.log($scope.active.segments.length);
+
+        var newSegments = $scope.active.segments.filter(function(segment)
+        {
+            return segment._id === $scope.active.segmentId;
+        });
 
         if($scope.active.segments.length > 0)
         {

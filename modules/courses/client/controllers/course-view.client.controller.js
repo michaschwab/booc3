@@ -50,7 +50,6 @@ angular.module('courses').controller('CourseViewController',
         {
             $scope.dependencies = deps;
 
-
             Sources.query().$promise.then(function(sources) {
                 $scope.sources = sources;
                 $scope.sourceMap = {};
@@ -103,21 +102,26 @@ angular.module('courses').controller('CourseViewController',
                                 }
                             });
                         });
-                    });
 
-                    SeenConcepts.query(function(seen)
-                    {
-                        $scope.seen = seen;
-                        //$scope.updateSeenMap();
-                        SeenDataManager.updateSeenMap();
-                    });
+                        $scope.seen = SeenConcepts.query(function(seen)
+                        {
+                            //$scope.seen = seen;
 
-                    ActiveDataManager.updateActive();
+
+                                console.log(seen);
+                                SeenDataManager.updateSeenMap();
+
+                                ActiveDataManager.updateActive();
+                                $scope.$broadcast('dataReady');
+
+                        });
+                    });
                 });
             });
 
             ConceptStructure.getConceptChildren($scope.active.topLevelConcepts, null, null, 1, function() {});
             //console.log($scope.topLevelConcepts);
+
         });
 
         var updateTodoTimeout = null;
@@ -162,8 +166,6 @@ angular.module('courses').controller('CourseViewController',
             //console.log($scope.goalConcept, $scope.active.hoveringConceptIds, concept, $scope.todo);
         };
 
-
-
         $scope.getPathColor = function(orig)
         {
             var colorHsl = d3.hsl(orig);
@@ -175,8 +177,8 @@ angular.module('courses').controller('CourseViewController',
 
         $scope.$watch('todo', function()
         {
-            //console.log('updating todo ids');
-            $scope.todoIds = $scope.todo.map(function(t) { return t.concept._id; });
+
+            ActiveDataManager.updateTodoIds();
             ActiveDataManager.updateCurrentGoal();
         });
 
@@ -229,23 +231,7 @@ angular.module('courses').controller('CourseViewController',
 
         $scope.$watch('goalConcept', function()
         {
-            if($scope.goalConcept !== null)
-            {
-                var hierarchy = [];
-                var concept = $scope.goalConcept;
-                while(concept !== null && concept !== undefined)
-                {
-                    hierarchy.push(concept);
-                    concept = concept.parentData;
-                }
-
-                $scope.active.goalHierarchy = hierarchy.reverse();
-            }
-            else
-            {
-                $scope.active.goalHierarchy = [];
-            }
-
+            ActiveDataManager.setGoalHierarchy();
             $scope.updateTodo();
         });
 
@@ -273,7 +259,7 @@ angular.module('courses').controller('CourseViewController',
             //return $scope.grayed ? d3.hsl(orig.hsl().h, 0, orig.hsl().l) : orig.toString();
         };
 
-        $scope.$watch('active.segmentId', function()
+        /*$scope.$watch('active.segmentId', function()
         {
             var newSegments = $scope.active.segments.filter(function(segment)
             {
@@ -294,9 +280,7 @@ angular.module('courses').controller('CourseViewController',
                     console.log($scope.active.segments);
                 }
             }
-        });
-
-
+        });*/
 
         $scope.$watch('active.segmentId', function()
         {
