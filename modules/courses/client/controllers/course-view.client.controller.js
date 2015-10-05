@@ -1,6 +1,6 @@
 
 angular.module('courses').controller('CourseViewController',
-    function($scope, $stateParams, Courses, Concepts, Conceptdependencies, Authentication, $window, $location, ConceptStructure, Segments, Sources, Sourcetypes, LearnedConcepts, SeenConcepts, $timeout, $interval)
+    function($scope, $stateParams, Courses, Concepts, Conceptdependencies, Authentication, $window, $location, ConceptStructure, Segments, Sources, Sourcetypes, LearnedConcepts, SeenConcepts, $timeout, $interval, SeenDataManager, ActiveDataManager)
     {
         $scope.authentication = Authentication;
         $scope.learnMode = false;
@@ -43,6 +43,9 @@ angular.module('courses').controller('CourseViewController',
         });
 
         ConceptStructure.init($scope, $stateParams.courseId);
+        SeenDataManager.init($scope);
+        ActiveDataManager.init($scope);
+
         ConceptStructure.getConceptsAndDeps(function(deps)
         {
             $scope.dependencies = deps;
@@ -105,34 +108,17 @@ angular.module('courses').controller('CourseViewController',
                     SeenConcepts.query(function(seen)
                     {
                         $scope.seen = seen;
-                        $scope.updateSeenMap();
+                        //$scope.updateSeenMap();
+                        SeenDataManager.updateSeenMap();
                     });
 
-                    updateActive();
+                    ActiveDataManager.updateActive();
                 });
             });
 
             ConceptStructure.getConceptChildren($scope.active.topLevelConcepts, null, null, 1, function() {});
             //console.log($scope.topLevelConcepts);
         });
-
-        //$scope.$watchCollection('seen', makeSeenMap);
-
-        $scope.updateSeenMap = function()
-        {
-            $scope.seenMap = {};
-            $scope.seenMapByConcept = {};
-
-            if($scope.seen)
-            {
-                $scope.seen.forEach(function(seenConcept)
-                {
-                    $scope.seenMap[seenConcept._id] = seenConcept;
-                    $scope.seenMapByConcept[seenConcept.concept] = seenConcept;
-                });
-                //console.log($scope.seenMap);
-            }
-        };
 
         var updateTodoTimeout = null;
         $scope.$watchCollection('active.hoveringConceptIds', function()
@@ -176,24 +162,7 @@ angular.module('courses').controller('CourseViewController',
             //console.log($scope.goalConcept, $scope.active.hoveringConceptIds, concept, $scope.todo);
         };
 
-        function updateCurrentGoal()
-        {
-            var goalConcept = null;
 
-            if($scope.goalConcept)
-            {
-                goalConcept = $scope.goalConcept;
-            }
-            else if($scope.active.hoveringConceptIds.length !== 0)
-            {
-                goalConcept = $scope.directories.concepts[$scope.active.hoveringConceptIds[0]];
-            }
-            else if($scope.activeConcept)
-            {
-                goalConcept = $scope.activeConcept;
-            }
-            $scope.currentGoal = goalConcept;
-        }
 
         $scope.getPathColor = function(orig)
         {
@@ -208,7 +177,7 @@ angular.module('courses').controller('CourseViewController',
         {
             //console.log('updating todo ids');
             $scope.todoIds = $scope.todo.map(function(t) { return t.concept._id; });
-            updateCurrentGoal();
+            ActiveDataManager.updateCurrentGoal();
         });
 
         $scope.$watch('active.topLevelConcepts', function()
@@ -249,45 +218,14 @@ angular.module('courses').controller('CourseViewController',
 
         $scope.$watch('activeConcept', function()
         {
-            setActiveSegments();
+            ActiveDataManager.setActiveSegments();
             $scope.active.hoveringConceptIds = [];
 
             $scope.updateTodo();
-            updateCurrentGoal();
+            ActiveDataManager.updateCurrentGoal();
         });
 
-        $scope.$watchCollection('segments', setActiveSegments);
-
-        function setActiveSegments()
-        {
-            if($scope.activeConcept)
-            {
-                $location.search('active', $scope.activeConcept.concept._id);
-
-                var hierarchy = [];
-                var concept = $scope.activeConcept;
-                while(concept !== null && concept !== undefined)
-                {
-                    hierarchy.push(concept);
-                    concept = concept.parentData;
-                }
-
-                $scope.active.hierarchy = hierarchy.reverse();
-
-                $scope.active.segments = $scope.segments.filter(function(segment)
-                {
-                    return segment.concepts.indexOf($scope.activeConcept.concept._id) !== -1;
-                });
-                //console.log($scope.active.segments);
-
-                setSegment();
-            }
-            else
-            {
-                $scope.active.hierarchy = [];
-                //$location.search('active', '');
-            }
-        }
+        $scope.$watchCollection('segments', ActiveDataManager.setActiveSegments);
 
         $scope.$watch('goalConcept', function()
         {
@@ -344,7 +282,7 @@ angular.module('courses').controller('CourseViewController',
 
             if(newSegments.length === 1)
             {
-                setSegment();
+                ActiveDataManager.setSegment();
             }
             else
             {
@@ -358,60 +296,16 @@ angular.module('courses').controller('CourseViewController',
             }
         });
 
-        function setSegment()
-        {
-            // Default is to take the lecture duo segment.
-            //console.log($scope.active.segments.length);
 
-            if($scope.active.segments.length > 0)
-            {
-                if($scope.active.segmentId !== '')
-                {
-                    var segment = $scope.segmentMap[$scope.active.segmentId];
-                    var conceptId = $scope.activeConcept.concept._id;
-                }
-                if($scope.active.segmentId !== '' && segment.concepts.indexOf(conceptId) !== -1)
-                {
-                    $scope.active.segment = $scope.segmentMap[$scope.active.segmentId];
-                }
-                else
-                {
-                    //console.log('loading not what was specified, but the default segment..');
-                    var lectures = $scope.active.segments.filter(function(segment)
-                    {
-                        var source = $scope.sourceMap[segment.source];
-                        return source.type === $scope.lectureduoType._id;
-                    });
-                    $scope.active.segment = lectures.length > 0 ? lectures[0] : $scope.active.segments[0]; //todo
-                }
-
-                //$scope.active.source = $scope.sourceMap[$scope.active.segment.source];
-                //$scope.active.sourcetype = $scope.sourcetypeMap[$scope.active.source.type];
-            }
-        }
-
-        function setSource()
-        {
-            if($scope.active.sourceId.length > 0)
-            {
-                var newSrc = $scope.sourceMap[$scope.active.sourceId];
-
-                if($scope.active.source === null || newSrc._id !== $scope.active.source._id)
-                {
-                    //console.log('setting new source!', newSrc._id);
-                    $scope.active.source = newSrc
-                }
-            }
-        }
 
         $scope.$watch('active.segmentId', function()
         {
-            setSegment();
+            ActiveDataManager.setSegment();
         });
 
         $scope.$watch('active.sourceId', function()
         {
-            setSource();
+            ActiveDataManager.setSource();
         });
 
         $scope.$watch('active.segment', function()
@@ -472,7 +366,7 @@ angular.module('courses').controller('CourseViewController',
 
         $scope.$watchCollection('learned', function()
         {
-            $scope.active.learnedConceptIds = $scope.learned.map(function(l) { return l.concept; });
+            ActiveDataManager.updateLearnedConceptIds();
             //console.log($scope.learnedConceptIds);
         });
 
@@ -498,16 +392,8 @@ angular.module('courses').controller('CourseViewController',
 
         $scope.$watch('active.hoveringConceptIds', function()
         {
-            var hoverHierarchyIds = [];
-            for(var i = 0; i < $scope.active.hoveringConceptIds.length; i++)
-            {
-                var id = $scope.active.hoveringConceptIds[i];
-                var concept = $scope.directories.concepts[id];
-                var addition = concept.parentChain ? concept.parentChain.map(function(c) { return c.concept._id; }) : [];
-                hoverHierarchyIds = hoverHierarchyIds.concat(addition, [concept.concept._id]);
-            }
-            $scope.active.hoverHierarchyIds = hoverHierarchyIds;
-            updateCurrentGoal();
+            ActiveDataManager.setActiveHierarchy();
+            ActiveDataManager.updateCurrentGoal();
         });
 
         $scope.$watchCollection('concepts.downloadedUpdates', function()
@@ -516,7 +402,8 @@ angular.module('courses').controller('CourseViewController',
             // Should automatically do this after that instead of some timer.
 //            $timeout(function() { updateActive(); console.log('updated active'); }, 100);
         });
-$interval(updateActive, 200);
+
+
         $scope.isLearned = function(d)
         {
             if(d.children && d.children.length)
@@ -539,85 +426,7 @@ $interval(updateActive, 200);
             }
         };
 
-        $scope.isSeen = function(d)
-        {
-            if(d.children && d.children.length)
-            {
-                var isSeen = true;
-
-                for(var i = 0; i < d.children.length; i++)
-                {
-                    if(!this.isSeen(d.children[i]))
-                    {
-                        isSeen = false;
-                    }
-                }
-
-                return isSeen;
-            }
-            else
-            {
-                return ($scope.seenMapByConcept && $scope.seenMapByConcept[d.concept._id]);
-            }
-        };
-
-        function updateActive()
-        {
-            var searchParams = $location.search();
-
-            //console.log(searchParams);
-            //console.log($scope.directories.concepts);
-
-            if(searchParams.active && $scope.directories.concepts[searchParams.active])
-            {
-                $scope.activeConcept = $scope.directories.concepts[searchParams.active];
-            }
-            else if($stateParams.conceptId && $scope.directories.concepts[$stateParams.conceptId])
-            {
-                $scope.activeConcept = $scope.directories.concepts[$stateParams.conceptId];
-            }
-            else
-            {
-                $scope.activeConcept = null;
-            }
-            if(searchParams.goal)
-            {
-                $scope.goalConcept = $scope.directories.concepts[searchParams.goal];
-            }
-            else
-            {
-                $scope.goalConcept = null;
-            }
-
-            if(searchParams.source && searchParams.source.length > 0)
-            {
-                $scope.active.sourceId = searchParams.source;
-            }
-            else
-            {
-                $scope.active.sourceId = '';
-            }
-
-            if(searchParams.learn && searchParams.learn === 'yes')
-            {
-                $scope.learnMode = true;
-            }
-            else
-            {
-                $scope.learnMode = false;
-            }
-            $scope.learnModeYesNo = $scope.learnMode ? 'yes' : 'no';
-
-            if(searchParams.segment)
-            {
-                $scope.active.segmentId = searchParams.segment;
-            }
-
-            $scope.activeMode = searchParams.mode;
-            updateCurrentGoal();
-        }
-
-        $scope.$on('$locationChangeSuccess', function() { updateActive(); $timeout(updatePanelContentHeight, 50); $timeout(updatePanelContentHeight, 100); $timeout(updatePanelContentHeight, 250); $timeout(updatePanelContentHeight, 500); });
+        $scope.$on('$locationChangeSuccess', function() { ActiveDataManager.updateActive(); $timeout(updatePanelContentHeight, 50); $timeout(updatePanelContentHeight, 100); $timeout(updatePanelContentHeight, 250); $timeout(updatePanelContentHeight, 500); });
 
         //TODO set the TLC here instead of in the map. It's a more general thing.
         /*$scope.$watchCollection('concepts.downloadedUpdates',function()
