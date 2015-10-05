@@ -214,4 +214,31 @@ angular.module('courses').service('ActiveDataManager', function(Authentication, 
             }
         }
     };
+
+    this.setActiveLectureConcepts = function()
+    {
+        if($scope.activeLecture !== undefined)
+        {
+            var currentConcepts = [];
+            $scope.activeLectureConcepts = [];
+
+            $scope.segments.filter(function(segment)
+            {
+                return segment.source === $scope.activeLecture._id;
+            }).forEach(function(segment)
+            {
+                currentConcepts = currentConcepts.concat(segment.concepts);
+            });
+
+            $scope.concepts
+                .filter(function(concept){
+                    return currentConcepts.indexOf(concept._id) !== -1;
+                })
+                .sort(function(a,b){return d3.ascending(a.order, b.order);})
+                .forEach(function(concept, i)
+                {
+                    $scope.activeLectureConcepts.push($scope.directories.concepts[concept._id]);
+                });
+        }
+    }
 });

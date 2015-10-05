@@ -407,6 +407,11 @@ angular.module('courses').controller('CourseViewController',
 
         $scope.$on('$locationChangeSuccess', function() { ActiveDataManager.updateActive(); $timeout(updatePanelContentHeight, 50); $timeout(updatePanelContentHeight, 100); $timeout(updatePanelContentHeight, 250); $timeout(updatePanelContentHeight, 500); });
 
+        $scope.$watch('activeLecture', function()
+        {
+            ActiveDataManager.setActiveLectureConcepts();
+        });
+
         //TODO set the TLC here instead of in the map. It's a more general thing.
         /*$scope.$watchCollection('concepts.downloadedUpdates',function()
         {

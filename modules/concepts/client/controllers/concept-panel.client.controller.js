@@ -375,15 +375,15 @@ angular.module('concepts').controller('ConceptPanelController',
             updatePlan();
         }
 
-        $interval(updateHierarchy, 200);
-        $scope.$watch('activeConcept.children', updateHierarchy);
+        //$interval(updateHierarchy, 200);
+        $scope.$watch('activeConcept', updateHierarchy);
 
-        $scope.$watchCollection('activeDependencyProviderIds', updateHierarchy);
+        /*$scope.$watchCollection('activeDependencyProviderIds', updateHierarchy);
         $scope.$watchCollection('active.hierarchyIds', updateHierarchy);
         $scope.$watchCollection('active.hoverHierarchyIds', updateHierarchy);
 
         $rootScope.$on('conceptStructureLoaded', updateHierarchy);
-        $scope.$watch('active.topLevelConcepts', updateHierarchy);
+        $scope.$watch('active.topLevelConcepts', updateHierarchy);*/
 
         $scope.$watch('activeSegment', function()
         {
@@ -397,7 +397,6 @@ angular.module('concepts').controller('ConceptPanelController',
         });
 
         $scope.$watch('learnMode', checkSeen);
-        //$scope.$watch('seenMapByConcept', checkSeen);
 
         function checkSeen()
         {
@@ -419,34 +418,8 @@ angular.module('concepts').controller('ConceptPanelController',
 
         $scope.$on('dataReady', function()
         {
+            updateHierarchy();
             checkSeen();
-        });
-
-        $scope.$watch('activeLecture', function()
-        {
-            if($scope.activeLecture !== undefined)
-            {
-                var currentConcepts = [];
-                $scope.activeLectureConcepts = [];
-
-                $scope.segments.filter(function(segment)
-                {
-                    return segment.source === $scope.activeLecture._id;
-                }).forEach(function(segment)
-                {
-                    currentConcepts = currentConcepts.concat(segment.concepts);
-                });
-
-                $scope.concepts
-                    .filter(function(concept){
-                        return currentConcepts.indexOf(concept._id) !== -1;
-                    })
-                    .sort(function(a,b){return d3.ascending(a.order, b.order);})
-                    .forEach(function(concept, i)
-                    {
-                        $scope.activeLectureConcepts.push($scope.directories.concepts[concept._id]);
-                    });
-            }
         });
 
         $scope.$watch('activeConcept.concept.color', function()
@@ -456,7 +429,6 @@ angular.module('concepts').controller('ConceptPanelController',
                 $scope.activeColorDarker = d3.rgb($scope.activeConcept.concept.color).darker(.3).toString();
             }
         });
-
 
         function updateActive()
         {
