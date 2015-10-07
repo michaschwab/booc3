@@ -22,6 +22,7 @@ angular.module('courses').service('ActiveDataManager', function(Authentication, 
         me.updatePlan();
         me.setActiveSegments();
 
+        me.updateWatchable();
         me.checkSeen();
     };
 
