@@ -19,6 +19,7 @@ angular.module('courses').controller('CourseViewController',
         $scope.directories = {
             concepts: []
         };
+        $scope.activeConcept = null;
         $scope.active = {
             hierarchy: [],
             hierarchyIds: [],
@@ -170,28 +171,6 @@ angular.module('courses').controller('CourseViewController',
                 return concept.concept._id;
             });
         });
-
-        $scope.$watchCollection('active.hierarchy', function(actives)
-        {
-            $scope.active.hierarchyIds = $scope.active.hierarchy.map(function(concept)
-            {
-                return concept.concept._id;
-            });
-
-            if(actives.length > 0)
-            {
-                $scope.activeConcept = actives[actives.length-1];
-            }
-            else
-            {
-                $scope.activeConcept = null;
-            }
-            /*if($scope.goalConcept === null)
-            {
-                $scope.goalConcept = $scope.activeConcept;
-            }*/
-            //$scope.activeConcept = h.length > 0 ? h[h.length-1] : null;
-        }, true);
 
         $scope.$watch('activeConcept', function()
         {

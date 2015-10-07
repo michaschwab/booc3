@@ -144,6 +144,7 @@ angular.module('courses').service('ActiveDataManager', function(Authentication, 
         {
             $scope.activeConcept = null;
         }
+
         if(searchParams.goal)
         {
             $scope.goalConcept = $scope.directories.concepts[searchParams.goal];
@@ -194,16 +195,6 @@ angular.module('courses').service('ActiveDataManager', function(Authentication, 
         if($scope.activeConcept)
         {
             $location.search('active', $scope.activeConcept.concept._id);
-
-            var hierarchy = [];
-            var concept = $scope.activeConcept;
-            while(concept !== null && concept !== undefined)
-            {
-                hierarchy.push(concept);
-                concept = concept.parentData;
-            }
-
-            $scope.active.hierarchy = hierarchy.reverse();
 
             $scope.active.segments = $scope.segments.filter(function(segment)
             {
@@ -364,6 +355,16 @@ angular.module('courses').service('ActiveDataManager', function(Authentication, 
     {
         //console.log('updating hierarchy');
 
+        var hierarchy = [];
+        var concept = $scope.activeConcept;
+        while(concept !== null && concept !== undefined)
+        {
+            hierarchy.push(concept);
+            concept = concept.parentData;
+        }
+
+        $scope.active.hierarchy = hierarchy.reverse();
+
         if($scope.activeConcept !== undefined && $scope.activeConcept !== null)
         {
             if(false)//$scope.activeConcept.children.length === 0)
@@ -385,6 +386,20 @@ angular.module('courses').service('ActiveDataManager', function(Authentication, 
             $scope.activeHierarchyChildren = $scope.active.topLevelConcepts;
             $scope.activeHierarchyConcept = { concept: $scope.course };
         }
+
+        $scope.active.hierarchyIds = $scope.active.hierarchy.map(function(concept)
+        {
+            return concept.concept._id;
+        });
+
+        /*if($scope.active.hierarchy.length > 0)
+        {
+            $scope.activeConcept = $scope.active.hierarchy[$scope.active.hierarchy.length-1];
+        }
+        else
+        {
+            $scope.activeConcept = null;
+        }*/
     };
 
     this.updatePlan = function()
@@ -438,8 +453,6 @@ angular.module('courses').service('ActiveDataManager', function(Authentication, 
 
         $scope.planConcepts.forEach(function(d)
         {
-            //console.log(d.children);
-            //console.log($scope.active.hierarchyIds);
             setAttributes(d);
 
             if(($scope.active.hierarchyIds.indexOf(d.concept._id) !== -1 || $scope.active.goalHierarchyIds.indexOf(d.concept._id) !== -1 || $scope.active.hoverHierarchyIds.indexOf(d.concept._id) !== -1) && d.children)

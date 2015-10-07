@@ -127,7 +127,7 @@ angular.module('courses').service('MapIcons', function(Tip, ConceptStructure, $l
                 });
             }
 
-            var active = $scope.activeConcept !== null && $scope.activeConcept.concept._id === d.concept._id;
+            var active = $scope.activeConcept && $scope.activeConcept.concept._id === d.concept._id;
             if(!lastData[conceptId] || lastData[conceptId]['active'] !== active)
             {
                 lastData[conceptId]['active'] = active;
@@ -240,7 +240,7 @@ angular.module('courses').service('MapIcons', function(Tip, ConceptStructure, $l
     {
         if(!$scope.segmentPerConceptMap) return false;
 
-        return $scope.activeConcept !== null
+        return $scope.activeConcept
             && d.concept._id === $scope.activeConcept.concept._id
             && $scope.segmentPerConceptMap[d.concept._id] && $scope.segmentPerConceptMap[d.concept._id].length
             && ($scope.learnMode === false || $scope.activeConcept.concept._id !== d.concept._id);
