@@ -3,380 +3,42 @@
 angular.module('concepts').controller('ConceptPanelController',
     function($scope, $rootScope, $stateParams, $location, Authentication, Concepts, Conceptdependencies, Courses, Sourcetypes, Segments, Sources, ConceptStructure, $timeout, LearnedConcepts, SeenConcepts, $window, PanelAdmin, ConceptPanelView, ConceptActions, $interval)
     {
+        $scope.courseScope = angular.element('.course-view').scope();
+        $scope = $scope.courseScope;
+
         $scope.unfold = true;
         $scope.minimized = false;
-        $scope.courseScope = $scope.$parent.$parent;
+
         $scope.planConcepts = [];
 
         PanelAdmin.init($scope);
         ConceptPanelView.init($scope);
         ConceptActions.init($scope);
 
-        function getChildIds(concept)
-        {
-            if(concept.children.length > 0)
-            {
-                var list = [];
-                concept.children.forEach(function(child)
-                {
-                    list = list.concat(getChildIds(child));
-                });
-                return list;
-            }
-            else
-            {
-                return [concept.concept._id];
-            }
-        }
 
-        function updateLectures()
-        {
-            if($scope.lectureduoType !== undefined)
-            {
-                var active = $scope.activeConcept;
-                var childConceptIds = active === null ? [] : getChildIds(active); //todo
-                //console.log(childConceptIds);
 
-                $scope.activeConceptSegments = $scope.segments.filter(function(segment)
-                {
-                    if(segment.concepts !== undefined && segment.concepts.length > 0)
-                    {
-                        var concept = segment.concepts[0];
-                        return active === null || childConceptIds.indexOf(concept) !== -1;
-                    }
-                    else
-                    {
-                        return false;
-                    }
-                });
 
-                //console.log($scope.activeConceptSegments);
-
-                $scope.activeConceptLectureSegments = $scope.activeConceptSegments.filter(function(segment)
-                {
-                    var source = $scope.sourceMap[segment.source];
-                    return source.type === $scope.lectureduoType._id
-                });
-
-                $scope.activeLectures = [];
-                var activeConceptLectureIds = [];
-
-                $scope.activeConceptLectureSegments.forEach(function(segment)
-                {
-                    if(activeConceptLectureIds.indexOf(segment.source) === -1)
-                    {
-                        var lecture = $scope.sourceMap[segment.source];
-                        var obj = { lecture: lecture, concepts: []};
-                        var addedConceptIds = [];
-
-                        $scope.segments.filter(function(seg)
-                        {
-                            return seg.source === lecture._id;
-                        }).sort(function(a,b){return d3.ascending(a.start, b.start);}).forEach(function(lectureSeg)
-                        {
-                            var conceptId = lectureSeg.concepts[0];
-
-                            if(addedConceptIds.indexOf(conceptId) === -1 && $scope.conceptMap[conceptId])
-                            {
-                                //obj.concepts.push($scope.directories.concepts[lectureSeg.concepts[0]]);
-                                obj.concepts.push($scope.conceptMap[conceptId]);
-                                addedConceptIds.push(conceptId);
-                            }
-
-                        });
-
-                        $scope.activeLectures.push(obj);
-                        activeConceptLectureIds.push(segment.source);
-                    }
-                });
-            }
-        }
-
-        function updateNext()
-        {
-            var todo;
-
-            if($scope.goalConcept === null)
-            {
-                todo = ConceptStructure.getTodoListSorted();
-            }
-            else
-            {
-                todo = ConceptStructure.getTodoListSorted($scope.goalConcept);
-            }
-
-            if(todo !== undefined)
-            {
-                var todoIds = todo.map(function(item) {
-                    return item.concept._id;
-                });
-
-                var pos = -1;
-
-                if($scope.activeConcept !== null)
-                {
-                    pos = todoIds.indexOf($scope.activeConcept.concept._id);
-                }
-
-                if(todo.length > pos + 1)
-                {
-                    $scope.nextConcept = todo[pos+1];
-                }
-                else
-                {
-                    $scope.nextConcept = null;
-                    //console.log('no next concept found');
-                }
-
-                if(pos > 0)
-                {
-                    $scope.previousConcept = todo[pos-1];
-                }
-                else
-                {
-                    $scope.previousConcept = null;
-                }
-            }
-
-            var segments = $scope.active.segments;
-            var active = $scope.active.segment;
-
-            if(active !== null)
-            {
-                var segmentIds = segments.map(function(s) { return s._id; });
-                var index = segmentIds.indexOf(active._id);
-
-                if(segments.length > 1)
-                {
-                    index = (index + 1) % segments.length;
-                    $scope.nextSegment = segments[index];
-                }
-                else
-                {
-                    $scope.nextSegment = null;
-                }
-            }
-
-        }
-
-        $scope.$watch('activeConcept', function() { updateLectures(); updateNext(); checkSeen(); });
+        /*! $scope.$watch('activeConcept', function() { updateLectures(); updateNext(); });
         $scope.$watch('active.segment', updateNext);
         $scope.$watchCollection('segments', updateLectures);
-        $scope.$watch('lectureduoType', updateLectures);
-
-        $scope.updateDepProviders = function()
-        {
-            updateNext();
-
-            if($scope.goalConcept === null)
-            {
-                if($scope.todoIds.length > 0)
-                {
-                    //console.log($scope.todoIds);
-                    $scope.activeDependencyProviderIds = $scope.todoIds;
-                }
-                else
-                {
-                    $scope.activeDependencyProviderIds = undefined;
-                }
-
-            }
-            else
-            {
-                $scope.activeDependencyProviders = ConceptStructure.getConceptDependencyConcepts($scope.goalConcept);
-                $scope.activeDependencyProviderIds = [];
-
-                $scope.activeDependencyProviders.forEach(function(provider)
-                {
-                    if($scope.activeDependencyProviderIds.indexOf(provider.concept._id) === -1)
-                    {
-                        var parent = provider;
-
-                        while(parent !== undefined && parent !== null && $scope.activeDependencyProviderIds.indexOf(parent.concept._id) === -1)
-                        {
-                            //console.log(new Date().getTime(), parent);
-                            $scope.activeDependencyProviderIds.push(parent.concept._id);
-                            parent = provider.parentData;
-                        }
-                        //console.log($scope.activeDependencyProviderIds);
-                    }
-                });
-
-                $scope.activeDependencyProviders.push($scope.goalConcept);
+        $scope.$watch('lectureduoType', updateLectures);*/
 
 
-            }
 
-            updatePlan();
-        };
+        /*! $scope.$watch('goalConcept', $scope.updateDepProviders);
+        $scope.$watch('todoIds', $scope.updateDepProviders);*/
 
-        $scope.$watch('goalConcept', $scope.updateDepProviders);
-        $scope.$watch('todoIds', $scope.updateDepProviders);
-        $scope.$watchCollection('learned', $scope.updateDepProviders);
-        $scope.$watchCollection('seenMapByConcept', $scope.updateDepProviders);
+        //$scope.$watchCollection('learned', $scope.updateDepProviders);
+        //$scope.$watchCollection('seenMapByConcept', $scope.updateDepProviders);
 
-        var updatePlan = function()
-        {
-            if(!$scope.activeDependencyProviderIds) return;
-            //todo: set all the active, learned etc attributes here instead of in the panel html.
 
-            var checkDependencyProvider = function(d)
-            {
-                return $scope.activeDependencyProviderIds.indexOf(d.concept._id) !== -1;
-            };
 
-            var isActive = function(d)
-            {
-                return $scope.active.hierarchyIds.indexOf(d.concept._id) !== -1;
-            };
-            var isGoal = function(d)
-            {
-                return $scope.goalConcept && $scope.goalConcept.concept._id === d.concept._id;
-            };
-            var isInGoalHierarchy = function(d)
-            {
-                return $scope.active.goalHierarchyIds.indexOf(d.concept._id) === -1;
-            };
-            var isInHoverHierarchy = function(d)
-            {
-                return $scope.active.hoverHierarchyIds.indexOf(d.concept._id) === -1;
-            };
-            var isHover = function(d)
-            {
-                return $scope.active.hoveringConceptIds.indexOf(d.concept._id) !== -1;
-            };
+        //! $scope.$watch('todo', updateWatchable);
 
-            var setAttributes = function(d)
-            {
-                d.learned = $scope.isLearned(d);
-                d.active = isActive(d);
-                d.goal = isGoal(d);
-                d.inGoalHierarchy = isInGoalHierarchy(d);
-                d.inHoverHierarchy = isInHoverHierarchy(d);
-                d.hover = isHover(d);
-                d.isSeen = $scope.isSeen(d);
-            };
 
-            $scope.planConcepts = $scope.active.topLevelConcepts.filter(function(d)
-            {
-                return !$scope.activeDependencyProviderIds || $scope.activeDependencyProviderIds.indexOf(d.concept._id) !== -1;
-            });
-            $scope.planConcepts.forEach(function(d)
-            {
-                //console.log(d.children);
-                //console.log($scope.active.hierarchyIds);
-                setAttributes(d);
-
-                if(($scope.active.hierarchyIds.indexOf(d.concept._id) !== -1 || $scope.active.goalHierarchyIds.indexOf(d.concept._id) !== -1 || $scope.active.hoverHierarchyIds.indexOf(d.concept._id) !== -1) && d.children)
-                {
-                    d.planChildren = d.children.filter(checkDependencyProvider);
-
-                    d.planChildren.forEach(function(e)
-                    {
-                        setAttributes(e);
-
-                        if(($scope.active.hierarchyIds.indexOf(e.concept._id) !== -1 || $scope.active.goalHierarchyIds.indexOf(e.concept._id) !== -1 || $scope.active.hoverHierarchyIds.indexOf(e.concept._id) !== -1) && e.children)
-                        {
-                            e.planChildren = e.children.filter(checkDependencyProvider);
-
-                            e.planChildren.forEach(function(f)
-                            {
-                                setAttributes(f);
-                            });
-                        }
-                        else
-                        {
-                            e.planChildren = [];
-                        }
-
-                    });
-                    //console.log($scope.activeDependencyProviderIds);
-                    //console.log(d.planChildren);
-                }
-                else
-                {
-                    d.planChildren = [];
-                }
-            });
-
-            //console.log($scope.planConcepts);
-
-            //console.log(todo);
-        };
-
-        var updateWatchable = function()
-        {
-            //console.log('updating watchable', $scope.todo);
-
-            if($scope.todo !== undefined && $scope.todo !== null)
-            {
-                var i = 0;
-
-                if($scope.goalConcept === null && $scope.activeConcept !== null)
-                {
-                    var todoIds = $scope.todo.map(function(t) { return t.concept._id; });
-                    i = todoIds.indexOf($scope.activeConcept.concept._id);
-                }
-
-                if(i !== -1)
-                {
-                    for(; i < $scope.todo.length; i++)
-                    {
-                        //console.log($scope.todo[i]);
-                        var conceptId = $scope.todo[i].concept._id;
-
-                        if(!$scope.segmentPerConceptMap)
-                        {
-                            return $timeout(updateWatchable, 5000);
-                        }
-
-                        //console.log($scope.segmentPerConceptMap);
-                        if($scope.segmentPerConceptMap && $scope.segmentPerConceptMap[conceptId] && $scope.segmentPerConceptMap[conceptId].length > 0)
-                        {
-                            $scope.active.watchableConcept = $scope.todo[i];
-                            //console.log($scope.active.watchableConcept );
-                            break;
-                        }
-                    }
-                }
-            }
-
-            updatePlan();
-        };
-
-        $scope.$watch('todo', updateWatchable);
-
-        function updateHierarchy()
-        {
-            //console.log('updating hierarchy');
-
-            if($scope.activeConcept !== undefined && $scope.activeConcept !== null)
-            {
-                if(false)//$scope.activeConcept.children.length === 0)
-                {
-                    $scope.activeHierarchyChildren = $scope.activeConcept.parentData.children;
-                    $scope.activeHierarchyConcept = $scope.activeConcept.parentData;
-                }
-                else
-                {
-                    //console.log($scope.activeConcept.children);
-                    //console.log($scope.activeConcept);
-                    //console.log($scope.directories.concepts);
-                    $scope.activeHierarchyChildren = $scope.activeConcept.children;
-                    $scope.activeHierarchyConcept = $scope.activeConcept;
-                }
-            }
-            else
-            {
-                $scope.activeHierarchyChildren = $scope.active.topLevelConcepts;
-                $scope.activeHierarchyConcept = { concept: $scope.course };
-            }
-
-            updatePlan();
-        }
 
         //$interval(updateHierarchy, 200);
-        $scope.$watch('activeConcept', updateHierarchy);
+        //! $scope.$watch('activeConcept', updateHierarchy);
 
         /*$scope.$watchCollection('activeDependencyProviderIds', updateHierarchy);
         $scope.$watchCollection('active.hierarchyIds', updateHierarchy);
@@ -385,7 +47,7 @@ angular.module('concepts').controller('ConceptPanelController',
         $rootScope.$on('conceptStructureLoaded', updateHierarchy);
         $scope.$watch('active.topLevelConcepts', updateHierarchy);*/
 
-        $scope.$watch('activeSegment', function()
+        /*$scope.$watch('activeSegment', function()
         {
             if($scope.activeSegment !== undefined)
             {
@@ -394,33 +56,12 @@ angular.module('concepts').controller('ConceptPanelController',
                     $scope.activeLecture = activeLecture;
                 });
             }
-        });
+        });*/
 
-        $scope.$watch('learnMode', checkSeen);
-
-        function checkSeen()
-        {
-            if($scope.learnMode
-                && $scope.activeConcept
-                && $scope.seenMapByConcept
-                && !$scope.seenMapByConcept[$scope.activeConcept.concept._id]
-                && (!$scope.activeConcept.children || !$scope.activeConcept.children.length))
-            {
-                //console.log('gotta mark concept ', $scope.activeConcept.concept._id,  ' as seen');
-
-                $scope.seeConcept();
-            }
-            else
-            {
-                //console.log($scope.learnMode, $scope.activeConcept, $scope.seenMapByConcept);
-            }
-        }
-
-        $scope.$on('dataReady', function()
+        /*$scope.$on('dataReady', function()
         {
             updateHierarchy();
-            checkSeen();
-        });
+        });*/
 
         $scope.$watch('activeConcept.concept.color', function()
         {
@@ -429,25 +70,4 @@ angular.module('concepts').controller('ConceptPanelController',
                 $scope.activeColorDarker = d3.rgb($scope.activeConcept.concept.color).darker(.3).toString();
             }
         });
-
-        function updateActive()
-        {
-            var searchParams = $location.search();
-
-            if(searchParams.mode)
-            {
-                $scope.activeMode = searchParams.mode;
-            }
-            else
-            {
-                $scope.activeMode = 'plan';
-            }
-        }
-
-        updateActive();
-        $scope.$on('$locationChangeSuccess', function()
-        {
-            updateActive();
-        });
-
     });

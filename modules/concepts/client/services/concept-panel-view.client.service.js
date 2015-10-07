@@ -45,7 +45,7 @@ angular.module('concepts').service('ConceptPanelView',
 
                 $scope.animatePanelWidth(newWidth, function()
                 {
-                    $scope.courseScope.panelWidth = newWidth;
+                    $scope.panelWidth = newWidth;
                     $scope.safeApply();
                 });
             };
@@ -55,7 +55,7 @@ angular.module('concepts').service('ConceptPanelView',
                 $scope.minimized = false;
                 var newWidth = $scope.getPanelWidth();
 
-                $scope.courseScope.panelWidth = newWidth;
+                $scope.panelWidth = newWidth;
                 $scope.safeApply();
                 $scope.animatePanelWidth(newWidth);
             };
@@ -98,7 +98,7 @@ angular.module('concepts').service('ConceptPanelView',
             $scope.updatePanelHeight = function()
             {
                 $scope.panelContentHeightMax = $scope.windowHeight - $scope.panelOffsetTop;
-                $scope.courseScope.panelWidth = $scope.getPanelWidth();
+                $scope.panelWidth = $scope.getPanelWidth();
             };
 
             var w = angular.element($window);

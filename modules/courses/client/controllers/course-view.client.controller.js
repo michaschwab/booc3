@@ -122,44 +122,24 @@ angular.module('courses').controller('CourseViewController',
         var updateTodoTimeout = null;
         $scope.$watchCollection('active.hoveringConceptIds', function()
         {
+            var updateFct = function()
+            {
+                ActiveDataManager.updateTodo();
+                ActiveDataManager.updatePlan();
+            };
+
             if($scope.active.hoveringConceptIds.length === 0)
             {
                 // Use timeout in case mouse is only switching from one concept to the other
                 // to avoid doing this twice within 1ms.
                 $timeout.cancel(updateTodoTimeout);
-                updateTodoTimeout = $timeout($scope.updateTodo, 1);
+                updateTodoTimeout = $timeout(updateFct, 1);
             }
             else
             {
                 $timeout.cancel(updateTodoTimeout);
-                $scope.updateTodo();
             }
         });
-
-        $scope.updateTodo = function()
-        {
-            var concept = $scope.activeConcept;
-
-            if($scope.goalConcept !== null)
-            {
-                $scope.todo = ConceptStructure.getTodoListSorted($scope.goalConcept);
-            }
-            else
-            {
-                var hover = $scope.active.hoveringConceptIds;
-
-                if(hover !== undefined && hover.length > 0)
-                {
-                    $scope.todo = ConceptStructure.getTodoListSorted($scope.directories.concepts[hover[0]]);
-                }
-                else
-                {
-                    $scope.todo = concept ? ConceptStructure.getTodoListSorted(concept) : ConceptStructure.getTodoListSorted();
-                }
-            }
-            if(!$scope.todo.length) $timeout($scope.updateTodo, 20);
-            //console.log($scope.goalConcept, $scope.active.hoveringConceptIds, concept, $scope.todo);
-        };
 
         $scope.getPathColor = function(orig)
         {
@@ -179,7 +159,7 @@ angular.module('courses').controller('CourseViewController',
 
         $scope.$watch('active.topLevelConcepts', function()
         {
-            $scope.updateTodo();
+            ActiveDataManager.updateTodo();
         });
 
 
@@ -218,7 +198,7 @@ angular.module('courses').controller('CourseViewController',
             ActiveDataManager.setActiveSegments();
             $scope.active.hoveringConceptIds = [];
 
-            $scope.updateTodo();
+            ActiveDataManager.updateTodo();
             ActiveDataManager.updateCurrentGoal();
         });
 
@@ -227,7 +207,7 @@ angular.module('courses').controller('CourseViewController',
         $scope.$watch('goalConcept', function()
         {
             ActiveDataManager.setGoalHierarchy();
-            $scope.updateTodo();
+            ActiveDataManager.updateTodo();
         });
 
         $scope.addColor = function(color)
@@ -320,7 +300,7 @@ angular.module('courses').controller('CourseViewController',
                 //console.log('resetting goal search');
             }
 
-            $scope.updateTodo();
+            ActiveDataManager.updateTodo();
         });
 
         $scope.setGoalId = function(id)
@@ -355,7 +335,11 @@ angular.module('courses').controller('CourseViewController',
             {
                 $scope.active.hoverConcept = concept;
                 $scope.active.hoveringConceptIds = [concept.concept._id];
-                //console.log('hover', concept.concept._id);
+
+                ActiveDataManager.setActiveHierarchy();
+                ActiveDataManager.updateCurrentGoal();
+                ActiveDataManager.updateTodo();
+                ActiveDataManager.updatePlan();
             }
         };
 
@@ -366,6 +350,11 @@ angular.module('courses').controller('CourseViewController',
                 //console.log('emptying hovers', $scope.active.hoverConcept, $scope.active.hoveringConceptIds);
                 $scope.active.hoverConcept = null;
                 $scope.active.hoveringConceptIds = [];
+
+                ActiveDataManager.setActiveHierarchy();
+                ActiveDataManager.updateCurrentGoal();
+                ActiveDataManager.updateTodo();
+                ActiveDataManager.updatePlan();
             }
         };
 
@@ -405,7 +394,16 @@ angular.module('courses').controller('CourseViewController',
             }
         };
 
-        $scope.$on('$locationChangeSuccess', function() { ActiveDataManager.updateActive(); $timeout(updatePanelContentHeight, 50); $timeout(updatePanelContentHeight, 100); $timeout(updatePanelContentHeight, 250); $timeout(updatePanelContentHeight, 500); });
+        $scope.$on('$locationChangeSuccess', function()
+        {
+            ActiveDataManager.updateActive();
+            $timeout(updatePanelContentHeight, 50);
+            $timeout(updatePanelContentHeight, 100);
+            $timeout(updatePanelContentHeight, 250);
+            $timeout(updatePanelContentHeight, 500);
+
+            ActiveDataManager.updateActiveMode();
+        });
 
         $scope.$watch('activeLecture', function()
         {
