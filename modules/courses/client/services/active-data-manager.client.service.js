@@ -22,6 +22,7 @@ angular.module('courses').service('ActiveDataManager', function(Authentication, 
 
         $scope.$on('dataReady', function()
         {
+            me.updateActive();
             me.checkSeen();
             me.updateHierarchy();
             me.updateTodo();
@@ -32,6 +33,8 @@ angular.module('courses').service('ActiveDataManager', function(Authentication, 
     this.updateTodo = function()
     {
         var concept = $scope.activeConcept;
+
+        //todo: use $scope.currentGoal
 
         if($scope.goalConcept !== null)
         {
@@ -50,6 +53,8 @@ angular.module('courses').service('ActiveDataManager', function(Authentication, 
                 $scope.todo = concept ? ConceptStructure.getTodoListSorted(concept) : ConceptStructure.getTodoListSorted();
             }
         }
+
+        this.updateTodoIds();
         //if(!$scope.todo.length) $timeout($scope.updateTodo, 20);
         //console.log($scope.goalConcept, $scope.active.hoveringConceptIds, concept, $scope.todo);
     };
@@ -172,7 +177,15 @@ angular.module('courses').service('ActiveDataManager', function(Authentication, 
             $scope.active.segmentId = searchParams.segment;
         }
 
-        $scope.activeMode = searchParams.mode;
+        if(searchParams.mode)
+        {
+            $scope.activeMode = searchParams.mode;
+        }
+        else
+        {
+            $scope.activeMode = 'plan';
+        }
+
         this.updateCurrentGoal();
     };
 
@@ -273,20 +286,6 @@ angular.module('courses').service('ActiveDataManager', function(Authentication, 
         else
         {
             //console.log($scope.learnMode, $scope.activeConcept, $scope.seenMapByConcept);
-        }
-    };
-
-    this.updateActiveMode = function()
-    {
-        var searchParams = $location.search();
-
-        if(searchParams.mode)
-        {
-            $scope.activeMode = searchParams.mode;
-        }
-        else
-        {
-            $scope.activeMode = 'plan';
         }
     };
 
@@ -517,7 +516,7 @@ angular.module('courses').service('ActiveDataManager', function(Authentication, 
             }
         }
 
-        updatePlan();
+        //me.updatePlan();
     };
 
     function getChildIds(concept)
@@ -598,7 +597,7 @@ angular.module('courses').service('ActiveDataManager', function(Authentication, 
                 }
             });
         }
-    }
+    };
 
     this.updateNext = function()
     {

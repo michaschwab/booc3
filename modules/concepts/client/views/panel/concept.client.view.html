@@ -20,14 +20,14 @@
     </a>
 
 
-    <ul ng-show="courseScope.activeConcept.concept._id == concept.concept._id" class="alternative-segments">
-        <li ng-repeat="seg in courseScope.active.segments track by seg._id" class="segment" ng-class="{ 'active': seg._id === courseScope.active.segment._id}">
+    <ul ng-show="activeConcept.concept._id == concept.concept._id" class="alternative-segments">
+        <li ng-repeat="seg in active.segments track by seg._id" class="segment" ng-class="{ 'active': seg._id === active.segment._id}">
 
             <span class="concept-line"></span>
 
-            <a data-ui-sref="{active: concept.concept._id, segment:seg._id, learn: 'yes'}" title="{{::courseScope.sourcetypeMap[sourceMap[seg.source].type].title}} on {{::courseScope.sourceMap[seg.source].title}}">
-                <span class="{{::courseScope.sourcetypeMap[courseScope.sourceMap[seg.source].type].icon}} segment-icon"></span>
-                <span class="segment-title">{{::courseScope.sourcetypeMap[courseScope.sourceMap[seg.source].type].title}} on <i>{{::courseScope.sourceMap[seg.source].title}}</i></span>
+            <a data-ui-sref="{active: concept.concept._id, segment:seg._id, learn: 'yes'}" title="{{::sourcetypeMap[sourceMap[seg.source].type].title}} on {{::sourceMap[seg.source].title}}">
+                <span class="{{::sourcetypeMap[sourceMap[seg.source].type].icon}} segment-icon"></span>
+                <span class="segment-title">{{::sourcetypeMap[sourceMap[seg.source].type].title}} on <i>{{::sourceMap[seg.source].title}}</i></span>
             </a>
         </li>
     </ul>

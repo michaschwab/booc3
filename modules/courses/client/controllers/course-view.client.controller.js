@@ -401,8 +401,6 @@ angular.module('courses').controller('CourseViewController',
             $timeout(updatePanelContentHeight, 100);
             $timeout(updatePanelContentHeight, 250);
             $timeout(updatePanelContentHeight, 500);
-
-            ActiveDataManager.updateActiveMode();
         });
 
         $scope.$watch('activeLecture', function()
