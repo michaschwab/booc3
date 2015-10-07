@@ -334,7 +334,7 @@ angular.module('courses').service('MapArrows', function(Tip, ConceptStructure, M
         me.drawPaths();
 
         d3.select('#pathLayer').selectAll('.currentPathFutureHierarchy').remove();
-        if($scope.options.showCurrentPathFutureHierarchy && goalConcept !== null)
+        if($scope.options.showCurrentPathFutureHierarchy && goalConcept)
         {
             //TODO: Find the TLCs that need 'goalConcept' and show the learning plans to them
             //var currentHierarchyIds =

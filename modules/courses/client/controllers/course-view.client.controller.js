@@ -120,7 +120,7 @@ angular.module('courses').controller('CourseViewController',
 
         });
 
-        var updateTodoTimeout = null;
+        /*var updateTodoTimeout = null;
         $scope.$watchCollection('active.hoveringConceptIds', function()
         {
             var updateFct = function()
@@ -140,7 +140,7 @@ angular.module('courses').controller('CourseViewController',
             {
                 $timeout.cancel(updateTodoTimeout);
             }
-        });
+        });*/
 
         $scope.getPathColor = function(orig)
         {
@@ -151,43 +151,43 @@ angular.module('courses').controller('CourseViewController',
             return d3.hsl(colorHsl.h, saturation, lightness).toString();
         };
 
-        $scope.$watch('todo', function()
+        /*$scope.$watch('todo', function()
         {
 
             ActiveDataManager.updateTodoIds();
             ActiveDataManager.updateCurrentGoal();
-        });
+        });*/
 
-        $scope.$watch('active.topLevelConcepts', function()
+        /*$scope.$watch('active.topLevelConcepts', function()
         {
             ActiveDataManager.updateTodo();
-        });
+        });*/
 
 
-        $scope.$watchCollection('active.goalHierarchy', function()
+        /*$scope.$watchCollection('active.goalHierarchy', function()
         {
             $scope.active.goalHierarchyIds = $scope.active.goalHierarchy.map(function(concept)
             {
                 return concept.concept._id;
             });
-        });
+        });*/
 
-        $scope.$watch('activeConcept', function()
+        /*$scope.$watch('activeConcept', function()
         {
             ActiveDataManager.setActiveSegments();
             $scope.active.hoveringConceptIds = [];
 
             ActiveDataManager.updateTodo();
             ActiveDataManager.updateCurrentGoal();
-        });
+        });*/
 
-        $scope.$watchCollection('segments', ActiveDataManager.setActiveSegments);
+        //$scope.$watchCollection('segments', ActiveDataManager.setActiveSegments);
 
-        $scope.$watch('goalConcept', function()
+        /*$scope.$watch('goalConcept', function()
         {
             ActiveDataManager.setGoalHierarchy();
             ActiveDataManager.updateTodo();
-        });
+        });*/
 
         $scope.addColor = function(color)
         {
@@ -213,30 +213,8 @@ angular.module('courses').controller('CourseViewController',
             //return $scope.grayed ? d3.hsl(orig.hsl().h, 0, orig.hsl().l) : orig.toString();
         };
 
+
         /*$scope.$watch('active.segmentId', function()
-        {
-            var newSegments = $scope.active.segments.filter(function(segment)
-            {
-                return segment._id === $scope.active.segmentId;
-            });
-
-            if(newSegments.length === 1)
-            {
-                ActiveDataManager.setSegment();
-            }
-            else
-            {
-                if($scope.active.segments.length > 0)
-                {
-                    var e = new Error('Specified Segment that is not active!');
-
-                    console.log(e.stack);
-                    console.log($scope.active.segments);
-                }
-            }
-        });*/
-
-        $scope.$watch('active.segmentId', function()
         {
             ActiveDataManager.setSegment();
         });
@@ -280,7 +258,7 @@ angular.module('courses').controller('CourseViewController',
             }
 
             ActiveDataManager.updateTodo();
-        });
+        });*/
 
         $scope.setGoalId = function(id)
         {
@@ -302,11 +280,11 @@ angular.module('courses').controller('CourseViewController',
             });
         };
 
-        $scope.$watchCollection('learned', function()
+        /*$scope.$watchCollection('learned', function()
         {
             ActiveDataManager.updateLearnedConceptIds();
             //console.log($scope.learnedConceptIds);
-        });
+        });*/
 
         $scope.hoverConcept = function(concept)
         {
@@ -337,12 +315,12 @@ angular.module('courses').controller('CourseViewController',
             }
         };
 
-        $scope.$watch('active.hoveringConceptIds', function()
+        /*$scope.$watch('active.hoveringConceptIds', function()
         {
             ActiveDataManager.setActiveHierarchy();
             ActiveDataManager.updateCurrentGoal();
         });
-
+*/
         $scope.$watchCollection('concepts.downloadedUpdates', function()
         {
             //TODO have to do this because have to wait for the childconcepts to be set by getConceptChildren.
@@ -382,10 +360,10 @@ angular.module('courses').controller('CourseViewController',
             $timeout(updatePanelContentHeight, 500);
         });
 
-        $scope.$watch('activeLecture', function()
+        /*$scope.$watch('activeLecture', function()
         {
             ActiveDataManager.setActiveLectureConcepts();
-        });
+        });*/
 
         //TODO set the TLC here instead of in the map. It's a more general thing.
         /*$scope.$watchCollection('concepts.downloadedUpdates',function()

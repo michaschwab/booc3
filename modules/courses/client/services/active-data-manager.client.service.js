@@ -9,25 +9,20 @@ angular.module('courses').service('ActiveDataManager', function(Authentication, 
     {
         $scope = scope;
 
-        $scope.$on('$locationChangeSuccess', function()
-        {
-            me.updateActive();
+        $scope.$on('$locationChangeSuccess', me.updateData);
+        $scope.$on('dataReady', me.updateData);
+    };
 
-            me.updateHierarchy();
-            me.updateTodo();
-            me.updatePlan();
+    this.updateData = function()
+    {
+        me.updateActive();
 
-            me.checkSeen();
-        });
+        me.updateHierarchy();
+        me.updateTodo();
+        me.updatePlan();
+        me.setActiveSegments();
 
-        $scope.$on('dataReady', function()
-        {
-            me.updateActive();
-            me.checkSeen();
-            me.updateHierarchy();
-            me.updateTodo();
-            me.updatePlan();
-        });
+        me.checkSeen();
     };
 
     this.updateTodo = function()
@@ -60,7 +55,7 @@ angular.module('courses').service('ActiveDataManager', function(Authentication, 
     };
 
 
-    $interval(this.updateActive, 200);
+    //$interval(this.updateActive, 200);
 
     this.updateCurrentGoal = function()
     {
@@ -246,6 +241,13 @@ angular.module('courses').service('ActiveDataManager', function(Authentication, 
             //$scope.active.source = $scope.sourceMap[$scope.active.segment.source];
             //$scope.active.sourcetype = $scope.sourcetypeMap[$scope.active.source.type];
         }
+
+        if($scope.active.segment !== null)
+        {
+            $scope.active.sourceId = $scope.active.segment.source;
+        }
+
+        this.setSource();
     };
 
     this.setSource = function()
@@ -259,6 +261,14 @@ angular.module('courses').service('ActiveDataManager', function(Authentication, 
                 //console.log('setting new source!', newSrc._id);
                 $scope.active.source = newSrc
             }
+        }
+        if($scope.active.source !== null)
+        {
+            $scope.active.sourcetype = $scope.sourcetypeMap[$scope.active.source.type];
+        }
+        else
+        {
+            $scope.active.sourcetype = null;
         }
     };
 
