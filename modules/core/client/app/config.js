@@ -6,7 +6,7 @@ var ApplicationConfiguration = (function () {
   var applicationModuleName = 'mean';
   var applicationModuleVendorDependencies = [
     'ngResource',
-    'ngAnimate',
+    //'ngAnimate',
     'ui.router',
     'ui.bootstrap',
     'ui.utils',
