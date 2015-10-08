@@ -297,10 +297,11 @@ angular.module('courses').controller('CourseViewController',
                 ActiveDataManager.updateCurrentGoal();
                 ActiveDataManager.updateTodo();
                 ActiveDataManager.updatePlan();
+                $scope.$broadcast('redrawHover');
             }
         };
 
-        $scope.leaveConcept = function(concept)
+        $scope.leaveConcept = function(concept, skipRedraw)
         {
             if($scope.active.hoveringConceptIds.length > 0 && (!concept || $scope.active.hoveringConceptIds.indexOf(concept.concept._id) !== -1))
             {
@@ -312,6 +313,9 @@ angular.module('courses').controller('CourseViewController',
                 ActiveDataManager.updateCurrentGoal();
                 ActiveDataManager.updateTodo();
                 ActiveDataManager.updatePlan();
+
+                if(!skipRedraw)
+                    $scope.$broadcast('redrawHover');
             }
         };
 
@@ -353,11 +357,11 @@ angular.module('courses').controller('CourseViewController',
 
         $scope.$on('$locationChangeSuccess', function()
         {
-            ActiveDataManager.updateActive();
-            $timeout(updatePanelContentHeight, 50);
+            //CourseMapController.redraw();
+            /*$timeout(updatePanelContentHeight, 50);
             $timeout(updatePanelContentHeight, 100);
             $timeout(updatePanelContentHeight, 250);
-            $timeout(updatePanelContentHeight, 500);
+            $timeout(updatePanelContentHeight, 500);*/
         });
 
         /*$scope.$watch('activeLecture', function()

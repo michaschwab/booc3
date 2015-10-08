@@ -9,6 +9,15 @@ angular.module('courses').controller('CourseMapController', ['$scope','$statePar
         $scope.initTime = 0;
         $scope.options = {};
 
+        $scope.$on('$locationChangeSuccess', function()
+        {
+            $scope.redraw();
+        });
+        $scope.$on('redrawHover', function()
+        {
+            $scope.redrawHover();
+        });
+
         $scope.initMap = function()
         {
             var n = $scope.concepts;
@@ -100,14 +109,14 @@ angular.module('courses').controller('CourseMapController', ['$scope','$statePar
         });
 
         var redraws = {
-            'todoIds': { type: 'normal', redraw: 'hover' },
+            /*'todoIds': { type: 'normal', redraw: 'hover' },
             'active.learnedConceptIds': { type: 'collection', redraw: 'everything' },
             'goalConcept': { type: 'normal', redraw: 'everything' },
             'zoomMode': { type: 'normal', redraw: 'everything' },
             'active.hierarchyIds': { type: 'normal', redraw: 'everything' },
             //'active.hoveringConceptIds': { type: 'collection', redraw: 'hover' },
             'conceptColorChange': { type: 'event', redraw: 'hover' },
-            'seenMapByConcept': { type: 'normal', redraw: 'everything' }
+            'seenMapByConcept': { type: 'normal', redraw: 'everything' }*/
         };
 
         var timeout;

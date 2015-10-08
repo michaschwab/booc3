@@ -355,7 +355,7 @@ angular.module('courses').service('MapCircles', function(Tip, $location, $timeou
 
                     // Disable the current hover, as things might be moving around and the currently hovered concept
                     // might not be hovered after that any more.
-                    $scope.leaveConcept(d);
+                    $scope.leaveConcept(d, true);
 
                     // If it's already selected and it has viewable contents, show them.
                     if($scope.activeConcept !== null && $scope.activeConcept.concept._id === d.concept._id && segments && segments.length > 0)
