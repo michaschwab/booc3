@@ -20,108 +20,26 @@ angular.module('learning').controller('LearnController',
             $scope.lastSourceId = '';
             //ConceptStructure.init($scope, $stateParams.courseId);
 
-            //$scope.setActives();
+            //$scope.setActiveLearnMaterial();
             //console.log($scope.active.segment);
             //console.log($scope.active.source);
 
-            /*
-
-/*
-            $scope.course = Courses.get({
-                courseId: $stateParams.courseId
-            });
-
-*/
-            /*
-            $scope.$watch('activeMode', function()
-            {
-                if($scope.activeMode === 'hierarchy')
-                {
-                    $scope.parentId = $stateParams.conceptId;
-                    $scope.conceptId = searchParams.concept;
-                    $scope.segmentId = searchParams.segment;
-                }
-                else if($scope.activeMode === 'lecture')
-                {
-                    $scope.lectureId = $stateParams.lectureId;
-                }
-                else if($scope.activeMode === 'learning')
-                {
-
-                }
-                else
-                {
-                    console.log('whats that mode??', $scope.activeMode);
-                }
-            });*/
-
-
-            /*ConceptStructure.getConceptsAndDeps(function()
-            {
-                var tlc = [];
-                ConceptStructure.getConceptChildren(tlc, null, null, 1, function(array, parentID, depth, concept, i)
-                {
-
-                });
-
-                Segments.query({courses:$stateParams.courseId}).$promise.then(function(segments)
-                {
-                    $scope.segments = segments;
-
-                    Sources.query().$promise.then(function(sources)
-                    {
-                        $scope.sources = sources;
-                        $scope.sourceMap = {};
-                        sources.forEach(function(source)
-                        {
-                            $scope.sourceMap[source._id] = source;
-                        });
-
-                        Sourcetypes.query().$promise.then(function(sourcetypes)
-                        {
-                            $scope.sourcetypes = sourcetypes;
-                            $scope.sourcetypeMap = {};
-                            sourcetypes.forEach(function(sourcetype)
-                            {
-                                $scope.sourcetypeMap[sourcetype._id] = sourcetype;
-                            });
-
-                            segments.forEach(function(segment)
-                            {
-                                segment.sourceObject = $scope.sourceMap[segment.source];
-                                segment.sourcetypeObject = $scope.sourcetypeMap[segment.sourceObject.type];
-                            });
-
-                            $scope.setActives();
-
-                            LearnHelper.parseSegmentSourceData($scope.active.source, $scope.active.sourcetype, $scope.active.segment, function(data)
-                            {
-                                data.sourceId = $scope.active.source._id;
-                                $scope.sourceData = angular.extend($scope.sourceData, data);
-
-
-                                LearnHelper.synchronizePosition($scope, $scope.player);
-                            });
-                        });
-                    });
-                });
-            });*/
         };
 
-        $scope.$watch('activeConcept', function()
+        /*$scope.$watch('activeConcept', function()
         {
-            //$scope.setActives();
+            //$scope.setActiveLearnMaterial();
         });
 
         $scope.$watch('active.segment', function()
         {
-            $scope.setActives();
+            $scope.setActiveLearnMaterial();
         });
 
         $scope.$watch('active.source', function()
         {
-            $scope.setActives();
-        });
+            $scope.setActiveLearnMaterial();
+        });*/
 
         function checkPlayPause()
         {
@@ -135,10 +53,10 @@ angular.module('learning').controller('LearnController',
             }
         }
 
-        $scope.$watch('learnMode', checkPlayPause);
+        /*$scope.$watch('learnMode', checkPlayPause);
         $scope.$watch('active.sourcetype', checkPlayPause);
-
-        $scope.setActives = function()
+*/
+        $scope.setActiveLearnMaterial = function()
         {
             if(!$scope.active.source) return;
 
@@ -293,34 +211,40 @@ angular.module('learning').controller('LearnController',
         };
 
         var interval1, interval2;
-        $scope.$watch('active.sourcetype.category', function(category)
-        {
-            $scope.$on('$destroy', function()
-            {
-                $interval.cancel(interval1);
-                $interval.cancel(interval2);
-            });
-            $interval.cancel(interval1);
-            $interval.cancel(interval2);
 
-            if(category === 'video-document')
+        var setupMaterial = function()
+        {
+            if($scope.active.sourcetype)
             {
+                var category = $scope.active.sourcetype.category;
+
                 $scope.$on('$destroy', function()
                 {
-                    var vidPlayer = document.getElementById('videoPlayer');
-                    if(vidPlayer)
-                    {
-                        vidPlayer.src = '';
-                        document.querySelector('#videoPlayer source').src = '';
-                    }
+                    $interval.cancel(interval1);
+                    $interval.cancel(interval2);
                 });
+                $interval.cancel(interval1);
+                $interval.cancel(interval2);
 
-                interval1 = $interval(synchronizeSlide, 1000);
-                interval2 = $interval(checkWithinSegment, 1000);
+                if(category === 'video-document')
+                {
+                    $scope.$on('$destroy', function()
+                    {
+                        var vidPlayer = document.getElementById('videoPlayer');
+                        if(vidPlayer)
+                        {
+                            vidPlayer.src = '';
+                            document.querySelector('#videoPlayer source').src = '';
+                        }
+                    });
+
+                    interval1 = $interval(synchronizeSlide, 1000);
+                    interval2 = $interval(checkWithinSegment, 1000);
+                }
             }
-        });
 
-
+        };
+        //$scope.$watch('active.sourcetype.category', setupMaterial);
 
         var lastSlidePdf = '';
 
@@ -382,77 +306,13 @@ angular.module('learning').controller('LearnController',
             }
         }
 
-        $scope.setupNext = function()
-        {
-            /*var conceptIndex = -1;
-            $scope.neighborConcepts.forEach(function(concept, i)
-            {
-                if(concept === $scope.activeConcept)
-                {
-                    conceptIndex = i;
-                }
-            });
-            var nextIndex = conceptIndex + 1;
-
-            if(nextIndex >= $scope.neighborConcepts.length)
-            {
-                /*var parentParentId = $scope.parentConcept.parents[0];
-
-                getParentNextConcept(parentParentId, $scope.parentConcept._id, function(next)
-                {
-                    if(next === undefined)
-                    {
-                        var e = new Error('couldnt find next concept');
-                        console.log(e.stack);
-                    }
-                    $scope.nextConcept = next;
-                });* /
-            }
-            else
-            {
-                $scope.nextConcept = $scope.neighborConcepts[nextIndex];
-                $scope.nextConcept.parentId = $scope.parentId;
-            }
-
-            var segmentIndex = -1;
-            $scope.possibleSegments.forEach(function(segment, i)
-            {
-                if(segment._id === $scope.active.segment._id)
-                {
-                    segmentIndex = i;
-                }
-            });
-            var nextSegmentIndex = segmentIndex + 1;
-
-            if(nextSegmentIndex >= $scope.possibleSegments.length)
-            {
-                // If there is only one Segment and you are looking at it, dont show 'More Segments' button.
-                // Otherwise, if you're looking at the last Segment, rotate back to first one.
-                $scope.nextSegment = segmentIndex === 0 ? null : $scope.possibleSegments[0];
-            }
-            else
-            {
-                $scope.nextSegment = $scope.possibleSegments[nextSegmentIndex];
-            }*/
-        };
-
-
-
-
-
-
-
-
-/*
         $scope.$on('$locationChangeSuccess', function(event)
         {
-            var searchParams = $location.search();
+            setupMaterial();
+            $scope.setActiveLearnMaterial();
+            checkPlayPause();
+        });
 
-            //$scope.conceptId = searchParams.concept;
-            //$scope.segmentId = searchParams.segment;
-
-            //$scope.setActives();
-        });*/
         $scope.pdfWidth = $scope.contentWidth*2/3;
         $scope.wikiWidth = $scope.contentWidth - 30;
 
