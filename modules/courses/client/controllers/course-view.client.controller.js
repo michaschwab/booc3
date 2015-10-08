@@ -1,6 +1,6 @@
 
 angular.module('courses').controller('CourseViewController',
-    function($scope, $stateParams, Courses, Concepts, Conceptdependencies, Authentication, $window, $location, ConceptStructure, Segments, Sources, Sourcetypes, LearnedConcepts, SeenConcepts, $timeout, $interval, SeenDataManager, ActiveDataManager)
+    function($scope, $stateParams, Courses, Concepts, Conceptdependencies, Authentication, $window, $location, ConceptStructure, Segments, Sources, Sourcetypes, LearnedConcepts, SeenConcepts, $timeout, $interval, SeenDataManager, ActiveDataManager, $cacheFactory)
     {
         $scope.authentication = Authentication;
         $scope.learnMode = false;
@@ -197,19 +197,33 @@ angular.module('courses').controller('CourseViewController',
             }
         };
 
+        var colorCache = $cacheFactory('depthColors');
+
         $scope.depthColorModification = function (concept, grayout)
         {
-            var orig = d3.rgb(concept.concept.color);
-            for (var i = 1; i< concept.depth; i++) {
-                orig = orig.darker()
+            var cacheKey = concept.concept._id + '-' + grayout;
+            var cacheVal = colorCache.get(cacheKey);
+
+            if(cacheVal)
+            {
+                return cacheVal;
             }
+            else
+            {
+                var orig = d3.rgb(concept.concept.color);
+                for (var i = 1; i< concept.depth; i++) {
+                    orig = orig.darker()
+                }
 
-            var result = grayout && $scope.todoIds.length > 0 && $scope.todoIds.indexOf(concept.concept._id) === -1 ?
-                         d3.hsl(orig.hsl().h, 0, orig.hsl().l).toString() : orig.toString();
-            $scope.addColor(result);
+                var result = grayout && $scope.todoIds.length > 0 && $scope.todoIds.indexOf(concept.concept._id) === -1 ?
+                    d3.hsl(orig.hsl().h, 0, orig.hsl().l).toString() : orig.toString();
+                $scope.addColor(result);
 
-            //console.log($scope.todoIds);
-            return result;
+
+                colorCache.put(cacheKey, result);
+
+                return result;
+            }
             //return $scope.grayed ? d3.hsl(orig.hsl().h, 0, orig.hsl().l) : orig.toString();
         };
 
@@ -301,7 +315,7 @@ angular.module('courses').controller('CourseViewController',
             }
         };
 
-        $scope.leaveConcept = function(concept, skipRedraw)
+        $scope.leaveConcept = function(concept, skipUpdate)
         {
             if($scope.active.hoveringConceptIds.length > 0 && (!concept || $scope.active.hoveringConceptIds.indexOf(concept.concept._id) !== -1))
             {
@@ -309,13 +323,15 @@ angular.module('courses').controller('CourseViewController',
                 $scope.active.hoverConcept = null;
                 $scope.active.hoveringConceptIds = [];
 
-                ActiveDataManager.setActiveHierarchy();
-                ActiveDataManager.updateCurrentGoal();
-                ActiveDataManager.updateTodo();
-                ActiveDataManager.updatePlan();
+                if(!skipUpdate)
+                {
+                    ActiveDataManager.setActiveHierarchy();
+                    ActiveDataManager.updateCurrentGoal();
+                    ActiveDataManager.updateTodo();
+                    ActiveDataManager.updatePlan();
 
-                if(!skipRedraw)
                     $scope.$broadcast('redrawHover');
+                }
             }
         };
 

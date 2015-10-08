@@ -278,8 +278,11 @@ angular.module('courses').service('MapCircles', function(Tip, $location, $timeou
         setupCircles(tlc, 1);
     };
 
+    var setup = false;
     this.setup = function()
     {
+        if(setup) return;
+        setup = true;
         // this function takes about 2ms, including 1ms from setupL.
 
         var vis = $scope.canvas;

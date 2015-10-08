@@ -101,6 +101,8 @@ angular.module('courses').service('MapIcons', function(Tip, ConceptStructure, $l
 
         lxCircle.each(function(d)
         {
+            // This function takes about 22ms when activateConcept is run.
+            // 1ms = classed(), 3ms = attr(),  1ms = isLearned,
             var el = d3.select(this);
             var iconEl = el.select('.icons');
             var conceptId = d.concept._id;
@@ -179,6 +181,8 @@ angular.module('courses').service('MapIcons', function(Tip, ConceptStructure, $l
             for(var i = 0; i < icons.length; i++)
             {
                 var showThis = me.hasIcon(d, icons[i]);
+
+                // This takes 10ms.
                 if(showThis)
                 {
                     iconEl.classed('icon-' + icons[i], true);
@@ -190,6 +194,7 @@ angular.module('courses').service('MapIcons', function(Tip, ConceptStructure, $l
 
             var currentIcon = icons[i];
 
+            // 5ms.
             if(!lastData[conceptId] || lastData[conceptId]['icon'] !== currentIcon)
             {
                 lastData[conceptId]['icon'] = currentIcon;
