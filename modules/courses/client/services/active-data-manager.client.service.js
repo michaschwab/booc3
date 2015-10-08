@@ -413,6 +413,47 @@ angular.module('courses').service('ActiveDataManager', function(Authentication, 
         }*/
     };
 
+    this.isActive = function(d)
+    {
+        return $scope.active.hierarchyIds.indexOf(d.concept._id) !== -1;
+    };
+    this.isGoal = function(d)
+    {
+        return $scope.goalConcept && $scope.goalConcept.concept._id === d.concept._id;
+    };
+    this.isInGoalHierarchy = function(d)
+    {
+        return $scope.active.goalHierarchyIds.indexOf(d.concept._id) === -1;
+    };
+    this.isInHoverHierarchy = function(d)
+    {
+        return $scope.active.hoverHierarchyIds.indexOf(d.concept._id) === -1;
+    };
+    this.isHover = function(d)
+    {
+        return $scope.active.hoveringConceptIds.indexOf(d.concept._id) !== -1;
+    };
+
+    this.setAttributes = function(d)
+    {
+        d.learned = $scope.isLearned(d);
+        d.active = this.isActive(d);
+        d.goal = this.isGoal(d);
+        d.inGoalHierarchy = this.isInGoalHierarchy(d);
+        d.inHoverHierarchy = this.isInHoverHierarchy(d);
+        d.hover = this.isHover(d);
+        d.isSeen = $scope.isSeen(d);
+    };
+
+    this.updateAttributes = function()
+    {
+        Object.keys($scope.directories.concepts).forEach(function(conceptId)
+        {
+            var concept = $scope.directories.concepts[conceptId];
+            me.setAttributes(concept);
+        });
+    };
+
     this.updatePlan = function()
     {
         me.updateDepProviders();
@@ -425,38 +466,6 @@ angular.module('courses').service('ActiveDataManager', function(Authentication, 
             return $scope.activeDependencyProviderIds.indexOf(d.concept._id) !== -1;
         };
 
-        var isActive = function(d)
-        {
-            return $scope.active.hierarchyIds.indexOf(d.concept._id) !== -1;
-        };
-        var isGoal = function(d)
-        {
-            return $scope.goalConcept && $scope.goalConcept.concept._id === d.concept._id;
-        };
-        var isInGoalHierarchy = function(d)
-        {
-            return $scope.active.goalHierarchyIds.indexOf(d.concept._id) === -1;
-        };
-        var isInHoverHierarchy = function(d)
-        {
-            return $scope.active.hoverHierarchyIds.indexOf(d.concept._id) === -1;
-        };
-        var isHover = function(d)
-        {
-            return $scope.active.hoveringConceptIds.indexOf(d.concept._id) !== -1;
-        };
-
-        var setAttributes = function(d)
-        {
-            d.learned = $scope.isLearned(d);
-            d.active = isActive(d);
-            d.goal = isGoal(d);
-            d.inGoalHierarchy = isInGoalHierarchy(d);
-            d.inHoverHierarchy = isInHoverHierarchy(d);
-            d.hover = isHover(d);
-            d.isSeen = $scope.isSeen(d);
-        };
-
         $scope.planConcepts = $scope.active.topLevelConcepts.filter(function(d)
         {
             return !$scope.activeDependencyProviderIds || $scope.activeDependencyProviderIds.indexOf(d.concept._id) !== -1;
@@ -464,7 +473,7 @@ angular.module('courses').service('ActiveDataManager', function(Authentication, 
 
         $scope.planConcepts.forEach(function(d)
         {
-            setAttributes(d);
+            me.setAttributes(d);
 
             if(($scope.active.hierarchyIds.indexOf(d.concept._id) !== -1 || $scope.active.goalHierarchyIds.indexOf(d.concept._id) !== -1 || $scope.active.hoverHierarchyIds.indexOf(d.concept._id) !== -1) && d.children)
             {
@@ -472,7 +481,7 @@ angular.module('courses').service('ActiveDataManager', function(Authentication, 
 
                 d.planChildren.forEach(function(e)
                 {
-                    setAttributes(e);
+                    me.setAttributes(e);
 
                     if(($scope.active.hierarchyIds.indexOf(e.concept._id) !== -1 || $scope.active.goalHierarchyIds.indexOf(e.concept._id) !== -1 || $scope.active.hoverHierarchyIds.indexOf(e.concept._id) !== -1) && e.children)
                     {
@@ -480,7 +489,7 @@ angular.module('courses').service('ActiveDataManager', function(Authentication, 
 
                         e.planChildren.forEach(function(f)
                         {
-                            setAttributes(f);
+                            me.setAttributes(f);
                         });
                     }
                     else

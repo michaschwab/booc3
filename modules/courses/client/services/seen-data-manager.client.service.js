@@ -1,4 +1,4 @@
-angular.module('courses').service('SeenDataManager', function(Authentication, $timeout, $location, Users, MapArrows, ConceptStructure)
+angular.module('courses').service('SeenDataManager', function(Authentication, $timeout, $location, Users, MapArrows, ConceptStructure, ActiveDataManager)
 {
     var me = this;
     var $scope;
@@ -31,6 +31,9 @@ angular.module('courses').service('SeenDataManager', function(Authentication, $t
                 $scope.seenMapByConcept[seenConcept.concept] = seenConcept;
             });
         }
+
+        //ActiveDataManager.updatePlan();
+        ActiveDataManager.updateAttributes();
     };
 
     this.isSeen = function(d)
