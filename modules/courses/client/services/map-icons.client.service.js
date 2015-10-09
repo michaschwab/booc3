@@ -219,7 +219,7 @@ angular.module('courses').service('MapIcons', function(Tip, ConceptStructure, $l
     this.hasIcon = function(d, iconName)
     {
         if(iconName === 'play')
-            return this.isPlayable(d);
+            return this.isActive(d) && this.isPlayable(d);
 
         if(iconName === 'goal')
             return this.isGoal(d);
@@ -243,12 +243,7 @@ angular.module('courses').service('MapIcons', function(Tip, ConceptStructure, $l
 
     this.isPlayable = function(d)
     {
-        if(!$scope.segmentPerConceptMap) return false;
-
-        return $scope.activeConcept
-            && d.concept._id === $scope.activeConcept.concept._id
-            && $scope.segmentPerConceptMap[d.concept._id] && $scope.segmentPerConceptMap[d.concept._id].length
-            && ($scope.learnMode === false || $scope.activeConcept.concept._id !== d.concept._id);
+        return $scope.segmentPerConceptMap[d.concept._id] && $scope.segmentPerConceptMap[d.concept._id].length;
     };
 
 });
