@@ -4,27 +4,29 @@
 
     <header ng-swipe-left="minimize()"  ng-swipe-right="maximize()" class="row panel-header" style="background: {{activeConcept ? activeConcept.concept.color : '#f0f0f0'}}; border-right: 1px solid {{activeConcept ? activeColorDarker : '#f0f0f0'}}; {{panelWidth<300 ? 'height: 80px;' : ''}} " tabindex="-1">
 
-        <div ng-show="activeConcept" style="width: {{panelWidth-160}}px; float: left">
-            <ol ng-if="panelWidth>300">
-                <li>
-                    <a data-ui-sref="{active: ''}" tabindex="0"><span class="sr-only">Course: </span> {{::course.short}}</a>
-                </li>
-                <li ng-if="activeConcept.parentData&&activeMode=='hierarchy'" ng-repeat="selected in active.hierarchy" ng-show="selected.concept._id!==activeConcept.concept._id&&selected.concept._id!==activeHierarchyConcept.concept._id">
-                    <a data-ui-sref="{active: selected.concept._id, goal: selected.concept._id}">{{selected.concept.title}}</a>
-                </li>
-                <li ng-if="activeConcept.parentData&&(activeMode=='plan'||activeMode=='lecture')" ng-repeat="selected in active.hierarchy" ng-show="selected.concept._id!==activeConcept.concept._id">
-                    <a data-ui-sref="{active: selected.concept._id, goal: selected.concept._id}">{{selected.concept.title}}</a>
-                </li>
-            </ol>
+        <div style="width: {{panelWidth-160}}px; float: left">
+            <div ng-show="activeConcept">
+                <ol ng-if="panelWidth>300">
+                    <li>
+                        <a data-ui-sref="{active: ''}" tabindex="0"><span class="sr-only">Course: </span> {{::course.short}}</a>
+                    </li>
+                    <li ng-if="activeConcept.parentData&&activeMode=='hierarchy'" ng-repeat="selected in active.hierarchy" ng-show="selected.concept._id!==activeConcept.concept._id&&selected.concept._id!==activeHierarchyConcept.concept._id">
+                        <a data-ui-sref="{active: selected.concept._id, goal: selected.concept._id}">{{selected.concept.title}}</a>
+                    </li>
+                    <li ng-if="activeConcept.parentData&&(activeMode=='plan'||activeMode=='lecture')" ng-repeat="selected in active.hierarchy" ng-show="selected.concept._id!==activeConcept.concept._id">
+                        <a data-ui-sref="{active: selected.concept._id, goal: selected.concept._id}">{{selected.concept.title}}</a>
+                    </li>
+                </ol>
 
-            <h2 ng-if="activeMode=='hierarchy'" ng-if="panelWidth>300" tabindex="0">{{activeHierarchyConcept.concept.title}}</h2>
-            <h2 ng-if="activeMode=='plan'||activeMode=='lecture'||activeMode=='minimap'||activeMode=='admin'" ng-if="panelWidth>300" tabindex="0">{{activeConcept.concept.title}}</h2>
+                <h2 ng-if="activeMode=='hierarchy'" ng-if="panelWidth>300" tabindex="0">{{activeHierarchyConcept.concept.title}}</h2>
+                <h2 ng-if="activeMode=='plan'||activeMode=='lecture'||activeMode=='minimap'||activeMode=='admin'" ng-if="panelWidth>300" tabindex="0">{{activeConcept.concept.title}}</h2>
 
-        </div>
-        <div ng-show="!activeConcept" style="width: {{panelWidth-160}}px; float: left">
+            </div>
+            <div ng-show="!activeConcept">
 
-            <h2>{{course.title}}</h2>
+                <h2>{{::course.title}}</h2>
 
+            </div>
         </div>
 
         <div style="{{!minimized ? 'width: 120px; float: right' : ''}}">
@@ -106,7 +108,7 @@
 -->
 <div class="concept-panel row">
 
-    <div ng-show="activeMode=='hierarchy'||activeMode=='admin'" class="panel-content" ng-class="{'panel-content-active': activeMode=='hierarchy'||activeMode=='admin'}" style="height: {{panelContentHeightMax-160}}px; ">
+    <div ng-if="activeMode=='hierarchy'||activeMode=='admin'" class="panel-content" ng-class="{'panel-content-active': activeMode=='hierarchy'||activeMode=='admin'}" style="height: {{panelContentHeightMax-160}}px; ">
 
         <p><i>What's within {{activeHierarchyConcept.concept.title}}?</i></p>
 
@@ -142,7 +144,7 @@
         </div>
     </div>
 
-    <div ng-show="activeMode=='lecture'" class="panel-content" ng-class="{'panel-content-active': activeMode=='lecture'}" style="height: {{panelContentHeightMax-160}}px; ">
+    <div ng-if="activeMode=='lecture'" class="panel-content" ng-class="{'panel-content-active': activeMode=='lecture'}" style="height: {{panelContentHeightMax-160}}px; ">
 
         <!--<h3>Concepts in {{activeLecture.title}}</h3>-->
         <p ng-show="activeConcept"><i>Which Lectures cover parts of {{activeConcept.concept.title}}?</i></p>
