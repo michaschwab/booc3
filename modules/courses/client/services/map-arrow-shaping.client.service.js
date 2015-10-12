@@ -1,4 +1,4 @@
-angular.module('courses').service('MapArrowShaping', function(Tip, ConceptStructure)
+angular.module('courses').service('MapArrowShaping', function(Tip, ConceptStructure, $cacheFactory)
 {
     var me = this;
     var $scope;
@@ -8,11 +8,33 @@ angular.module('courses').service('MapArrowShaping', function(Tip, ConceptStruct
         $scope = scope;
     };
 
+    var curveCache = $cacheFactory('curve');
+
     this.curvePath = function(pathNode, pos, coveredConcepts, scale, getTranslateAbs, shortenStart, shortenEnd, offsetEach, color, dep)
     {
+        if(!shortenStart) shortenStart = 0;
+        if(!shortenEnd) shortenEnd = 0;
+
         var length = 0;
         var lines = [];
         if(!dep) dep = null;
+
+        if(coveredConcepts)
+        {
+            var cacheId = offsetEach + '-' + coveredConcepts.reduce(function(total, coveredConcept)
+            {
+                var newPart = coveredConcept.concept._id.substr(coveredConcept.concept._id.length - 5);
+
+                return total + newPart;
+            }, '');
+
+            var cacheVal = curveCache.get(cacheId);
+
+            if(cacheVal)
+            {
+                return cacheVal;
+            }
+        }
 
         var filterConnectionBetweenSameConceptsFct = function(current, previous)
         {
@@ -31,14 +53,9 @@ angular.module('courses').service('MapArrowShaping', function(Tip, ConceptStruct
 
         for(var i = 1; i < pos.length; i++)
         {
-            if(!shortenStart) shortenStart = 0;
-            if(!shortenEnd) shortenEnd = 0;
-
             var previousPos = pos[i-1];
             var currentPos = pos[i];
-            var addedLength;
-
-            addedLength = Math.sqrt(Math.pow(previousPos.x - currentPos.x, 2) + Math.pow(previousPos.y - currentPos.y, 2));
+            var addedLength = Math.sqrt(Math.pow(previousPos.x - currentPos.x, 2) + Math.pow(previousPos.y - currentPos.y, 2));
 
             if(coveredConcepts)
             {
@@ -139,6 +156,10 @@ angular.module('courses').service('MapArrowShaping', function(Tip, ConceptStruct
             length += addedLength;
         }
 
+        if(coveredConcepts)
+        {
+            curveCache.put(cacheId, lines);
+        }
         return lines;
     };
 
