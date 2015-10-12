@@ -36,8 +36,8 @@ angular.module('courses').controller('CourseMapController', ['$scope','$statePar
                 $scope.resizeFunction();
                 //$scope.resetZoom(0);
 
-                $scope.$watch('graphWidth', onGraphResize);
-                $scope.$watch('graphHeight', onGraphResize);
+                //$scope.$watch('graphWidth', onGraphResize);
+                //$scope.$watch('graphHeight', onGraphResize);
             }
         };
 
@@ -70,13 +70,13 @@ angular.module('courses').controller('CourseMapController', ['$scope','$statePar
                 $scope.initMap();
             });
 
-            $scope.$watchCollection('dependencies', function(n)
+            /*$scope.$watchCollection('dependencies', function(n)
             {
                 if(n !== undefined && n.length > 0)
                 {
                     $scope.redraw();
                 }
-            });
+            });*/
         };
 
         /*$scope.$on('conceptAdd', function(event, concept)
@@ -440,14 +440,14 @@ angular.module('courses').controller('CourseMapController', ['$scope','$statePar
             $scope.graphMinDim = $scope.graphWidth < $scope.graphHeight ? $scope.graphWidth : $scope.graphHeight;
         };
 
-        $scope.$watch('activeMode', $scope.setGraphSize);
+        //$scope.$watch('activeMode', $scope.setGraphSize);
 
         $scope.courseViewScope = $scope.$parent.$parent;
-        $scope.courseViewScope.$watch('contentWidth', function()
+        /*$scope.courseViewScope.$watch('contentWidth', function()
         {
             $scope.contentWidth = $scope.courseViewScope.contentWidth;
             $scope.setGraphSize();
-        });
+        });*/
 
         $scope.safeApply = function(fn) {
             var phase = this.$root.$$phase;
@@ -475,12 +475,12 @@ angular.module('courses').controller('CourseMapController', ['$scope','$statePar
             $scope.setGraphSize();
         });
 
-        $scope.$watch('zoomMode', function()
+        /*$scope.$watch('zoomMode', function()
         {
             $timeout($scope.redraw, 500);
-        });
+        });*/
 
-        for(var key in redraws)
+       /* for(var key in redraws)
         {
             if(redraws.hasOwnProperty(key))
             {
@@ -494,7 +494,7 @@ angular.module('courses').controller('CourseMapController', ['$scope','$statePar
                 else if(props.type === 'collection')
                     $scope.$watchCollection(key, cb);
             }
-        }
+        }*/
 	}
 ])/*.directive('ngRightClick', function($parse) {
     return function(scope, element, attrs) {
