@@ -381,8 +381,8 @@ angular.module('courses').controller('CourseMapController', ['$scope','$statePar
                 //$timeout($scope.redrawHover, 50);
             };
 
-            //requestAnimFrame(doRedraw);
-            doRedraw();
+            requestAnimFrame(doRedraw);
+            //doRedraw();
         };
 
         var lastRedrawHoverHovers = [];
