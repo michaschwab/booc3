@@ -55,10 +55,12 @@ exports.sendFeedback = function(req, res, next)
   async.waterfall([
     // Lookup user by username
     function (done) {
-      //todo need to ask the user for permission to use the user info, otherwise anonymize.
+
       res.render(path.resolve('modules/core/server/views/feedback-email'), {
         user: req.user,
+        userId: req.user._id.toString(),
         appName: config.app.title,
+        url: req.headers.host,
         formData: req.body
       }, function (err, emailHTML) {
         done(err, emailHTML, req.user);

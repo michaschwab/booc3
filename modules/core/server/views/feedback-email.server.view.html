@@ -9,7 +9,8 @@
 <p>Hi there,</p>
 
 <p>
-    There's booc.io user feedback from <i>{{user.displayName}}</i>.
+    There's booc.io user feedback{% if !formData.anonymous %}
+        from <i><a href="http://{{url}}/admin/users/{{userId}}">{{user.displayName}}</a></i>{% endif %}.
 
     {% if formData.type == 'course' %}
     The Feedback is about the course <b>{{formData.course.title}}</b>.

@@ -11,43 +11,64 @@
         <li role="presentation" class="panel-tab" ng-class="{ 'active': feedbackMode=='website'}"><a href ng-click="feedbackMode='website'">The Website</a></li>
     </ul>
 
-    <div ng-show="feedbackMode=='course'" class="panel-content">
+    <div class="panel-content">
 
-        <p>Which course is this about?</p>
+        <div ng-show="feedbackMode=='course'">
 
-        <ui-select class="course-select" ng-model="$parent.course" ng-required name="courseSelect" id="courseSelect">
-            <ui-select-match placeholder="Select Course...">{{$select.selected.title}}</ui-select-match>
-            <ui-select-choices repeat="course in courses | filter: $select.search">
-                <div ng-bind-html="course.title | highlight: $select.search"></div>
-                <small ng-bind-html="course.description | highlight: $select.search"></small>
-            </ui-select-choices>
-        </ui-select>
-        <br />
+            <p>Which course is this about?</p>
 
-        <p>What would you like to tell us?</p>
-        <textarea ng-model="courseContent" class="form-control" rows="5"></textarea>
-    </div>
+            <ui-select class="course-select" ng-model="$parent.course" ng-required name="courseSelect" id="courseSelect">
+                <ui-select-match placeholder="Select Course...">{{$select.selected.title}}</ui-select-match>
+                <ui-select-choices repeat="course in courses | filter: $select.search">
+                    <div ng-bind-html="course.title | highlight: $select.search"></div>
+                    <small ng-bind-html="course.description | highlight: $select.search"></small>
+                </ui-select-choices>
+            </ui-select>
+            <br />
 
-    <div ng-show="feedbackMode=='website'" class="panel-content">
+            <p>What would you like to tell us?</p>
+            <textarea ng-model="courseContent" class="form-control" rows="5"></textarea>
+        </div>
 
-        <p>Is there a technical problem?</p>
+        <div ng-show="feedbackMode=='website'">
 
-        <div style="position: absolute; top: 10px; left: 210px;">
-            <input type="checkbox" id="technicalProblemButton" />
-            <input type="checkbox" id="technicalProblemOnVal"  class="ng-hide" ng-model="technicalProblemOn" />
-            <script>
-                $(function() {
-                    $('#technicalProblemButton').bootstrapToggle({
-                        on: 'Yes',
-                        off: 'No'
-                    });
-                    $('#technicalProblemButton').change(function() { $('#technicalProblemOnVal').trigger('click'); });
-                })
-            </script>
-        </div><br />
+            <p>Is there a technical problem?</p>
 
-        <p>What would you like to tell us?</p>
-        <textarea ng-model="websiteContent" class="form-control" rows="5"></textarea>
+            <div style="position: absolute; top: 10px; left: 210px;">
+                <input type="checkbox" id="technicalProblemButton" />
+                <input type="checkbox" id="technicalProblemOnVal"  class="ng-hide" ng-model="technicalProblemOn" />
+                <script>
+                    $(function() {
+                        $('#technicalProblemButton').bootstrapToggle({
+                            on: 'Yes',
+                            off: 'No'
+                        });
+                        $('#technicalProblemButton').change(function() { $('#technicalProblemOnVal').trigger('click'); });
+                    })
+                </script>
+            </div><br />
+
+            <p>What would you like to tell us?</p>
+            <textarea ng-model="websiteContent" class="form-control" rows="5"></textarea>
+        </div>
+
+        <div style="position: relative">
+            <p style="padding-top: 15px">Would you like to send this feedback anonymously?</p>
+
+            <div style="position: absolute; top: 10px; left: 330px;">
+                <input checked="checked" type="checkbox" id="anonymousButton" />
+                <input type="checkbox" id="anonymousOnVal"  class="ng-hide" ng-model="anonymousOn" />
+                <script>
+                    $(function() {
+                        $('#anonymousButton').bootstrapToggle({
+                            on: 'Yes',
+                            off: 'No'
+                        });
+                        $('#anonymousButton').change(function() { $('#anonymousOnVal').trigger('click'); });
+                    })
+                </script>
+            </div><br />
+        </div>
     </div>
 
 

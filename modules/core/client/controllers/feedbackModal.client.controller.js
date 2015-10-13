@@ -4,6 +4,7 @@ angular.module('conceptdependencies').controller('FeedbackModalController',
         //$scope.dependency = dependency;
         $scope.feedbackMode = 'course';
         $scope.technicalProblemOn = false;
+        $scope.anonymousOn = true;
         $scope.course = null;
         $scope.courses = Courses.query();
         $scope.courseContent = '';
@@ -11,7 +12,7 @@ angular.module('conceptdependencies').controller('FeedbackModalController',
 
         $scope.ok = function ()
         {
-            var feedback = { type: $scope.feedbackMode };
+            var feedback = { type: $scope.feedbackMode, anonymous: $scope.anonymousOn };
 
             if($scope.feedbackMode == 'course')
             {
