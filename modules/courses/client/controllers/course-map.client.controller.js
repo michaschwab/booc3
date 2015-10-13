@@ -8,6 +8,7 @@ angular.module('courses').controller('CourseMapController', ['$scope','$statePar
         var init = false;
         $scope.initTime = 0;
         $scope.options = {};
+        var REDRAW_MINTIME = 80;
 
         $scope.$on('$locationChangeSuccess', function()
         {
@@ -22,7 +23,7 @@ angular.module('courses').controller('CourseMapController', ['$scope','$statePar
         {
             var n = $scope.concepts;
 
-            if(n.length > 0 && $scope.active.topLevelConcepts.length)
+            if(!init && n.length > 0 && $scope.active.topLevelConcepts.length)
             {
                 console.log('initiating map..');
                 init = true;
@@ -127,7 +128,7 @@ angular.module('courses').controller('CourseMapController', ['$scope','$statePar
             {
                 $scope.resizeFunction();
                 $scope.redraw();
-            }, 10);
+            }, REDRAW_MINTIME);
         };
 
         $scope.resizeFunction = function()
@@ -255,11 +256,11 @@ angular.module('courses').controller('CourseMapController', ['$scope','$statePar
             if(!init) $scope.initMap();
 
             var time = new Date().getTime();
-            if(time - $scope.lastRedraw < 10)
+            if(time - $scope.lastRedraw < REDRAW_MINTIME)
             {
                 return;
             }
-
+            //console.log('redrawing after ', time - $scope.lastRedraw);
             $scope.lastRedraw = time;
 
             var doRedraw = function()
@@ -366,7 +367,7 @@ angular.module('courses').controller('CourseMapController', ['$scope','$statePar
                         {
                             $scope.currentZoomGoal = translate;
                             $scope.zooming = false;
-                            $scope.redrawHover();
+                            //$scope.redrawHover();
                             $scope.$apply();
                         });
                 }
@@ -432,12 +433,23 @@ angular.module('courses').controller('CourseMapController', ['$scope','$statePar
             return MapArrows.correctPathPosition(concept, start, end, $scope.visParams.l1.scale, $scope.getTranslateAbs);
         };
 
+        var lastSize = '';
         $scope.setGraphSize = function()
         {
             $scope.lastGraphResize = Date.now();
             $scope.graphWidth = $scope.activeMode == 'minimap' ? parseInt($scope.contentWidth/3)-30 : parseInt($scope.contentWidth);
             $scope.graphHeight = $scope.activeMode == 'minimap' ? $scope.graphWidth : parseInt($scope.windowHeight)-55;
             $scope.graphMinDim = $scope.graphWidth < $scope.graphHeight ? $scope.graphWidth : $scope.graphHeight;
+            var newSize = $scope.graphWidth + '-' + $scope.graphHeight;
+            if(lastSize !== newSize)
+            {
+                lastSize = newSize;
+
+                if(init)
+                {
+                    onGraphResize();
+                }
+            }
         };
 
         //$scope.$watch('activeMode', $scope.setGraphSize);
