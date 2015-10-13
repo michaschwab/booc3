@@ -1,0 +1,58 @@
+<div class="modal-header">
+    <h3 class="modal-title">Feedback</h3>
+</div>
+<div class="modal-body feedback-modal">
+
+    <p>If you have any thoughts  - good or bad - about booc.io or the course you are taking, please let us know!</p>
+
+    <ul class="nav nav-tabs">
+        <li role="presentation" class="panel-tab"><span style="padding: 10px 15px; position: relative; display: block;">Send Feedback about...</span></li>
+        <li role="presentation" class="panel-tab" ng-class="{ 'active': feedbackMode=='course'}"><a href ng-click="feedbackMode='course'">A Course</a></li>
+        <li role="presentation" class="panel-tab" ng-class="{ 'active': feedbackMode=='website'}"><a href ng-click="feedbackMode='website'">The Website</a></li>
+    </ul>
+
+    <div ng-if="feedbackMode=='course'" class="panel-content">
+
+        <p>Which course is this about?</p>
+
+        <ui-select class="course-select" ng-model="$parent.course" ng-required name="courseSelect" id="courseSelect">
+            <ui-select-match placeholder="Select Course...">{{$select.selected.title}}</ui-select-match>
+            <ui-select-choices repeat="course in courses | filter: $select.search">
+                <div ng-bind-html="course.title | highlight: $select.search"></div>
+                <small ng-bind-html="course.description | highlight: $select.search"></small>
+            </ui-select-choices>
+        </ui-select>
+        <br />
+
+        <p>What would you like to tell us?</p>
+        <textarea class="form-control" rows="5"></textarea>
+    </div>
+
+    <div ng-if="feedbackMode=='website'" class="panel-content">
+
+        <p>Is there a technical problem?</p>
+
+        <div style="position: absolute; top: 10px; left: 210px;">
+            <input type="checkbox" id="technicalProblemButton" />
+            <input type="checkbox" id="technicalProblemOnVal"  class="ng-hide" ng-model="technicalProblemOn" />
+            <script>
+                $(function() {
+                    $('#technicalProblemButton').bootstrapToggle({
+                        on: 'Yes',
+                        off: 'No'
+                    });
+                    $('#technicalProblemButton').change(function() { $('#technicalProblemOnVal').trigger('click'); });
+                })
+            </script>
+        </div><br />
+
+        <p>What would you like to tell us?</p>
+        <textarea class="form-control" rows="5"></textarea>
+    </div>
+
+
+</div>
+<div class="modal-footer">
+    <button class="btn btn-primary" ng-click="ok()">Send</button>
+    <button class="btn btn-warning pull-left" ng-click="cancel()">Cancel</button>
+</div>

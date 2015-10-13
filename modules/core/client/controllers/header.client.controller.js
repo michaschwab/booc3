@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('core').controller('HeaderController',
-  function ($scope, $state, Authentication, Menus, MapTour) {
+  function ($scope, $state, Authentication, Menus, MapTour, $modal) {
     // Expose view variables
     $scope.$state = $state;
     $scope.authentication = Authentication;
@@ -23,6 +23,20 @@ angular.module('core').controller('HeaderController',
     $scope.launchTour = function()
     {
       MapTour.initTour();
+    };
+
+    $scope.openFeedbackModal = function()
+    {
+      var modalInstance = $modal.open({
+        animation: true,
+        templateUrl: 'modules/core/views/feedbackModal.client.view.html',
+        controller: 'FeedbackModalController',
+        resolve: {
+          /*dependency: function() { return d.dep; },
+          from: function() { return d.from; },
+          to: function() { return d.to }*/
+        }
+      });
     };
   }
 );

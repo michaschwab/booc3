@@ -1,0 +1,21 @@
+#feedbackToButton {
+    width: 100px;
+    height: 25px;
+}
+
+
+.feedback-modal .panel-content {
+    padding-top: 15px;
+    padding-bottom: 10px;
+    position: relative;
+}
+
+.feedback-modal .course-select {
+    width: 350px;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+}
+.feedback-modal .course-select .ui-select-choices {
+    height: 170px;
+}
