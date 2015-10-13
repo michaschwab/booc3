@@ -11,7 +11,7 @@
         <li role="presentation" class="panel-tab" ng-class="{ 'active': feedbackMode=='website'}"><a href ng-click="feedbackMode='website'">The Website</a></li>
     </ul>
 
-    <div ng-if="feedbackMode=='course'" class="panel-content">
+    <div ng-show="feedbackMode=='course'" class="panel-content">
 
         <p>Which course is this about?</p>
 
@@ -25,10 +25,10 @@
         <br />
 
         <p>What would you like to tell us?</p>
-        <textarea class="form-control" rows="5"></textarea>
+        <textarea ng-model="courseContent" class="form-control" rows="5"></textarea>
     </div>
 
-    <div ng-if="feedbackMode=='website'" class="panel-content">
+    <div ng-show="feedbackMode=='website'" class="panel-content">
 
         <p>Is there a technical problem?</p>
 
@@ -47,7 +47,7 @@
         </div><br />
 
         <p>What would you like to tell us?</p>
-        <textarea class="form-control" rows="5"></textarea>
+        <textarea ng-model="websiteContent" class="form-control" rows="5"></textarea>
     </div>
 
 
