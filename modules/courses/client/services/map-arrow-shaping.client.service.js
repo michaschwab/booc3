@@ -10,7 +10,7 @@ angular.module('courses').service('MapArrowShaping', function(Tip, ConceptStruct
 
     var curveCache = $cacheFactory('curve');
 
-    this.curvePath = function(pathNode, pos, coveredConcepts, scale, getTranslateAbs, shortenStart, shortenEnd, offsetEach, color, dep)
+    this.curvePath = function(pathNode, pos, coveredConcepts, scale, getTranslateAbs, shortenStart, shortenEnd, offsetEach, color, dep, graphWidth, graphHeight)
     {
         if(!shortenStart) shortenStart = 0;
         if(!shortenEnd) shortenEnd = 0;
@@ -21,7 +21,8 @@ angular.module('courses').service('MapArrowShaping', function(Tip, ConceptStruct
 
         if(coveredConcepts)
         {
-            var cacheId = offsetEach + '-' + coveredConcepts.reduce(function(total, coveredConcept)
+            var cacheId = graphWidth + '-' + graphHeight + '-' + offsetEach + '-' +
+                coveredConcepts.reduce(function(total, coveredConcept)
             {
                 var newPart = coveredConcept.concept._id.substr(coveredConcept.concept._id.length - 5);
 
