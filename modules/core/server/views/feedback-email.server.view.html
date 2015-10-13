@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+</head>
+
+<body>
+
+<p>Hi there,</p>
+
+<p>
+    There's booc.io user feedback from <i>{{user.displayName}}</i>.
+
+    {% if formData.type == 'course' %}
+    The Feedback is about the course <b>{{formData.course.title}}</b>.
+    {% endif %}
+
+    {% if formData.type == 'website' %}
+    The Feedback is about the website and it
+        <b>
+            is
+            {% if !formData.technical %} not {% endif %}
+        </b>
+    a technical issue.
+    {% endif %}
+</p>
+
+
+
+<p><b>Feedback:</b></p>
+<blockquote>{{formData.content}}</blockquote>
+
+<br />
+<p><i>The {{appName}} Support Team</i></p>
+</body>
+
+</html>

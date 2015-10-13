@@ -15,7 +15,7 @@ angular.module('conceptdependencies').controller('FeedbackModalController',
 
             if($scope.feedbackMode == 'course')
             {
-                feedback.courseId = $scope.course._id;
+                feedback.course = $scope.course;
                 feedback.content = $scope.courseContent;
             }
             else if($scope.feedbackMode == 'website')
