@@ -17,6 +17,7 @@ var config = require('../config'),
   helmet = require('helmet'),
   flash = require('connect-flash'),
   consolidate = require('consolidate'),
+  auth = require('basic-auth'),
   path = require('path');
 
 /**
@@ -94,6 +95,18 @@ module.exports.initMiddleware = function (app) {
     dest: './uploads/',
     inMemory: true
   }));
+
+  app.use(function(req, res, next) {
+    var user = auth(req);
+
+    if (user === undefined || user['name'] !== 'booc' || user['pass'] !== 'boocster') {
+      res.statusCode = 401;
+      res.setHeader('WWW-Authenticate', 'Basic realm="MyRealmName"');
+      res.end('Unauthorized');
+    } else {
+      next();
+    }
+  });
 };
 
 /**
