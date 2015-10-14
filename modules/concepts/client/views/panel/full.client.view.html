@@ -108,7 +108,7 @@
 -->
 <div class="concept-panel row">
 
-    <div ng-if="activeMode=='hierarchy'||activeMode=='admin'" class="panel-content" ng-class="{'panel-content-active': activeMode=='hierarchy'||activeMode=='admin'}" style="height: {{panelContentHeightMax-160}}px; ">
+    <div ng-if="activeMode=='hierarchy'||activeMode=='admin'" class="panel-content" ng-class="{'panel-content-active': activeMode=='hierarchy'||activeMode=='admin'}" style="height: {{activeMode=='admin' ? panelContentHeightMax : panelContentHeightMax-160}}px; ">
 
         <p><i>What's within {{activeHierarchyConcept.concept.title}}?</i></p>
 
@@ -238,7 +238,7 @@
 
     </div>
 
-    <footer class="learning-buttons" ng-if="activeMode=='admin'">
+    <!--<footer class="learning-buttons" ng-if="activeMode=='admin'">
 
         <hr />
 
@@ -250,7 +250,7 @@
 
         </div>
 
-    </footer>
+    </footer>-->
 
     <footer class="learning-buttons" ng-show="activeConcept&&activeMode!='admin'">
 
