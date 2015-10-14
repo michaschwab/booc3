@@ -444,6 +444,7 @@ angular.module('courses').controller('CourseViewController',
         updatePanelContentHeight();
         $timeout(updatePanelContentHeight, 2000);
 
+        //todo move this out of here, and only have this in panel view.
         function updatePanelContentHeight()
         {
             d3.selectAll('.panel-content-active').forEach(function(el)

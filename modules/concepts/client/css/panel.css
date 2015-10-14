@@ -404,6 +404,25 @@ input.concept-title.admin {
     overflow-x: hidden;
 }
 
+.concept-panel ::-webkit-scrollbar {
+    width: 6px;
+}
+.panel-minimized .concept-panel ::-webkit-scrollbar {
+    width: 4px;
+}
+
+.concept-panel ::-webkit-scrollbar-track {
+    /*-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);*/
+    border-radius: 10px;
+    background: #eee;
+}
+
+.concept-panel ::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    /*-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.5);*/
+    background: #bbb;
+}
+
 /** Segments **/
 
 /*

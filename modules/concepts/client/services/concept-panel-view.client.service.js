@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('concepts').service('ConceptPanelView',
-    function($window)
+    function($window, $timeout)
     {
         var $scope;
 
@@ -47,6 +47,7 @@ angular.module('concepts').service('ConceptPanelView',
                 {
                     $scope.panelWidth = newWidth;
                     $scope.safeApply();
+                    $scope.updatePanelHeight();
                 });
             };
 
@@ -57,7 +58,10 @@ angular.module('concepts').service('ConceptPanelView',
 
                 $scope.panelWidth = newWidth;
                 $scope.safeApply();
-                $scope.animatePanelWidth(newWidth);
+                $scope.animatePanelWidth(newWidth, function()
+                {
+                    $scope.updatePanelHeight();
+                });
             };
 
             $scope.hoverConceptPanel = function()
@@ -97,9 +101,49 @@ angular.module('concepts').service('ConceptPanelView',
 
             $scope.updatePanelHeight = function()
             {
+                setPanelOffsetTop();
+
                 $scope.panelContentHeightMax = $scope.windowHeight - $scope.panelOffsetTop;
+                //console.log()
                 $scope.panelWidth = $scope.getPanelWidth();
+
+                if($scope.activeMode=='plan')
+                {
+                    if($scope.activeConcept && !$scope.minimized)
+                    {
+                        $scope.panelContentHeight = $scope.panelContentHeightMax-120;
+                    } else if($scope.minimized)
+                        $scope.panelContentHeight = $scope.panelContentHeightMax-195;
+                    else
+                        $scope.panelContentHeight = $scope.panelContentHeightMax;
+                }
+                else if($scope.activeMode == 'admin')
+                {
+                    $scope.panelContentHeight = $scope.panelContentHeightMax;
+                }
+                else if($scope.activeMode == 'lecture')
+                {
+                    $scope.panelContentHeight = $scope.panelContentHeightMax-160;
+                }
             };
+
+            function setPanelOffsetTop()
+            {
+                d3.selectAll('.panel-content-active').forEach(function(el)
+                {
+                    if(el[0] !== undefined)
+                    {
+                        $scope.panelOffsetTop = el[0].getBoundingClientRect().top;
+
+                    }
+                    else
+                    {
+                        //console.log('not yet');
+                        $timeout(setPanelOffsetTop, 20);
+                    }
+
+                });
+            }
 
             var w = angular.element($window);
             w.bind('resize', $scope.updatePanelHeight);
