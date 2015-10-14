@@ -197,7 +197,7 @@ angular.module('courses').controller('CourseViewController',
             }
         };
 
-        var colorCache = $cacheFactory('depthColors');
+        var colorCache = $cacheFactory.get('depthColors') ? $cacheFactory.get('depthColors') : $cacheFactory('depthColors');
 
         $scope.depthColorModification = function (concept, grayout)
         {
