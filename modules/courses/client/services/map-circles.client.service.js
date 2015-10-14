@@ -680,6 +680,8 @@ angular.module('courses').service('MapCircles', function(Tip, $location, $timeou
 
     this.updateActive = function()
     {
+        if(!lxCircle) return;
+
         lxCircle.select('circle').transition().style(
         {
              'fill': function (d) {

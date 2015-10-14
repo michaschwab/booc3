@@ -402,12 +402,6 @@ angular.module('courses').controller('CourseMapController', ['$scope','$statePar
 
         $scope.redrawHover = function(force)
         {
-            //todo this is a hack (after 3 redraws it is actually ready).
-            if($scope.redrawn < 2 || $scope.todoIds.length === 0)
-            {
-                return;
-            }
-
             if(!force)
             {
                 if(angular.equals($scope.active.hoveringConceptIds, lastRedrawHoverHovers) && angular.equals($scope.todoIds, lastRedrawHoverTodos)
