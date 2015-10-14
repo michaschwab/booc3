@@ -38,6 +38,7 @@ angular.module('courses').controller('CourseViewController',
             sourceId: '',
             source: null
         };
+        var dataReady = false;
 
         $scope.course = Courses.get({
             courseId: $stateParams.courseId
@@ -110,6 +111,7 @@ angular.module('courses').controller('CourseViewController',
 
                             ActiveDataManager.updateActive();
                             $scope.$broadcast('dataReady');
+                            dataReady = true;
                         });
                     });
                 });
@@ -343,9 +345,20 @@ angular.module('courses').controller('CourseViewController',
 */
         $scope.$watchCollection('concepts.downloadedUpdates', function()
         {
-            //TODO have to do this because have to wait for the childconcepts to be set by getConceptChildren.
-            // Should automatically do this after that instead of some timer.
-//            $timeout(function() { updateActive(); console.log('updated active'); }, 100);
+            if(dataReady)
+            {
+                $scope.active.topLevelConcepts = [];
+                ConceptStructure.getConceptChildren($scope.active.topLevelConcepts, null, null, 1, function() {});
+
+                ActiveDataManager.updateActive();
+
+                if($scope.concepts.downloadedUpdates.length)
+                {
+                    $scope.$broadcast('conceptUpdated', $scope.concepts.downloadedUpdates[$scope.concepts.downloadedUpdates.length-1].content);
+                }
+
+                $scope.$broadcast('dataUpdated');
+            }
         });
 
 

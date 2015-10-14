@@ -19,6 +19,13 @@ angular.module('courses').controller('CourseMapController', ['$scope','$statePar
             $scope.redrawHover();
         });
 
+        $scope.$on('dataUpdated', function()
+        {
+            $scope.initMap();
+            $scope.createLayout();
+            $scope.redraw();
+        });
+
         $scope.initMap = function()
         {
             var n = $scope.concepts;
@@ -66,10 +73,12 @@ angular.module('courses').controller('CourseMapController', ['$scope','$statePar
             MapEvents.init($scope, $stateParams.courseId);
             MapTour.init($scope);
 
-            $scope.$watchCollection('concepts.downloadedUpdates',function()
+
+
+            /*$scope.$watchCollection('concepts.downloadedUpdates',function()
             {
                 $scope.initMap();
-            });
+            });*/
 
             /*$scope.$watchCollection('dependencies', function(n)
             {
@@ -103,11 +112,11 @@ angular.module('courses').controller('CourseMapController', ['$scope','$statePar
             MapActions.removeConcept(conceptId, hierarchyConcepts);
         });
 
-        $scope.$on('conceptTitleChange', function(event, c)
+        /*$scope.$on('conceptTitleChange', function(event, c)
         {
             $scope.active.topLevelConcepts = MapActions.rename($scope.active.topLevelConcepts, c.concept._id, c.concept.title);
             $scope.redraw();
-        });
+        });*/
 
         var redraws = {
             /*'todoIds': { type: 'normal', redraw: 'hover' },

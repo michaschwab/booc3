@@ -10,6 +10,12 @@ angular.module('courses').service('MapCircles', function(Tip, $location, $timeou
         $scope = scope;
         $scope.options.grayInactiveConcepts = true;
 
+        $scope.$on('conceptUpdated', function(event, concept)
+        {
+            // If a concept has been changed in the db, forget its cache and re-set all attributes.
+            delete lastUpdateData[concept._id];
+        });
+
         $scope.splitTitle = function(title, depth)
         {
             var titleSnippets = title.split(/\s+/);
