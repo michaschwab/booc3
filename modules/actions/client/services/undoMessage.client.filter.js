@@ -9,10 +9,9 @@ angular.module('actions').filter('undoMessage', function()
 
             for(var type in action.data)
             {
-                if(action.data.hasOwnProperty(type))
+                if(action.data.hasOwnProperty(type) && action.data[type].length)
                 {
                     deletedDataCount[type] = action.data[type].length;
-
                 }
             }
 
@@ -46,9 +45,14 @@ angular.module('actions').filter('undoMessage', function()
             pastTense['delete'] = 'deleted';
             pastTense['edit'] = 'edited';
 
-            var undone = action.undone ? 'un' : '';
+            var undone = {};
+            undone['create'] = 'deleted';
+            undone['delete'] = 'restored';
+            undone['edit'] = 'restored';
 
-            text += ' successfully ' + undone + pastTense[action.type] + '.';
+            var actionName = action.undone ? undone[action.type] : pastTense[action.type];
+
+            text += ' successfully ' + actionName + '.';
 
             return text;
         }
