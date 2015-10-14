@@ -6,5 +6,5 @@
     {{ action | undoMessage }}
     <span ng-show="!action.undone"><a href ng-click="undo()">Undo</a>, or</span>
     <span ng-show="action.undone"><a  href ng-click="redo()">Redo</a>, or</span>
-    <a href>Manage Last Actions</a>
+    <a href data-ui-sref="actions.list">Manage Last Actions</a>
 </div>

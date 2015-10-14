@@ -1,0 +1,51 @@
+<section data-ng-controller="ActionsController" class="container">
+    <h2>Action History</h2>
+
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th>User ID</th>
+                <th>Date</th>
+                <th>Affected Data</th>
+                <th>Type of Action</th>
+                <th>Undone</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr ng-repeat-start="action in actions">
+                <td>{{action.user}}</td>
+                <td>{{action.time | date : 'short'}}</td>
+                <td>
+                    <a href ng-click="action.active = !action.active">
+                        <span ng-repeat="(key, entries) in action.data" ng-show="entries.length">
+                            {{entries.length}} {{key}} <br />
+                        </span>
+                    </a>
+                </td>
+                <td>
+                    <span ng-show="action.type == 'delete'" class="glyphicon glyphicon-trash"></span>
+                    {{action.type}}
+                </td>
+                <td>
+                    <span ng-show="action.undone">{{action.undoneDate | date : 'short'}}</span>
+                    <span ng-show="!action.undone">-</span>
+                </td>
+                <td>
+                    <a href ng-show="action.undone" class="btn btn-default btn-sm">
+                        <span class="glyphicon glyphicon-repeat"></span> Redo
+                    </a>
+                    <a href ng-show="!action.undone" class="btn btn-default btn-sm">
+                        <span class="glyphicon glyphicon-arrow-left"></span> Undo
+                    </a>
+                </td>
+            </tr>
+            <tr ng-repeat-end ng-show="action.active">
+                <td colspan="6">
+                    <pre>{{action.data | json }}</pre>
+                </td>
+            </tr>
+        </tbody>
+
+    </table>
+</section>
