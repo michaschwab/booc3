@@ -383,7 +383,8 @@ angular.module('courses').service('MapArrows', function(Tip, ConceptStructure, M
         var courseScope = $scope.$parent.$parent;
 
         MapArrowShaping.clearOffsets();
-        if($scope.options.showAllShortestPathsHierarchy && courseScope.currentGoal === null)
+
+        if($scope.options.showAllShortestPathsHierarchy && !courseScope.currentGoal)
         {
             var offset, count = 0;
             //console.log($scope.zoomLevel);
