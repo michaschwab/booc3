@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('actions').controller('ActionsController',
-    function($scope, $stateParams, $location, Authentication, Actions, $interval, $injector, ModelToServiceMap)
+    function($scope, $stateParams, $location, Authentication, Actions, $interval, $injector, ModelToServiceMap, Users)
     {
         var setTime = function() { $scope.now = new Date(); };
         setTime();
@@ -10,16 +10,43 @@ angular.module('actions').controller('ActionsController',
         Actions.query({}, function(actions)
         {
             $scope.actions = actions;
+            $scope.$watchCollection('actions.downloadedUpdates', function()
+            {
+                setAction();
+                setPositionFirstNotUndone();
+            });
 
-            $scope.$watchCollection('actions.downloadedUpdates', setAction);
+            Users.query(function (users)
+            {
+                $scope.users = users;
+                $scope.userMap = {};
+                $scope.users.forEach(function(user) { $scope.userMap[user._id] = user; });
+            });
         });
 
-        $scope.undo = function()
+        // Find position of last undo
+        var setPositionFirstNotUndone = function()
         {
-            if($scope.action.type == 'delete')
+            $scope.positionFirstNotUndone = -1;
+            for(var i = 0; i < $scope.actions.length; i++)
+            {
+                if($scope.actions[i].undone)
+                {
+                    $scope.positionFirstNotUndone = i;
+                }
+                else
+                    break;
+            }
+        };
+
+        $scope.undo = function(action)
+        {
+            if(!action) action = $scope.action;
+
+            if(action.type == 'delete')
             {
                 // Bring back
-                var data = $scope.action.data;
+                var data = action.data;
 
                 for(var dataType in data)
                 {
@@ -36,29 +63,32 @@ angular.module('actions').controller('ActionsController',
                     }
                 }
 
-                $scope.action.undone = true;
-                $scope.action.undoneDate = Date.now();
-                $scope.action.$update();
+                action.undone = true;
+                action.undoneDate = Date.now();
+                action.$update();
             }
-            else if($scope.action.type == 'edit')
+            else if(action.type == 'edit')
             {
                 // TODO Undo editing.
                 // TODO Replace action.data with the current data, so the data is not lost and it can be redone.
             }
-            else if($scope.action.type == 'create')
+            else if(action.type == 'create')
             {
                 // TODO Undo creating.
             }
+            setPositionFirstNotUndone();
         };
 
-        $scope.redo = function()
+        $scope.redo = function(action)
         {
-            if($scope.action.type == 'delete')
+            if(!action) action = $scope.action;
+
+            if(action.type == 'delete')
             {
                 // Delete again.
                 // TODO: that most of the data will automatically be deleted by just deleting 1 of the documents,
                 // e.g. this will try to manually delete conceptdependencies that are already automatically being deleted because of the deletion of the concept.
-                var data = $scope.action.data;
+                var data = action.data;
 
                 for(var dataType in data)
                 {
@@ -75,19 +105,20 @@ angular.module('actions').controller('ActionsController',
                     }
                 }
 
-                $scope.action.undone = false;
+                action.undone = false;
                 //$scope.action.undoneDate = Date.now();
-                $scope.action.$update();
+                action.$update();
             }
-            else if($scope.action.type == 'edit')
+            else if(action.type == 'edit')
             {
                 // TODO Redo editing.
                 // TODO Replace action.data with the previous data, so it can be undone.
             }
-            else if($scope.action.type == 'create')
+            else if(action.type == 'create')
             {
                 // TODO Redo creating.
             }
+            setPositionFirstNotUndone();
         };
 
         function setAction()

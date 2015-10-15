@@ -4,7 +4,7 @@
     <table class="table table-hover">
         <thead>
             <tr>
-                <th>User ID</th>
+                <th>User</th>
                 <th>Date</th>
                 <th>Affected Data</th>
                 <th>Type of Action</th>
@@ -14,7 +14,7 @@
         </thead>
         <tbody>
             <tr ng-repeat-start="action in actions">
-                <td>{{action.user}}</td>
+                <td>{{userMap[action.user].displayName}}</td>
                 <td>{{action.time | date : 'short'}}</td>
                 <td>
                     <a href ng-click="action.active = !action.active">
@@ -32,12 +32,14 @@
                     <span ng-show="!action.undone">-</span>
                 </td>
                 <td>
-                    <a href ng-show="action.undone" class="btn btn-default btn-sm">
-                        <span class="glyphicon glyphicon-repeat"></span> Redo
-                    </a>
-                    <a href ng-show="!action.undone" class="btn btn-default btn-sm">
-                        <span class="glyphicon glyphicon-arrow-left"></span> Undo
-                    </a>
+                    <div ng-if="$index == positionFirstNotUndone || $index == positionFirstNotUndone + 1">
+                        <a href ng-click="redo(action)" ng-show="action.undone" class="btn btn-default btn-sm">
+                            <span class="glyphicon glyphicon-repeat"></span> Redo
+                        </a>
+                        <a href ng-click="undo(action)" ng-show="!action.undone" class="btn btn-default btn-sm">
+                            <span class="glyphicon glyphicon-arrow-left"></span> Undo
+                        </a>
+                    </div>
                 </td>
             </tr>
             <tr ng-repeat-end ng-show="action.active">
