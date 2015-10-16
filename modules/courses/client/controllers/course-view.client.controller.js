@@ -203,7 +203,7 @@ angular.module('courses').controller('CourseViewController',
 
         $scope.depthColorModification = function (concept, grayout)
         {
-            var cacheKey = concept.concept._id + '-' + grayout;
+            var cacheKey = concept.concept._id + '-' + grayout + '-' + concept.concept.color;
             var cacheVal = colorCache.get(cacheKey);
 
             if(cacheVal)
@@ -356,7 +356,7 @@ angular.module('courses').controller('CourseViewController',
                 {
                     $scope.$broadcast('conceptUpdated', $scope.concepts.downloadedUpdates[$scope.concepts.downloadedUpdates.length-1].content);
                 }
-
+console.log('update');
                 $scope.$broadcast('dataUpdated');
             }
         });

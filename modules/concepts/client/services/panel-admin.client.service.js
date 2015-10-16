@@ -58,7 +58,7 @@ angular.module('courses').service('PanelAdmin', function(Concepts, $rootScope, $
 
         $scope.colorChange = function(concept)
         {
-            $rootScope.$broadcast('conceptColorChange', concept);
+            $rootScope.$broadcast('dataUpdated', concept);
 
             save(concept);
         };
@@ -67,9 +67,7 @@ angular.module('courses').service('PanelAdmin', function(Concepts, $rootScope, $
         {
             if(concept.concept.title)
             {
-
-                // todo find out if this is still necessary
-                $rootScope.$broadcast('conceptTitleChange', concept);
+                $rootScope.$broadcast('dataUpdated', concept);
 
                 save(concept);
             }
