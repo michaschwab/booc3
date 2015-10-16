@@ -70,12 +70,15 @@ exports.delete = function(req, res) {
 			});
 		} else {
 			var deletedData = { Conceptdependency: [conceptdependency] };
-			//res.jsonp(conceptdependency);
 
-			actions.doDelete(req.user, deletedData, function()
+			// Save Removal as Action so it can be undone, except if this is already being executed as an Action Undo or Redo.
+			if(!req.query || req.query.triggerAction !== 'false')
 			{
-				res.jsonp(conceptdependency);
-			});
+				actions.doDelete(req.user, deletedData, function()
+				{
+					res.jsonp(conceptdependency);
+				});
+			}
 		}
 	});
 };

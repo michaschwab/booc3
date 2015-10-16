@@ -73,10 +73,14 @@ exports.delete = function(req, res)
 		return res.status(400).send({message: msg });
 	}, function(deletedData)
 	{
-		actions.doDelete(req.user, deletedData, function()
+		// Save Removal as Action so it can be undone, except if this is already being executed as an Action Undo or Redo.
+		if(!req.query || req.query.triggerAction !== 'false')
 		{
-			res.jsonp(concept);
-		});
+			actions.doDelete(req.user, deletedData, function()
+			{
+				res.jsonp(concept);
+			});
+		}
 	});
 };
 

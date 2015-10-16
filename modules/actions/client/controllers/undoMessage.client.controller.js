@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('actions').controller('UndoMessageController',
-    function($scope, $stateParams, $location, Authentication, Actions, $interval, $injector, ModelToServiceMap)
+    function($scope, $stateParams, $location, Authentication, Actions, $interval, $injector, ModelToServiceMap, Undo)
 {
     var setTime = function() { $scope.now = new Date(); };
     setTime();
@@ -11,86 +11,24 @@ angular.module('actions').controller('UndoMessageController',
     {
         $scope.actions = actions;
 
-        $scope.$watchCollection('actions.downloadedUpdates', setAction);
+        $scope.$watchCollection('actions.downloadedUpdates', function()
+        {
+            sortActions();
+            setAction();
+        });
     });
 
     $scope.undo = function()
     {
-        if($scope.action.type == 'delete')
-        {
-            // Bring back
-            var data = $scope.action.data;
-
-            for(var dataType in data)
-            {
-                if(data.hasOwnProperty(dataType) && data[dataType].length > 0)
-                {
-                    // dataType is eg LearnedConcept, Conceptdependency, or Concept.
-                    data[dataType].forEach(function(entry)
-                    {
-                        var Service = $injector.get(ModelToServiceMap.map(dataType));
-                        var document = new Service(entry);
-
-                        document.$save();
-                    });
-                }
-            }
-
-            $scope.action.undone = true;
-            $scope.action.undoneDate = Date.now();
-            $scope.action.$update();
-        }
-        else if($scope.action.type == 'edit')
-        {
-            // TODO Undo editing.
-            // TODO Replace action.data with the current data, so the data is not lost and it can be redone.
-        }
-        else if($scope.action.type == 'create')
-        {
-            // TODO Undo creating.
-        }
+        Undo.undo($scope.action);
     };
 
     $scope.redo = function()
     {
-        if($scope.action.type == 'delete')
-        {
-            // Delete again.
-            // TODO: that most of the data will automatically be deleted by just deleting 1 of the documents,
-            // e.g. this will try to manually delete conceptdependencies that are already automatically being deleted because of the deletion of the concept.
-            var data = $scope.action.data;
-
-            for(var dataType in data)
-            {
-                if(data.hasOwnProperty(dataType) && data[dataType].length > 0)
-                {
-                    // dataType is eg LearnedConcept, Conceptdependency, or Concept.
-                    data[dataType].forEach(function(entry)
-                    {
-                        var Service = $injector.get(ModelToServiceMap.map(dataType));
-                        var document = new Service(entry);
-
-                        document.$remove();
-                    });
-                }
-            }
-
-            $scope.action.undone = false;
-            //$scope.action.undoneDate = Date.now();
-            $scope.action.$update();
-        }
-        else if($scope.action.type == 'edit')
-        {
-            // TODO Redo editing.
-            // TODO Replace action.data with the previous data, so it can be undone.
-        }
-        else if($scope.action.type == 'create')
-        {
-            // TODO Redo creating.
-        }
+        Undo.redo($scope.action);
     };
 
-    function setAction()
+    function sortActions()
     {
         $scope.actions.map(function(action)
         {
@@ -101,7 +39,10 @@ angular.module('actions').controller('UndoMessageController',
         {
             return b.date.getTime() - a.date.getTime();
         });
+    }
 
+    function setAction()
+    {
         if($scope.actions.length)
         {
             var action = $scope.actions[0];
