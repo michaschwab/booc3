@@ -6,6 +6,8 @@ angular.module('courses').controller('CourseMapController', ['$scope','$statePar
         $scope.authentication = Authentication;
 
         var init = false;
+        var dataReady = false;
+
         $scope.initTime = 0;
         $scope.options = {};
         var REDRAW_MINTIME = 80;
@@ -17,6 +19,10 @@ angular.module('courses').controller('CourseMapController', ['$scope','$statePar
         $scope.$on('redrawHover', function()
         {
             $scope.redrawHover();
+        });
+        $scope.$on('dataReady', function() {
+            dataReady = true;
+            $scope.redraw();
         });
 
         $scope.$on('dataUpdated', function()
@@ -72,30 +78,7 @@ angular.module('courses').controller('CourseMapController', ['$scope','$statePar
             //ConceptStructure.init($scope, $stateParams.courseId);
             MapEvents.init($scope, $stateParams.courseId);
             MapTour.init($scope);
-
-
-
-            /*$scope.$watchCollection('concepts.downloadedUpdates',function()
-            {
-                $scope.initMap();
-            });*/
-
-            /*$scope.$watchCollection('dependencies', function(n)
-            {
-                if(n !== undefined && n.length > 0)
-                {
-                    $scope.redraw();
-                }
-            });*/
         };
-
-        /*$scope.$on('conceptAdd', function(event, concept)
-        {
-            $scope.initMap(); // In case it's the course's very first concept
-            MapActions.addConcept(concept);
-            $scope.updateTodo();
-            $scope.redraw();
-        });*/
 
         $scope.$on('conceptsReordered', function(event, concepts)
         {
@@ -111,23 +94,6 @@ angular.module('courses').controller('CourseMapController', ['$scope','$statePar
         {
             MapActions.removeConcept(conceptId, hierarchyConcepts);
         });
-
-        /*$scope.$on('conceptTitleChange', function(event, c)
-        {
-            $scope.active.topLevelConcepts = MapActions.rename($scope.active.topLevelConcepts, c.concept._id, c.concept.title);
-            $scope.redraw();
-        });*/
-
-        var redraws = {
-            /*'todoIds': { type: 'normal', redraw: 'hover' },
-            'active.learnedConceptIds': { type: 'collection', redraw: 'everything' },
-            'goalConcept': { type: 'normal', redraw: 'everything' },
-            'zoomMode': { type: 'normal', redraw: 'everything' },
-            'active.hierarchyIds': { type: 'normal', redraw: 'everything' },
-            //'active.hoveringConceptIds': { type: 'collection', redraw: 'hover' },
-            'conceptColorChange': { type: 'event', redraw: 'hover' },
-            'seenMapByConcept': { type: 'normal', redraw: 'everything' }*/
-        };
 
         var timeout;
         var onGraphResize = function()
@@ -259,9 +225,9 @@ angular.module('courses').controller('CourseMapController', ['$scope','$statePar
             };
         };
 
-        $scope.redraw = function(){
-
-            if (!$scope.active.topLevelConcepts.length) return;
+        $scope.redraw = function()
+        {
+            if(!dataReady) return;
             if(!init) $scope.initMap();
 
             var time = new Date().getTime();

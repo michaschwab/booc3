@@ -109,7 +109,7 @@ angular.module('courses').controller('CourseViewController',
                         {
                             SeenDataManager.updateSeenMap();
 
-                            ActiveDataManager.updateActive();
+                            ActiveDataManager.updateData();
                             $scope.$broadcast('dataReady');
                             dataReady = true;
                         });
