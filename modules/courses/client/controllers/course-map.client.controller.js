@@ -48,10 +48,6 @@ angular.module('courses').controller('CourseMapController', ['$scope','$statePar
 
 
                 $scope.resizeFunction();
-                //$scope.resetZoom(0);
-
-                //$scope.$watch('graphWidth', onGraphResize);
-                //$scope.$watch('graphHeight', onGraphResize);
             }
         };
 
@@ -141,43 +137,6 @@ angular.module('courses').controller('CourseMapController', ['$scope','$statePar
             MapCircles.createLayout($scope.active.topLevelConcepts);
         };
 
-        $scope.resetZoom = function(duration)
-        {
-            if(duration === undefined)
-            {
-                duration = 750;
-            }
-            var svgWidth = $scope.graphWidth;
-            var svgHeight = $scope.graphHeight;
-            var svg = d3.select('#mainCanvas');
-            var translate = [svgWidth/2, svgHeight/2];
-
-            var zoom = d3.behavior.zoom()
-                .translate(translate)
-                .scale(1)
-                .scaleExtent([1, 8])
-                .on('zoom', function()
-                {
-                    svg.attr("transform", "translate(" + d3.event.translate + ")scale(" + d3.event.scale + ")");
-                    $scope.zoomLevel = 0;
-                    $scope.zooming = false;
-                    $scope.$apply();
-                });
-
-            $scope.currentZoomGoal = translate;
-            //console.log('resetting zoom with duration ', duration);
-
-            svg.transition()
-                .duration(duration)
-                .call(zoom.translate(translate).scale(1).event)
-                .each('start', function()
-                {
-                    $scope.currentZoomGoal = translate;
-                    $scope.zooming = true;
-                    //console.log($scope.currentZoomGoal);
-                });
-        };
-
         var initDrawn = false;
 
         $scope.initDraw = function()
@@ -224,6 +183,8 @@ angular.module('courses').controller('CourseMapController', ['$scope','$statePar
                 l1:{radiusSelected:1}
             };
         };
+
+        var firstZoomDone = false;
 
         $scope.redraw = function()
         {
@@ -325,26 +286,38 @@ angular.module('courses').controller('CourseMapController', ['$scope','$statePar
                     //console.log(translate, $scope.currentZoomGoal);
                     $scope.zoomLevel = selectedConcept ? selectedConcept.depth : 0;
 
-                    var duration = !$scope.lastGraphResize || Date.now() - $scope.lastGraphResize > 500 ? 750 : 0;
+                    var duration = firstZoomDone && (!$scope.lastGraphResize || Date.now() - $scope.lastGraphResize > 500) ? 750 : 0;
+                    firstZoomDone = true;
 
-                    canvas.transition()
-                        .duration(duration)
-                        .call(zoom.translate(translate).scale(scale).event)
-                        .each('start', function()
-                        {
-                            //console.log('zooming with duration 750');
-                            $scope.zoomLevel = selectedConcept ? selectedConcept.depth : 0;
-                            //console.log($scope.zoomLevel);
-                            $scope.currentZoomGoal = translate;
-                            $scope.zooming = true;
-                            $scope.$apply();
-                        }).each('end', function()
-                        {
-                            $scope.currentZoomGoal = translate;
-                            $scope.zooming = false;
-                            //$scope.redrawHover();
-                            $scope.$apply();
-                        });
+                    if(!duration)
+                    {
+                        $scope.currentZoomGoal = translate;
+
+                        canvas
+                            .call(zoom.translate(translate).scale(scale).event);
+                    }
+                    else
+                    {
+                        canvas.transition()
+                            .duration(duration)
+                            .call(zoom.translate(translate).scale(scale).event)
+                            .each('start', function()
+                            {
+                                //console.log('zooming with duration 750');
+                                $scope.zoomLevel = selectedConcept ? selectedConcept.depth : 0;
+                                //console.log($scope.zoomLevel);
+                                $scope.currentZoomGoal = translate;
+                                $scope.zooming = true;
+                                $scope.$apply();
+                            }).each('end', function()
+                            {
+                                $scope.currentZoomGoal = translate;
+                                $scope.zooming = false;
+                                //$scope.redrawHover();
+                                $scope.$apply();
+                            });
+                    }
+
                 }
 
                 MapArrows.drawDeps();
@@ -455,27 +428,6 @@ angular.module('courses').controller('CourseMapController', ['$scope','$statePar
 
             $scope.setGraphSize();
         });
-
-        /*$scope.$watch('zoomMode', function()
-        {
-            $timeout($scope.redraw, 500);
-        });*/
-
-       /* for(var key in redraws)
-        {
-            if(redraws.hasOwnProperty(key))
-            {
-                var props = redraws[key];
-                var cb = props.redraw === 'everything' ? function() { $scope.redraw(); } : function() { $scope.redrawHover(true); };
-
-                if(props.type === 'event')
-                    $scope.$on(key, cb);
-                else if(props.type === 'normal')
-                    $scope.$watch(key, cb);
-                else if(props.type === 'collection')
-                    $scope.$watchCollection(key, cb);
-            }
-        }*/
 	}
 ]).directive('ngRightClick', function($parse) {
     return function(scope, element, attrs) {
