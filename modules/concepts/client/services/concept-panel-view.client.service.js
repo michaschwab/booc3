@@ -148,6 +148,13 @@ angular.module('concepts').service('ConceptPanelView',
             var w = angular.element($window);
             w.bind('resize', $scope.updatePanelHeight);
             $scope.$watch('panelOffsetTop', $scope.updatePanelHeight);
+
+            $scope.$on('$locationChangeSuccess', function()
+            {
+                $scope.updatePanelHeight();
+                $timeout($scope.updatePanelHeight, 100);
+                $timeout($scope.updatePanelHeight, 500);
+            });
         };
 
         return (this);
