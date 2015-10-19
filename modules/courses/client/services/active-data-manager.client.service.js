@@ -16,7 +16,7 @@ angular.module('courses').service('ActiveDataManager', function(Authentication, 
     this.updateData = function()
     {
         me.updateActive();
-
+        me.setGoalHierarchy();
         me.updateHierarchy();
         me.updateTodo();
         me.updatePlan();
@@ -101,6 +101,11 @@ angular.module('courses').service('ActiveDataManager', function(Authentication, 
         {
             $scope.active.goalHierarchy = [];
         }
+
+        $scope.active.goalHierarchyIds = $scope.active.goalHierarchy.map(function(concept)
+        {
+            return concept.concept._id;
+        });
     };
 
     this.setActiveHierarchy = function()
