@@ -28,11 +28,16 @@ angular.module('actions').controller('ActionsController',
         var setPositionFirstNotUndone = function()
         {
             $scope.positionFirstNotUndone = -1;
+            var lastUndoneTime = -1;
+
             for(var i = 0; i < $scope.actions.length; i++)
             {
-                if($scope.actions[i].undone)
+                var undoneTime = new Date($scope.actions[i].undoneDate).getTime();
+
+                if($scope.actions[i].undone && undoneTime > lastUndoneTime)
                 {
                     $scope.positionFirstNotUndone = i;
+                    lastUndoneTime = undoneTime;
                 }
                 else
                     break;
