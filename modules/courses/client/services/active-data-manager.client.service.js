@@ -29,6 +29,7 @@ angular.module('courses').service('ActiveDataManager', function(Authentication, 
         me.updateTodo();
         me.updatePlan();
         me.setActiveSegments();
+        me.updateLectures();
 
         me.updateWatchable();
         me.checkSeen();
