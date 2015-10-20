@@ -352,9 +352,7 @@ angular.module('courses').service('MapArrows', function(Tip, ConceptStructure, M
 
                     if(todoIds.indexOf(goalConcept.concept._id) !== -1)
                     {
-                        var offsetWidth = 10 / Math.pow(4, $scope.zoomLevel) * $scope.graphMinDim / 600;
-                        offset = offsetWidth / $scope.active.topLevelConcepts.length;
-                        me.drawPathHierarchy(tlc, $scope, false, 'currentPathFutureHierarchy', offset);
+                        me.drawPathHierarchy(tlc, $scope, false, 'currentPathFutureHierarchy', getOffset());
                     }
                 }
             });
@@ -362,8 +360,7 @@ angular.module('courses').service('MapArrows', function(Tip, ConceptStructure, M
 
         if($scope.options.showCurrentPathHierarchy)
         {
-            var offsetWidth = 1.5 * 10 / Math.pow(4, $scope.zoomLevel) * $scope.graphMinDim / 600;
-            var offset = offsetWidth / $scope.active.topLevelConcepts.length;
+            var offset = 1.1 * getOffset();
 
             me.drawPathHierarchy(goalConcept, $scope, true, 'currentPathHierarchy', offset, function()
             {
@@ -390,9 +387,7 @@ angular.module('courses').service('MapArrows', function(Tip, ConceptStructure, M
             //console.log($scope.zoomLevel);
             $scope.active.topLevelConcepts.forEach(function(tlc)
             {
-                var offsetWidth = 10 / Math.pow(4, $scope.zoomLevel) * $scope.graphMinDim / 600;
-                offset = offsetWidth / $scope.active.topLevelConcepts.length;
-                me.drawPathHierarchy(tlc, $scope, false, 'allPathHierarchy', offset);
+                me.drawPathHierarchy(tlc, $scope, false, 'allPathHierarchy', getOffset());
                 count++;
             });
         }
@@ -538,7 +533,7 @@ angular.module('courses').service('MapArrows', function(Tip, ConceptStructure, M
             path.remove();
         }
 
-        var strokeWidthMax = $scope.graphMinDim / 200;
+        var strokeWidthMax = getStrokeWidthMax() * 3 / 4;
         var strokeWidth = strokeWidthMax / Math.pow(3, $scope.zoomLevel) * width;
         //console.log($scope.zoomLevel, strokeWidth);
         d3.selectAll('.'+className).attr({
@@ -557,7 +552,7 @@ angular.module('courses').service('MapArrows', function(Tip, ConceptStructure, M
         //var colorWithoutHash = color.substr(1);
         $scope.addColor(color);
 
-        var strokeWidthMax = $scope.graphMinDim / 150;
+        var strokeWidthMax = getStrokeWidthMax();
         var strokeWidth = strokeWidthMax / Math.pow(3, $scope.zoomLevel);
         var d = lineBasis(pos);
 
@@ -579,6 +574,17 @@ angular.module('courses').service('MapArrows', function(Tip, ConceptStructure, M
             .attr('stroke', color)
             .attr('fill', 'none');
     };
+
+    function getStrokeWidthMax()
+    {
+        return $scope.graphMinDim / 250;
+    }
+
+    function getOffset()
+    {
+        var offsetWidth = 10 / Math.pow(4, $scope.zoomLevel) * $scope.graphMinDim / 600;
+        return offsetWidth / $scope.active.topLevelConcepts.length;
+    }
 
     this.setUpWatch = function()
     {
