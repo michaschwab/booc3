@@ -45,7 +45,7 @@ angular.module('courses').controller('CourseViewController',
         });
 
         ConceptStructure.init($scope, $stateParams.courseId);
-        SeenDataManager.init($scope);
+        SeenDataManager.init($scope, function() { $scope.$broadcast('dataUpdated'); });
         ActiveDataManager.init($scope);
 
         ConceptStructure.getConceptsAndDeps(function(deps)
@@ -79,10 +79,7 @@ angular.module('courses').controller('CourseViewController',
                         segment.sourcetypeObject = $scope.sourcetypeMap[segment.sourceObject.type];
                     });
 
-                    LearnedConcepts.query(function(learned)
-                    {
-                        $scope.learned = learned;
-                    });
+                    $scope.learned = LearnedConcepts.query();
 
                     Segments.query({courses:$stateParams.courseId}).$promise.then(function(segments) {
                         $scope.segments = segments;
@@ -296,12 +293,6 @@ angular.module('courses').controller('CourseViewController',
             });
         };
 
-        /*$scope.$watchCollection('learned', function()
-        {
-            ActiveDataManager.updateLearnedConceptIds();
-            //console.log($scope.learnedConceptIds);
-        });*/
-
         $scope.hoverConcept = function(concept)
         {
             if($scope.active.hoveringConceptIds.indexOf(concept.concept._id) === -1)
@@ -356,11 +347,18 @@ angular.module('courses').controller('CourseViewController',
                 {
                     $scope.$broadcast('conceptUpdated', $scope.concepts.downloadedUpdates[$scope.concepts.downloadedUpdates.length-1].content);
                 }
-console.log('update');
+                //console.log('update');
                 $scope.$broadcast('dataUpdated');
             }
         });
 
+        // For some reason learned.downloadedUpdates does not work here.
+        $scope.$watchCollection('learned', function()
+        {
+            // Can not just run updateLearnedConceptIds but need to also update the concept attributes so concept.isLearned is updated. updateData will do it all.
+            ActiveDataManager.updateData();
+            $scope.$broadcast('dataUpdated');
+        });
 
         $scope.isLearned = function(d)
         {

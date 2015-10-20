@@ -5,7 +5,7 @@ angular.module('courses').service('SeenDataManager', function(Authentication, $t
     var tour;
     var user = Authentication.user;
 
-    this.init = function(scope)
+    this.init = function(scope, onUpdate)
     {
         $scope = scope;
 
@@ -15,6 +15,10 @@ angular.module('courses').service('SeenDataManager', function(Authentication, $t
         $scope.$watchCollection('seen.downloadedUpdates', function()
         {
             me.updateSeenMap();
+            if(onUpdate)
+            {
+                onUpdate();
+            }
         });
     };
 

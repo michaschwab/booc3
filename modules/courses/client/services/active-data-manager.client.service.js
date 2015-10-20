@@ -4,18 +4,26 @@ angular.module('courses').service('ActiveDataManager', function(Authentication, 
     var $scope;
     var tour;
     var user = Authentication.user;
+    var dataReady = false;
 
     this.init = function(scope)
     {
         $scope = scope;
 
         $scope.$on('$locationChangeSuccess', me.updateData);
-        $scope.$on('dataReady', me.updateData);
+        $scope.$on('dataReady', function()
+        {
+            dataReady = true;
+            me.updateData();
+        });
     };
 
     this.updateData = function()
     {
+        if(!dataReady) return;
+
         me.updateActive();
+        me.updateLearnedConceptIds();
         me.setGoalHierarchy();
         me.updateHierarchy();
         me.updateTodo();
