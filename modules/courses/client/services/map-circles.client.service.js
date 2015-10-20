@@ -594,7 +594,6 @@ angular.module('courses').service('MapCircles', function(Tip, $location, $timeou
                     lastUpdate['graphWidth'] = $scope.graphWidth;
                     lastUpdate['graphHeight'] = $scope.graphHeight;
 
-                    //todo for some reason this doesnt work with transition().
                     circle.attr(
                     //circle.transition().attr(
                     {
@@ -603,12 +602,9 @@ angular.module('courses').service('MapCircles', function(Tip, $location, $timeou
                 }
                 if(lastUpdate['color'] !== color)
                 {
+                    //todo for some reason this does not work with transition().
+                    circle.style('fill', d3.rgb(color));
                     lastUpdate['color'] = color;
-
-                    circle.style(
-                    {
-                        'fill': color
-                    });
                 }
             }
             if(!lastUpdate['playable'] || lastUpdate['playable'] !== isPlayable)
