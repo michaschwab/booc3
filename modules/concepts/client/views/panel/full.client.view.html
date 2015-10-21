@@ -2,7 +2,7 @@
 
 <div ng-class="{ 'panel-minimized': minimized, 'maximized': !minimized }">
 
-    <header ng-swipe-left="minimize()"  ng-swipe-right="maximize()" class="row panel-header" style="background: {{activeConcept ? activeConcept.concept.color : '#f0f0f0'}}; border-right: 1px solid {{activeConcept ? activeColorDarker : '#f0f0f0'}}; {{panelWidth<300 ? 'height: 80px;' : ''}} " tabindex="-1">
+    <header ng-swipe-left="minimize()"  ng-swipe-right="maximize()" class="row panel-header" tabindex="-1">
 
         <div>
             <div ng-show="activeConcept">
@@ -73,7 +73,7 @@
 
 <div class="row tab-selection">
     <ul class="nav nav-tabs nav-justified">
-        <li role="presentation" class="panel-tab tab-plan" ng-class="{ 'active': activeMode==='plan'}" style="background: {{activeConcept.concept.color}}">
+        <li role="presentation" class="panel-tab tab-plan" ng-class="{ 'active': activeMode==='plan'}">
             <a data-ui-sref="{mode: 'plan'}">
                 <span class="fa fa-map inline-block"></span>
                 <span ng-if="panelWidth>400">Learning Plan</span>
@@ -84,15 +84,15 @@
             <a href="/#!/courses/{{courseId}}?goal={{goalConcept.concept._id}}&active={{activeConcept.concept._id}}&learn={{learnModeYesNo}}&mode=hierarchy">
                 <span class="glyphicon glyphicon-info-sign visible-lg-inline-block"></span> Information</a></li>-->
 
-        <li ng-show="learnMode" role="presentation" class="panel-tab tab-minimap" ng-class="{ 'active': activeMode==='minimap'}" style="background: {{activeConcept.concept.color}}">
+        <li ng-show="learnMode" role="presentation" class="panel-tab tab-minimap" ng-class="{ 'active': activeMode==='minimap'}">
             <a data-ui-sref="{mode: 'minimap'}" ng-disabled="!learnMode">
                 <span class="map-icon inline-block"></span> <span ng-if="panelWidth>300">Minimap</span></a></li>
 
-        <li role="presentation" class="panel-tab tab-lectures" ng-class="{ 'active': activeMode==='lecture'}" style="background: {{activeConcept.concept.color}}">
+        <li role="presentation" class="panel-tab tab-lectures" ng-class="{ 'active': activeMode==='lecture'}">
             <a data-ui-sref="{mode: 'lecture'}">
                 <span class="fa fa-university inline-block"></span> <span ng-if="panelWidth>300">Lectures</span></a></li>
 
-        <li role="presentation" ng-show="hasConceptEditRights" class="panel-tab tab-admin" ng-class="{ 'active': activeMode==='admin'}" style="background: {{activeConcept.concept.color}}">
+        <li role="presentation" ng-show="hasConceptEditRights" class="panel-tab tab-admin" ng-class="{ 'active': activeMode==='admin'}">
             <a data-ui-sref="{mode: 'admin'}">
                 <span class="fa fa-lock inline-block"></span> <span ng-if="activeMode==='admin'">Admin</span></a></li>
 

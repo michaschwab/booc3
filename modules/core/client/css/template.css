@@ -1,0 +1,19 @@
+header.navbar {
+    background: #68647f;
+    border-color: #b5b1c6;
+    text-transform: uppercase;
+
+}
+header.navbar .navbar-brand, header.navbar .navbar-nav a {
+    color: #edecf1;
+    box-shadow: none !important;
+}
+header.navbar .navbar-nav .active a, header.navbar .navbar-nav .open a {
+    background: #83809b;
+}
+header.navbar .navbar-nav a:hover, header.navbar .navbar-nav .active a:hover, header.navbar .navbar-nav .open a:hover {
+    background: #8c8aa1;
+}
+header.navbar .navbar-nav .dropdown-menu {
+    background: #68647f;
+}
