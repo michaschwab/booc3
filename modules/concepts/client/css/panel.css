@@ -81,10 +81,11 @@ a, a:focus {
 }
 
 .maximized .panel-button {
-    font-size: 20pt;
-    width: 36pt;
-    height: 36pt;
-    margin: 10pt 0 0 5pt;
+    font-size: 12pt;
+    width: 40%;
+    float: left;
+    height: 26pt;
+    margin: 0pt 10pt 5pt 0pt;
     /*box-shadow: 2px 2px 4px #999;*/
     border-radius: 5pt;
     border: 1px solid #ddd;
@@ -92,18 +93,23 @@ a, a:focus {
     display: block;
     color: #333333;
     top: 5px;
-    position:absolute;
+    padding: 0px 15px 0 10px;
+    text-align: center;
+    /*position:absolute;*/
 }
-.maximized .panel-button.play {
-    right: 10px;
 
+.maximized a.panel-button:hover {
+    text-decoration: none;
+    background:#bbcbef;
+}
+/*.maximized .panel-button.play {
+    right: 10px;
 }
 .maximized .panel-button.goal {
     right: 70px;
-
-}
+}*/
 .minimized .panel-button {
-    font-size: 10pt;
+    font-size: 0pt;
     width: 20pt;
     height: 20pt;
     margin: 6pt 0 0 3pt;
@@ -116,18 +122,23 @@ a, a:focus {
     color: #333333;
     float: none !important;
 }
+.minimized .panel-button span {
+    font-size: 10pt;
+}
 .minimized .play.learnmode-true {
     padding: 2pt 0 0 3pt;
 }
 .minimized .play.learnmode-false {
     padding: 2pt 0 0 5pt;
 }
-
+.maximized .play.learnmode-true .map-icon {
+    top: 5px;
+}
 .maximized .play.learnmode-true {
-    padding: 2pt 0 0 7pt;
+    padding-top: 7px;
 }
 .maximized .play.learnmode-false {
-    padding: 2pt 0 0 9pt;
+    padding-top: 7px;
 }
 
 .course-list {
@@ -654,10 +665,11 @@ input.concept-title.admin {
 /*** OPTIONS ***/
 .sidepanelOptions {
     float: right;
-    margin-right: -15px;
+    margin-right: -8px;
+    margin-top:7px;
 }
 .minimizer {
-    font-size: 16px;
+    font-size: 32px;
 }
 
 input[type=color] {
