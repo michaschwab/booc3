@@ -64,7 +64,7 @@ angular.module('courses').service('MapCircles', function(Tip, $location, $timeou
         $scope.configCircle = function(array, depth, concept, i)
         {
             var aLength = +array.length;
-            var angleDistance = 2 * Math.PI/aLength;
+            var angleDistance = 1.87 * Math.PI/aLength;
 
             var angle = i * angleDistance;
             concept.angle = angle;
