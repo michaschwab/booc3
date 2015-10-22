@@ -243,6 +243,8 @@ function($timeout, ConceptStructure)
     };
 
     var shown = '';
+    var showTimeout = null;
+
     this.showById = function(tip, d, id)
     {
         if(d && shown !== id)
@@ -253,24 +255,23 @@ function($timeout, ConceptStructure)
 
             tip.attr('id', id);
 
-            d3.select('#'+id)
-                .style({
-                    "opacity": 0,
-                    visibility: 1,
-                    display: 'block'
-                });
-
             openTip = tip;
             tip.show(d);
             hidden = false;
             //hideTimeout = $timeout(function(d) { hidden = true; me.closeOpenTips(); }, 1000);
 
-            d3.select('#'+id)
-                .style({
-                    "opacity": 0}).transition()
-                .delay(200)
-                .duration(400)
-                .style("opacity",1);
+            $timeout.cancel(showTimeout);
+            showTimeout = $timeout(function()
+            {
+                d3.select('#'+id)
+                    .style({
+                        "opacity": 0,
+                        display: 'block'
+                    }).transition()
+                    .duration(400)
+                    .style("opacity",1);
+
+            }, 200);
         }
     };
 
