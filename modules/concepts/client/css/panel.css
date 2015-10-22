@@ -38,7 +38,8 @@
     display: inline;
 }
 .sidepanel header ol li:after {
-    content: " » "
+    content: " » ";
+    color: #e7e5f8;
 }
 .sidepanel header ol li a {
     color: #f8f7fb;

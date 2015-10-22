@@ -1,4 +1,18 @@
-<div class="col-xs-8 learnContent">
+<header class="content-bar">
+
+    <div class="pull-left">
+        <h4>{{active.source.title}}</h4>
+    </div>
+
+    <div class="pull-right actions">
+        <a href><span class="fa fa-download"></span> Save as PDF</a>
+        <a href><span class="fa fa-gear"></span> Options</a>
+        <a href><span class="fa fa-clone"></span> Minimize & Show Map</a>
+    </div>
+
+</header>
+
+<div class="col-xs-8 learnContent-inner">
 
     <div class="{{active.sourcetype.title.toLowerCase().replace(' ','')}}">
 
@@ -27,7 +41,7 @@
 
     <div ng-if="active.sourcetype.title.toLowerCase().replace(' ','')=='lecture'" class="minivideo">
 
-        <h4>{{active.source.title}}</h4>
+
 
 
         <video width="{{videoWidth}}" controls id="videoPlayer" ng-src="{{sourceData.video}}">

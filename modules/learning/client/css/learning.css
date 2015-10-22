@@ -134,6 +134,7 @@ a.concept:hover {
     position: absolute;
     top: 0;
     right: 0;
+    padding-right: 0;
 }
 
 .pdfViewer {
@@ -141,7 +142,11 @@ a.concept:hover {
     /*top: -30px;
     right: -30px;*/
     /*right: -15px;*/
-    top: 15px;
+    /*top: 15px;*/
     float: right;
     position: absolute;
+    border: 1px solid #dddddd;
+}
+.learnContent-inner {
+    padding: 0;
 }

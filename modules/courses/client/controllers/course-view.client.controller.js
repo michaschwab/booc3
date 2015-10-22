@@ -429,6 +429,7 @@ angular.module('courses').controller('CourseViewController',
             }
             $scope.contentWidth = width;
             $scope.contentHeight = height;
+            console.log($scope.contentWidth);
 
             updatePanelContentHeight();
         };
@@ -437,6 +438,7 @@ angular.module('courses').controller('CourseViewController',
         $scope.$watch('panelWidth', function()
         {
             $scope.contentWidth = $scope.windowWidth - $scope.panelWidth;
+            console.log($scope.contentWidth);
         });
 
         updatePanelContentHeight();

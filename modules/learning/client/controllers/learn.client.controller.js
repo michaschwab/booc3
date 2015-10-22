@@ -316,15 +316,24 @@ angular.module('learning').controller('LearnController',
         $scope.pdfWidth = $scope.contentWidth*2/3;
         $scope.wikiWidth = $scope.contentWidth - 30;
 
+        var tries = 0;
         this.setVideoWidth = function(goalWidth)
         {
-            d3.select('#videoPlayer').transition()
-                .style('width', goalWidth + 'px')
-                .each('end', function()
-                {
-                    $scope.videoWidth = goalWidth;
-                    $scope.safeApply();
-                });
+            var vidPlayer = d3.select('#videoPlayer');
+            if(!vidPlayer.empty())
+            {
+                vidPlayer.transition()
+                    .style('width', goalWidth + 'px')
+                    .each('end', function()
+                    {
+                        $scope.videoWidth = goalWidth;
+                        $scope.safeApply();
+                    });
+            } else if(tries < 5)
+            {
+                tries++;
+                $timeout(function() { me.setVideoWidth(goalWidth); }, 50);
+            }
         };
 
         this.setPdfWidth = function(goalWidth)
@@ -361,9 +370,10 @@ angular.module('learning').controller('LearnController',
 
             resizeTimeout = $timeout(function()
             {
-                me.setVideoWidth($scope.contentWidth/3-30);
+                console.log('resizing learning content');
+                me.setVideoWidth($scope.contentWidth/3 - 15);
 
-                me.setPdfWidth($scope.contentWidth*2/3 - 30);
+                me.setPdfWidth($scope.contentWidth*2/3 - 15);
 
                 me.setWikiWidth($scope.contentWidth - 30);
             }, 400);
