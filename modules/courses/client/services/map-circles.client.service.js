@@ -417,8 +417,6 @@ angular.module('courses').service('MapCircles', function(Tip, $location, $timeou
         enters.push(setupL(2));
         enters.push(setupL(3));
 
-        $timeout(me.makeStartCircle, 50);
-
         return enters;
     };
 
@@ -428,12 +426,13 @@ angular.module('courses').service('MapCircles', function(Tip, $location, $timeou
         layer.selectAll('.startIconGroup').remove();
         var start = layer.append('g').classed('startIconGroup', true);
 
-        var firstBig = $scope.active.topLevelConcepts[0];
+        var firstBig = $scope.active.topLevelConcepts.slice(0).sort(function(a,b) { return a.concept.order - b.concept.order; })[0];
         var scale = ((firstBig.radius / 0.7) / 2 + 0.5) * $scope.graphMinDim / 700;
 
         var firstBigPos = $scope.getTranslateAbs(firstBig);
         //var arrowStart = { x: firstBigPos.x - scale * 180 , y: firstBigPos.y - scale * 100  };
         var startPos = { x: firstBigPos.x - scale * 169 , y: firstBigPos.y - scale * 72  };
+        console.log($scope.active.topLevelConcepts, firstBig, startPos, firstBigPos, scale);
 
         //start.attr('transform', 'translate(' + arrowStart.x +', ' + arrowStart.y + ') rotate(17)');
         start.attr('transform', 'translate(' + startPos.x +', ' + startPos.y + ')');
@@ -613,6 +612,8 @@ angular.module('courses').service('MapCircles', function(Tip, $location, $timeou
                 el.classed('playable', isPlayable);
             }
         });
+
+        this.makeStartCircle();
     };
 
     this.redraw = function()
