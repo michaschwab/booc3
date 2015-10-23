@@ -56,7 +56,7 @@ describe('Courses E2E Tests:', function () {
 
                     theConcept.click().then(function()
                     {
-                        browser.driver.sleep(1);
+                        browser.driver.sleep(2);
 
                         // Making sure the clicked concept has the 'active' CSS class.
                         expect(hasClass(theConcept, 'active')).toBeTruthy();
