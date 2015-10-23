@@ -255,23 +255,28 @@ function($timeout, ConceptStructure)
 
             tip.attr('id', id);
 
+            var el = d3.select('#'+id);
+
+            // Need this so d3-tip can calculate the offsetWidth of the tip.
+            el.style('display', 'block');
+
             openTip = tip;
             tip.show(d);
             hidden = false;
             //hideTimeout = $timeout(function(d) { hidden = true; me.closeOpenTips(); }, 1000);
 
+            el.style('opacity', 0); // start out invisible
+
             $timeout.cancel(showTimeout);
+            // After short delay, show the tip.
             showTimeout = $timeout(function()
             {
-                d3.select('#'+id)
-                    .style({
-                        "opacity": 0,
-                        display: 'block'
-                    }).transition()
+                el
+                    .transition()
                     .duration(400)
-                    .style("opacity",1);
+                    .style("opacity", 1);
 
-            }, 200);
+            }, 300);
         }
     };
 
