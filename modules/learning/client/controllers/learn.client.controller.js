@@ -7,6 +7,15 @@ angular.module('learning').controller('LearnController',
         var me = this;
         $scope = angular.element('.course-view').scope();
 
+        this.update = function()
+        {
+            setupMaterial();
+            $scope.setActiveLearnMaterial();
+            checkPlayPause();
+        };
+
+        $scope.$on('dataReady', me.update);
+
         $scope.launch = function()
         {
             //$scope.activeMode = $stateParams.lectureId === undefined ? 'hierarchy': 'lecture';
@@ -306,12 +315,7 @@ angular.module('learning').controller('LearnController',
             }
         }
 
-        $scope.$on('$locationChangeSuccess', function(event)
-        {
-            setupMaterial();
-            $scope.setActiveLearnMaterial();
-            checkPlayPause();
-        });
+        $scope.$on('$locationChangeSuccess', me.update);
 
         $scope.pdfWidth = $scope.contentWidth*2/3;
         $scope.wikiWidth = $scope.contentWidth - 30;
