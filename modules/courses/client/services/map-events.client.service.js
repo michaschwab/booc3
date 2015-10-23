@@ -4,6 +4,7 @@ angular.module('courses').service('MapEvents', function(Tip, $location, Courseev
     var $scope;
 
     var eventLayer;
+    var dataReady = false;
     var lineLinear = d3.svg.line()
         .x(function(d) { return d.x; })
         .y(function(d) { return d.y; });
@@ -11,8 +12,22 @@ angular.module('courses').service('MapEvents', function(Tip, $location, Courseev
     this.init = function(scope, courseId)
     {
         $scope = scope;
+        $scope.$on('dataReady', function() { dataReady = true; });
+        eventLayer = null;
+        //reset dom selection every time this is initiated so its not accessing old dom elements
 
-        $scope.courseevents = Courseevents.query({course: courseId });
+        $scope.courseevents = Courseevents.query({course: courseId }, function()
+        {
+            var updateCount = 0;
+            $scope.$watchCollection('courseevents.downloadedUpdates', function()
+            {
+                if($scope.courseevents.downloadedUpdates.length > updateCount)
+                {
+                    updateCount = $scope.courseevents.downloadedUpdates.length;
+                    me.update.call(me);
+                }
+            });
+        });
     };
 
     this.getData = function()
@@ -64,7 +79,7 @@ angular.module('courses').service('MapEvents', function(Tip, $location, Courseev
             });
         });
 
-        return list;
+        return list.length !== $scope.courseevents.length ? false : list;
     };
 
     this.draw = function(list)
@@ -76,6 +91,7 @@ angular.module('courses').service('MapEvents', function(Tip, $location, Courseev
         var strokeWidth = 7;
 
         var event = eventLayer.selectAll('.event').data(list, function(e) { return e.event._id; });
+        event.exit().remove();
         var eventEnter = event.enter().append('g').attr({
             'class': 'event',
             'data-event-id': function(d) { return d.event._id; },
@@ -83,6 +99,11 @@ angular.module('courses').service('MapEvents', function(Tip, $location, Courseev
         });
 
         eventEnter.append('path')
+            .attr('stroke-width', function() { return strokeWidth; })
+            //.attr('marker-end', 'url(#depEnd-active)')
+            .attr('fill', 'none');
+
+        event.select('path')
             .attr('d', function(d)
             {
                 // Positions of the concepts before and after the event
@@ -121,14 +142,13 @@ angular.module('courses').service('MapEvents', function(Tip, $location, Courseev
                 d.textPos.y -= 10;
 
                 return lineLinear([start, end, endHorizontal]);
-            })
-            .attr('stroke-width', function() { return strokeWidth; })
-            //.attr('marker-end', 'url(#depEnd-active)')
-            .attr('fill', 'none');
+            });
 
         //<text class="concept-title" fill-opacity="1" style="font-size: 20.8010393581216px;"><tspan dy="6.539294434868166" x="0">Number 3</tspan></text>
         eventEnter.append('text')
-            .classed('event-title', true)
+            .classed('event-title', true);
+
+        event.select('text.event-title')
             .html(function(d) { return d.event.name; })
             .attr('dy', function(d) { return d.textPos.y; })
             .attr('x', function(d) { return d.textPos.x; });
@@ -138,6 +158,7 @@ angular.module('courses').service('MapEvents', function(Tip, $location, Courseev
 
     this.update = function()
     {
+        if(!dataReady) return;
         if(!eventLayer)
         {
             eventLayer = d3.select('#eventLayer');
@@ -145,7 +166,8 @@ angular.module('courses').service('MapEvents', function(Tip, $location, Courseev
 
         var list = this.getData();
 
-        this.draw(list);
+        if(list !== false)
+            this.draw(list);
     };
 
 });

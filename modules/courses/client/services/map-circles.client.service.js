@@ -432,7 +432,6 @@ angular.module('courses').service('MapCircles', function(Tip, $location, $timeou
         var firstBigPos = $scope.getTranslateAbs(firstBig);
         //var arrowStart = { x: firstBigPos.x - scale * 180 , y: firstBigPos.y - scale * 100  };
         var startPos = { x: firstBigPos.x - scale * 169 , y: firstBigPos.y - scale * 72  };
-        console.log($scope.active.topLevelConcepts, firstBig, startPos, firstBigPos, scale);
 
         //start.attr('transform', 'translate(' + arrowStart.x +', ' + arrowStart.y + ') rotate(17)');
         start.attr('transform', 'translate(' + startPos.x +', ' + startPos.y + ')');

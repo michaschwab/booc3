@@ -87,6 +87,7 @@ function($timeout, ConceptStructure)
 
     this.forEvent = function(eventGroup)
     {
+        if(!$scope.vis) return;
         $scope.vis.call(eventTip);
 
         eventGroup.on('mouseover', function(d)
