@@ -4,6 +4,9 @@ header.navbar {
     text-transform: uppercase;
 
 }
+header.navbar .user-header-dropdown-toggle {
+    text-transform: none;
+}
 header.navbar .navbar-brand, header.navbar .navbar-nav a {
     color: #edecf1;
     box-shadow: none !important;
