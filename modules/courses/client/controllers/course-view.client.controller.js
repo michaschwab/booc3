@@ -106,7 +106,6 @@ angular.module('courses').controller('CourseViewController',
                         {
                             SeenDataManager.updateSeenMap();
 
-                            ActiveDataManager.updateData();
                             $scope.$broadcast('dataReady');
                             dataReady = true;
                         });
@@ -347,7 +346,6 @@ angular.module('courses').controller('CourseViewController',
                 {
                     $scope.$broadcast('conceptUpdated', $scope.concepts.downloadedUpdates[$scope.concepts.downloadedUpdates.length-1].content);
                 }
-                //console.log('update');
                 $scope.$broadcast('dataUpdated');
             }
         });
@@ -356,7 +354,6 @@ angular.module('courses').controller('CourseViewController',
         $scope.$watchCollection('learned', function()
         {
             // Can not just run updateLearnedConceptIds but need to also update the concept attributes so concept.isLearned is updated. updateData will do it all.
-            ActiveDataManager.updateData();
             $scope.$broadcast('dataUpdated');
         });
 

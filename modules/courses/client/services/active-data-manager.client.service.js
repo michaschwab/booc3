@@ -16,6 +16,7 @@ angular.module('courses').service('ActiveDataManager', function(Authentication, 
             dataReady = true;
             me.updateData();
         });
+        $scope.$on('dataUpdated', me.updateData);
     };
 
     this.updateData = function()
