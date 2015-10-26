@@ -1,0 +1,32 @@
+<section data-ng-controller="BackupsController" class="container">
+
+    <div ng-show="!course">
+
+        <a href class="btn btn-default pull-right">
+            <i class="fa fa-upload"></i>
+            Upload JSON file to Import Course
+        </a>
+
+        <h2>Course Backups</h2>
+
+
+
+        <p>
+
+        Select Course: <course-select style="width: 300px"></course-select>
+
+        </p>
+
+
+    </div>
+
+    <div ng-show="course">
+        <h2>Backups for Course {{course.title}}</h2>
+
+        No Backups available.
+
+        <a href>Create Backup</a>
+    </div>
+
+
+</section>

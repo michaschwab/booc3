@@ -1,0 +1,10 @@
+<ui-select class="course-select" ng-model="active.course" ng-required name="courseSelect" id="courseSelect">
+
+    <ui-select-match placeholder="Select Course...">{{$select.selected.title}}</ui-select-match>
+
+    <ui-select-choices repeat="course in courses | filter: $select.search">
+        <div ng-bind-html="course.title | highlight: $select.search"></div>
+        <small ng-bind-html="course.description | highlight: $select.search"></small>
+    </ui-select-choices>
+
+</ui-select>
