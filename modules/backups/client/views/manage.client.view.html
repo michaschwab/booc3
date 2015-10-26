@@ -9,12 +9,8 @@
 
         <h2>Course Backups</h2>
 
-
-
         <p>
-
-        Select Course: <course-select style="width: 300px"></course-select>
-
+            Select Course: <course-select style="width: 300px" ng-model="course" ng-change="courseSelect"></course-select>
         </p>
 
 
@@ -23,9 +19,13 @@
     <div ng-show="course">
         <h2>Backups for Course {{course.title}}</h2>
 
+        <a href class="btn btn-default pull-right">
+            <i class="fa fa-floppy-o"></i>
+            Create Backup
+        </a>
+
         No Backups available.
 
-        <a href>Create Backup</a>
     </div>
 
 

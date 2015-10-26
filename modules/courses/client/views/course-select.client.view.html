@@ -1,4 +1,4 @@
-<ui-select class="course-select" ng-model="active.course" ng-required name="courseSelect" id="courseSelect">
+<ui-select class="course-select" ng-model="course" on-select="onChange($item)" ng-required name="courseSelect" id="courseSelect">
 
     <ui-select-match placeholder="Select Course...">{{$select.selected.title}}</ui-select-match>
 
