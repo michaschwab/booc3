@@ -1,6 +1,6 @@
 <section data-ng-controller="BackupsController" class="container">
 
-    <div ng-show="!course">
+    <div>
 
         <a href class="btn btn-default pull-right">
             <i class="fa fa-upload"></i>
@@ -17,11 +17,16 @@
     </div>
 
     <div ng-show="course">
-        <h2>Backups for Course {{course.title}}</h2>
+        <h2>Backups for {{course.title}}</h2>
 
-        <a href class="btn btn-default pull-right">
+        <a ng-show="!backup" href class="btn btn-default pull-right" ng-click="createBackup()">
             <i class="fa fa-floppy-o"></i>
             Create Backup
+        </a>
+
+        <a ng-show="backup" href="data:{{backup}}" download="course-{{course.short}}-backup-{{date | date:'yyyy-MM-dd-HH:mm'}}.json" class="btn btn-default btn-primary pull-right">
+            <i class="fa fa-floppy-o"></i>
+            Download Backup
         </a>
 
         No Backups available.

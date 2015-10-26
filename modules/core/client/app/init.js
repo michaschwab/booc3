@@ -26,6 +26,13 @@ angular.module(ApplicationConfiguration.applicationModuleName).config(['$locatio
       }
     ]);
   }
+]).config( [
+  '$compileProvider',
+  function( $compileProvider )
+  {
+    $compileProvider.aHrefSanitizationWhitelist(/^\s*(https?|ftp|mailto|data):/);
+    // Angular before v1.2 uses $compileProvider.urlSanitizationWhitelist(...)
+  }
 ]);
 
 angular.module(ApplicationConfiguration.applicationModuleName).run(function ($rootScope, $state, Authentication, $location) {
