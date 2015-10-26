@@ -72,7 +72,8 @@ module.exports = function (app, db) {
     });
   });*/
 
-  io.use(passportSocketIo.authorize({
+  io.set('authorization', passportSocketIo.authorize({
+    passport:     passport,
     cookieParser: require('cookie-parser'),       // the same middleware you registrer in express
     key:          'connect.sid',       // the name of the cookie where express/connect stores its session_id
     secret:       config.sessionSecret,    // the session_secret to parse the cookie
