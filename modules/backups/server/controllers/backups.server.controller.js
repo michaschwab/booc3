@@ -1,0 +1,140 @@
+'use strict';
+
+/**
+ * Module dependencies.
+ */
+var path = require('path'),
+    mongoose = require('mongoose'),
+    errorHandler = require(path.resolve('./modules/core/server/controllers/errors.server.controller')),
+    _ = require('lodash');
+
+var ObjectId = mongoose.Types.ObjectId;
+
+var io;
+
+exports.setIo = function(newIo)
+{
+    io = newIo;
+};
+
+/**
+ * Create a Backup
+ */
+exports.create = function(req, res)
+{
+    console.log(req);
+    /*var backup = new backup(req.body);
+    //backup.user = req.user;
+
+    backup.save(function(err) {
+        if (err) {
+            return res.status(400).send({
+                backup: err
+            });
+        } else {
+            res.jsonp(backup);
+        }
+    });*/
+};
+
+/**
+ * Show the current backup
+ */
+exports.read = function(req, res) {
+    res.jsonp(req.backup);
+};
+
+/**
+ * Update a backup
+ */
+exports.update = function(req, res) {
+    var backup = req.backup ;
+
+    backup = _.extend(backup , req.body);
+
+    backup.save(function(err) {
+        if (err) {
+            return res.status(400).send({
+                backup: err
+            });
+        } else {
+            res.jsonp(backup);
+        }
+    });
+};
+
+/**
+ * Delete an backup
+ */
+exports.delete = function(req, res) {
+    var backup = req.backup ;
+
+    backup.remove(function(err) {
+        if (err) {
+            return res.status(400).send({
+                backup: err
+            });
+        } else {
+            res.jsonp(backup);
+        }
+    });
+};
+
+/**
+ * List of backups
+ */
+exports.list = function(req, res) {
+
+    /*var qObject = {};
+    if(!req.user)
+    {
+        return res.jsonp([]);
+    }
+    qObject['user'] = new ObjectId(req.user._id);
+
+    backup.find(qObject).sort('-time').exec(function(err, backups) {
+        if (err) {
+            return res.status(400).send({
+                backup: err
+            });
+        } else {
+            res.jsonp(backups);
+        }
+    });*/
+};
+
+
+/**
+ * backup middleware
+ */
+exports.backupByID = function(req, res, next, id) {
+    /*backup.findById(id).exec(function(err, backup) {
+        if (err) return next(err);
+        if (! backup) return next(new Error('Failed to load backup ' + id));
+        req.backup = backup ;
+        next();
+    });*/
+};
+
+exports.backupsByUserId = function(req, res, next, id)
+{
+    /*var qObject = { user: id };
+
+    backup.find(qObject).exec(function(err, backups) {
+        if (err) return next(err);
+        if (! backups) return next(new Error('Failed to load backup ' + id));
+        req.backup = backups ;
+        next();
+    });*/
+    next();
+};
+
+/**
+ * backup authorization middleware
+ */
+exports.hasAuthorization = function(req, res, next) {
+    if (req.backup.user != req.user.id) {
+        return res.status(403).send('User is not authorized' + req.backup.user + ' !== ' + req.user.id);
+    }
+    next();
+};
