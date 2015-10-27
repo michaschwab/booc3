@@ -14,11 +14,11 @@
                 <a class="btn btn-primary" data-ui-sref="courses.edit({courseId: course._id})">
                     <i class="glyphicon glyphicon-edit"></i>
                 </a>
-                <a class="btn btn-primary" data-ng-click="remove(course);">
+                <a class="btn btn-primary remove-button" data-ng-click="remove(course);">
                     <i class="glyphicon glyphicon-trash"></i>
                 </a>
             </div>
-					<h4 class="list-group-item-heading" data-ng-bind="course.title"></h4>
+					<h4 class="list-group-item-heading course-title" data-ng-bind="course.title"></h4>
             <div data-ng-bind="course.description">
 
             </div>
