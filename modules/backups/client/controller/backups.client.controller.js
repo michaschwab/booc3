@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('actions').controller('BackupsController',
-    function($scope, Courses, Concepts, Conceptdependencies, Courseevents, Sources, Segments)
+    function($http, $scope, Courses, Concepts, Conceptdependencies, Courseevents, Sources, Segments)
     {
         $scope.date = new Date();
         $scope.courses = Courses.query();
@@ -32,6 +32,15 @@ angular.module('actions').controller('BackupsController',
                             backup.segments = Segments.query({ source: { $in: sourceIds } }, function()
                             {
                                 $scope.backup = "text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(backup));
+                                $http.post('api/backups', backup).then(function()
+                                {
+                                    //success
+                                    console.log('success');
+
+                                }, function(err)
+                                {
+                                    console.log(err);
+                                });
                             });
                         });
                     });

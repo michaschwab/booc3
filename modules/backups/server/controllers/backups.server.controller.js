@@ -5,6 +5,7 @@
  */
 var path = require('path'),
     mongoose = require('mongoose'),
+    fs = require('fs'),
     errorHandler = require(path.resolve('./modules/core/server/controllers/errors.server.controller')),
     _ = require('lodash');
 
@@ -22,19 +23,25 @@ exports.setIo = function(newIo)
  */
 exports.create = function(req, res)
 {
-    console.log(req);
-    /*var backup = new backup(req.body);
-    //backup.user = req.user;
+    var backup = req.body;
+    var subDir = backup.course._id;
+    var fileName = new Date().toISOString();
+    var fullDir = './modules/backups/server/uploads/' + subDir;
 
-    backup.save(function(err) {
-        if (err) {
-            return res.status(400).send({
-                backup: err
-            });
-        } else {
-            res.jsonp(backup);
+    fs.stat(fullDir, function(err, stats)
+    {
+        if(err)
+        {
+            fs.mkdirSync(fullDir);
         }
-    });*/
+        fs.writeFile(fullDir + '/' + fileName + '.json', JSON.stringify(backup), function (uploadError)
+        {
+            console.log('yo');
+            console.log(uploadError);
+
+            return res.jsonp(backup);
+        });
+    });
 };
 
 /**
