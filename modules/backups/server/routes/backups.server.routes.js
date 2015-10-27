@@ -6,14 +6,17 @@ module.exports = function(app)
 
     // Messages Routes
     app.route('/api/backups')
-        .get(backups.list)
+        //.get(backups.list)
         .post(backups.create);
 
     app.route('/api/backups/:courseId')
-        .get(backups.read)
+        .get(backups.list)
         .put(backups.update)
         .delete(backups.delete);
 
+    app.route('/api/backups/:courseId/:backupFileName')
+        .get(backups.read);
+
     // Finish by binding the Backup middleware
-    app.param('backupId', backups.backupByID);
+    //app.param('backupId', backups.backupByID);
 };

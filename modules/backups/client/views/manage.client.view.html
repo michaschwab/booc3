@@ -35,10 +35,17 @@
             <table class="table">
                 <thead>
                     <th>File Name</th>
+                    <th>Options</th>
                 </thead>
                 <tbody>
                     <tr ng-repeat="backup in backups">
                         <td>{{backup}}</td>
+                        <td>
+                            <a href="/api/backups/{{course._id}}/{{backup}}" target="_blank" class="btn btn-default">
+                                <i class="fa fa-floppy-o"></i>
+                                Download
+                            </a>
+                        </td>
                     </tr>
                 </tbody>
             </table>

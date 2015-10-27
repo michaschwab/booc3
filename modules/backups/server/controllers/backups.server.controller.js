@@ -42,10 +42,11 @@ exports.create = function(req, res)
     });
 };
 
+
 /**
- * Show the current backup
+ * List of backups
  */
-exports.read = function(req, res)
+exports.list = function(req, res)
 {
     var courseId = req.params.courseId;
 
@@ -57,6 +58,23 @@ exports.read = function(req, res)
         res.jsonp(files);
     });
     //res.jsonp(req.backup);
+};
+
+
+/**
+ * Show backups
+ */
+exports.read = function(req, res)
+{
+    var courseId = req.params.courseId;
+    var backupFileName = req.params.backupFileName;
+    var fullPath = './modules/backups/server/uploads/' + courseId + '/' + backupFileName;
+
+    fs.readFile(fullPath, function(err, data)
+    {
+        //res.jsonp(data);
+        res.send(data);
+    });
 };
 
 /**
@@ -95,28 +113,6 @@ exports.delete = function(req, res) {
     });
 };
 
-/**
- * List of backups
- */
-exports.list = function(req, res) {
-
-    /*var qObject = {};
-    if(!req.user)
-    {
-        return res.jsonp([]);
-    }
-    qObject['user'] = new ObjectId(req.user._id);
-
-    backup.find(qObject).sort('-time').exec(function(err, backups) {
-        if (err) {
-            return res.status(400).send({
-                backup: err
-            });
-        } else {
-            res.jsonp(backups);
-        }
-    });*/
-};
 
 
 /**
