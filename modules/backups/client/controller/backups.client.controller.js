@@ -8,6 +8,14 @@ angular.module('actions').controller('BackupsController',
         $scope.courseSelect = function(course)
         {
             $scope.course = course;
+
+            $http.get('api/backups/' + course._id).then(function(response)
+            {
+                $scope.backups = response.data;
+            }, function(err)
+            {
+                console.error(err);
+            })
         };
 
         $scope.createBackup = function()
@@ -39,7 +47,7 @@ angular.module('actions').controller('BackupsController',
 
                                 }, function(err)
                                 {
-                                    console.log(err);
+                                    console.error(err);
                                 });
                             });
                         });

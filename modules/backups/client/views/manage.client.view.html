@@ -29,7 +29,20 @@
             Download Backup
         </a>
 
-        No Backups available.
+        <p ng-show="!backups || !backups.length">No Backups available.</p>
+
+        <div ng-show="backups.length">
+            <table class="table">
+                <thead>
+                    <th>File Name</th>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="backup in backups">
+                        <td>{{backup}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
 
     </div>
 

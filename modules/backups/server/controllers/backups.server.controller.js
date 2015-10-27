@@ -36,9 +36,7 @@ exports.create = function(req, res)
         }
         fs.writeFile(fullDir + '/' + fileName + '.json', JSON.stringify(backup), function (uploadError)
         {
-            console.log('yo');
-            console.log(uploadError);
-
+            console.error(uploadError);
             return res.jsonp(backup);
         });
     });
@@ -47,8 +45,18 @@ exports.create = function(req, res)
 /**
  * Show the current backup
  */
-exports.read = function(req, res) {
-    res.jsonp(req.backup);
+exports.read = function(req, res)
+{
+    var courseId = req.params.courseId;
+
+    var subDir = courseId;
+    var fullDir = './modules/backups/server/uploads/' + subDir;
+
+    fs.readdir(fullDir, function(err, files)
+    {
+        res.jsonp(files);
+    });
+    //res.jsonp(req.backup);
 };
 
 /**

@@ -9,7 +9,7 @@ module.exports = function(app)
         .get(backups.list)
         .post(backups.create);
 
-    app.route('/api/backups/:backupId')
+    app.route('/api/backups/:courseId')
         .get(backups.read)
         .put(backups.update)
         .delete(backups.delete);
