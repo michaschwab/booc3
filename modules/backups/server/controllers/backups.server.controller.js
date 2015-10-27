@@ -37,7 +37,7 @@ exports.create = function(req, res)
         fs.writeFile(fullDir + '/' + fileName + '.json', JSON.stringify(backup), function (uploadError)
         {
             console.error(uploadError);
-            return res.jsonp(backup);
+            return res.jsonp(fileName + '.json');
         });
     });
 };

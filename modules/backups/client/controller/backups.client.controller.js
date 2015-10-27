@@ -40,10 +40,11 @@ angular.module('actions').controller('BackupsController',
                             backup.segments = Segments.query({ source: { $in: sourceIds } }, function()
                             {
                                 $scope.backup = "text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(backup));
-                                $http.post('api/backups', backup).then(function()
+                                $http.post('api/backups', backup).then(function(response)
                                 {
                                     //success
-                                    console.log('success');
+                                    var fileName = response.data;
+                                    $scope.backups.push(fileName);
 
                                 }, function(err)
                                 {
