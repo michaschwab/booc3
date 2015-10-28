@@ -11,10 +11,10 @@
     <div class="list-group">
         <li data-ng-repeat="course in courses" data-ng-href="courses/{{course._id}}" class="list-group-item">
             <div class="pull-right" data-ng-show="(authentication.user)">
-                <a class="btn btn-primary" data-ui-sref="courses.edit({courseId: course._id})">
+                <a class="btn btn-primary" title="Edit Course" data-ui-sref="courses.edit({courseId: course._id})">
                     <i class="glyphicon glyphicon-edit"></i>
                 </a>
-                <a class="btn btn-primary remove-button" data-ng-click="remove(course);">
+                <a class="btn btn-primary remove-button" title="Remove Course" data-ng-click="remove(course);">
                     <i class="glyphicon glyphicon-trash"></i>
                 </a>
             </div>

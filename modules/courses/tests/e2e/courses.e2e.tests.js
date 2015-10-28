@@ -22,9 +22,14 @@ describe('Courses E2E Tests:', function () {
         });
     });
 
-    describe('Create Process', function ()
+    describe('Create, Edit and Delete Process', function ()
     {
         var newCourseTitle = 'End To End Course';
+        var newCourseDescription = 'Lorem Ipsum abc';
+
+        var newCourseTitle2 = 'End To End Course2';
+        var newCourseDescription2 = 'Lorem Ipsum abcd';
+        var newCourseId;
 
         it('Should have the proper header', function()
         {
@@ -41,61 +46,64 @@ describe('Courses E2E Tests:', function () {
 
             element( by.model('course.title') ).sendKeys( newCourseTitle );
             element( by.model('course.short') ).sendKeys( 'e2e' );
-            element( by.model('course.description') ).sendKeys( 'Lorem Ipsum abc' );
+            element( by.model('course.description') ).sendKeys( newCourseDescription );
 
             element( by.partialButtonText('Create')).click();
 
             browser.waitForAngular();
 
             expect(element(by.css('.course-title')).getInnerHtml()).toBe(newCourseTitle);
+
+            browser.getCurrentUrl().then(function(url)
+            {
+                newCourseId = url.substr(url.indexOf('courses/') + 'courses/'.length);
+            });
         });
+
+        var checkCourseDescription = function(correctDescription)
+        {
+            return function()
+            {
+                browser.get('http://localhost:3000');
+
+                element.all(by.repeater('course in courses')).then(function(courses)
+                {
+                    getCourseWithName(courses, newCourseTitle, function(course)
+                    {
+                        expect(course.element(by.binding('course.description')).getInnerHtml()).toBe(correctDescription);
+                    });
+                });
+            };
+
+        };
+
+        it('Should show the correct description', checkCourseDescription(newCourseDescription));
+
+        it('Should let you edit a course', function()
+        {
+            browser.get('http://localhost:3000/courses/' + newCourseId + '/edit');
+
+            element( by.model('course.title') ).clear().sendKeys(newCourseTitle2);
+            element( by.model('course.description') ).clear().sendKeys(newCourseDescription2);
+
+            element( by.partialButtonText('Update')).click();
+            browser.waitForAngular();
+
+            expect(element(by.css('.course-title')).getInnerHtml()).toBe(newCourseTitle2);
+        });
+
+        it('Should show the correct description after editing', checkCourseDescription(newCourseDescription2));
 
         it('Should let you remove courses', function(done)
         {
             browser.get('http://localhost:3000/courses/');
 
-            function getName(course, callback)
-            {
-                course.element(by.css('.course-title')).getInnerHtml().then(callback);
-            }
-
-            function getNames(courses, callback, i, names)
-            {
-                if(!names) names = [];
-                if(i === undefined) i = 0;
-
-                if(i < courses.length)
-                {
-                    getName(courses[i], function(courseName)
-                    {
-                        i++;
-                        names.push(courseName);
-                        getNames(courses, callback, i, names);
-                    });
-                }
-                else
-                {
-                    callback(names);
-                }
-            }
-
             element.all(by.repeater('course in courses')).count().then(function(count)
             {
                 element.all(by.repeater('course in courses')).then(function(courses)
                 {
-                    getNames(courses, function(courseNames)
+                    getCourseWithName(courses, newCourseTitle, function(course)
                     {
-                        for(var i = 0; i < courses.length; i++)
-                        {
-                            var courseTitle = courseNames[i];
-                            var course = courses[i];
-
-                            if(courseTitle == newCourseTitle)
-                            {
-                                break;
-                            }
-                        }
-
                         course.element(by.css('.remove-button')).click().then(function()
                         {
                             element.all(by.repeater('course in courses')).count().then(function(newCount)
@@ -108,5 +116,49 @@ describe('Courses E2E Tests:', function () {
                 });
             });
         });
+
+        function getCourseWithName(courses, name, callback)
+        {
+            getNames(courses, function(courseNames)
+            {
+                for(var i = 0; i < courses.length; i++)
+                {
+                    var courseTitle = courseNames[i];
+                    var course = courses[i];
+
+                    if(courseTitle == name)
+                    {
+                        break;
+                    }
+                }
+
+                callback(course);
+            });
+        }
+
+        function getName(course, callback)
+        {
+            course.element(by.css('.course-title')).getInnerHtml().then(callback);
+        }
+
+        function getNames(courses, callback, i, names)
+        {
+            if(!names) names = [];
+            if(i === undefined) i = 0;
+
+            if(i < courses.length)
+            {
+                getName(courses[i], function(courseName)
+                {
+                    i++;
+                    names.push(courseName);
+                    getNames(courses, callback, i, names);
+                });
+            }
+            else
+            {
+                callback(names);
+            }
+        }
     });
 });
