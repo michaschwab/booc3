@@ -4,12 +4,14 @@
 
     <div class="fadein">
 
-        <div ng-show="!minimized" class="sidepanelOptions" aria-hidden="true">
+        <div ng-show="!minimized" class="sidepanelOptions" aria-hidden="true" role="presentation">
             <a aria-hidden="true" class="minimizerToggle minimizer fa fa-angle-double-left" href="" ng-click="minimize()" title="Hide Panel"></a>
         </div>
 
-        <div ng-if="minimized" class="sidepanelOptions" role="presentation">
-            <a aria-hidden="true" class="minimizerToggle maximizer fa fa-angle-double-right" href="" ng-click="maximize()" title="Show Panel"></a>
+        <div ng-if="minimized" class="sidepanelOptions" aria-hidden="true" role="presentation">
+            <a aria-hidden="true" class="minimizerToggle maximizer panel-button" href="" ng-click="maximize()" title="Show Panel">
+                <span class="fa fa-angle-double-right"></span>
+            </a>
         </div>
 
         <ng-include src="'modules/concepts/views/panel/full.client.view.html'"></ng-include>
