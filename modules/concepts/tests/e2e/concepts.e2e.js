@@ -1,17 +1,54 @@
-describe('angularjs homepage todo list', function() {
-    /*it('should add a todo', function() {
-        browser.get('https://angularjs.org');
+describe('concept features', function()
+{
+    var newTitle = 'abc';
 
-        element(by.model('todoList.todoText')).sendKeys('write first protractor test');
-        element(by.css('[value="add"]')).click();
+    describe('concept editing', function()
+    {
+        //browser.params.login.admin();
 
-        var todoList = element.all(by.repeater('todo in todoList.todos'));
-        expect(todoList.count()).toEqual(3);
-        expect(todoList.get(2).getText()).toEqual('write first protractor test');
+        it('should let you rename concepts', function()
+        {
+            //browser.driver.sleep(1);
+            //browser.waitForAngular();
+            browser.get('http://localhost:3000/courses/563285ed410846e876f00eb7?mode=admin');
 
-        // You wrote your first test, cross it off the list
-        todoList.get(2).element(by.css('input')).click();
-        var completedAmount = element.all(by.css('.done-true'));
-        expect(completedAmount.count()).toEqual(2);
-    });*/
+            element.all(by.repeater('child in activeHierarchyChildren')).then(function(concepts)
+            {
+                var firstTitleInput = concepts[0].element(by.css('input.concept-title'));
+
+                firstTitleInput.getAttribute('id', function(inputId)
+                {
+                    // inputId = concept-title-563285ed410846e876f00eb8
+                    var conceptId = inputId.split('-')[2];
+
+                    element(by.css('#concept-' + conceptId + ' text.concept-title')).getInnerHtml().then(function(innerHtml)
+                    {
+                        expect(innerHtml).not.toContain(newTitle);
+                        console.log(innerHtml);
+                    });
+
+                    firstTitleInput.clear().sendKeys(newTitle);
+
+                    element(by.css('#concept-' + conceptId + ' text.concept-title')).getInnerHtml().then(function(innerHtml)
+                    {
+                        expect(innerHtml).toContain(newTitle);
+                        console.log(innerHtml);
+                    });
+
+                });
+            });
+        });
+    });
+
+    describe('creating', function()
+    {
+        it('should work', function()
+        {
+            browser.get('http://localhost:3000/courses/563285ed410846e876f00eb7?mode=admin');
+
+
+        });
+    });
+
+    //browser.params.logout();
 });
