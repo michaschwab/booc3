@@ -31,3 +31,25 @@ exports.addTeacherRole = function(userId, courseId, callback)
         next();*/
     });
 };
+
+exports.getCourseAdmins = function(courseId, callback)
+{
+    User.find({}, function(users)
+    {
+        var admins = users.filter(function(user)
+        {
+            for(var i = 0; i < user.roles.length; i++)
+            {
+                var roleParts = user.roles[i].split(';');
+
+                if(roleParts[0] == 'courseadmin' && roleParts[2] == courseId)
+                    return true;
+            }
+
+            return false;
+        });
+
+        callback(admins);
+
+    });
+};

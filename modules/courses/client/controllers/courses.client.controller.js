@@ -2,17 +2,16 @@
 
 // Courses controller
 angular.module('courses').controller('CoursesController',
-	function($scope, $stateParams, $location, Authentication, Courses, Concepts, LearnedConcepts, $state) {
+	function($scope, $stateParams, $location, Authentication, Courses, Concepts, LearnedConcepts, $state)
+	{
 		$scope.authentication = Authentication;
 
-		/*
-		 title: '',
-		 short: '',
-		 description: '',
-		 created: '',
-		 concepts: [],
-		 segments: []
-		 */
+		$scope.courseRoles =
+		{
+			'content-editor': { display: 'Content Editor', description: 'A Content Editor can add, change and remove all of a course\'s materials.' },
+			'ta': { display: 'Teaching Assistant', description: 'A Teaching Assistant can add, change and remove all of a course\'s materials and concepts.' },
+			'teacher': { display: 'Teacher', description: 'A Teacher can add, change and remove all of a course\'s materials and concepts, and even edit or remove the course.' }
+		};
 
 		// Create new Course
 		$scope.create = function()
