@@ -9,7 +9,10 @@ angular.module('concepts').config(['$stateProvider',
 			.state('concepts', {
 				abstract: true,
 				url: '/concepts',
-				template: '<ui-view/>'
+				template: '<ui-view/>',
+				data: {
+					roles: ['admin', 'courseadmin']
+				}
 			}).
 			state('concepts.list', {
 				url: '/concepts',

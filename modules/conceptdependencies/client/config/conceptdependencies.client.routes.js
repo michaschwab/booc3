@@ -8,7 +8,10 @@ angular.module('conceptdependencies').config(['$stateProvider',
 			.state('dependencies', {
 				abstract: true,
 				url: '/dependencies',
-				template: '<ui-view/>'
+				template: '<ui-view/>',
+				data: {
+					roles: ['admin', 'courseadmin']
+				}
 			}).
 			state('dependencies.bulk-edit', {
 				url: '/bulkEdit',

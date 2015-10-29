@@ -10,7 +10,7 @@ angular.module('actions').config(['$stateProvider',
         url: '/actions',
         template: '<ui-view/>',
         data: {
-          roles: ['admin']
+          roles: ['admin', 'courseadmin']
         }
       })
       .state('actions.list', {

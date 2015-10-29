@@ -9,7 +9,10 @@ angular.module('courseevents').config(['$stateProvider',
 			.state('courseevents', {
 				abstract: true,
 				url: '',
-				template: '<ui-view/>'
+				template: '<ui-view/>',
+				data: {
+					roles: ['admin', 'courseadmin']
+				}
 			})
 			.state('courseevents.manage',
 			{

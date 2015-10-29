@@ -14,11 +14,17 @@ angular.module('courses').config(['$stateProvider', '$locationProvider',
 
 		state('courses.list', {
 			url: '/',
-			templateUrl: 'modules/courses/views/list-courses.client.view.html'
+			templateUrl: 'modules/courses/views/list-courses.client.view.html',
+			data: {
+				roles: ['admin', 'courseadmin']
+			}
 		}).
 		state('courses.create', {
 			url: '/create',
-			templateUrl: 'modules/courses/views/edit-course.client.view.html'
+			templateUrl: 'modules/courses/views/edit-course.client.view.html',
+			data: {
+				roles: ['admin', 'courseadmin']
+			}
 		}).
 		state('courses.view', {
 			url: '/:courseId?learn&goal&active&mode&source&segment',
@@ -27,7 +33,10 @@ angular.module('courses').config(['$stateProvider', '$locationProvider',
 		}).
 		state('courses.edit', {
 			url: '/:courseId/edit',
-			templateUrl: 'modules/courses/views/edit-course.client.view.html'
+			templateUrl: 'modules/courses/views/edit-course.client.view.html',
+			data: {
+				roles: ['admin', 'courseadmin']
+			}
 		});
 
         //$locationProvider.html5Mode(true);
