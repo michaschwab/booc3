@@ -42,7 +42,8 @@ angular.module('courses').controller('CoursesController',
 				concept.$save(function(r)
 				{
 					$state.go('courses.view', {
-						courseId: courseId
+						courseId: courseId,
+						mode: 'admin'
 					});
 				});
 
@@ -78,7 +79,8 @@ angular.module('courses').controller('CoursesController',
 			course.$update(function() {
 
 				$state.go('courses.view', {
-					courseId: course._id
+					courseId: course._id,
+					mode: 'admin'
 				});
 			}, function(errorResponse) {
 				$scope.error = errorResponse.data.message;
