@@ -19,7 +19,7 @@ describe('Courses E2E Tests:', function () {
 
         it('Should launch when logged in', function ()
         {
-            browser.params.login.admin();
+            //browser.params.login.admin();
             browser.get('http://localhost:3000/courses/547e663e14e4e78d17677b6b');
 
             expect(element(by.id('vis')).isDisplayed()).toBe(true);

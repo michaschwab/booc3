@@ -56,7 +56,9 @@ describe('Courses E2E Tests:', function () {
 
             browser.getCurrentUrl().then(function(url)
             {
+                //eg courses/a21342fs?active=asda
                 newCourseId = url.substr(url.indexOf('courses/') + 'courses/'.length);
+                newCourseId = newCourseId.substr(0, newCourseId.indexOf('?'));
             });
         });
 

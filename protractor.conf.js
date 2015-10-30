@@ -16,13 +16,13 @@ exports.config = {
             args: ['--lang=en',
                 '--window-size=1400,900']
         }
-    }, {
+    }/*, {
         'browserName': 'chrome',
         'chromeOptions' : {
             args: ['--lang=en',
                 '--window-size=1280,860']
         }
-    }/*, {
+    }*//*, {
         'browserName': 'chrome',
         'chromeOptions' : {
             args: ['--lang=en',
