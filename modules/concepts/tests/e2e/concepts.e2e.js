@@ -44,7 +44,14 @@ describe('concept features', function()
         {
             browser.get('http://localhost:3000/courses/563285ed410846e876f00eb7?mode=admin');
 
+            element.all(by.repeater('child in activeHierarchyChildren')).count().then(function(childCount)
+            {
+                element(by.css('.concept.add-concept')).click();
 
+                expect(element.all(by.repeater('child in activeHierarchyChildren')).count()).toBe(childCount+1);
+
+
+            });
         });
     });
 
