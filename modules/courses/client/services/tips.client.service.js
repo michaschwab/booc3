@@ -21,6 +21,17 @@ function($timeout, ConceptStructure)
             var index = parentChildrenIds.indexOf(d.concept._id);
             var portion = index / parentChildren.length;
 
+            // Now, check if all the way at top or bottom of map
+
+            var x = d.x, y = d.y;
+            var parent = d.parentData;
+            while(parent) { x *= parent.x; y *= parent.y; parent = parent.parentData;}
+
+            if(Math.abs(y) > 0.8)
+                return y > 0 ? 'n' : 's';
+
+            // Otherwise, do it naturally.
+
             if(portion <= 0.13 || portion >= 0.88)
             {
                 return 'n';
