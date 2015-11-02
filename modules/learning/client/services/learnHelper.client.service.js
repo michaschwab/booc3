@@ -145,6 +145,8 @@ angular.module('learning').service('LearnHelper', function($http, $sce, $interva
         // If local file, display. Otherwise, use CORS Proxy for loading.
         var url = path.indexOf('http') !== -1 ? 'http://www.corsproxy.com/' + path.replace('http://','') : path;
 
+
+        console.log(url);
         $http.get(url, {responseType:'arraybuffer'}).
             //$http.get('http://www.corsproxy.com/' + source.path.replace('http://',''), {responseType:'arraybuffer'}).
             //success(function(data, status, headers, config) {
@@ -180,7 +182,12 @@ angular.module('learning').service('LearnHelper', function($http, $sce, $interva
         }
         else if(sourcetype.category === 'website')
         {
-            callback({path: $sce.trustAsResourceUrl(source.path) });
+            var url = source.path;
+            if(url.substr(0,7) == 'http://')
+            {
+                url = 'https://' + url.substr(7);
+            }
+            callback({path: $sce.trustAsResourceUrl(url) });
         }
         else if(sourcetype.category === 'lti')
         {
