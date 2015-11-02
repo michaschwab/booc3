@@ -46,17 +46,17 @@
                 <div>
 
                     <a ng-show="active.watchableConcept&&!learnMode&&activeMode!='lecture'"
-                       title="Watch Lecture on {{active.watchableConcept.concept.title}}" class="panel-button play learnmode-{{learnMode}}"
+                       title="Show Material on {{active.watchableConcept.concept.title}}" class="panel-button play learnmode-{{learnMode}}"
                        data-ui-sref="{active: active.watchableConcept.concept._id, learn: 'yes'}">
                         <span ng-hide="learnMode" class="glyphicon glyphicon-play"></span>
-                        Watch Lecture
+                        Learn
                     </a>
 
                     <a ng-show="activeLectures.length&&!learnMode&&activeMode=='lecture'"
                        title="Watch {{activeLectures[0].lecture.title}}" class="panel-button play learnmode-{{learnMode}}"
                        data-ui-sref="{source: activeLectures[0].lecture._id, learn: 'yes'}">
                         <span ng-hide="learnMode" class="glyphicon glyphicon-play"></span>
-                        Watch Lecture
+                        Learn
                     </a>
 
                     <a ng-show="learnMode||editSourceMode" class="panel-button play learnmode-{{learnMode}}" title="Show Course Map"
@@ -66,19 +66,19 @@
                         Show Map
                     </a>
 
-                    <a ng-show="!goalConcept&&activeMode=='plan'&&activeConcept" class="panel-button goal set-goal learnmode-{{learnMode}}" title="Set {{activeConcept.concept.title}} as goal"
+                    <a ng-if="!goalConcept&&activeMode=='plan'&&activeConcept" class="panel-button goal set-goal learnmode-{{learnMode}}" title="Set {{activeConcept.concept.title}} as goal"
                        data-ui-sref="{goal: activeConcept.concept._id }">
                         <span class="glyphicon glyphicon-flag setgoal"></span>
                         Set as Goal
                     </a>
 
-                    <a ng-show="goalConcept&&activeMode=='plan'" class="panel-button goal unset-goal learnmode-{{learnMode}}" title="Unset goal"
+                    <a ng-if="goalConcept&&activeMode=='plan'" class="panel-button goal unset-goal learnmode-{{learnMode}}" title="Unset goal"
                        data-ui-sref="{goal: ''}">
                         <span class="glyphicon glyphicon-flag unsetgoal">/</span>
-                        Unset Goal
+                        <span class="unset-goal-text">Unset Goal</span>
                     </a>
-                    <br style="clear:both" />
-                </div>
+
+                </div><br style="clear:both" />
 
 
             </header>
