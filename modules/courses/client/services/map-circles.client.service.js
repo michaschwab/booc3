@@ -281,7 +281,27 @@ angular.module('courses').service('MapCircles', function(Tip, $location, $timeou
         };
 
         setupParams();
-        setupCircles(tlc, 1);
+        this.setupCircles();
+    };
+
+    this.setupCircles = function(array, depth)
+    {
+        if(!array)
+        {
+            array = $scope.active.topLevelConcepts;
+            depth = 1;
+        }
+
+        for(var i = 0; i < array.length; i++)
+        {
+            var concept = array[i];
+            $scope.configCircle(array, depth, concept, i);
+
+            if(concept.children)
+            {
+                me.setupCircles(concept.children, depth + 1);
+            }
+        }
     };
 
     this.setup = function()
@@ -403,6 +423,7 @@ angular.module('courses').service('MapCircles', function(Tip, $location, $timeou
                 });
 
                 $scope.addDependencyCreator(el, d);
+                // TODO update d outside of the .enter() to reflect changes in the data.
 
                 d.splitTexts = $scope.splitTitle(d.concept.title, d.depth);
 

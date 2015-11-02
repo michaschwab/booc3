@@ -3,6 +3,7 @@ angular.module('courses').service('ConceptStructure', function(Concepts, Concept
     var me = this;
     var courseId;
     var $scope;
+    var depCache, todoCache;
 
     this.init = function(scope, courseIdentifier)
     {
@@ -47,7 +48,7 @@ angular.module('courses').service('ConceptStructure', function(Concepts, Concept
         return this.getConceptDependencies(concept, followChildren, null, null, true);
     };
 
-    var depCache = $cacheFactory('depCache');
+    depCache = $cacheFactory('depCache');
 
     this.getConceptDependencies = function(concept, followChildren, ignoreDeps, ignoreConcepts, providing)
     {
@@ -125,7 +126,7 @@ angular.module('courses').service('ConceptStructure', function(Concepts, Concept
         return this.getTodoListSorted(concept, true);
     };
 
-    var todoCache = $cacheFactory('todoCache');
+    todoCache = $cacheFactory('todoCache');
 
     this.getTodoListSorted = function(concept, providing)
     {

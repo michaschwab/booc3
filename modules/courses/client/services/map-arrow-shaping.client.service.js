@@ -1,14 +1,16 @@
 angular.module('courses').service('MapArrowShaping', function(Tip, ConceptStructure, $cacheFactory)
 {
     var me = this;
+    var curveCache;
     var $scope;
 
     this.init = function(scope)
     {
         $scope = scope;
-    };
 
-    var curveCache = $cacheFactory('curve');
+        curveCache = $cacheFactory('curve');
+        $scope.$on('dataUpdated', curveCache.removeAll());
+    };
 
     this.curvePath = function(pathNode, pos, coveredConcepts, scale, getTranslateAbs, shortenStart, shortenEnd, offsetEach, color, dep, graphWidth, graphHeight)
     {
@@ -234,7 +236,7 @@ angular.module('courses').service('MapArrowShaping', function(Tip, ConceptStruct
         var pathPos = lengthStart + sign * rProjected;// + width * shortenStart;
         //console.log(pathPos, r, offset, rProjected);
         var pointProjected = new Point(pathNode.getPointAtLength(pathPos));
-        var point2 = new Point(pathNode.getPointAtLength(pathPos+0.01))
+        var point2 = new Point(pathNode.getPointAtLength(pathPos+0.01));
 
         var diff = pointProjected.subtract(point2);
         var normalNormalized = new Point(-1 * diff.y, diff.x).getNormalized();
