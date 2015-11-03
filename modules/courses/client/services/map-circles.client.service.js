@@ -324,7 +324,7 @@ angular.module('courses').service('MapCircles', function(Tip, $location, $timeou
                 'data-concept-id': function(d) { return d.concept._id; },
                 'id': function(d) { return 'concept-' + d.concept._id; }
             });
-            lxUpdate(l1CircleEnter);
+            lxUpdate(l1CircleEnter, l1Circle);
 
             return l1CircleEnter;
         };
@@ -364,13 +364,13 @@ angular.module('courses').service('MapCircles', function(Tip, $location, $timeou
                 'id': function(d) { return 'concept-' + d.concept._id; }
             });
 
-            lxUpdate(lxCircleEnter);
+            lxUpdate(lxCircleEnter, lxCircle);
             lxCircle.exit().remove();
 
             return lxCircleEnter;
         };
 
-        var lxUpdate = function(lxCircleEnter)
+        var lxUpdate = function(lxCircleEnter, lxCircle)
         {
             lxCircleEnter.append('circle').attr({
                 r: 5//function(d) { return d.depth == 1 ? 50 : params.scale(getConfig(d).radius); }
@@ -428,6 +428,11 @@ angular.module('courses').service('MapCircles', function(Tip, $location, $timeou
                 d.splitTexts = $scope.splitTitle(d.concept.title, d.depth);
 
                 me.makeTitle(d, el);
+            });
+            lxCircle.each(function(d)
+            {
+                var el = d3.select(this);
+                $scope.updateDependencyCreator(el, d);
             });
 
             Tip.forConcept(lxCircleEnter);

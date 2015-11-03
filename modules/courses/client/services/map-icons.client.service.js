@@ -2,12 +2,17 @@ angular.module('courses').service('MapIcons', function(Tip, ConceptStructure, $l
 {
     var me = this;
     var $scope;
+    var lastData = {};
 
     var OPACITY = 0.3;
 
     this.init = function(scope)
     {
         $scope = scope;
+
+        $scope.$on('dataUpdated', function() {
+            lastData = {};
+        });
     };
 
     this.add = function(el, d)
@@ -81,8 +86,6 @@ angular.module('courses').service('MapIcons', function(Tip, ConceptStructure, $l
             me.add(d3.select(this), d);
         });
     };
-
-    var lastData = {};
 
     this.redraw = function()
     {

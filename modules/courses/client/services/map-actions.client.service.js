@@ -134,7 +134,7 @@ angular.module('courses').service('MapActions', function(Tip, ConceptStructure, 
         //todo move this to map icons.
         $scope.addDependencyCreator = function(el, d)
         {
-            var t2b = el.append('text').attr({
+            d.depCreator = el.append('text').attr({
                 //y: -(d.splitTexts.length*params.l1.textYOffset/2)
                 'fill-opacity':function(){
                     //if (depth>2) return 1;
@@ -146,11 +146,11 @@ angular.module('courses').service('MapActions', function(Tip, ConceptStructure, 
                 //fill:(config.textColor)//,
                 //dy: 3
             });
-            t2b.append('tspan').attr({
+            d.depCreator.append('tspan').attr({
                 'font-family': 'Glyphicons Halflings'
             }).text('');
 
-            t2b.on('click', function(d)
+            d.depCreator.on('click', function(d)
             {
                 if($scope.creatingDepConcept === null)
                 {
@@ -172,6 +172,15 @@ angular.module('courses').service('MapActions', function(Tip, ConceptStructure, 
             {
                 Tip.mouseOverConcept(d);
             });
+        };
+
+        $scope.updateDependencyCreator = function(el, d)
+        {
+            if(!d.depCreator)
+            {
+                el.selectAll('.depCreate').remove();
+                $scope.addDependencyCreator(el, d);
+            }
         };
 
         var creatingPathClassName = 'creatingDep';
