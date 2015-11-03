@@ -221,7 +221,11 @@ angular.module('courses').service('ConceptStructure', function(Concepts, Concept
                     callback($scope.dependencies);
                 }
 
-                $scope.$watchCollection('rawDeps.downloadedUpdates', me.setDependencies);
+                $scope.$watchCollection('rawDeps.downloadedUpdates', function()
+                {
+                    me.setDependencies($scope.rawDeps);
+                    $scope.$broadcast('dataUpdated');
+                });
             });
         })
     };
