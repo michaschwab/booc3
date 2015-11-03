@@ -9,7 +9,7 @@ angular.module('courses').service('MapArrowShaping', function(Tip, ConceptStruct
         $scope = scope;
 
         curveCache = $cacheFactory('curve');
-        $scope.$on('dataUpdated', curveCache.removeAll());
+        $scope.$on('dataUpdated', curveCache.removeAll);
     };
 
     this.curvePath = function(pathNode, pos, coveredConcepts, scale, getTranslateAbs, shortenStart, shortenEnd, offsetEach, color, dep, graphWidth, graphHeight)
