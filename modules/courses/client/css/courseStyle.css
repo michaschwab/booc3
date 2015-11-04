@@ -336,3 +336,7 @@ text.learned, text.goal {
 .startIconGroup .start-title {
     fill: #444444;
 }
+
+.remove-dep-link .glyphicon {
+    float: right;
+}

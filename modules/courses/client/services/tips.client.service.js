@@ -2,7 +2,7 @@
 
 //Concepts service used to communicate Concepts REST endpoints
 angular.module('contents').service('Tip',
-function($timeout, ConceptStructure)
+function($timeout, ConceptStructure, Authentication)
 {
     var me = this;
     var vis = d3.select("#vis");
@@ -306,9 +306,9 @@ function($timeout, ConceptStructure)
                 {
                     var content = 'Learn <i>' + d.from.concept.title + '</i><br /> before <i>' + d.to.concept.title + '</i>';
 
-                    if(true) // todo find correct admin check
+                    if(Authentication.isCourseTeachingAssistant($scope.course._id))
                     {
-                        content += '<a id="remove-dep-link-'+ d.dep._id +'" href><span class="glyphicon glyphicon-trash"></span></a>';
+                        content += '<a class="remove-dep-link" id="remove-dep-link-'+ d.dep._id +'" href><span class="glyphicon glyphicon-trash"></span></a>';
 
                         $timeout(function()
                         {
