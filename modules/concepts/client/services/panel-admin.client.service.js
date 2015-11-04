@@ -145,13 +145,16 @@ angular.module('courses').service('PanelAdmin', function(Concepts, $rootScope, $
                 //$scope.concepts.push(c);
                 //$rootScope.$broadcast('conceptAdd', c);
 
-                $timeout(function()
+                var focus = function()
                 {
                     var el = $('#concept-title-' + c._id);
 
                     el.focus();
                     el.select();
-                }, 100);
+                };
+
+                $timeout(focus, 100);
+                $timeout(focus, 200);
             });
         };
     };
