@@ -306,10 +306,22 @@ function($timeout, ConceptStructure)
                 {
                     var content = 'Learn <i>' + d.from.concept.title + '</i><br /> before <i>' + d.to.concept.title + '</i>';
 
-                    if(false) // todo find correct admin check
+                    if(true) // todo find correct admin check
                     {
-                        content += '<a href ng-click="removeDep(\''+ d.dep._id +'\')"><span class="glyphicon glyphicon-trash"></span></a>'
+                        content += '<a id="remove-dep-link-'+ d.dep._id +'" href><span class="glyphicon glyphicon-trash"></span></a>';
+
+                        $timeout(function()
+                        {
+                            $('#remove-dep-link-' + d.dep._id).click(function(e)
+                            {
+                                $scope.removeDependency(d);
+
+                                e.preventDefault();
+                                return false;
+                            });
+                        },100);
                     }
+
                     return content;
                     //return 'Learn <i>' + d.from.concept.title + '</i><br /> before <i>' + d.to.concept.title + '</i>';
                 });

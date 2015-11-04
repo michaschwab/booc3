@@ -68,11 +68,35 @@ angular.module('courses').service('MapActions', function(Tip, ConceptStructure, 
             }
             else if(tagName == 'path' && isAdmin)
             {
-                $scope.removeDependency($event);
+                $scope.removeDependencyEvent($event);
             }
         };
 
-        $scope.removeDependency = function($event)
+        $scope.removeDependency = function(d)
+        {
+            var modalInstance = $modal.open({
+                animation: true,
+                templateUrl: 'modules/conceptdependencies/views/removeModal.client.view.html',
+                controller: 'DependencyRemoveModalController',
+                resolve: {
+                    dependency: function() { return d.dep; },
+                    from: function() { return d.from; },
+                    to: function() { return d.to }
+                }
+            });
+
+            modalInstance.result.then(function ()
+            {
+                d.dep.$remove(function()
+                {
+                    console.log('gone?');
+                });
+            }, function () {
+                console.log('Modal dismissed at: ' + new Date());
+            });
+        };
+
+        $scope.removeDependencyEvent = function($event)
         {
             var depPath = $event.toElement;
 
@@ -83,30 +107,9 @@ angular.module('courses').service('MapActions', function(Tip, ConceptStructure, 
                 //console.log(d);
                 if(d.dep)
                 {
-                    var modalInstance = $modal.open({
-                        animation: true,
-                        templateUrl: 'modules/conceptdependencies/views/removeModal.client.view.html',
-                        controller: 'DependencyRemoveModalController',
-                        resolve: {
-                            dependency: function() { return d.dep; },
-                            from: function() { return d.from; },
-                            to: function() { return d.to }
-                        }
-                    });
-
-                    modalInstance.result.then(function ()
-                    {
-                        d.dep.$remove(function()
-                        {
-                            console.log('gone?');
-                        });
-                    }, function () {
-                        console.log('Modal dismissed at: ' + new Date());
-                    });
+                    $scope.removeDependency(d);
                 }
             });
-
-
         };
 
         $scope.setGoal = function($event)
