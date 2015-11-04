@@ -302,13 +302,31 @@ function($timeout, ConceptStructure)
                 .attr('class', 'd3-tip')
                 //.attr('id', function(d) { return 'd3-tip-' + d.from.concept._id + '-' + d.to.concept._id; })
                 .offset([-6, 0])
-                .html(function(d) {
-                    return 'Learn <i>' + d.from.concept.title + '</i><br /> before <i>' + d.to.concept.title + '</i>';
+                .html(function(d)
+                {
+                    var content = 'Learn <i>' + d.from.concept.title + '</i><br /> before <i>' + d.to.concept.title + '</i>';
+
+                    if(false) // todo find correct admin check
+                    {
+                        content += '<a href ng-click="removeDep(\''+ d.dep._id +'\')"><span class="glyphicon glyphicon-trash"></span></a>'
+                    }
+                    return content;
+                    //return 'Learn <i>' + d.from.concept.title + '</i><br /> before <i>' + d.to.concept.title + '</i>';
                 });
             //.attr('top', function() { return d3.mouse()[1]; })
             //.attr('left', function() { return d3.mouse()[0]; });
 
             $scope.vis.call(tip);
+            var clicked = false;
+
+            var repositionFct = function()
+            {
+                if(!clicked)
+                {
+                    tip.style('left', function() { return (d3.event.pageX - this.getBoundingClientRect().width/2) + 'px' });
+                    tip.style('top', function() { return (d3.event.pageY - this.getBoundingClientRect().height - 8) + 'px' });
+                }
+            };
 
             segment
                 .on('mouseover', function(d)
@@ -318,53 +336,29 @@ function($timeout, ConceptStructure)
                     {
                         me.show(tip, d);
                     }
-                    tip.style('left', function() { return (d3.event.pageX - this.getBoundingClientRect().width/2) + 'px' })
-                    tip.style('top', function() { return (d3.event.pageY - this.getBoundingClientRect().height - 8) + 'px' })
+                    repositionFct();
                     fixHover(d3.event);
                 })
                 .on('mousemove', function(d)
                 {
                     $timeout.cancel(hideTimeout);
-                    tip.style('left', function() { return (d3.event.pageX - this.getBoundingClientRect().width/2) + 'px' })
-                    tip.style('top', function() { return (d3.event.pageY - this.getBoundingClientRect().height - 8) + 'px' })
+                    repositionFct();
                 })
                 .on('mouseleave', function()
                 {
-                    $timeout.cancel(hideTimeout);
-                    hideTimeout = $timeout(function(d) { hidden = true; me.closeOpenTips(); }, 50);
+                    if(!clicked)
+                    {
+                        $timeout.cancel(hideTimeout);
+                        hideTimeout = $timeout(function(d) { hidden = true; me.closeOpenTips(); }, 50);
+                    }
                 })
                 .on('click', function(d)
                 {
-                    //todo figure out what i was thinking here, and then hopefully remove this.
-                    /*function isActive(concept)
-                    {
-                        return currentChildrenIds.indexOf(concept.concept._id) !== -1;
-                    }
-
-                    if($scope.currentGoal !== null)
-                    {
-                        var currentChildren = ConceptStructure.getConceptChildrenFlat($scope.currentGoal);
-                        var currentChildrenIds = currentChildren.map(function(d) { return d.concept._id; });
-
-                        var isFrom = isActive(d.from);
-                        var isTo = isActive(d.to);
-
-                        if((isFrom && !isTo) || (!isFrom && isTo))
-                        {
-                            var target = isFrom ? d.to : d.from;
-
-                            $scope.activateConcept(target);
-                        }
-                        else
-                        {
-                            console.log('zoom out or do nothing');
-                        }
-                    }
-                     */
+                    clicked = true;
                     $timeout.cancel(hideTimeout);
-                    hideTimeout = $timeout(function(d) { hidden = true; me.closeOpenTips(); }, 50);
+                    //hideTimeout = $timeout(function(d) { hidden = true; me.closeOpenTips(); }, 50);
                     //d3.event.stopPropagation();
-                    fixClick(d3.event);
+                    //fixClick(d3.event);
                 });
         }
 
