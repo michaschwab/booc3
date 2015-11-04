@@ -5,42 +5,13 @@ angular.module('courses').service('PanelAdmin', function(Concepts, $rootScope, $
     var defaultConceptColors = ['#CB654F', '#D3B1A7', '#CFCB9C', '#8CBEA3', '#DFBA47'];
     var me = this;
 
-    //todo move this somewhere else.
-    this.hasConceptEditRights = function(courseId, cb)
-    {
-        var user = Authentication.user;
-        var userId = user._id;
-
-        if(user.roles.indexOf('admin') !== -1)
-        {
-            cb(true);
-            return true;
-        }
-        else
-        {
-            //TODO
-            /*Courseadmins.query({ user: userId }, function(admins)
-            {
-                var hasRights = admins.filter(function(a)
-                {
-                    return a.course == courseId && ['teacher', 'ta'].indexOf(a.type) !== -1;
-                }).length != 0;
-
-                cb(hasRights);
-            });*/
-        }
-    };
-
     this.init = function(scope)
     {
         $scope = scope;
 
         $scope.titlePattern = 'a-z';
 
-        me.hasConceptEditRights($scope.course._id, function(hasRights)
-        {
-            $scope.hasConceptEditRights = hasRights;
-        });
+        $scope.hasConceptEditRights = Authentication.isCourseTeachingAssistant($scope.course._id);
 
         $scope.titleKeyPress = function($event, concept)
         {
@@ -180,7 +151,7 @@ angular.module('courses').service('PanelAdmin', function(Concepts, $rootScope, $
 
                     el.focus();
                     el.select();
-                }, 10);
+                }, 100);
             });
         };
     };
