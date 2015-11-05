@@ -13,6 +13,11 @@ var ObjectId = mongoose.Types.ObjectId;
 
 var io;
 
+var mapping = {};
+mapping['Concept'] = 'Concepts';
+mapping['Conceptdependency'] = 'Conceptdependencies';
+mapping['LearnedConcept'] = 'LearnedConcepts';
+
 exports.setIo = function(newIo)
 {
     io = newIo;
@@ -37,7 +42,22 @@ exports.doDelete = function(user, data, cb)
             // since a client-side library like angular-socket-io has no access to this.
             if(io)
             {
+                // This is so the 'undo' message appears.
                 io.sockets.emit('save-actions', action);
+
+                // This is so subsequentially deleted contents also are deleted from the front end.
+                for(var DataType in action.data)
+                {
+                    if(action.data.hasOwnProperty(DataType))
+                    {
+                        action.data[DataType].forEach(function(delContent)
+                        {
+                            var modName = mapping[DataType] ? mapping[DataType].toLowerCase() : DataType.toLowerCase() + 's';
+                            var eventName = 'remove-' + modName;
+                            io.sockets.emit(eventName, delContent);
+                        });
+                    }
+                }
             }
 
             cb();
