@@ -81,7 +81,7 @@ svg.zooming-true .lxCircle.active {
 .zooming-true.zoom-2 .l3Circle text.depCreate {
     font-size: 20%;
 }*/
-svg #mainLayer text.active.depCreate {
+svg #mainLayer .active.depCreate {
     fill: #ccc;
     pointer-events: visible;
     /*pointer-events: all;*/

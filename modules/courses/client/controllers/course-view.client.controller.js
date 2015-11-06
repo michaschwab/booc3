@@ -294,6 +294,8 @@ angular.module('courses').controller('CourseViewController',
 
         $scope.hoverConcept = function(concept)
         {
+            if(!concept) return;
+
             if($scope.active.hoveringConceptIds.indexOf(concept.concept._id) === -1)
             {
                 $scope.active.hoverConcept = concept;

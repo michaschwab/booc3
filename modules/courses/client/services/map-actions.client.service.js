@@ -134,58 +134,6 @@ angular.module('courses').service('MapActions', function(Tip, ConceptStructure, 
             }
         };
 
-        //todo move this to map icons.
-        $scope.addDependencyCreator = function(el, d)
-        {
-            d.depCreator = el.append('text').attr({
-                //y: -(d.splitTexts.length*params.l1.textYOffset/2)
-                'fill-opacity':function(){
-                    //if (depth>2) return 1;
-                    //else return 0;
-                    return 0;
-                },
-                class: 'depCreate',
-                id: 'depCreate-'+ d.concept._id
-                //fill:(config.textColor)//,
-                //dy: 3
-            });
-            d.depCreator.append('tspan').attr({
-                'font-family': 'Glyphicons Halflings'
-            }).text('');
-
-            d.depCreator.on('click', function(d)
-            {
-                if($scope.creatingDepConcept === null)
-                {
-                    $scope.creatingDepConcept = d;
-                }
-                else
-                {
-                    d3.selectAll('.' + creatingPathClassName).remove();
-
-                    $scope.addDependency($scope.creatingDepConcept.concept._id, d.concept._id, function()
-                    {
-                        $scope.redrawHover();
-                    });
-                    $scope.creatingDepConcept = null;
-                }
-
-                d3.event.stopPropagation();
-            }).on('mouseover', function(d)
-            {
-                Tip.mouseOverConcept(d);
-            });
-        };
-
-        $scope.updateDependencyCreator = function(el, d)
-        {
-            if(!d.depCreator)
-            {
-                el.selectAll('.depCreate').remove();
-                $scope.addDependencyCreator(el, d);
-            }
-        };
-
         var creatingPathClassName = 'creatingDep';
 
         $scope.$watch('creatingDepConcept', function()

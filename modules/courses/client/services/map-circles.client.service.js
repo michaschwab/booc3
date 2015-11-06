@@ -422,17 +422,9 @@ angular.module('courses').service('MapCircles', function(Tip, $location, $timeou
                     class: 'concept-title'
                 });
 
-                $scope.addDependencyCreator(el, d);
-                // TODO update d outside of the .enter() to reflect changes in the data.
-
                 d.splitTexts = $scope.splitTitle(d.concept.title, d.depth);
 
                 me.makeTitle(d, el);
-            });
-            lxCircle.each(function(d)
-            {
-                var el = d3.select(this);
-                $scope.updateDependencyCreator(el, d);
             });
 
             Tip.forConcept(lxCircleEnter);

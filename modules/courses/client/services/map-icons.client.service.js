@@ -1,4 +1,4 @@
-angular.module('courses').service('MapIcons', function(Tip, ConceptStructure, $location)
+angular.module('courses').service('MapIcons', function(Tip, ConceptStructure, $location, Authentication)
 {
     var me = this;
     var $scope;
@@ -17,7 +17,6 @@ angular.module('courses').service('MapIcons', function(Tip, ConceptStructure, $l
 
     this.add = function(el, d)
     {
-        var config = $scope.getConfig(d);
         /*var iconColor = $scope.darker($scope.depthColorModification(d));
         el.attr('fill', iconColor);*/
 
@@ -77,6 +76,75 @@ angular.module('courses').service('MapIcons', function(Tip, ConceptStructure, $l
         d.goalText.append('tspan').attr({
             'font-family': 'Glyphicons Halflings'
         }).text("\uE034");
+
+        this.addDependencyCreator(el, d);
+    };
+
+    this.updateDependencyCreator = function(el, d)
+    {
+        if(!Authentication.isCourseTeachingAssistant($scope.course._id))
+            return;
+
+        el.selectAll('.depCreate').remove();
+
+        this.addDependencyCreator(el, d);
+    };
+
+    var creatingPathClassName = 'creatingDep';
+    this.addDependencyCreator = function(el, d)
+    {
+        var search = $location.search();
+        var adminMode = search && search.mode && search.mode == 'admin';
+        if(!Authentication.isCourseTeachingAssistant($scope.course._id) || !adminMode)
+            return;
+
+        var scaleFactor = d.radius * 150;
+        var scale = $scope.getConfig(d).scale;
+
+        d.depCreator = el.append('g').attr({
+            //y: -(d.splitTexts.length*params.l1.textYOffset/2)
+            'fill-opacity': 0.3,
+            class: 'depCreate',
+            id: 'depCreate-'+ d.concept._id
+            //'transform':'translate(70 -70)'
+            //fill:(config.textColor)//,
+            //dy: 3
+        });
+        //console.log($scope.visParams.l1.scale(1), $scope.visParams.l1.scale, d.radius, d);
+        d.depCreator.append('circle')
+            .attr('r', scaleFactor * 0.6)
+            .style('fill', d3.rgb('#ffffff'));
+
+        d.depCreator.append('path')
+            .attr('d', 'm 400,300 -110,-100 0,65 -280,0 0,70 280,0 0,65 z')
+            .attr('transform','translate(' + -0.4 * scaleFactor + ' ' + -0.65 * scaleFactor + ') scale(' + 0.00215 * scaleFactor + ')')
+            .style('fill', d3.rgb('#ffffff'));
+        /*d.depCreator.append('tspan').attr({
+         'font-family': 'Glyphicons Halflings'
+         }).text('?');*/
+
+        d.depCreator.on('click', function(d)
+        {
+            if($scope.creatingDepConcept === null)
+            {
+                $scope.creatingDepConcept = d;
+            }
+            else
+            {
+                d3.selectAll('.' + creatingPathClassName).remove();
+
+                $scope.addDependency($scope.creatingDepConcept.concept._id, d.concept._id, function()
+                {
+                    $scope.redrawHover();
+                });
+                $scope.creatingDepConcept = null;
+            }
+
+            d3.event.stopPropagation();
+        }).on('mouseover', function(d)
+        {
+            Tip.mouseOverConcept(d);
+        });
     };
 
     this.addToCircleEnter = function(lxCircleEnter)
@@ -116,6 +184,7 @@ angular.module('courses').service('MapIcons', function(Tip, ConceptStructure, $l
             {
                 me.add(iconEl, d);
             }
+            me.updateDependencyCreator(el, d);
 
             var size = $scope.graphHeight + '-' + d.radius;
 
