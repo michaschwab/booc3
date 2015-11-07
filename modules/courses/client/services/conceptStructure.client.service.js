@@ -24,9 +24,8 @@ angular.module('courses').service('ConceptStructure', function(Concepts, Concept
             return $scope.conceptMap[id];
         };
 
-        $scope.$on('conceptAdd', me.emptyCache);
         $scope.$on('conceptsReordered', me.emptyCache);
-        $scope.$on('conceptRemove', me.emptyCache);
+        $scope.$on('dataUpdated', me.emptyCache);
         $scope.$watchCollection('concepts.downloadedUpdates', this.setConceptsFromRemote);
     };
 
