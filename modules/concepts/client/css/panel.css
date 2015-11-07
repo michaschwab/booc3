@@ -11,7 +11,7 @@
     border-right: 1px solid #f0f0f0;
 }
 .sidepanel.maximized {
-    padding: 0 15pt;
+    padding: 0;
 }
 .sidepanel.minimized {
     padding: 0;
@@ -22,7 +22,7 @@
 }
 
 .sidepanel.maximized header {
-    margin: 0 -16pt 0 -15pt;
+    margin: 0;
     padding: 7px 15px 2px 15px;
 }
 .sidepanel.minimized header {
@@ -51,7 +51,7 @@
 }
 
 .sidepanel .row {
-    margin: 0 -15pt;
+    /*margin: 0 -15pt;*/
     background: #f7f7f7;
 }
 
@@ -156,7 +156,7 @@ a, a:focus {
 }
 
 .course-list {
-    left: -10px;
+    /*left: -10px;*/
     padding-left: 0;
     list-style-type: none;
     position: relative;
@@ -365,7 +365,7 @@ input.concept-title.admin {
 .course-list > .concept > .concept-list > .concept.active:last-child > a > .concept-line,
 .concept-list > .concept:last-child > .concept-list-nested > .concept.active:last-child > a > .concept-line,
 .course-list > .concept > .concept-list > .concept.hover:last-child > a > .concept-line,
-.concept-list > .concept:last-child > .concept-list-nested > .concept.hover:last-child > a > .concept-line, {
+.concept-list > .concept:last-child > .concept-list-nested > .concept.hover:last-child > a > .concept-line {
     min-height: 30px;
     height: 100%;
 }
@@ -694,7 +694,7 @@ input.concept-title.admin {
 /*** OPTIONS ***/
 .maximized .sidepanelOptions {
     float: right;
-    margin-right: -8px;
+    margin-right: 8px;
     margin-top:7px;
 }
 .minimizer {
@@ -741,7 +741,7 @@ input[type=color] {
 }
 .panel-minimized .panel-content {
     /*padding: 0;*/
-    padding: 10px 0 0 15px;
+    padding: 10px 0 0 5px;
 }
 .panel-minimized > .course-list {
     padding-top: 50px;
