@@ -5,7 +5,7 @@ describe('concept features', function()
 
     describe('concept editing', function()
     {
-        it('should let you rename concepts', function()
+        it('should let you rename concepts', function(done)
         {
             browser.params.login.admin();
 
@@ -31,6 +31,9 @@ describe('concept features', function()
                             expect(innerHtml).toContain(newTitle);
 
                             firstTitleInput.clear().sendKeys(oldTitle);
+
+                            browser.waitForAngular();
+                            done();
                         });
                     });
                 });
@@ -51,6 +54,24 @@ describe('concept features', function()
                 expect(element.all(by.repeater('child in activeHierarchyChildren')).count()).toBe(childCount+1);
 
 
+            });
+        });
+    });
+
+    describe('deleting', function()
+    {
+        it('should work', function()
+        {
+            browser.get('http://localhost:3000/courses/563285ed410846e876f00eb7?mode=admin');
+
+            element.all(by.repeater('child in activeHierarchyChildren')).then(function(children)
+            {
+                var childCount = children.length;
+                var lastChild = children[childCount - 1];
+
+                lastChild.element(by.css('.remove-concept')).click();
+
+                expect(element.all(by.repeater('child in activeHierarchyChildren')).count()).toBe(childCount-1);
             });
         });
     });
