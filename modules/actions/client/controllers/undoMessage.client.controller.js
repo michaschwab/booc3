@@ -7,7 +7,7 @@ angular.module('actions').controller('UndoMessageController',
     setTime();
     $interval(setTime, 1000);
 
-    Actions.query({}, function(actions)
+    Actions.query({ user: Authentication.user._id }, function(actions)
     {
         $scope.actions = actions;
 

@@ -28,7 +28,7 @@ exports.doDelete = function(user, data, cb)
     var action = new Action({});
     action.type = 'delete';
     action.data = data;
-    action.user = user;
+    action.user = user._id ? user._id : user;
 
     action.save(function(err)
     {
