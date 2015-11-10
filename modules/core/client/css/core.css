@@ -47,3 +47,33 @@ a:hover .header-profile-image {
   -webkit-animation: none 0s;
   animation: none 0s;
 }
+
+.uploader {
+  position: relative;
+  /*pointer-events: none;*/
+}
+.uploader-contents {
+  position: absolute;
+  top: 0;
+  right: 0;
+  pointer-events: none;
+}
+
+.uploader-contents:before {
+  content: " ";
+  background: #fff;
+  width: 98px;
+  height: 30px;
+  display: block;
+  position: absolute;
+  left: -100px;
+}
+
+.uploader input {
+  cursor: pointer;
+  padding: 7px 86px 7px 0;
+  position: relative;
+}
+.uploader input:focus {
+  outline: 0;
+}

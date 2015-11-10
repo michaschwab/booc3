@@ -2,10 +2,17 @@
 
     <div>
 
-        <a href class="btn btn-default pull-right">
-            <i class="fa fa-upload"></i>
-            Upload JSON file to Import Course
-        </a>
+
+        <div  class="pull-right uploader">
+
+            <input type="file" ng-model="backupFile" />
+
+            <div class="uploader-contents btn btn-default ">
+                <i class="fa fa-upload"></i>
+                Upload JSON file to Import Course
+            </div>
+
+        </div>
 
         <h2>Course Backups</h2>
 
