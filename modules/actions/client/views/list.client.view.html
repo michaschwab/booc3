@@ -32,7 +32,12 @@
                     <span ng-show="!action.undone">-</span>
                 </td>
                 <td>
-                    <div ng-if="$index == positionFirstNotUndone || $index == positionFirstNotUndone + 1">
+                    <div ng-if="$index == positionFirstNotUndone + 1">
+                        <a href ng-click="undo(action)" ng-show="!action.undone" class="btn btn-default btn-sm">
+                            <span class="glyphicon glyphicon-arrow-left"></span> Undo
+                        </a>
+                    </div>
+                    <div ng-if="$index == positionFirstNotUndone">
                         <a href ng-click="redo(action)" ng-show="action.undone" class="btn btn-default btn-sm">
                             <span class="glyphicon glyphicon-repeat"></span> Redo
                         </a>
