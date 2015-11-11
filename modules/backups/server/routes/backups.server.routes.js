@@ -7,9 +7,10 @@ module.exports = function(app)
     // Messages Routes
     app.route('/api/backups')
         //.get(backups.list)
-        .post(backups.create);
+        .post(backups.restore);
 
     app.route('/api/backups/:courseId')
+        .post(backups.create)
         .get(backups.list)
         .put(backups.update)
         .delete(backups.delete);

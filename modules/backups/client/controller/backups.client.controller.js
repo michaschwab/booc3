@@ -18,6 +18,24 @@ angular.module('actions').controller('BackupsController',
             })
         };
 
+        $scope.upload = function(element)
+        {
+            if(element.files.length == 1)
+            {
+                var file = element.files[0];
+
+                $http.post('api/backups', file,
+                    {
+                        transformRequest: angular.identity,
+                        headers: {'Content-Type': undefined}
+                    }
+                ).then(function(response)
+                {
+                    console.log(response);
+                });
+            }
+        };
+
         $scope.createBackup = function()
         {
             var courseId = $scope.course._id;
@@ -40,7 +58,7 @@ angular.module('actions').controller('BackupsController',
                             backup.segments = Segments.query({ source: { $in: sourceIds } }, function()
                             {
                                 $scope.backup = "text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(backup));
-                                $http.post('api/backups', backup).then(function(response)
+                                $http.post('api/backups/' + courseId, backup).then(function(response)
                                 {
                                     //success
                                     var fileName = response.data;

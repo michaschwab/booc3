@@ -5,7 +5,7 @@
 
         <div  class="pull-right uploader">
 
-            <input type="file" ng-model="backupFile" />
+            <input type="file" ng-model="backupFile" onchange="angular.element(this).scope().upload(this)" />
 
             <div class="uploader-contents btn btn-default ">
                 <i class="fa fa-upload"></i>
