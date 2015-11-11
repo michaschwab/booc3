@@ -47,8 +47,10 @@ exports.restore = function(req, res)
 {
     var data = req.body;
 
-    console.log('Concepts: ' + data.concepts.length);
-    console.log(data.concepts[0]);
+    res.jsonp(data);
+
+    /*console.log('Concepts: ' + data.concepts.length);
+    console.log(data.concepts[0]);*/
 };
 
 

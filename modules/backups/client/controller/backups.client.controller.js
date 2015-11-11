@@ -31,7 +31,16 @@ angular.module('actions').controller('BackupsController',
                     }
                 ).then(function(response)
                 {
-                    console.log(response);
+                    if(response.data)
+                    {
+                        var data = response.data;
+
+                        //todo loop through data and save one by one.
+                    }
+                    else
+                    {
+                        console.error(response);
+                    }
                 });
             }
         };
