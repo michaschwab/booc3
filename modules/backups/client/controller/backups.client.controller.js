@@ -33,9 +33,36 @@ angular.module('actions').controller('BackupsController',
                 {
                     if(response.data)
                     {
-                        var data = response.data;
+                        var backup = response.data;
 
-                        //todo loop through data and save one by one.
+                        var course = new Courses(backup.course);
+                        course.$save();
+
+                        backup.concepts.forEach(function(conceptData)
+                        {
+                            var concept = new Concepts(conceptData);
+                            concept.$save();
+                        });
+                        backup.conceptdependencies.forEach(function(depData)
+                        {
+                            var dep = new Conceptdependencies(depData);
+                            dep.$save();
+                        });
+                        backup.courseevents.forEach(function(eventData)
+                        {
+                            var event = new Courseevents(eventData);
+                            event.$save();
+                        });
+                        backup.sources.forEach(function(srcData)
+                        {
+                            var source = new Sources(srcData);
+                            source.$save();
+                        });
+                        backup.segments.forEach(function(segData)
+                        {
+                            var seg = new Segments(segData);
+                            seg.$save();
+                        });
                     }
                     else
                     {
