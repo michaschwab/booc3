@@ -111,6 +111,9 @@ exports.list = function(req, res) {
     if (req.query['_id']){
         qObject['_id'] = new ObjectId(req.query['_id']);
     }
+    if (req.query['courses']){
+        qObject['courses'] = new ObjectId(req.query['courses']);
+    }
 
     Source.find(qObject).sort('+created').exec(function(err, sources) {
         if (err) {

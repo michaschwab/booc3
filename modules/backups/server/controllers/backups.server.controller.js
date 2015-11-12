@@ -7,7 +7,14 @@ var path = require('path'),
     mongoose = require('mongoose'),
     fs = require('fs'),
     errorHandler = require(path.resolve('./modules/core/server/controllers/errors.server.controller')),
-    _ = require('lodash');
+    _ = require('lodash'),
+
+    Course = mongoose.model('Course'),
+    Concept = mongoose.model('Concept'),
+    Conceptdependency = mongoose.model('Conceptdependency'),
+    Courseevent = mongoose.model('Courseevent'),
+    Source = mongoose.model('Source'),
+    Segment = mongoose.model('Segment');
 
 var ObjectId = mongoose.Types.ObjectId;
 
@@ -23,12 +30,45 @@ exports.setIo = function(newIo)
  */
 exports.create = function(req, res)
 {
-    var backup = req.body;
+    var courseId = req.params.courseId;
 
-    exports.saveFile(backup.course._id, backup, function(error, fileName)
+    console.log(courseId);
+    var backup = {};
+
+    Course.findById(courseId).exec(function(err, course)
     {
-        console.error(uploadError);
-        return res.jsonp(fileName + '.json');
+        backup.course = course;
+        Concept.find({courses: { $in: [courseId]}}).exec(function(err, concepts)
+        {
+            backup.concepts = concepts;
+
+            Conceptdependency.find({course: courseId}).exec(function(err, conceptdependencies)
+            {
+                backup.conceptdependencies = conceptdependencies;
+
+                Courseevent.find({course: courseId}).exec(function(err, courseevents)
+                {
+                    backup.courseevents = courseevents;
+
+                    Source.find({courses: { $in: [courseId]}}).exec(function(err, sources)
+                    {
+                        backup.sources = sources;
+                        var sourceIds = backup.sources.map(function(s) { return s._id; });
+
+                        Segment.find({source: { $in: sourceIds}}).exec(function(err, segments)
+                        {
+                            backup.segments = segments;
+
+                            exports.saveFile(courseId, backup, function(error, fileName)
+                            {
+                                if(error) console.error(error);
+                                return res.jsonp(fileName);
+                            });
+                        });
+                    });
+                });
+            });
+        });
     });
 };
 

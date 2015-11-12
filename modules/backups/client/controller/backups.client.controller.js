@@ -11,7 +11,7 @@ angular.module('actions').controller('BackupsController',
 
             $http.get('api/backups/' + course._id).then(function(response)
             {
-                $scope.backups = response.data;
+                $scope.backups = response.data ? response.data : [];
             }, function(err)
             {
                 console.error(err);
@@ -76,38 +76,15 @@ angular.module('actions').controller('BackupsController',
         {
             var courseId = $scope.course._id;
 
-            var backup = {};
-            backup.course = $scope.course;
-            backup.concepts = Concepts.query({ courses: [courseId]}, function()
+            $http.post('api/backups/' + courseId).then(function(response)
             {
-                backup.conceptdependencies = Conceptdependencies.query({course: courseId }, function()
-                {
-                    backup.courseevents = Courseevents.query({course: courseId}, function()
-                    {
-                        backup.sources = Sources.query({courses: [courseId]}, function()
-                        {
-                            // Get all Segments of these Sources, not only the segments that are assigned to the given course,
-                            // Since we're assuming that the Segments and Sources will be removed before restoring and
-                            // therefore we would otherwise lose all segments that have not been assigned to the course.
+                //success
+                var fileName = response.data;
+                $scope.backups.push(fileName);
 
-                            var sourceIds = backup.sources.map(function(s) { return s._id; }).join(';');
-                            backup.segments = Segments.query({ sources: sourceIds }, function()
-                            {
-                                $scope.backup = "text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(backup));
-                                $http.post('api/backups/' + courseId, backup).then(function(response)
-                                {
-                                    //success
-                                    var fileName = response.data;
-                                    $scope.backups.push(fileName);
-
-                                }, function(err)
-                                {
-                                    console.error(err);
-                                });
-                            });
-                        });
-                    });
-                });
+            }, function(err)
+            {
+                console.error(err);
             });
         };
     });

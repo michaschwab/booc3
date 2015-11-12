@@ -14,6 +14,7 @@ module.exports = function(app) {
 	app.route('/api/courses/:courseId')
 		.get(coursePolicy.isAllowed, courses.read)
 		.put(coursePolicy.isAllowed, courses.update) // Course Teachers can edit own course
+		.post(coursePolicy.isAllowed, courses.create) // for backup restore
 		.delete(coursePolicy.isAllowed, courses.delete); // Course Teachers can delete own course
 
 	// Finish by binding the Course middleware
