@@ -11,6 +11,9 @@
     <div class="list-group">
         <li data-ng-repeat="course in courses" data-ng-href="courses/{{course._id}}" class="list-group-item">
             <div class="pull-right" data-ng-show="(authentication.user)">
+                <a class="btn btn-primary" title="Course Backups" data-ui-sref="backups.manageByCourse({courseId: course._id})">
+                    <i class="glyphicon glyphicon-floppy-save"></i>
+                </a>
                 <a class="btn btn-primary" title="Edit Course" data-ui-sref="courses.edit({courseId: course._id})">
                     <i class="glyphicon glyphicon-edit"></i>
                 </a>
