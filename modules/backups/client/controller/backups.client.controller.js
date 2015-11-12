@@ -1,22 +1,35 @@
 'use strict';
 
 angular.module('actions').controller('BackupsController',
-    function($http, $scope, Courses, Concepts, Conceptdependencies, Courseevents, Sources, Segments)
+    function($state, $stateParams, $http, $scope, Courses, Concepts, Conceptdependencies, Courseevents, Sources, Segments)
     {
         $scope.date = new Date();
-        $scope.courses = Courses.query();
+        $scope.courses = Courses.query({}, function()
+        {
+            var courseId = $stateParams.courseId;
+            if(courseId)
+            {
+                $scope.course = $scope.courses.filter(function(course) { return course._id == courseId; })[0];
+
+                angular.element('.course-select').scope().$select.selected = $scope.course;
+
+                    $http.get('api/backups/' + courseId).then(function(response)
+                {
+                    $scope.backups = response.data ? response.data : [];
+                }, function(err)
+                {
+                    console.error(err);
+                });
+            }
+        });
         $scope.courseSelect = function(course)
         {
             $scope.course = course;
 
-            $http.get('api/backups/' + course._id).then(function(response)
-            {
-                $scope.backups = response.data ? response.data : [];
-            }, function(err)
-            {
-                console.error(err);
-            })
+            $state.go('backups.manageByCourse', { courseId: course._id });
         };
+
+
 
         $scope.upload = function(element)
         {

@@ -7,7 +7,7 @@ angular.module('backups').config(['$stateProvider',
         $stateProvider
             .state('backups', {
                 abstract: true,
-                url: '/backups',
+                url: '/backups/',
                 template: '<ui-view/>',
                 data: {
                     roles: ['admin']
@@ -15,6 +15,10 @@ angular.module('backups').config(['$stateProvider',
             })
             .state('backups.manage', {
                 url: '',
+                templateUrl: 'modules/backups/views/manage.client.view.html'
+            })
+            .state('backups.manageByCourse', {
+                url: ':courseId',
                 templateUrl: 'modules/backups/views/manage.client.view.html'
             });
     }
