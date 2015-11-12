@@ -68,7 +68,7 @@ exports.delete = function(req, res)
 {
 	var concept = req.concept;
 
-	removeConcept(concept, function(msg)
+	exports.removeConcept(concept, function(msg)
 	{
 		return res.status(400).send({message: msg });
 	}, function(deletedData)
@@ -84,7 +84,7 @@ exports.delete = function(req, res)
 	});
 };
 
-function removeConcept(concept, onerror, callback)
+exports.removeConcept = function(concept, onerror, callback)
 {
 	var conceptId = concept._id;
 
@@ -128,7 +128,7 @@ function removeConcept(concept, onerror, callback)
 										{
 											childConcepts.forEach(function(child)
 											{
-												removeConcept(child, onerror, function(deletedChildData)
+												exports.removeConcept(child, onerror, function(deletedChildData)
 												{
 													deletedData.LearnedConcept = deletedData.LearnedConcept.concat(deletedChildData.LearnedConcept);
 													deletedData.Conceptdependency = deletedData.Conceptdependency.concat(deletedChildData.Conceptdependency);
@@ -151,7 +151,7 @@ function removeConcept(concept, onerror, callback)
 			});
 		}
 	});
-}
+};
 
 /**
  * List of Concepts

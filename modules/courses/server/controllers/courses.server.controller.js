@@ -7,7 +7,10 @@ var path = require('path'),
 	mongoose = require('mongoose'),
 	errorHandler = require(path.resolve('./modules/core/server/controllers/errors.server.controller')),
 	courseAdmin = require(path.resolve('./modules/users/server/controllers/courseadmin.server.controller')),
+	concepts = require(path.resolve('./modules/concepts/server/controllers/concepts.server.controller')),
+	actions = require(path.resolve('./modules/actions/server/controllers/actions.server.controller')),
 	Course = mongoose.model('Course'),
+	Concept = mongoose.model('Concept'),
 	_ = require('lodash');
 
 /**
@@ -64,6 +67,27 @@ exports.update = function(req, res) {
 	});
 };
 
+var mergeObject = function(data, addedData)
+{
+	//console.log(data);
+	for(var key in addedData)
+	{
+		if(addedData.hasOwnProperty(key))
+		{
+			if(!data[key])
+			{
+				data[key] = addedData[key];
+			}
+			else if(typeof data[key] == 'object')
+			{
+				data[key] = mergeObject(data[key], addedData[key]);
+			}
+		}
+
+	}
+	return data;
+};
+
 /**
  * Delete an Course
  */
@@ -71,16 +95,52 @@ exports.delete = function(req, res)
 {
 	var course = req.course;
 
-	// todo remove dependencies, and concepts that are not used by other courses, courseadmins,..
+	Concept.find({courses: { $in: [course._id]}}).exec().then(function(err, conceptList)
+	{
+		var cbs = 0;
+		var maxCallbacks = conceptList.length;
+		var deletedData = { };
 
-	course.remove(function(err) {
-		if (err) {
-			return res.status(400).send({
-				message: errorHandler.getErrorMessage(err)
-			});
-		} else {
-			res.jsonp(course);
-		}
+		var makeCallbackFct = function(isErrorFct)
+		{
+			return function(response)
+			{
+				if(isErrorFct)
+				{
+					console.error(response);
+				}
+				else
+				{
+					deletedData = mergeObject(deletedData, response);
+				}
+
+				cbs++;
+
+				if(cbs == maxCallbacks)
+				{
+					course.remove(function(err) {
+						if (err) {
+							return res.status(400).send({
+								message: errorHandler.getErrorMessage(err)
+							});
+						} else {
+							deletedData['Course'] = [course];
+
+							actions.doDelete(req.user, deletedData, function()
+							{
+								res.jsonp(course);
+							});
+						}
+					});
+				}
+			};
+		};
+
+		conceptList.forEach(function(concept)
+		{
+			concepts.removeConcept(concept, makeCallbackFct(true), makeCallbackFct(false));
+		});
+
 	});
 };
 

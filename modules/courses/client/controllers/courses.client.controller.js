@@ -60,29 +60,20 @@ angular.module('courses').controller('CoursesController',
 
 			var theCourse = course ? course : $scope.course;
 			var courseId = theCourse._id;
-			var concepts = Concepts.query({ courses: [courseId]}, function()
-			{
-				concepts.forEach(function(concept)
-				{
-					concept.$remove();
-				});
 
-				if ( course ) {
-					course.$remove();
+			if ( course ) {
+				course.$remove();
 
-					for (var i in $scope.courses) {
-						if ($scope.courses [i] === course) {
-							$scope.courses.splice(i, 1);
-						}
+				/*for (var i in $scope.courses) {
+					if ($scope.courses [i] === course) {
+						$scope.courses.splice(i, 1);
 					}
-				} else {
-					$scope.course.$remove(function() {
-						$state.go('courses.list');
-					});
-				}
-			});
-
-
+				}*/
+			} else {
+				$scope.course.$remove(function() {
+					$state.go('courses.list');
+				});
+			}
 		};
 
 		// Update existing Course
