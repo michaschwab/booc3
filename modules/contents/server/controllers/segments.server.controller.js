@@ -114,6 +114,16 @@ exports.list = function(req, res) {
     if (req.query['_id']){
         qObject['_id'] = new ObjectId(req.query['_id']);
     }
+    if(typeof req.query['sources'] == 'string')
+    {
+        if(!req.query['sources'])
+        {
+            res.jsonp([]);
+            return;
+        }
+
+        qObject['source'] = { '$in': req.query['sources'].split(';')};
+    }
 
     Segment.find(qObject).sort('+created').exec(function(err, segments) {
         if (err) {

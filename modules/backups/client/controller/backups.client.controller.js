@@ -90,8 +90,8 @@ angular.module('actions').controller('BackupsController',
                             // Since we're assuming that the Segments and Sources will be removed before restoring and
                             // therefore we would otherwise lose all segments that have not been assigned to the course.
 
-                            var sourceIds = backup.sources.map(function(s) { return s._id; });
-                            backup.segments = Segments.query({ source: { $in: sourceIds } }, function()
+                            var sourceIds = backup.sources.map(function(s) { return s._id; }).join(';');
+                            backup.segments = Segments.query({ sources: sourceIds }, function()
                             {
                                 $scope.backup = "text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(backup));
                                 $http.post('api/backups/' + courseId, backup).then(function(response)
