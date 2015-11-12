@@ -24,7 +24,17 @@ exports.setIo = function(newIo)
 exports.create = function(req, res)
 {
     var backup = req.body;
-    var subDir = backup.course._id;
+
+    exports.saveFile(backup.course._id, backup, function(error, fileName)
+    {
+        console.error(uploadError);
+        return res.jsonp(fileName + '.json');
+    });
+};
+
+exports.saveFile = function(courseId, backupData, callback)
+{
+    var subDir = courseId;
     var fileName = new Date().toISOString();
     var fullDir = './modules/backups/server/uploads/' + subDir;
 
@@ -34,10 +44,9 @@ exports.create = function(req, res)
         {
             fs.mkdirSync(fullDir);
         }
-        fs.writeFile(fullDir + '/' + fileName + '.json', JSON.stringify(backup), function (uploadError)
+        fs.writeFile(fullDir + '/' + fileName + '.json', JSON.stringify(backupData), function (uploadError)
         {
-            console.error(uploadError);
-            return res.jsonp(fileName + '.json');
+            callback(uploadError, fileName + '.json');
         });
     });
 };
