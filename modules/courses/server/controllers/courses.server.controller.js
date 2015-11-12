@@ -69,21 +69,27 @@ exports.update = function(req, res) {
 
 var mergeObject = function(data, addedData)
 {
-	//console.log(data);
-	for(var key in addedData)
+	if(typeof addedData == 'object' && addedData.constructor !== Array)
 	{
-		if(addedData.hasOwnProperty(key))
+		for(var key in addedData)
 		{
-			if(!data[key])
+			if(addedData.hasOwnProperty(key))
 			{
-				data[key] = addedData[key];
+				if(!data[key])
+				{
+					data[key] = addedData[key];
+				}
+				else if(typeof addedData[key] == 'object')
+				{
+					data[key] = mergeObject(data[key], addedData[key]);
+				}
 			}
-			else if(typeof data[key] == 'object')
-			{
-				data[key] = mergeObject(data[key], addedData[key]);
-			}
-		}
 
+		}
+	}
+	else if(addedData.constructor === Array)
+	{
+		data = data.concat(addedData);
 	}
 	return data;
 };
@@ -95,7 +101,7 @@ exports.delete = function(req, res)
 {
 	var course = req.course;
 
-	Concept.find({courses: { $in: [course._id]}}).exec().then(function(err, conceptList)
+	Concept.find({courses: { $in: [course._id]}}).exec(function(err, conceptList)
 	{
 		var cbs = 0;
 		var maxCallbacks = conceptList.length;
@@ -140,7 +146,6 @@ exports.delete = function(req, res)
 		{
 			concepts.removeConcept(concept, makeCallbackFct(true), makeCallbackFct(false));
 		});
-
 	});
 };
 
