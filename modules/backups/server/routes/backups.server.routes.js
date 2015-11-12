@@ -9,13 +9,13 @@ module.exports = function(app)
         //.get(backups.list)
         .post(backups.restore);
 
-    app.route('/api/backups/:courseId')
+    app.route('/api/backups/:possiblyDeletedCourseId')
         .post(backups.create)
         .get(backups.list)
         .put(backups.update)
         .delete(backups.delete);
 
-    app.route('/api/backups/:courseId/:backupFileName')
+    app.route('/api/backups/:possiblyDeletedCourseId/:backupFileName')
         .get(backups.read);
 
     // Finish by binding the Backup middleware

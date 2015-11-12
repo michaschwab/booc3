@@ -30,7 +30,7 @@ exports.setIo = function(newIo)
  */
 exports.create = function(req, res)
 {
-    var courseId = req.params.courseId;
+    var courseId = req.params.possiblyDeletedCourseId;
 
     console.log(courseId);
     var backup = {};
@@ -108,7 +108,7 @@ exports.restore = function(req, res)
  */
 exports.list = function(req, res)
 {
-    var courseId = req.params.courseId;
+    var courseId = req.params.possiblyDeletedCourseId;
 
     var subDir = courseId;
     var fullDir = './modules/backups/server/uploads/' + subDir;
@@ -126,7 +126,7 @@ exports.list = function(req, res)
  */
 exports.read = function(req, res)
 {
-    var courseId = req.params.courseId;
+    var courseId = req.params.possiblyDeletedCourseId;
     var backupFileName = req.params.backupFileName;
     var fullPath = './modules/backups/server/uploads/' + courseId + '/' + backupFileName;
 

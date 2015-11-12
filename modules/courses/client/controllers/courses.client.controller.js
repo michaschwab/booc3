@@ -2,7 +2,7 @@
 
 // Courses controller
 angular.module('courses').controller('CoursesController',
-	function($scope, $stateParams, $location, Authentication, Courses, Concepts, LearnedConcepts, $state)
+	function($http, $scope, $stateParams, $location, Authentication, Courses, Concepts, LearnedConcepts, $state)
 	{
 		$scope.authentication = Authentication;
 
@@ -61,19 +61,32 @@ angular.module('courses').controller('CoursesController',
 			var theCourse = course ? course : $scope.course;
 			var courseId = theCourse._id;
 
-			if ( course ) {
-				course.$remove();
+			// create backup first
+			$http.post('api/backups/' + courseId).then(function(response)
+			{
+				//success
+				var fileName = response.data;
+				var url = '/api/backups/' + courseId + '/' + fileName;
 
-				/*for (var i in $scope.courses) {
-					if ($scope.courses [i] === course) {
-						$scope.courses.splice(i, 1);
+				if ( course ) {
+					course.$remove();
+
+					//this is only necessary because courses dont run on socketresource (yet). could do that.
+					for (var i in $scope.courses) {
+						if ($scope.courses [i] === course) {
+							$scope.courses.splice(i, 1);
+						}
 					}
-				}*/
-			} else {
-				$scope.course.$remove(function() {
-					$state.go('courses.list');
-				});
-			}
+				} else {
+					$scope.course.$remove(function() {
+						$state.go('courses.list');
+					});
+				}
+
+			}, function(err)
+			{
+				console.error(err);
+			});
 		};
 
 		// Update existing Course
