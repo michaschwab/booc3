@@ -8,12 +8,12 @@ angular.module('courses').run(['Menus',
 
 		Menus.addMenuItem('topbar', {
 			title: 'Courses',
-			state: 'courses',
-			type: 'dropdown',
+			state: 'courses.list',
+			type: 'item',
 			roles: ['admin', 'teacher']
 		});
 
-		Menus.addSubMenuItem('topbar', 'courses', {
+		/*Menus.addSubMenuItem('topbar', 'courses', {
 			title: 'List Courses',
 			state: 'courses.list'
 		});
@@ -21,7 +21,7 @@ angular.module('courses').run(['Menus',
 		Menus.addSubMenuItem('topbar', 'courses', {
 			title: 'Create Course',
 			state: 'courses.create'
-		});
+		});*/
 
 		//Menus.addSubMenuItem('topbar', 'courses', 'List Courses', 'courses');
 		//Menus.addSubMenuItem('topbar', 'courses', 'New Course', 'courses/create');
