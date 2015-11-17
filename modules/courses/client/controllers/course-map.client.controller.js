@@ -102,6 +102,12 @@ angular.module('courses').controller('CourseMapController', ['$scope','$statePar
             }, REDRAW_MINTIME);
         };
 
+        var onBackgroundClick = function()
+        {
+            $scope.activateConcept();
+            Tip.closeOpenTips();
+        };
+
         $scope.resizeFunction = function()
         {
             var svgWidth = $scope.graphWidth;
@@ -167,7 +173,7 @@ angular.module('courses').controller('CourseMapController', ['$scope','$statePar
             {
                 if(e.target.id == 'vis')
                 {
-                    $scope.activateConcept();
+                    onBackgroundClick();
                     $scope.safeApply();
                 }
             });
