@@ -105,7 +105,7 @@ angular.module('courses').controller('CourseMapController', ['$scope','$statePar
         var onBackgroundClick = function()
         {
             $scope.activateConcept();
-            Tip.closeOpenTips();
+            //Tip.closeOpenTips();
         };
 
         $scope.resizeFunction = function()

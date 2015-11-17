@@ -197,10 +197,21 @@ function($timeout, ConceptStructure, Authentication)
         }
     };
 
+    this.removeDependencies = function()
+    {
+        d3.selectAll('.d3-tip').remove();
+        lastClicked = null;
+        hidden = true;
+        shown = '';
+        openTip = null;
+    };
+
     this.closeOpenTips = function()
     {
         hidden = true;
         shown = '';
+        lastClicked = null;
+
         if(openTip !== null)
         {
             openTip.hide();
@@ -292,12 +303,15 @@ function($timeout, ConceptStructure, Authentication)
         }
     };
 
+    var lastClicked = null;
+
     this.forDependency = function(segment)
     {
         var node = segment.node();
 
         if(node)
         {
+            console.trace();
             var tip = d3.tip()
                 .attr('class', 'd3-tip')
                 //.attr('id', function(d) { return 'd3-tip-' + d.from.concept._id + '-' + d.to.concept._id; })
@@ -329,11 +343,11 @@ function($timeout, ConceptStructure, Authentication)
             //.attr('left', function() { return d3.mouse()[0]; });
 
             $scope.vis.call(tip);
-            var clicked = false;
 
-            var repositionFct = function()
+            var repositionFct = function(d)
             {
-                if(!clicked)
+                //console.log(lastClicked);
+                if(lastClicked !== d)
                 {
                     tip.style('left', function() { return (d3.event.pageX - this.getBoundingClientRect().width/2) + 'px' });
                     tip.style('top', function() { return (d3.event.pageY - this.getBoundingClientRect().height - 8) + 'px' });
@@ -348,17 +362,17 @@ function($timeout, ConceptStructure, Authentication)
                     {
                         me.show(tip, d);
                     }
-                    repositionFct();
+                    repositionFct(d);
                     fixHover(d3.event);
                 })
                 .on('mousemove', function(d)
                 {
                     $timeout.cancel(hideTimeout);
-                    repositionFct();
+                    repositionFct(d);
                 })
                 .on('mouseleave', function()
                 {
-                    if(!clicked)
+                    if(!lastClicked)
                     {
                         $timeout.cancel(hideTimeout);
                         hideTimeout = $timeout(function(d) { hidden = true; me.closeOpenTips(); }, 50);
@@ -366,7 +380,7 @@ function($timeout, ConceptStructure, Authentication)
                 })
                 .on('click', function(d)
                 {
-                    clicked = true;
+                    lastClicked = d;
                     $timeout.cancel(hideTimeout);
                     //hideTimeout = $timeout(function(d) { hidden = true; me.closeOpenTips(); }, 50);
                     //d3.event.stopPropagation();

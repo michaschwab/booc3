@@ -118,8 +118,11 @@ angular.module('courses').service('MapArrows', function(Tip, ConceptStructure, M
 
     this.drawDeps = function()
     {
+        //todo do a better job than just redrawing everything from scratch every time.
+
         var depLayer = d3.select('#depLayer');
         depLayer.selectAll('*').remove();
+        Tip.removeDependencies();
 
         var provs = [];
 
