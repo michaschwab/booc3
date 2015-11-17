@@ -23,8 +23,26 @@
 
     </div>
 
-    <div ng-show="course">
-        <h2>Backups for {{course.title}}</h2>
+    <div ng-show="!courseId">
+
+        <h3>Other Course Backups</h3>
+
+        <p>There are also backups available for deleted courses with the following IDs:</p>
+
+        <ul>
+            <li ng-repeat="backupCourseId in backupCourseIds" ng-show="!courseMap[backupCourseId]">
+                <a data-ui-sref="backups.manageByCourse({courseId: backupCourseId})">{{backupCourseId}}</a>
+            </li>
+        </ul>
+
+    </div>
+
+    <div ng-show="courseId">
+        <h2>
+            Backups for
+            <span ng-show="course">{{course.title}}</span>
+            <span ng-show="!course">{{courseId}} (Deleted Course)</span>
+        </h2>
 
         <a ng-show="!backup" href class="btn btn-default pull-right" ng-click="createBackup()">
             <i class="fa fa-floppy-o"></i>

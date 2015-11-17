@@ -6,14 +6,17 @@ angular.module('actions').controller('BackupsController',
         $scope.date = new Date();
         $scope.courses = Courses.query({}, function()
         {
-            var courseId = $stateParams.courseId;
-            if(courseId)
+            $scope.courseMap = {};
+            $scope.courses.forEach(function(course) { $scope.courseMap[course._id] = course; });
+
+            $scope.courseId = $stateParams.courseId;
+            if($scope.courseId)
             {
-                $scope.course = $scope.courses.filter(function(course) { return course._id == courseId; })[0];
+                $scope.course = $scope.courses.filter(function(course) { return course._id == $scope.courseId; })[0];
 
                 angular.element('.course-select').scope().$select.selected = $scope.course;
 
-                    $http.get('api/backups/' + courseId).then(function(response)
+                    $http.get('api/backups/' + $scope.courseId).then(function(response)
                 {
                     $scope.backups = response.data ? response.data : [];
                 }, function(err)
@@ -30,6 +33,10 @@ angular.module('actions').controller('BackupsController',
         };
 
 
+        $http.get('api/backups/').then(function(response)
+        {
+            $scope.backupCourseIds = response.data ? response.data : [];
+        });
 
         $scope.upload = function(element)
         {

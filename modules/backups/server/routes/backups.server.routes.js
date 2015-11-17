@@ -6,7 +6,7 @@ module.exports = function(app)
 
     // Messages Routes
     app.route('/api/backups')
-        //.get(backups.list)
+        .get(backups.listCourseIds)
         .post(backups.restore);
 
     app.route('/api/backups/:possiblyDeletedCourseId')

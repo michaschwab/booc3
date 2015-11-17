@@ -120,6 +120,15 @@ exports.list = function(req, res)
     //res.jsonp(req.backup);
 };
 
+exports.listCourseIds = function(req, res)
+{
+    var fullDir = './modules/backups/server/uploads/';
+    fs.readdir(fullDir, function(err, files)
+    {
+        res.jsonp(files);
+    });
+};
+
 
 /**
  * Show backups
