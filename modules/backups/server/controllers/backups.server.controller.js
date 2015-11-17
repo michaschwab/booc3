@@ -94,12 +94,39 @@ exports.saveFile = function(courseId, backupData, callback)
 
 exports.restore = function(req, res)
 {
-    var data = req.body;
+    var backup = req.body;
 
-    res.jsonp(data);
+    var course = new Course(backup.course);
+    course.save();
 
-    /*console.log('Concepts: ' + data.concepts.length);
-    console.log(data.concepts[0]);*/
+    backup.concepts.forEach(function(conceptData)
+    {
+        var concept = new Concept(conceptData);
+        concept.save();
+    });
+
+    backup.conceptdependencies.forEach(function(depData)
+    {
+        var dep = new Conceptdependency(depData);
+        dep.save();
+    });
+    backup.courseevents.forEach(function(eventData)
+    {
+        var event = new Courseevent(eventData);
+        event.save();
+    });
+    backup.sources.forEach(function(srcData)
+    {
+        var source = new Source(srcData);
+        source.save();
+    });
+    backup.segments.forEach(function(segData)
+    {
+        var seg = new Segment(segData);
+        seg.save();
+    });
+
+    res.jsonp(backup);
 };
 
 

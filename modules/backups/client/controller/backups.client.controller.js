@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('actions').controller('BackupsController',
-    function($state, $stateParams, $http, $scope, Courses, Concepts, Conceptdependencies, Courseevents, Sources, Segments)
+    function($state, $stateParams, $http, $scope, Courses)
     {
         $scope.date = new Date();
         $scope.courses = Courses.query({}, function()
@@ -53,36 +53,9 @@ angular.module('actions').controller('BackupsController',
                 {
                     if(response.data)
                     {
-                        var backup = response.data;
+                        //var backup = response.data;
 
-                        var course = new Courses(backup.course);
-                        course.$save();
-
-                        backup.concepts.forEach(function(conceptData)
-                        {
-                            var concept = new Concepts(conceptData);
-                            concept.$save();
-                        });
-                        backup.conceptdependencies.forEach(function(depData)
-                        {
-                            var dep = new Conceptdependencies(depData);
-                            dep.$save();
-                        });
-                        backup.courseevents.forEach(function(eventData)
-                        {
-                            var event = new Courseevents(eventData);
-                            event.$save();
-                        });
-                        backup.sources.forEach(function(srcData)
-                        {
-                            var source = new Sources(srcData);
-                            source.$save();
-                        });
-                        backup.segments.forEach(function(segData)
-                        {
-                            var seg = new Segments(segData);
-                            seg.$save();
-                        });
+                        $state.go('home');
                     }
                     else
                     {
