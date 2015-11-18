@@ -152,7 +152,8 @@ exports.listCourseIds = function(req, res)
     var fullDir = './modules/backups/server/uploads/';
     fs.readdir(fullDir, function(err, files)
     {
-        res.jsonp(files);
+        var directories = files.filter(function(fileName) { return fileName != '.directory'; });
+        res.jsonp(directories);
     });
 };
 
