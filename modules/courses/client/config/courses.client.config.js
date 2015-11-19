@@ -6,12 +6,12 @@ angular.module('courses').run(['Menus',
 		// Set top bar menu items
 		//Menus.addMenuItem('topbar', 'Courses', 'courses', 'dropdown', '/courses(/create)?');
 
-		Menus.addMenuItem('topbar', {
+		/*Menus.addMenuItem('topbar', {
 			title: 'Courses',
 			state: 'courses.list',
 			type: 'item',
 			roles: ['admin', 'teacher']
-		});
+		});*/
 
 		/*Menus.addSubMenuItem('topbar', 'courses', {
 			title: 'List Courses',

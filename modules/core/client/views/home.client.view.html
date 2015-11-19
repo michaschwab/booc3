@@ -8,61 +8,12 @@
     <i>Booc, the non-linear learning environment.</i>
 
   </div>
+
+  <ng-include src="'modules/courses/views/list-courses.client.view.html'"></ng-include>
   <!--
     <div class="alert alert-danger" role="alert" data-ng-hide="(authentication.user)">Not authenticated. Please log in.</div>
   -->
 
-  <h3>
-    Courses
-  </h3>
 
-
-  <div>
-    <div class="list-group">
-      <a data-ng-repeat="course in courses" data-ui-sref="courses.view({courseId: course._id})" class="list-group-item courserow row">
-
-        <div class="col-md-9 course-description">
-          <h4 class="list-group-item-heading course-title" data-ng-bind="course.title"></h4>
-          <div data-ng-bind="course.description">
-
-          </div>
-        </div>
-        <div class="col-md-3 text-center progress-info" style="">
-
-          <p>
-
-            Learned<br />
-
-            <!--<span style="font-size: 36pt">
-              <mark>{{course.learnedConceptObjects.length}}</mark> / {{course.conceptObjects.length}}
-            </span>-->
-
-            <span style="font-size: 36pt">
-              {{course.learnedConceptObjects.length}}
-            </span>
-            <span style="font-size: 26pt">
-              of
-            </span>
-            <span style="font-size: 36pt">
-              {{course.conceptObjects.length}}
-            </span>
-
-
-            <br />
-
-            Concepts
-
-          </p>
-
-
-        </div>
-
-      </a>
-    </div>
-
-
-
-
-  </div>
 
 </section>

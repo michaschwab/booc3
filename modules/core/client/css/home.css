@@ -8,8 +8,9 @@
 .courserow {
     padding: 0;
     background: #FFFDFD;
+    /*cursor: pointer;*/
 }
-a.courserow:hover {
+.courserow:hover {
     background: #FFE6E6;
 }
 .courserow:hover .course-description {
@@ -19,9 +20,14 @@ a.courserow:hover {
 
 .course-description {
     padding: 20px;
+
     background: #fff;
     min-height: 160px;
     border-right: 1px solid #FFF5F5;
+}
+.courserow a {
+    color: #666;
+    text-decoration: none;
 }
 
 .progress-info {
@@ -29,4 +35,16 @@ a.courserow:hover {
     height: 100%;
     padding: 20px;
 
+}
+
+.course-actions a {
+    color: #ffffff;
+    /*background: #f00;*/
+}
+
+.course-contents {
+    display: block;
+    width: 100%;
+    height: 100%;
+    min-height: 140px;
 }

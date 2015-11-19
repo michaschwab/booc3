@@ -19,6 +19,10 @@ angular.module('users').factory('Authentication', ['$window',
 
       return false;
     };
+    auth.hasRole = function(role)
+    {
+      return auth.user.roles.indexOf(role) !== -1;
+    };
 
     auth.isCourseTeachingAssistant = function(courseId)
     {
@@ -26,6 +30,21 @@ angular.module('users').factory('Authentication', ['$window',
 
       return auth.hasOneRole(['admin', 'courseadmin;teacher;'+courseId, 'courseadmin;ta;'+courseId]);
     };
+
+    auth.canCreateCourses = function()
+    {
+      return auth.hasRole('admin') || auth.hasRole('teacher');
+    };
+    auth.canEditCourse = function(courseId)
+    {
+      return auth.isCourseTeachingAssistant(courseId);
+    };
+    auth.isOneCourseAdmin = function()
+    {
+      var roles = auth.user.roles.map(function(role) { return role.substr(0, 'courseadmin'.length)});
+      return roles.indexOf('admin') !== -1 || roles.indexOf('teacher') !== -1 || roles.indexOf('courseadmin') !== -1;
+    };
+
 
     return auth;
   }
