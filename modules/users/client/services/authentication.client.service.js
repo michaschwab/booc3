@@ -24,6 +24,15 @@ angular.module('users').factory('Authentication', ['$window',
       return auth.user.roles.indexOf(role) !== -1;
     };
 
+    auth.isAdmin = function()
+    {
+      return this.hasRole('admin');
+    };
+    auth.isTeacher = function()
+    {
+      return this.hasOneRole(['admin', 'teacher']);
+    };
+
     auth.isCourseTeachingAssistant = function(courseId)
     {
       var roles = auth.user.roles;

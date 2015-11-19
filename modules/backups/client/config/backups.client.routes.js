@@ -10,7 +10,7 @@ angular.module('backups').config(['$stateProvider',
                 url: '/backups/',
                 template: '<ui-view/>',
                 data: {
-                    roles: ['admin']
+                    roles: ['admin', 'teacher']
                 }
             })
             .state('backups.manage', {

@@ -3,7 +3,7 @@
     <div>
 
 
-        <div  class="pull-right uploader">
+        <div  class="pull-right uploader" ng-show="authentication.isAdmin()">
 
             <input type="file" ng-model="backupFile" onchange="angular.element(this).scope().upload(this)" />
 
@@ -13,6 +13,13 @@
             </div>
 
         </div>
+
+        <a href="mailto:me@michaschwab.de" class="pull-right btn btn-default" ng-show="authentication.isTeacher() && !authentication.isAdmin()">
+
+            <i class="fa fa-upload"></i>
+            E-Mail us to ask for a course restore
+
+        </a>
 
         <h2>Course Backups</h2>
 

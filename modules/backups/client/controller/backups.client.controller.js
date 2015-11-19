@@ -1,8 +1,10 @@
 'use strict';
 
 angular.module('actions').controller('BackupsController',
-    function($state, $stateParams, $http, $scope, Courses)
+    function($state, $stateParams, $http, $scope, Courses, Authentication)
     {
+        $scope.authentication = Authentication;
+
         $scope.date = new Date();
         $scope.courses = Courses.query({}, function()
         {
