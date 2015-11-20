@@ -8,6 +8,7 @@ var path = require('path'),
     nodemailer = require('nodemailer');
 
 var smtpTransport = nodemailer.createTransport(config.mailer.options);
+var courseadmin = require('../../../users/server/controllers/courseadmin.server.controller.js');
 
 /**
  * Render the main application page
@@ -53,9 +54,30 @@ exports.renderNotFound = function (req, res) {
 exports.sendFeedback = function(req, res, next)
 {
   async.waterfall([
-    // Lookup user by username
-    function (done) {
+    function(done) {
+      var mainAdmin = 'michaschwab@gmail.com';
 
+      if(req.body.course && req.body.course._id)
+      {
+        courseadmin.getCourseAdmins(req.body.course._id, function(admins)
+        {
+          var receivers = admins.map(function(admin) { return admin.email; });
+          receivers.push(mainAdmin);
+
+          var uniqueReceivers = receivers.filter(function(item, pos) {
+            return receivers.indexOf(item) == pos;
+          });
+
+          done(null, uniqueReceivers);
+        });
+      }
+      else
+      {
+        done(null, [mainAdmin]);
+      }
+    },
+    function (receivers, done)
+    {
       res.render(path.resolve('modules/core/server/views/feedback-email'), {
         user: req.user,
         userId: req.user._id.toString(),
@@ -63,30 +85,42 @@ exports.sendFeedback = function(req, res, next)
         url: req.headers.host,
         formData: req.body
       }, function (err, emailHTML) {
-        done(err, emailHTML, req.user);
+        done(err, emailHTML, receivers, req.user);
       });
     },
     // If valid email, send reset email using service
-    function (emailHTML, done) {
-      var mailOptions = {
-        to: 'michaschwab@gmail.com',
-        from: config.mailer.from,
-        subject: 'booc.io Feedback',
-        html: emailHTML
-      };
-      smtpTransport.sendMail(mailOptions, function (err) {
-        if (!err) {
-          res.send({
-            message: 'Feedback has been sent.'
-          });
-        } else {
-          console.log(err);
-          return res.status(400).send({
-            message: 'Failure sending email'
-          });
-        }
+    function (emailHTML, receivers, done)
+    {
+      var count = 0;
+      var err = 0;
 
-        //done(err);
+      receivers.forEach(function(receiver)
+      {
+        var mailOptions = {
+          to: receiver,
+          from: config.mailer.from,
+          subject: 'booc.io Feedback',
+          html: emailHTML
+        };
+        smtpTransport.sendMail(mailOptions, function (singleErr) {
+          count++;
+          if (singleErr) err = singleErr;
+
+          if(count == receivers.length - 1)
+          {
+            if (!err) {
+              res.send({
+                message: 'Feedback has been sent.'
+              });
+            } else {
+              console.log(err);
+              return res.status(400).send({
+                message: 'Failure sending email'
+              });
+            }
+          }
+          //done(err);
+        });
       });
     }
   ], function (err) {

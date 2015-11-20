@@ -34,7 +34,7 @@ exports.addTeacherRole = function(userId, courseId, callback)
 
 exports.getCourseAdmins = function(courseId, callback)
 {
-    User.find({}, function(users)
+    User.find({}, function(err, users)
     {
         var admins = users.filter(function(user)
         {
