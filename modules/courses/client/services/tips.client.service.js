@@ -311,7 +311,7 @@ function($timeout, ConceptStructure, Authentication)
 
         if(node)
         {
-            console.trace();
+            //console.trace();
             var tip = d3.tip()
                 .attr('class', 'd3-tip')
                 //.attr('id', function(d) { return 'd3-tip-' + d.from.concept._id + '-' + d.to.concept._id; })

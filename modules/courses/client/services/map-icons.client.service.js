@@ -100,6 +100,7 @@ angular.module('courses').service('MapIcons', function(Tip, ConceptStructure, $l
 
         var scaleFactor = d.radius * 150;
         var scale = $scope.getConfig(d).scale;
+        lastData[d.concept._id]['showDepCreate'] = false;
 
         d.depCreator = el.append('g').attr({
             //y: -(d.splitTexts.length*params.l1.textYOffset/2)
@@ -219,7 +220,8 @@ angular.module('courses').service('MapIcons', function(Tip, ConceptStructure, $l
             {
                 lastData[conceptId]['showDepCreate'] = showDepCreate;
                 //todo switch 'el' to 'iconEl' once $scope.addDependencyCreator has been moved to this file.
-                el.select('.depCreate').classed('active', within2Levels && adminMode)
+
+                el.select('.depCreate').classed('active', showDepCreate)
                     .transition().attr(
                     {
                         'fill-opacity': within2Levels && adminMode ? OPACITY : 0,
