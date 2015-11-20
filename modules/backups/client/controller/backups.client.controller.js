@@ -18,7 +18,7 @@ angular.module('actions').controller('BackupsController',
 
                 angular.element('.course-select').scope().$select.selected = $scope.course;
 
-                    $http.get('api/backups/' + $scope.courseId).then(function(response)
+                $http.get('api/backups/' + $scope.courseId).then(function(response)
                 {
                     $scope.backups = response.data ? response.data : [];
                 }, function(err)
@@ -46,24 +46,34 @@ angular.module('actions').controller('BackupsController',
             {
                 var file = element.files[0];
 
-                $http.post('api/backups', file,
-                    {
-                        transformRequest: angular.identity,
-                        headers: {'Content-Type': undefined}
-                    }
-                ).then(function(response)
+                var fileReader = new FileReader();
+                fileReader.onloadend = function(e)
                 {
-                    if(response.data)
-                    {
-                        //var backup = response.data;
+                    var data = e.target.result;
 
-                        $state.go('home');
-                    }
-                    else
+                    var formData = new FormData();
+                    formData.append('backup', data);
+
+                    $http.post('api/backups', formData,
+                        {
+                            transformRequest: angular.identity,
+                            headers: {'Content-Type': undefined}
+                        }
+                    ).then(function(response)
                     {
-                        console.error(response);
-                    }
-                });
+                        if(response.data)
+                        {
+                            //var backup = response.data;
+
+                            $state.go('home');
+                        }
+                        else
+                        {
+                            console.error(response);
+                        }
+                    });
+                };
+                fileReader.readAsBinaryString(file);
             }
         };
 
