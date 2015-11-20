@@ -94,7 +94,7 @@ exports.saveFile = function(courseId, backupData, callback)
 
 exports.restore = function(req, res)
 {
-    var backup = req.body;
+    var backup = JSON.parse(req.body.backup);
 
     var course = new Course(backup.course);
     course.save();
