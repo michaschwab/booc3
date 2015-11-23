@@ -8,7 +8,8 @@ angular.module('courses').service('MapArrowShaping', function(Tip, ConceptStruct
     {
         $scope = scope;
 
-        curveCache = $cacheFactory('curve');
+        var lastCache = $cacheFactory.get('curve');
+        curveCache = lastCache ? lastCache : $cacheFactory('curve');
         $scope.$on('dataUpdated', curveCache.removeAll);
     };
 

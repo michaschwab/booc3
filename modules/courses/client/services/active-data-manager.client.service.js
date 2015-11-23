@@ -550,7 +550,7 @@ angular.module('courses').service('ActiveDataManager', function(Authentication, 
 
                     if(!$scope.segmentPerConceptMap)
                     {
-                        return $timeout(updateWatchable, 5000);
+                        return $timeout(me.updateWatchable, 5000);
                     }
 
                     //console.log($scope.segmentPerConceptMap);

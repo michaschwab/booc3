@@ -5,6 +5,7 @@ angular.module('courses').controller('CourseMapController', ['$scope','$statePar
     {
         $scope.authentication = Authentication;
 
+        var me = this;
         var init = false;
         var dataReady = false;
 
@@ -410,14 +411,7 @@ angular.module('courses').controller('CourseMapController', ['$scope','$statePar
         });*/
 
         $scope.safeApply = function(fn) {
-            var phase = this.$root.$$phase;
-            if(phase == '$apply' || phase == '$digest') {
-                if(fn && (typeof(fn) === 'function')) {
-                    fn();
-                }
-            } else {
-                this.$apply(fn);
-            }
+            $timeout(fn);
         };
 
         var w = angular.element($window);
