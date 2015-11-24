@@ -198,6 +198,8 @@ angular.module('courses').controller('CourseMapController', ['$scope','$statePar
             if(!dataReady) return;
             if(!init) $scope.initMap();
 
+            $scope.absUrl = $location.absUrl(); // Sometimes this is not updated in time.
+
             var time = new Date().getTime();
             if(time - $scope.lastRedraw < REDRAW_MINTIME)
             {
