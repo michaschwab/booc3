@@ -11,7 +11,7 @@
         </a>
 
             <span class="glyphicon glyphicon-align-justify action-icon handle"></span>
-            <a href ng-click="removeConcept(child)" class="glyphicon glyphicon-remove remove-concept action-icon" title="Remove Concept"></a>
+            <a href ng-show="concepts.length>1" ng-click="removeConcept(child)" class="glyphicon glyphicon-remove remove-concept action-icon" title="Remove Concept"></a>
             <a href data-ui-sref="contents.createByCourseAndConcept({courseId: course._id, conceptId: child.concept._id, mode: 'admin' })" data-ui-sref-opts="{absolute: true, inherit: false}" class="glyphicon glyphicon-plus add-segment-to-concept action-icon" title="Add Content"></a>
 
 
