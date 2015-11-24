@@ -339,4 +339,5 @@ text.learned, text.goal {
 
 .remove-dep-link .glyphicon {
     float: right;
+    color: #fff;
 }
