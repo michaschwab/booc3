@@ -49,6 +49,16 @@
     margin-top: 0;
     color: #f8f7fb;
 }
+@media screen and (max-width: 1200px) {
+    .sidepanel header h2 {
+        font-size: 16pt;
+    }
+}
+@media screen and (min-width: 1201px) {
+    .sidepanel header h2 {
+        font-size: 24pt;
+    }
+}
 
 .sidepanel .row {
     /*margin: 0 -15pt;*/
