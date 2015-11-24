@@ -120,23 +120,49 @@ angular.module('courses').service('ConceptStructure', function(Concepts, Concept
         return deps;
     };
 
-    /*
-    // first = 564e1fef53071f405cf3957b
-    // two = 564e1ff253071f405cf3957c
-    // three = 564e1ff353071f405cf3957d
+
+    /*var concepts = {};
+    concepts['1'] = '564e1fef53071f405cf3957b';
+
+    concepts['2'] = '564e1ff253071f405cf3957c';
+    concepts['2-1'] = '5653d9836b58fbc037a7b930';
+    concepts['2-2'] = '5653d9846b58fbc037a7b931';
+    concepts['2-3'] = '5653d9846b58fbc037a7b932';
+
+    concepts['3'] = '564e1ff353071f405cf3957d';
+    concepts['3-1'] = '5653d9876b58fbc037a7b933';
+    concepts['3-2'] = '5653d9886b58fbc037a7b934';
+    concepts['3-3'] = '5653d9896b58fbc037a7b935';
 
     $timeout(function()
     {
-        // 2 -> 3
-        console.log(me.depIsPossible($scope.directories.concepts['564e1ff253071f405cf3957c'], $scope.directories.concepts['564e1ff353071f405cf3957d']));
+        var checks = [];
+        checks.push(['1', '2']);
+        checks.push(['2', '3']);
+        checks.push(['3', '2']);
+        checks.push(['2-1', '2-2']);
+        checks.push(['2-1', '2-3']);
+        checks.push(['2-2', '2-3']);
+        checks.push(['2-3', '2-2']);
+        checks.push(['2-1', '2']);
+        checks.push(['3-1', '3']);
 
-        // 1 -> 3
-        console.log(me.depIsPossible($scope.directories.concepts['564e1fef53071f405cf3957b'], $scope.directories.concepts['564e1ff353071f405cf3957d']));
-
-        // 3 -> 2
-        console.log(me.depIsPossible($scope.directories.concepts['564e1ff353071f405cf3957d'], $scope.directories.concepts['564e1fef53071f405cf3957b']));
+        checks.forEach(function(check)
+        {
+            console.log(check[0], check[1], me.depIsPossible($scope.directories.concepts[concepts[check[0]]], $scope.directories.concepts[concepts[check[1]]]));
+        });
 
     }, 2000);*/
+
+    this.depExists = function(provider, dependant)
+    {
+        var sameDeps = $scope.dependencies.filter(function(dependency)
+        {
+            return dependency.provider == provider.concept._id && dependency.dependant == dependant.concept._id;
+        });
+
+        return sameDeps.length != 0;
+    };
 
     this.depIsPossible = function(provider, dependant)
     {

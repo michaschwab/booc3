@@ -132,7 +132,7 @@ angular.module('courses').service('MapIcons', function(Tip, ConceptStructure, $l
             }
             else
             {
-                if(ConceptStructure.depIsPossible($scope.creatingDepConcept, d))
+                if(!ConceptStructure.depExists($scope.creatingDepConcept, d) && ConceptStructure.depIsPossible($scope.creatingDepConcept, d))
                 {
                     d3.selectAll('.' + creatingPathClassName).remove();
 
