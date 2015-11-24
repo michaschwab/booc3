@@ -205,6 +205,7 @@ angular.module('courses').controller('CourseViewController',
 
             if(cacheVal)
             {
+                $scope.addColor(cacheVal);
                 return cacheVal;
             }
             else
