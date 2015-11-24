@@ -89,12 +89,16 @@ a, a:focus {
     outline: 0;
 }
 
+.maximized .panel-header-buttons {
+    margin: 0 -10px;
+}
+
 .maximized .panel-button {
-    font-size: 12pt;
-    width: 47%;
+    font-size: 11pt;
+    width: 49%;
     float: left;
     height: 26pt;
-    margin: 0pt 10pt 5pt 0pt;
+    margin: 0pt 1% 5pt 0pt;
     /*box-shadow: 2px 2px 4px #999;*/
     border-radius: 5pt;
     border: 1px solid #ddd;
@@ -102,7 +106,7 @@ a, a:focus {
     display: block;
     color: #edecf1;
     top: 5px;
-    padding: 0px 10px 0 0px;
+    padding: 0px 2px 0 0px;
     text-align: center;
     /*position:absolute;*/
 }
@@ -836,6 +840,12 @@ input[type=color] {
     vertical-align: text-bottom;
     padding-left: 10px;
     /*text-indent: -9999px;*/
+}
+
+@media screen and (max-width: 1024px) {
+    .learning-buttons .btn .btn-label {
+        display:none;
+    }
 }
 
 .minimized .learning-buttons .btn .btn-label {
