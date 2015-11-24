@@ -216,7 +216,11 @@ angular.module('courses').service('MapIcons', function(Tip, ConceptStructure, $l
             var within2Levels = $scope.activeConcept ? Math.abs(d.depth - $scope.activeConcept.depth) < 3 : d.depth < 3;
             var depFontSize = d.depth > 2 ? 8.2 * $scope.graphHeight * d.radius / 10 : 3 * $scope.graphHeight * d.radius / 10;
             var depDy = d.depth > 2 ? 3.8 * $scope.graphHeight * d.radius / 10 : 1.5 * $scope.graphHeight * d.radius / 10;
-            var showDepCreate = within2Levels && adminMode;
+            var canMakeDepToThis = $scope.creatingDepConcept
+                ? ConceptStructure.depIsPossible($scope.creatingDepConcept, d) && !ConceptStructure.depExists($scope.creatingDepConcept, d)
+                : true;
+            var showDepCreate = within2Levels && adminMode && canMakeDepToThis;
+
             //console.log(showDepCreate);
 
             if(!lastData[conceptId]['showDepCreate'] || lastData[conceptId]['showDepCreate'] !== showDepCreate)
@@ -227,7 +231,7 @@ angular.module('courses').service('MapIcons', function(Tip, ConceptStructure, $l
                 el.select('.depCreate').classed('active', showDepCreate)
                     .transition().attr(
                     {
-                        'fill-opacity': within2Levels && adminMode ? OPACITY : 0,
+                        'fill-opacity': showDepCreate ? OPACITY : 0,
                         'dy': depDy
                     }).style({
                         'font-size': depFontSize + 'px'

@@ -138,6 +138,8 @@ angular.module('courses').service('MapActions', function(Tip, ConceptStructure, 
 
         $scope.$watch('creatingDepConcept', function()
         {
+            $scope.redraw();
+
             function getCursor(evt)
             {
                 var svg = document.getElementById('vis');
