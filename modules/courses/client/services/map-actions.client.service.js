@@ -17,7 +17,7 @@ angular.module('courses').service('MapActions', function(Tip, ConceptStructure, 
                 $location.search('active', '');
                 //$location.search('goal', '');
                 $scope.safeApply();
-                $scope.redraw();
+                //$scope.redraw();
             }
             else
             {
