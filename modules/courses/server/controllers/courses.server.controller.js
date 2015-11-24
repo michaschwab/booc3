@@ -101,11 +101,12 @@ exports.delete = function(req, res)
 {
 	var course = req.course;
 
+	var deletedData = { };
+
 	Concept.find({courses: { $in: [course._id]}}).exec(function(err, conceptList)
 	{
 		var cbs = 0;
 		var maxCallbacks = conceptList.length;
-		var deletedData = { };
 
 		var makeCallbackFct = function(isErrorFct)
 		{
@@ -142,10 +143,30 @@ exports.delete = function(req, res)
 			};
 		};
 
-		conceptList.forEach(function(concept)
+		if(conceptList && conceptList.length)
 		{
-			concepts.removeConcept(concept, makeCallbackFct(true), makeCallbackFct(false));
-		});
+			conceptList.forEach(function(concept)
+			{
+				concepts.removeConcept(concept, makeCallbackFct(true), makeCallbackFct(false));
+			});
+		}
+		else
+		{
+			course.remove(function(err) {
+				if (err) {
+					return res.status(400).send({
+						message: errorHandler.getErrorMessage(err)
+					});
+				} else {
+					deletedData['Course'] = [course];
+
+					actions.doDelete(req.user, deletedData, function()
+					{
+						res.jsonp(course);
+					});
+				}
+			});
+		}
 	});
 };
 
