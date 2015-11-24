@@ -1,4 +1,4 @@
-angular.module('courses').service('ConceptStructure', function(Concepts, Conceptdependencies, $cacheFactory)
+angular.module('courses').service('ConceptStructure', function(Concepts, Conceptdependencies, $cacheFactory, $timeout)
 {
     var me = this;
     var courseId;
@@ -118,6 +118,45 @@ angular.module('courses').service('ConceptStructure', function(Concepts, Concept
         depCache.put(key, deps);
 
         return deps;
+    };
+
+    /*
+    // first = 564e1fef53071f405cf3957b
+    // two = 564e1ff253071f405cf3957c
+    // three = 564e1ff353071f405cf3957d
+
+    $timeout(function()
+    {
+        // 2 -> 3
+        console.log(me.depIsPossible($scope.directories.concepts['564e1ff253071f405cf3957c'], $scope.directories.concepts['564e1ff353071f405cf3957d']));
+
+        // 1 -> 3
+        console.log(me.depIsPossible($scope.directories.concepts['564e1fef53071f405cf3957b'], $scope.directories.concepts['564e1ff353071f405cf3957d']));
+
+        // 3 -> 2
+        console.log(me.depIsPossible($scope.directories.concepts['564e1ff353071f405cf3957d'], $scope.directories.concepts['564e1fef53071f405cf3957b']));
+
+    }, 2000);*/
+
+    this.depIsPossible = function(provider, dependant)
+    {
+        var complete = me.getTodoListSorted();
+
+        var indexProvider = complete.indexOf(provider);
+        var indexDependant = complete.indexOf(dependant);
+
+        if(indexProvider === -1 || indexDependant === -1)
+        {
+            console.error('can not find dependency concepts in concept list of this course', indexProvider, indexDependant, provider, dependant, complete);
+            return false;
+        }
+        if(indexProvider >= indexDependant)
+        {
+            return false;
+        }
+        //todo more checks.
+        return true;
+
     };
 
     this.getProvidingListSorted = function(concept)
@@ -283,6 +322,7 @@ angular.module('courses').service('ConceptStructure', function(Concepts, Concept
         });
 
     };
+
 
     return (this);
 });

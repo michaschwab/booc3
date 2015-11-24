@@ -132,13 +132,16 @@ angular.module('courses').service('MapIcons', function(Tip, ConceptStructure, $l
             }
             else
             {
-                d3.selectAll('.' + creatingPathClassName).remove();
-
-                $scope.addDependency($scope.creatingDepConcept.concept._id, d.concept._id, function()
+                if(ConceptStructure.depIsPossible($scope.creatingDepConcept, d))
                 {
-                    $scope.redrawHover();
-                });
-                $scope.creatingDepConcept = null;
+                    d3.selectAll('.' + creatingPathClassName).remove();
+
+                    $scope.addDependency($scope.creatingDepConcept.concept._id, d.concept._id, function()
+                    {
+                        $scope.redrawHover();
+                    });
+                    $scope.creatingDepConcept = null;
+                }
             }
 
             d3.event.stopPropagation();
