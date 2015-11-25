@@ -320,7 +320,7 @@ function($timeout, ConceptStructure, Authentication)
                 {
                     var content = 'Learn <i>' + d.from.concept.title + '</i><br /> before <i>' + d.to.concept.title + '</i>';
 
-                    if(Authentication.isCourseTeachingAssistant($scope.course._id))
+                    if(Authentication.isCourseTeachingAssistant($scope.course._id) && d.dep)
                     {
                         content += '<a class="remove-dep-link" id="remove-dep-link-'+ d.dep._id +'" href><span class="glyphicon glyphicon-trash"></span></a>';
 
