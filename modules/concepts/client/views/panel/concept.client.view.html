@@ -25,7 +25,7 @@
 
             <span class="concept-line"></span>
 
-            <a data-ui-sref="{active: concept.concept._id, segment:seg._id, learn: 'yes'}" title="{{::courseScope.sourcetypeMap[sourceMap[seg.source].type].title}} on {{::courseScope.sourceMap[seg.source].title}}">
+            <a data-ui-sref="{active: concept.concept._id, segment:seg._id, learn: 'yes'}" title="{{::courseScope.sourcetypeMap[courseScope.sourceMap[seg.source].type].title}} on {{::courseScope.sourceMap[seg.source].title}}">
                 <span class="{{::courseScope.sourcetypeMap[courseScope.sourceMap[seg.source].type].icon}} segment-icon"></span>
                 <span class="segment-title">{{::courseScope.sourcetypeMap[courseScope.sourceMap[seg.source].type].title}} on <i>{{::courseScope.sourceMap[seg.source].title}}</i></span>
             </a>
