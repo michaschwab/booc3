@@ -186,11 +186,11 @@ angular.module('courses').service('MapTour', function(Authentication, $timeout, 
         firstL2ChildrenData.forEach(function(child) { l2ChildrenTitles += child.concept.title + ', '});
         l2ChildrenTitles = l2ChildrenTitles.substr(0, l2ChildrenTitles.length - 2);*/
         //var l2ChildrenTitles = firstL2ChildrenData[0].concept.title
-        var childrenCountMinusOne = firstL2ChildrenData.length-1;
+        //var childrenCountMinusOne = firstL2ChildrenData.length-1;
 
         tour.addStep('concepts2', {
             title: 'Sub-Concepts',
-            text: 'For example, <b>' + firstL2Data.concept.title + '</b> is part of <b>' + firstTlcData.concept.title + '</b>. <br /><b>' + firstL2Data.concept.title + '</b> contains <b>' + firstL2ChildrenData[firstL2ChildrenData.length-1].concept.title + '</b> and ' + childrenCountMinusOne + ' more sub-concepts.',
+            text: 'For example, <b style="color:'+firstL2Data.concept.color+'">' + firstL2Data.concept.title + '</b> is part of <b style="color:'+firstTlcData.concept.color+'">' + firstTlcData.concept.title + '</b>. <br /><b style="color:'+firstL2Data.concept.color+'">' + firstL2Data.concept.title + '</b> contains <b>' + firstL2ChildrenData.length + ' sub-concepts.',
             attachTo: '#' + firstL2Id,
             classes: 'shepherd shepherd-open shepherd-theme-arrows shepherd-transparent-text',
             buttons: [backButton, exitButton, {
@@ -217,7 +217,7 @@ angular.module('courses').service('MapTour', function(Authentication, $timeout, 
                     tour.hide();
                     $location.search('active', '');
                     MapArrows.setOption('showCurrentPathHierarchy', true);
-                    $timeout(tour.next, waitTime);
+                    $timeout(function() { $scope.leaveConcept(); tour.next(); }, waitTime);
                 }
             }]
         });
@@ -249,7 +249,7 @@ angular.module('courses').service('MapTour', function(Authentication, $timeout, 
                     tour.hide();
                     $location.search('active', '');
                     //todo show shortcut path to tlc that skips stuff.
-                    $timeout(tour.next, waitTime);
+                    $timeout(function() { $scope.leaveConcept(); tour.next(); }, waitTime);
                 }
             }]
         });
@@ -281,7 +281,8 @@ angular.module('courses').service('MapTour', function(Authentication, $timeout, 
                     classes: 'shepherd-button-primary',
                     action: function() {
                         //$location.search('active', '');
-                        $scope.hoveringConceptIds = [skipData.concept.concept._id];
+                        //$scope.hoveringConceptIds = [skipData.concept.concept._id];
+                        $scope.hoverConcept(skipData.concept);
                         //todo show shortcut path to tlc that skips stuff.
                         $timeout(tour.next, 200);
                     }
@@ -290,8 +291,8 @@ angular.module('courses').service('MapTour', function(Authentication, $timeout, 
 
             tour.addStep('arrangement4', {
                 title: 'Arrangement of Concepts',
-                text: 'In this way, we can show you learning plans to specific <br />material by short-cutting past what you don’t need to know, <br />or what you already know. <br /><br />For Example, <b>' + skipData.concept.concept.title + '</b> skips <br /><b>' + skipData.skipped.concept.title + '</b>. Hover it with your mouse to see the learning plan.',
-                attachTo: '#concept-' + skipData.concept.concept._id,
+                text: 'In this way, we can show you learning plans to specific <br />material by short-cutting past what you don’t need to know, <br />or what you already know. <br /><br />For Example, <b style="color:'+skipData.concept.concept.color+'">' + skipData.concept.concept.title + '</b> skips <br /><b style="color:'+skipData.skipped.concept.color+'">' + skipData.skipped.concept.title + '</b>. Hover it with your mouse to see the learning plan.',
+                attachTo: '#concept-' + skipData.concept.concept._id + ' left',
                 classes: 'shepherd shepherd-open shepherd-theme-arrows shepherd-transparent-text',
                 buttons: [backButton, exitButton, beforeUnderstoodButton]
             });
@@ -325,7 +326,7 @@ angular.module('courses').service('MapTour', function(Authentication, $timeout, 
 
         tour.addStep('setgoal', {
             title: 'Learning Goals',
-            text: 'You can also use the flag to set a goal concept, <br />and then explore the learning plan in more detail. <br /><br />Let‘s see what that looks like.',
+            text: 'You can also use the flag to set a goal concept, <br />and then explore the learning plan in more detail. <br /><br />Let‘s look at the learning plan for this concept, step by step.',
             attachTo: '.set-goal',
             classes: 'shepherd shepherd-open shepherd-theme-arrows shepherd-transparent-text',
             buttons: [backButton, exitButton, {
@@ -373,7 +374,7 @@ angular.module('courses').service('MapTour', function(Authentication, $timeout, 
                                 var newActive = skippingFirstL3TodoL1[i];
 
                                 //$location.search('active', newActive.concept._id);
-                                setActive(i * 2200, newActive.concept._id);
+                                setActive(i * 2700, newActive.concept._id);
                             }
 
                             $timeout(function()
@@ -386,8 +387,8 @@ angular.module('courses').service('MapTour', function(Authentication, $timeout, 
                                     $location.search('mode', 'lecture');
                                     tour.next();
                                 }, waitTime);
-                            }, i * 2200);
-                        }, 2000);
+                            }, i * 2700);
+                        }, 2500);
                     }
                 }
             }]
