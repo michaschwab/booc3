@@ -16,13 +16,13 @@
                 <div class="col-md-9 course-description">
 
                     <div class="pull-right course-actions" data-ng-show="(authentication.isOneCourseAdmin())">
-                        <a class="btn btn-primary" title="Course Backups" data-ui-sref="backups.manageByCourse({courseId: course._id})">
+                        <a class="btn btn-default" title="Course Backups" data-ui-sref="backups.manageByCourse({courseId: course._id})">
                             <i class="glyphicon glyphicon-floppy-save"></i>
                         </a>
-                        <a class="btn btn-primary" title="Edit Course" data-ui-sref="courses.edit({courseId: course._id})">
+                        <a class="btn btn-default" title="Edit Course" data-ui-sref="courses.edit({courseId: course._id})">
                             <i class="glyphicon glyphicon-edit"></i>
                         </a>
-                        <a class="btn btn-primary remove-button" title="Remove Course" data-ng-click="remove(course);">
+                        <a class="btn btn-default remove-button" title="Remove Course" data-ng-click="remove(course);">
                             <i class="glyphicon glyphicon-trash"></i>
                         </a>
                     </div>
@@ -32,6 +32,9 @@
                         <p data-ng-bind="course.description">
 
                         </p>
+
+                        <button class="btn btn-primary pull-right">Enter Course</button>
+
                     </a>
                 </div>
                 <a class="col-md-3 text-center progress-info" style="" data-ui-sref="courses.view({courseId: course._id})" >
@@ -46,22 +49,23 @@
                           <mark>{{course.learnedConceptObjects.length}}</mark> / {{course.conceptObjects.length}}
                         </span>-->
 
-            <span style="font-size: 36pt">
-              {{course.learnedConceptObjects.length}}
-            </span>
-            <span style="font-size: 26pt">
-              of
-            </span>
-            <span style="font-size: 36pt">
-              {{course.conceptObjects.length}}
-            </span>
-
+                        <span style="font-size: 36pt">
+                          {{course.learnedConceptObjects.length}}
+                        </span>
+                        <span style="font-size: 26pt">
+                          of
+                        </span>
+                        <span style="font-size: 36pt">
+                          {{course.conceptObjects.length}}
+                        </span>
 
                         <br />
 
                         Concepts
 
                     </p>
+
+
 
 
                 </a>
