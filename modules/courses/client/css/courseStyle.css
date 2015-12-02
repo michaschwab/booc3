@@ -33,8 +33,8 @@ svg #mainLayer text, svg .startIconGroup text, svg .startIconGroup {
     pointer-events: none;
     alignment-baseline: middle;
 }
-svg #mainLayer .concept-title {
-
+svg #mainLayer .l3Circle .concept-title {
+    fill: #ffffff;
 }
 
 svg.zooming-true .lxCircle {

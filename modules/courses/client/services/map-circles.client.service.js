@@ -199,7 +199,7 @@ angular.module('courses').service('MapCircles', function(Tip, $location, $timeou
                     positionSelected:function(pos){return pos*1;},
                     position:function(pos){return pos *1;},
                     positionParentInSelection: function(pos) { return pos * 1; },
-                    textYOffset: 0.003,
+                    textYOffset: 0.004,
                     textPos:function(d){
                         if (d.splitTexts.length>0) return -((d.splitTexts.length-1)*3/2); // depends on textYOffset
                         else return 0;
@@ -571,7 +571,7 @@ angular.module('courses').service('MapCircles', function(Tip, $location, $timeou
 
     this.setFontSize = function(d, el, lastUpdate)
     {
-        var fontSize = $scope.graphHeight * d.radius / 17;
+        var fontSize = $scope.graphHeight * d.radius / 17 + 0.3;
 
         if(lastUpdate['fontSize'] !== fontSize)
         {

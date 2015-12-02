@@ -58,7 +58,9 @@ angular.module('courses').service('SeenDataManager', function(Authentication, $t
         }
         else
         {
-            return ($scope.seenMapByConcept && $scope.seenMapByConcept[d.concept._id]);
+            if(Object.keys($scope.seenMapByConcept).length === 0) return false;
+
+            return $scope.seenMapByConcept[d.concept._id] !== undefined && $scope.seenMapByConcept[d.concept._id] !== null;
         }
     };
 });
