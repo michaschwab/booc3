@@ -276,7 +276,7 @@ angular.module('courses').service('MapIcons', function(Tip, ConceptStructure, $l
             var currentIcon = icons[i];
 
             // 5ms.
-            if(!lastData[conceptId] || lastData[conceptId]['icon'] !== currentIcon)
+            if(!lastData[conceptId]['icon'] || lastData[conceptId]['icon'] !== currentIcon)
             {
                 lastData[conceptId]['icon'] = currentIcon;
 
@@ -314,12 +314,12 @@ angular.module('courses').service('MapIcons', function(Tip, ConceptStructure, $l
 
     this.isActive = function(d)
     {
-        return $scope.activeConcept && d.concept._id == $scope.activeConcept.concept._id;
+        return $scope.activeConcept !== null && $scope.activeConcept !== undefined && d.concept._id == $scope.activeConcept.concept._id;
     };
 
     this.isGoal = function(d)
     {
-        return $scope.goalConcept && $scope.goalConcept.concept._id === d.concept._id;
+        return $scope.goalConcept !== null && $scope.goalConcept !== undefined && $scope.goalConcept.concept._id === d.concept._id;
     };
 
     this.isPlayable = function(d)
