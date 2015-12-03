@@ -111,7 +111,7 @@ angular.module('courses').service('MapIcons', function(Tip, ConceptStructure, $l
             //fill:(config.textColor)//,
             //dy: 3
         });
-        //console.log($scope.visParams.l1.scale(1), $scope.visParams.l1.scale, d.radius, d);
+        //console.log($scope.visParams.scale(1), $scope.visParams.scale, d.radius, d);
         d.depCreator.append('circle')
             .attr('r', scaleFactor * 0.6)
             .style('fill', d3.rgb('#ffffff'));

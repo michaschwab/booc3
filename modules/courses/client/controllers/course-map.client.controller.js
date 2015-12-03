@@ -234,7 +234,7 @@ angular.module('courses').controller('CourseMapController', ['$scope','$statePar
                 var l1Radius = $scope.active.topLevelConcepts[0].radius;
                 var size = ((w>h)?h:w)/(1+l1Radius)-10;
 
-                params.l1.scale.range([0,(size/2)]);
+                params.scale.range([0,(size/2)]);
 
                 /*lxCircleEnters.forEach(function(lxCircleEnter)
                 {
@@ -261,7 +261,7 @@ angular.module('courses').controller('CourseMapController', ['$scope','$statePar
                         var index = sortedHierarchy[sortedHierarchy.length - 1].depth === 3 ? sortedHierarchy.length - 2 : sortedHierarchy.length - 1;
                         var selectedConcept = sortedHierarchy[index];
 
-                        var radius = $scope.visParams.l1.scale(selectedConcept.radius);
+                        var radius = $scope.visParams.scale(selectedConcept.radius);
 
                         var scaleRelative = 0.75; // If 1, then the element fills out the full screen.
                         scale = smallerDim / radius / 2 * scaleRelative;
@@ -381,7 +381,7 @@ angular.module('courses').controller('CourseMapController', ['$scope','$statePar
 
         $scope.correctPathPosition = function(concept, start, end)
         {
-            return MapArrows.correctPathPosition(concept, start, end, $scope.visParams.l1.scale, $scope.getTranslateAbs);
+            return MapArrows.correctPathPosition(concept, start, end, $scope.visParams.scale, $scope.getTranslateAbs);
         };
 
         var lastSize = '';

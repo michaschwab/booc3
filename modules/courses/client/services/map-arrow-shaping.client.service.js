@@ -209,13 +209,13 @@ angular.module('courses').service('MapArrowShaping', function(Tip, ConceptStruct
             {
                 /*newAngle = badAngles[0];
                  var transAbs = $scope.getTranslateAbs(concept);
-                 var radius = $scope.visParams.l1.scale(concept.radius) + $scope.visParams.l1.scale(concept.children[0].radius);
+                 var radius = $scope.visParams.scale(concept.radius) + $scope.visParams.scale(concept.children[0].radius);
                  start.x = transAbs.x + Math.sin(newAngle) * radius;
                  start.y = transAbs.y + Math.cos(newAngle) * radius;*/
 
                 // start outside the child so it doesnt overlap
                 //var transAbs = getTranslateAbs(concept);
-                //var radius = $scope.visParams.l1.scale(concept.radius) + $scope.visParams.l1.scale(concept.children[0].radius);
+                //var radius = $scope.visParams.scale(concept.radius) + $scope.visParams.scale(concept.children[0].radius);
                 var radius = scale(concept.children[0].radius);
                 /*start.x = transAbs.x + Math.sin(angle) * radius;
                  start.y = transAbs.y + Math.cos(angle) * radius;*/

@@ -95,9 +95,9 @@ angular.module('courses').service('MapCircles', function(Tip, $location, $timeou
             }
 
             translate = {
-                x: $scope.visParams.l1.scale(parentRadius * positionFct(d.x, d)),
-                y: $scope.visParams.l1.scale(parentRadius * positionFct(d.y, d)),
-                radius: $scope.visParams.l1.scale(parentRadius)
+                x: $scope.visParams.scale(parentRadius * positionFct(d.x, d)),
+                y: $scope.visParams.scale(parentRadius * positionFct(d.y, d)),
+                radius: $scope.visParams.scale(parentRadius)
             };
 
             if(!isNaN(translate.x))
@@ -629,7 +629,7 @@ angular.module('courses').service('MapCircles', function(Tip, $location, $timeou
                     circle.attr(
                     //circle.transition().attr(
                     {
-                        r:  params.l1.scale(d.radius)
+                        r:  params.scale(d.radius)
                     });
                 }
                 if(lastUpdate['color'] !== color)

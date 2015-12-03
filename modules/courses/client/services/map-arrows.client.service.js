@@ -270,7 +270,7 @@ angular.module('courses').service('MapArrows', function(Tip, ConceptStructure, M
                     .attr('d', lineBasis(pos));
                 var pathNode = path.node();
 
-                var lines = MapArrowShaping.curvePath(pathNode, pos, [from, to], $scope.visParams.l1.scale, $scope.getTranslateAbs, 0, 3, undefined, undefined, dep, $scope.graphWidth, $scope.graphHeight);
+                var lines = MapArrowShaping.curvePath(pathNode, pos, [from, to], $scope.visParams.scale, $scope.getTranslateAbs, 0, 3, undefined, undefined, dep, $scope.graphWidth, $scope.graphHeight);
 
                 me.addLines(lines, layer, groupClassName + '-' + i, pathClassName, markerNormal, markerColored, each);
 
@@ -511,7 +511,7 @@ angular.module('courses').service('MapArrows', function(Tip, ConceptStructure, M
             //.attr('class', 'currentPathHierarchy');
 
             var pathNode = path.node();
-            var lines = MapArrowShaping.curvePath(pathNode, pos, coveredConcepts, $scope.visParams.l1.scale, $scope.getTranslateAbs, 0, 0, offsetEach, color, null, $scope.graphWidth, $scope.graphHeight);
+            var lines = MapArrowShaping.curvePath(pathNode, pos, coveredConcepts, $scope.visParams.scale, $scope.getTranslateAbs, 0, 0, offsetEach, color, null, $scope.graphWidth, $scope.graphHeight);
 
             if(lines.length > 0)
             {
