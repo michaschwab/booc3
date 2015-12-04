@@ -98,7 +98,7 @@
                         <a href="/#!/courses/{{courseId}}?goal={{goalConcept.concept._id}}&active={{activeConcept.concept._id}}&learn={{learnModeYesNo}}&mode=hierarchy">
                             <span class="glyphicon glyphicon-info-sign visible-lg-inline-block"></span> Information</a></li>-->
 
-                    <li ng-show="learnMode" role="presentation" class="panel-tab tab-minimap" ng-class="{ 'active': activeMode==='minimap'}">
+                    <li ng-show="learnMode&&false" role="presentation" class="panel-tab tab-minimap" ng-class="{ 'active': activeMode==='minimap'}">
                         <a data-ui-sref="{mode: 'minimap'}" ng-disabled="!learnMode">
                             <span class="map-icon inline-block"></span> <span ng-if="panelWidth>300">Minimap</span></a></li>
 
