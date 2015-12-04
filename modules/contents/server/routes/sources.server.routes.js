@@ -8,6 +8,9 @@ module.exports = function(app) {
 		.get(sources.list)
 		.post(sources.create);
 
+	app.route('/api/sources/lectureZip')
+			.post(sources.uploadLectureSlides);
+
 	app.route('/api/sources/:sourceId')
 		.get(sources.read)
 		.put(sources.update)

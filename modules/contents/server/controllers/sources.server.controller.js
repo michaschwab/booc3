@@ -9,7 +9,8 @@ var path = require('path'),
 	Source = mongoose.model('Source'),
     Segment = mongoose.model('Segment'),
     Courseadmin = mongoose.model('Courseadmin'),
-	_ = require('lodash');
+    JSZip = require("jszip"),
+    _ = require('lodash');
 
 var ObjectId = mongoose.Types.ObjectId;
 var actions = require('../../../actions/server/controllers/actions.server.controller');
@@ -98,6 +99,24 @@ exports.delete = function(req, res)
             });
         });
     });
+};
+
+exports.uploadLectureSlides = function(req, res)
+{
+    //console.log(req.body.toString('binary'));
+    //var body = req.body;
+    var buffer = req.files.file.buffer;
+
+    //console.log(req.files.file.buffer);
+    //var buf = new Buffer(req.body.toString('binary'),'binary');
+    //var content = new Uint8Array(contentString);
+
+    //console.log(buf.length);
+    //console.log(content);
+    var zip = new JSZip(buffer);
+    //console.log(zip);
+
+    res.jsonp({a: 'test'});
 };
 
 /**

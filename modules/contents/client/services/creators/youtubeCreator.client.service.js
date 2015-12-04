@@ -1,4 +1,4 @@
-angular.module('contents').service('YoutubeCreator', function(ytapi, youtubeEmbedUtils, $http)
+angular.module('contents').service('YoutubeCreator', function(ytapi, youtubeEmbedUtils, $http, FileUploader, $window, $timeout)
 {
     var me = this;
     var $scope = null;
@@ -12,42 +12,67 @@ angular.module('contents').service('YoutubeCreator', function(ytapi, youtubeEmbe
         $scope.youtubeVidId = 0;
         $scope.player = null;
 
-        $scope.uploadLectureZip = function(element)
+        function setupZipUploader()
         {
-            if(element.files.length == 1)
+            $scope.uploader = new FileUploader({
+                url: 'api/sources/lectureZip'
+            });
+
+            $scope.cancelUpload = function ()
             {
-                var file = element.files[0];
+                $scope.uploader.clearQueue();
+                //$scope.zipURL = $scope.user.profileImageURL;
+            };
 
-                var fileReader = new FileReader();
-                fileReader.onloadend = function(e)
+            $scope.uploader.onSuccessItem  = function (fileItem, response, status, headers)
+            {
+                // Show success message
+                $scope.success = true;
+
+                // Populate user object
+                //$scope.user = Authentication.user = response;
+                console.log('yup');
+
+                // Clear upload buttons
+                $scope.cancelUpload();
+            };
+
+            $scope.uploader.onAfterAddingFile = function (fileItem)
+            {
+                if ($window.FileReader) {
+                    var fileReader = new FileReader();
+                    fileReader.readAsDataURL(fileItem._file);
+
+                    fileReader.onload = function (fileReaderEvent) {
+                        $timeout(function () {
+                            $scope.zipURL = fileReaderEvent.target.result;
+                            //console.log($scope.zipURL);
+
+                            $scope.uploader.uploadAll();
+                        }, 0);
+                    };
+                }
+            };
+
+            $scope.uploader.onErrorItem = function (fileItem, response, status, headers) {
+                // Clear upload buttons
+                $scope.cancelUpload();
+
+                // Show error message
+                console.error(response.message);
+            };
+
+            $scope.uploadLectureZip = function(element)
+            {
+                if(element.files.length == 1)
                 {
-                    var data = e.target.result;
+                    var file = element.files[0];
+                    $scope.uploader.addToQueue(file);
+                }
+            };
+        }
 
-                    var formData = new FormData();
-                    formData.append('backup', data);
-
-                    $http.post('api/contents/lectureZip', formData,
-                        {
-                            transformRequest: angular.identity,
-                            headers: {'Content-Type': undefined}
-                        }
-                    ).then(function(response)
-                    {
-                        if(response.data)
-                        {
-                            //var backup = response.data;
-                            console.log(response.data);
-                            //$state.go('home');
-                        }
-                        else
-                        {
-                            console.error(response);
-                        }
-                    });
-                };
-                fileReader.readAsBinaryString(file);
-            }
-        };
+        setupZipUploader();
 
         $scope.$watch('source.path', function(url)
         {
