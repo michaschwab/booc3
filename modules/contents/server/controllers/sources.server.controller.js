@@ -103,18 +103,35 @@ exports.delete = function(req, res)
 
 exports.uploadLectureSlides = function(req, res)
 {
-    //console.log(req.body.toString('binary'));
-    //var body = req.body;
     var buffer = req.files.file.buffer;
-
-    //console.log(req.files.file.buffer);
-    //var buf = new Buffer(req.body.toString('binary'),'binary');
-    //var content = new Uint8Array(contentString);
-
-    //console.log(buf.length);
-    //console.log(content);
     var zip = new JSZip(buffer);
-    //console.log(zip);
+
+    var fileNames = Object.keys(zip.files);
+
+    var xmlFileNames = fileNames.filter(function(fName) { return fName.substr(fName.length-4) === '.xml'});
+
+    if(xmlFileNames.length !== 1)
+    {
+        return res.status(400).send({
+            message: 'Did not find 1 XML file, but ' + xmlFileNames.length
+        });
+    }
+    var xmlFileName = xmlFileNames[0];
+
+    var materialsFolderNames = fileNames.filter(function(fName) { return fName === 'materials/'; });
+
+    if(materialsFolderNames.length !== 1)
+    {
+        return res.status(400).send({
+            message: 'Did not find 1 Materials folder, but ' + materialsFolderNames.length
+        });
+    }
+
+    var xmlFile = zip.files[xmlFileNames[0]];
+    var xmlFileContent = zip.file(xmlFileName).asText();
+
+    // TODO: Save all PDFs on the server.
+    // TODO: Parse xmlFileContent with xml reader (figure out video - slides synchronization), then save in DB, and return to client.
 
     res.jsonp({a: 'test'});
 };
