@@ -5,7 +5,7 @@ angular.module('contents').controller('CreatorController',
     {
         $scope.courseId = $stateParams.courseId;
         $scope.activeReadableType = '';
-        $scope.defaultReadableType = 'lecture';
+        $scope.defaultReadableType = 'youtube';
         $scope.activeType = null;
         $scope.source = {};
         $scope.allConcepts = [];

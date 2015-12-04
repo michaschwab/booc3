@@ -36,7 +36,7 @@
 
         <div class="form-group">
             <ul class="nav nav-tabs nav-justified" role="tablist">
-                <li ng-repeat="type in sourcetypes" ng-class="{'active': type._id == activeType._id}" ng-show="['PDF', 'LTI', 'Video', 'Presentation'].indexOf(type.title)===-1">
+                <li ng-repeat="type in sourcetypes" ng-class="{'active': type._id == activeType._id}" ng-show="['PDF', 'LTI', 'Video', 'Presentation', 'Lecture'].indexOf(type.title)===-1">
                     <a href="" id="sourcetype-{{type._id}}" ng-click="selectSourcetype(type,$event)">
                         <span class="{{type.icon}}"></span>
                         {{type.title}}</a>

@@ -17,6 +17,15 @@
     </div>
 </div>
 
+<div class="form-group" ng-class="{'has-error': contentCreateForm.lectureZip.$error.required, 'has-success': !contentCreateForm.lectureZip.$error.required&&source.lectureZip.length}">
+    <label for="lectureZip">If this is a lecture and there are synchronized slides available, upload them here.
+        <a href title="The zip package should contain the synchronization xml in the root directory, as well as a 'materials' subdirectory with the slides."><span class="glyphicon glyphicon-question-sign"></span></a>
+    </label><br />
+
+    <input type="file" id="lectureZip" ng-model="source.lectureZip" name="title" ng-required placeholder="Lecture ZIP of the video" class="form-control"/>
+
+</div>
+
 <div class="row">
     <div class="col-md-5">
         <ng-include src=" 'modules/contents/views/segmentListPanel.client.view.html' "></ng-include>
