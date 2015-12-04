@@ -318,7 +318,12 @@ function($timeout, ConceptStructure, Authentication)
                 .offset([-6, 0])
                 .html(function(d)
                 {
-                    var content = 'Learn <i>' + d.from.concept.title + '</i><br /> before <i>' + d.to.concept.title + '</i>';
+                    var content;
+
+                    if(!d.from.concept.title)
+                        content = 'You can go straight to ' + d.to.concept.title + '</i>';
+                    else
+                        content = 'Learn <i>' + d.from.concept.title + '</i><br /> before <i>' + d.to.concept.title + '</i>';
 
                     if(Authentication.isCourseTeachingAssistant($scope.course._id) && d.dep)
                     {
