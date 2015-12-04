@@ -1,4 +1,4 @@
-angular.module('contents').service('YoutubeCreator', function(ytapi, youtubeEmbedUtils)
+angular.module('contents').service('YoutubeCreator', function(ytapi, youtubeEmbedUtils, $http)
 {
     var me = this;
     var $scope = null;
@@ -11,6 +11,43 @@ angular.module('contents').service('YoutubeCreator', function(ytapi, youtubeEmbe
 
         $scope.youtubeVidId = 0;
         $scope.player = null;
+
+        $scope.uploadLectureZip = function(element)
+        {
+            if(element.files.length == 1)
+            {
+                var file = element.files[0];
+
+                var fileReader = new FileReader();
+                fileReader.onloadend = function(e)
+                {
+                    var data = e.target.result;
+
+                    var formData = new FormData();
+                    formData.append('backup', data);
+
+                    $http.post('api/contents/lectureZip', formData,
+                        {
+                            transformRequest: angular.identity,
+                            headers: {'Content-Type': undefined}
+                        }
+                    ).then(function(response)
+                    {
+                        if(response.data)
+                        {
+                            //var backup = response.data;
+                            console.log(response.data);
+                            //$state.go('home');
+                        }
+                        else
+                        {
+                            console.error(response);
+                        }
+                    });
+                };
+                fileReader.readAsBinaryString(file);
+            }
+        };
 
         $scope.$watch('source.path', function(url)
         {

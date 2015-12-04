@@ -3,11 +3,11 @@
     <div>
 
 
-        <div  class="pull-right uploader" ng-show="authentication.isAdmin()">
+        <div class="pull-right uploader" ng-show="authentication.isAdmin()">
 
             <input type="file" ng-model="backupFile" onchange="angular.element(this).scope().upload(this)" />
 
-            <div class="uploader-contents btn btn-default ">
+            <div class="uploader-contents btn btn-default" style="right:0">
                 <i class="fa fa-upload"></i>
                 Upload JSON file to Import Course
             </div>

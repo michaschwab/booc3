@@ -55,8 +55,9 @@ a:hover .header-profile-image {
 .uploader-contents {
   position: absolute;
   top: 0;
-  right: 0;
+  /*right: 0;*/
   pointer-events: none;
+  min-width: 200px;
 }
 
 .uploader-contents:before {

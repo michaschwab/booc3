@@ -22,7 +22,16 @@
         <a href title="The zip package should contain the synchronization xml in the root directory, as well as a 'materials' subdirectory with the slides."><span class="glyphicon glyphicon-question-sign"></span></a>
     </label><br />
 
-    <input type="file" id="lectureZip" ng-model="source.lectureZip" name="title" ng-required placeholder="Lecture ZIP of the video" class="form-control"/>
+    <div class="uploader">
+
+        <input type="file" ng-model="source.lectureZip" onchange="angular.element(this).scope().uploadLectureZip(this)" />
+
+        <div class="uploader-contents btn btn-default ">
+            <i class="fa fa-upload"></i>
+            Upload Slides ZIP
+        </div>
+
+    </div>
 
 </div>
 
