@@ -10,6 +10,9 @@ var path = require('path'),
     Segment = mongoose.model('Segment'),
     Courseadmin = mongoose.model('Courseadmin'),
     JSZip = require("jszip"),
+    fs = require('fs'),
+    cheerio = require('cheerio'),
+    mkdirp = require('mkdirp'),
     _ = require('lodash');
 
 var ObjectId = mongoose.Types.ObjectId;
@@ -127,13 +130,100 @@ exports.uploadLectureSlides = function(req, res)
         });
     }
 
-    var xmlFile = zip.files[xmlFileNames[0]];
+    function uploadPdfs()
+    {
+        var pdfFileNames = fileNames.filter(function(fName) {
+            return fName.substr(fName.length - 4).toLowerCase() === '.pdf';
+        });
+        var alphabet = '0123456789abcdefghijklmnopqrstuvwxyz';
+        var randomString = '';
+        for(var i = 0; i < 15; i++) {
+            randomString += alphabet[Math.round(Math.random() * (alphabet.length - 1))];
+        }
+        var directory = './modules/contents/server/uploads/slides/' + randomString;
+
+        mkdirp(directory, function(err)
+        {
+            if(err) throw err;
+
+            pdfFileNames.forEach(function(pdfFileName)
+            {
+                var fileNameOnly = pdfFileName.substr(pdfFileName.lastIndexOf('/'));
+                var buffer = new Buffer(zip.file(pdfFileName).asUint8Array());
+                fs.writeFile(directory + fileNameOnly, buffer, function(err)
+                {
+                    if (err) throw err;
+                })
+            });
+        });
+    }
+
+    uploadPdfs();
+    //todo gotta get the correct paths for the pdfs for the timeStamps array.
+
+    var timeStamps = [];
+
+    function addPdfPath(slideHtmlPath, time)
+    {
+        var index = fileNames.indexOf(slideHtmlPath);
+        if(index === -1)
+        {
+            /*return res.status(400).send({
+                message: 'slide html not included, but mentioned in xml: ' + slideHtmlPath
+            });*/
+            console.error('slide html not included, but mentioned in xml: ' + slideHtmlPath);
+        }
+        else
+        {
+            var slideHtml = zip.files[fileNames[index]].asText();
+
+            var $ = cheerio.load(slideHtml);
+            var slideBodySrc = $("#slideBody")[0];
+            //console.log(slideBodySrc);
+
+            if (slideBodySrc !== undefined && slideBodySrc.attribs.src !== undefined) {
+
+                //var slidePdf= slideBodySrc.attribs.src.replace(/http:\/\/[a-z.]+(:[0-9]+)?\//g, lecturePath + 'materials/');
+                var slidePdf= slideBodySrc.attribs.src.replace(/http:\/\/[a-z.]+(:[0-9]+)?\//g, 'materials/');
+
+                timeStamps.push({
+                    time: time,
+                    slidepdf: slidePdf
+                });
+            }
+        }
+    }
+
+    //var xmlFile = zip.files[xmlFileNames[0]];
     var xmlFileContent = zip.file(xmlFileName).asText();
 
-    // TODO: Save all PDFs on the server.
-    // TODO: Parse xmlFileContent with xml reader (figure out video - slides synchronization), then save in DB, and return to client.
+    var parseString = require('xml2js').parseString;
+    var options = { 'explicitArray': false };
+    parseString(xmlFileContent, options, function (err, xmlData)
+    {
+        var toc = xmlData.presentation.hour.toc.entry; // Table of contents with segment names
+        var slideFrames = xmlData.presentation.hour.timestamps.slide; // Synchronization data
 
-    res.jsonp({a: 'test'});
+        for(var i = 0; i < slideFrames.length; i++)
+        {
+            var time = slideFrames[i].timeInSeconds;
+            //url = lecturePath + slideFrames[i].url;
+
+            addPdfPath(slideFrames[i].url, time);
+        }
+
+        var segments = [];
+
+        for(i = 0; i < toc.length; i++)
+        {
+            segments.push({
+                title: toc[i].text,
+                start: toc[i].timeInSeconds
+            });
+        }
+
+        res.jsonp({segments: segments, timestamps: timeStamps});
+    });
 };
 
 /**
