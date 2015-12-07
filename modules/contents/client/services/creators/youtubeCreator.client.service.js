@@ -11,6 +11,7 @@ angular.module('contents').service('YoutubeCreator', function(ytapi, youtubeEmbe
 
         $scope.youtubeVidId = 0;
         $scope.player = null;
+        $scope.source.data = {};
 
         function setupZipUploader()
         {
@@ -27,13 +28,21 @@ angular.module('contents').service('YoutubeCreator', function(ytapi, youtubeEmbe
             $scope.uploader.onSuccessItem  = function (fileItem, response, status, headers)
             {
                 // Show success message
-                $scope.success = true;
+                $scope.uploadSuccess = true;
 
-                // Populate user object
-                //$scope.user = Authentication.user = response;
-                console.log('yup');
+                var segments = response.segments;
+                var timestamps = response.timestamps;
 
-                // Clear upload buttons
+                segments.forEach(function(segment)
+                {
+                    if(!me.checkSegmentExists($scope.segments, segment))
+                    {
+                        $scope.segments.push(segment);
+                    }
+                });
+
+                $scope.source.data.timestamps = timestamps;
+
                 $scope.cancelUpload();
             };
 
@@ -132,6 +141,35 @@ angular.module('contents').service('YoutubeCreator', function(ytapi, youtubeEmbe
     this.stop = function()
     {
 
+    };
+
+    this.checkSegmentExists = function(segments, segment)
+    {
+        var titles = segments.map(function(s) { return s.title; });
+
+        if(titles.indexOf(segment.title) ===-1)
+        {
+            return false;
+        }
+        else
+        {
+            var titleMatchingSegments = segments.filter(function(s)
+            {
+                return s.title == segment.title;
+            });
+
+            for(var i = 0; i < titleMatchingSegments.length; i++)
+            {
+                // If even the start time matches, this is definitely the same.
+
+                if(titleMatchingSegments[i].start == segment.start)
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
     };
 
     return (this);

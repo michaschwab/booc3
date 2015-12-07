@@ -17,14 +17,14 @@
     </div>
 </div>
 
-<div class="form-group" ng-class="{'has-error': contentCreateForm.lectureZip.$error.required, 'has-success': !contentCreateForm.lectureZip.$error.required&&source.lectureZip.length}">
+<div class="form-group" ng-show="!uploadSuccess" ng-class="{'has-error': contentCreateForm.lectureZip.$error.required, 'has-success': !contentCreateForm.lectureZip.$error.required&&source.lectureZip.length}">
     <label for="lectureZip">If this is a lecture and there are synchronized slides available, upload them here.
         <a href title="The zip package should contain the synchronization xml in the root directory, as well as a 'materials' subdirectory with the slides."><span class="glyphicon glyphicon-question-sign"></span></a>
     </label><br />
 
     <div class="uploader">
 
-        <input type="file" ng-model="source.lectureZip" onchange="angular.element(this).scope().uploadLectureZip(this)" />
+        <input type="file" name="lectureZip" id="lectureZip" ng-model="source.lectureZip" onchange="angular.element(this).scope().uploadLectureZip(this)" />
 
         <div class="uploader-contents btn btn-default ">
             <i class="fa fa-upload"></i>
@@ -32,7 +32,10 @@
         </div>
 
     </div>
+</div>
 
+<div class="alert alert-success" ng-show="uploadSuccess">
+    <span class="glyphicon glyphicon-ok"></span> Slides Upload Successful.
 </div>
 
 <div class="row">

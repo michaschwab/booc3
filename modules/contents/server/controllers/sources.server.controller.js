@@ -130,6 +130,8 @@ exports.uploadLectureSlides = function(req, res)
         });
     }
 
+    var pdfPath;
+
     function uploadPdfs()
     {
         var pdfFileNames = fileNames.filter(function(fName) {
@@ -140,7 +142,8 @@ exports.uploadLectureSlides = function(req, res)
         for(var i = 0; i < 15; i++) {
             randomString += alphabet[Math.round(Math.random() * (alphabet.length - 1))];
         }
-        var directory = './modules/contents/server/uploads/slides/' + randomString;
+        pdfPath = randomString;
+        var directory = './modules/contents/server/uploads/slides/' + pdfPath;
 
         mkdirp(directory, function(err)
         {
@@ -184,7 +187,9 @@ exports.uploadLectureSlides = function(req, res)
             if (slideBodySrc !== undefined && slideBodySrc.attribs.src !== undefined) {
 
                 //var slidePdf= slideBodySrc.attribs.src.replace(/http:\/\/[a-z.]+(:[0-9]+)?\//g, lecturePath + 'materials/');
-                var slidePdf= slideBodySrc.attribs.src.replace(/http:\/\/[a-z.]+(:[0-9]+)?\//g, 'materials/');
+                var slidePdf = slideBodySrc.attribs.src.replace(/http:\/\/[a-z.]+(:[0-9]+)?\//g, '');
+                slidePdf = slidePdf.substr(slidePdf.lastIndexOf('/'));
+                slidePdf = pdfPath + slidePdf;
 
                 timeStamps.push({
                     time: time,
@@ -206,7 +211,7 @@ exports.uploadLectureSlides = function(req, res)
 
         for(var i = 0; i < slideFrames.length; i++)
         {
-            var time = slideFrames[i].timeInSeconds;
+            var time = parseInt(slideFrames[i].timeInSeconds);
             //url = lecturePath + slideFrames[i].url;
 
             addPdfPath(slideFrames[i].url, time);
