@@ -143,7 +143,7 @@ exports.uploadLectureSlides = function(req, res)
             randomString += alphabet[Math.round(Math.random() * (alphabet.length - 1))];
         }
         pdfPath = randomString;
-        var directory = './modules/contents/server/uploads/slides/' + pdfPath;
+        var directory = './modules/contents/client/uploads/slides/' + pdfPath;
 
         mkdirp(directory, function(err)
         {

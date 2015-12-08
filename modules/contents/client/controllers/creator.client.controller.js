@@ -365,14 +365,14 @@ angular.module('contents').controller('CreatorController',
             {
                 segment.conceptObjects = segment.concepts.map(function(conceptId)
                 {
-                    return $scope.getConceptById(conceptId);
+                    return $scope.conceptMap[conceptId];
                 });
             }
             else
             {
                 segment.conceptObjects = [];
             }
-            //$scope.activeConcept = segment.concepts && segment.concepts.length > 0 ? $scope.getConceptById(segment.concepts[0]) : null;
+            //$scope.activeConcept = segment.concepts && segment.concepts.length > 0 ? $scope.conceptMap[segment.concepts[0]] : null;
 
             $('#segmentTitle').focus();
             window.setTimeout (function(){

@@ -17,7 +17,7 @@ angular.module('learning').service('LearnHelper', function($http, $sce, $interva
         else if(sourcetype.title === 'Lecture Video' || sourcetype.title === 'Lecture')
         {
             var vidPlayer = document.querySelector('#videoPlayer');
-            return vidPlayer === null ? null : vidPlayer.currentTime;
+            return vidPlayer === null ? null : vidPlayer.getCurrentTime();
         }
         else if(sourcetype.title === 'Wikipedia Article')
         {
@@ -49,6 +49,7 @@ angular.module('learning').service('LearnHelper', function($http, $sce, $interva
         }
         else if(sourcetype.title === 'Lecture Video')
         {
+
             document.querySelector('#videoPlayer').currentTime = position;
         }
 
@@ -100,7 +101,7 @@ angular.module('learning').service('LearnHelper', function($http, $sce, $interva
             var player = document.querySelector('#videoPlayer');
             if(player !== null)
             {
-                player.play();
+                player.playVideo();
             }else
             {
                 //console.log('player not found');
@@ -171,7 +172,10 @@ angular.module('learning').service('LearnHelper', function($http, $sce, $interva
         else if(sourcetype.category === 'video-document')
         {
             var start = segment === null ? 0 : segment.start;
-            var vidData = $sce.trustAsResourceUrl(source.data.vidPath + '#t=' + start);
+            //var vidData = $sce.trustAsResourceUrl(source.path + '#t=' + start);
+            var vidData = source.path + '#t=' + start;
+            //console.log(source.path + '#t=' + start);
+            //console.log(vidData);
 
             callback({video: vidData });
         }
@@ -264,9 +268,10 @@ angular.module('learning').service('LearnHelper', function($http, $sce, $interva
     this.getSlideFromVidTime = function(time, timestamps)
     {
         time = parseInt(time);
-        var slide = 0;
+        var slide = timestamps[0].slidepdf;
         var bestTime = 0;
 
+        console.log(time, timestamps);
         for(var i = 0; i < timestamps.length; i++)
         {
             if(time > timestamps[i].time && timestamps[i].time > bestTime)
@@ -275,8 +280,9 @@ angular.module('learning').service('LearnHelper', function($http, $sce, $interva
                 slide = timestamps[i].slidepdf;
             }
         }
+        console.log(slide);
 
-        return slide;
+        return './modules/contents/uploads/slides/' + slide;
     };
 
 

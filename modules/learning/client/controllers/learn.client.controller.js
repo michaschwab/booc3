@@ -2,7 +2,7 @@
 
 // Segments controller
 angular.module('learning').controller('LearnController',
-    function($scope, $stateParams, $location, $timeout, Concepts, Segments, Sources, Sourcetypes, $interval, LearnHelper, $window, ConceptStructure, Courses)
+    function($scope, $stateParams, $location, $timeout, Concepts, Segments, Sources, Sourcetypes, $interval, LearnHelper, $window, ConceptStructure, Courses, YoutubePlayer)
     {
         var me = this;
         $scope = angular.element('.course-view').scope();
@@ -16,6 +16,28 @@ angular.module('learning').controller('LearnController',
 
         $scope.$on('dataReady', me.update);
 
+        var players = [];
+        var lastSourceType = '';
+
+        this.updateCurrentPlayers = function()
+        {
+            if($scope.active.sourcetype != lastSourceType)
+            {
+                lastSourceType = $scope.active.sourcetype;
+
+                players.forEach(function(player)
+                {
+                    player.stop();
+                });
+
+                if($scope.active.sourcetype.title === 'Lecture')
+                {
+                    YoutubePlayer.start($scope);
+                }
+            }
+
+        };
+
         $scope.launch = function()
         {
             //$scope.activeMode = $stateParams.lectureId === undefined ? 'hierarchy': 'lecture';
@@ -27,28 +49,8 @@ angular.module('learning').controller('LearnController',
             $scope.sourceData = {};
             $scope.conceptObjectDirectory = {};
             $scope.lastSourceId = '';
-            //ConceptStructure.init($scope, $stateParams.courseId);
-
-            //$scope.setActiveLearnMaterial();
-            //console.log($scope.active.segment);
-            //console.log($scope.active.source);
 
         };
-
-        /*$scope.$watch('activeConcept', function()
-        {
-            //$scope.setActiveLearnMaterial();
-        });
-
-        $scope.$watch('active.segment', function()
-        {
-            $scope.setActiveLearnMaterial();
-        });
-
-        $scope.$watch('active.source', function()
-        {
-            $scope.setActiveLearnMaterial();
-        });*/
 
         function checkPlayPause()
         {
@@ -91,94 +93,9 @@ angular.module('learning').controller('LearnController',
                 }
             }
 
-            /*
-            if($scope.activeMode === 'hierarchy')
-            {
-                console.log('what do i do?');
-            }
-            else if($scope.activeMode === 'lecture')
-            {
-                $scope.active.source = $scope.sourceMap[$scope.lectureId];
-                $scope.activeLecture = $scope.active.source;
-                var currentConcepts = [];
-
-                $scope.segments.filter(function(segment)
-                {
-                    return segment.source === $scope.active.source._id;
-                }).forEach(function(segment)
-                {
-                    currentConcepts = currentConcepts.concat(segment.concepts);
-                });
-                console.log(currentConcepts);
-
-                $scope.concepts
-                    .filter(function(concept){
-                        return currentConcepts.indexOf(concept._id) !== -1;
-                    })
-                    .sort(function(a,b){return d3.ascending(a.order, b.order);})
-                    .forEach(function(concept, i)
-                    {
-                        $scope.neighborConcepts.push(concept);
-                    });
-
-                $scope.conceptId = $scope.neighborConcepts[0]._id;
-                $scope.activeConcept = $scope.conceptObjectDirectory[$scope.conceptId];
-                $scope.segments.filter(function(segment) {
-                    return segment.concepts.indexOf($scope.conceptId) !== -1 && segment.source === $scope.active.source._id;
-                }).forEach(function(activeSegment)
-                {
-                    $scope.segmentId = activeSegment._id;
-                });
-            }
-
-            $scope.possibleSegments = [];
-            $scope.segments.filter(function(segment) { return segment.concepts.indexOf($scope.conceptId) !== -1 }).forEach(function(possibleSegment)
-            {
-                $scope.possibleSegments.push(possibleSegment);
-            });
-
-            console.log($scope.activeConcept);
-            //$scope.activeHierarchy
-            /*$scope.conceptObjectDirectory.filter(function(concept) { return concept.concept._id === $scope.conceptId }).forEach(function(activeConcept)
-            {
-                $scope.activeConcept = activeConcept;
-            });* /
+            me.updateCurrentPlayers();
 
 
-
-            if($scope.segmentId === undefined)
-            {
-                if($scope.possibleSegments.length < 1)
-                {
-                    var e = new Error('Could not find any segments for this concept.');
-                    console.log(e.stack);
-                }
-                else
-                {
-                    $scope.active.segment = $scope.possibleSegments[0];
-                    $scope.segmentId = $scope.active.segment._id;
-                }
-            }
-            else
-            {
-                $scope.possibleSegments.filter(function(segment) { return segment._id === $scope.segmentId }).forEach(function(activeSegment)
-                {
-                    $scope.active.segment = activeSegment;
-                });
-            }
-
-            $scope.sources.filter(function(source) { return source._id === $scope.active.segment.source }).forEach(function(activeSource)
-            {
-                $scope.active.source = active.source;
-            });
-
-            $scope.sourcetypes.filter(function(sourcetype) { return sourcetype._id === $scope.active.source.type }).forEach(function(activeSourcetype)
-            {
-                $scope.active.sourcetype = activeSourcetype;
-            });
-
-            $scope.ensureSourceAtCorrectPosition();
-            $scope.setupNext();*/
         };
 
         $scope.ensureSourceAtCorrectPosition = function()

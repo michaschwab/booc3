@@ -17,8 +17,8 @@
                 Concepts:
                     <ul class="lecture-concepts">
                         <li ng-repeat="i in getSegmentsNumberShort(3, source) track by $index">
-                            <span style="background: {{getConceptById(sourceSegments[source._id][$index].concepts[0]).color}}" class="concept-color-circle"></span>
-                            <small>{{getConceptById(sourceSegments[source._id][$index].concepts[0]).title}} </small>
+                            <span style="background: {{conceptMap[sourceSegments[source._id][$index].concepts[0]].color}}" class="concept-color-circle"></span>
+                            <small>{{conceptMap[sourceSegments[source._id][$index].concepts[0]].title}} </small>
                         </li>
                     </ul>
 

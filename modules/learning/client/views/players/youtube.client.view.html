@@ -43,13 +43,11 @@
 
 
 
-<!--{{sourceData}}-->
-        <!--<video width="{{videoWidth}}" controls id="videoPlayer" ng-src="{{sourceData.video}}">
+
+        <video width="{{videoWidth}}" controls id="videoPlayer" ng-src="{{sourceData.video}}">
             <source ng-src="{{sourceData.video}}" type="video/mp4" />
             Your browser does not support the video tag.
-        </video>-->
-
-        <youtube-video width="{{videoWidth}}" controls id="videoPlayer" video-url="sourceData.video"></youtube-video>
+        </video>
 
         <div ng-show="currentPosition<segment.end" class="alert alert-info notEndNotifier" role="alert">
             This concept ends in {{(segment.end-currentPosition) * 1000 | date:'mm:ss':'UTC'}} minutes.
