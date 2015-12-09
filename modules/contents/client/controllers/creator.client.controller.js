@@ -169,6 +169,7 @@ angular.module('contents').controller('CreatorController',
             var searchParams = $location.search();
 
             var newReadableType = searchParams.type;
+
             var index = $scope.readableTypes.indexOf(newReadableType);
             if(index !== -1)
             {
@@ -176,9 +177,19 @@ angular.module('contents').controller('CreatorController',
             }
         };
 
+        var fixSourceType = function()
+        {
+            if($scope.activeReadableType == 'youtube' && YoutubeCreator.isLecture())
+            {
+                var index = $scope.readableTypes.indexOf('lecture');
+                $scope.activeType = $scope.sourcetypes[index];
+            }
+        };
+
         $scope.createContents = function()
         {
-            //var courseId = $scope.source.course._id;
+            fixSourceType();
+
             $scope.source.type = $scope.activeType._id;
             $scope.source.courses = [$scope.course._id];
             //todo be more flexible and allow multiple courses
@@ -321,7 +332,9 @@ angular.module('contents').controller('CreatorController',
 
         $scope.setSourcetype = function(type)
         {
-            $location.search('type', $scope.getReadableType(type));
+            var readableType = $scope.getReadableType(type);
+            if(readableType === 'lecture') readableType = 'youtube';
+            $location.search('type', readableType);
         };
 
         $scope.$watch('activeTimes.startDuration', $scope.activeSegmentTimeChange);

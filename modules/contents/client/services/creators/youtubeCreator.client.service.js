@@ -133,6 +133,11 @@ angular.module('contents').service('YoutubeCreator', function(ytapi, youtubeEmbe
         });
     };
 
+    this.isLecture = function()
+    {
+        return $scope.uploadSuccess;
+    };
+
     this.getCurrentPosition = function()
     {
         return parseInt($scope.player.getCurrentTime());
