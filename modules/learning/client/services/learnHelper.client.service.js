@@ -2,7 +2,7 @@ angular.module('learning').service('LearnHelper', function($http, $sce, $interva
 {
     var me = this;
 
-    this.getSourcePosition = function(sourcetype, player)
+    /*this.getSourcePosition = function(sourcetype, player)
     {
         if(sourcetype.title === 'Youtube')
         {
@@ -138,16 +138,14 @@ angular.module('learning').service('LearnHelper', function($http, $sce, $interva
 
     this.setPosition = function(scope, player, sourcetype)
     {
-        scope.currentPosition = me.getSourcePosition(sourcetype, player);
-    };
+        //scope.currentPosition = me.getSourcePosition(sourcetype, player);
+    };*/
 
     this.parseDocumentSegmentSourceData = function(path, callback)
     {
         // If local file, display. Otherwise, use CORS Proxy for loading.
         var url = path.indexOf('http') !== -1 ? 'http://www.corsproxy.com/' + path.replace('http://','') : path;
 
-
-        console.log(url);
         $http.get(url, {responseType:'arraybuffer'}).
             //$http.get('http://www.corsproxy.com/' + source.path.replace('http://',''), {responseType:'arraybuffer'}).
             //success(function(data, status, headers, config) {
@@ -161,7 +159,7 @@ angular.module('learning').service('LearnHelper', function($http, $sce, $interva
                 callback(result);
             });
     };
-
+/*
     this.parseSegmentSourceData = function(source, sourcetype, segment, callback)
     {
         //console.log(sourcetype.category);
@@ -201,7 +199,7 @@ angular.module('learning').service('LearnHelper', function($http, $sce, $interva
                 lti_version: 'LTI-1p0',
                 resource_link_id: 'coursircle-test-01'
             };
-            /*
+            /!*
             for(var key in params)
             {
                 path += '&' + key + '=' + params[key];
@@ -210,11 +208,11 @@ angular.module('learning').service('LearnHelper', function($http, $sce, $interva
 
             //var url = path.indexOf('http') !== -1 ? 'http://www.corsproxy.com/' + path.replace('https://','') : path;
             var url = 'http://whateverorigin.org/get?url=' + encodeURIComponent(path) + '&callback=JSON_CALLBACK';
-*/
+*!/
 
             //path = 'https://www.edu-apps.org/tools/place_kitten/index.html';
             callback({ path: $sce.trustAsResourceUrl(source.path) });
-            /*
+            /!*
             $http.post(source.path).success(function(data)
             {
                 //console.log(data);
@@ -222,7 +220,7 @@ angular.module('learning').service('LearnHelper', function($http, $sce, $interva
             }).error(function(err)
             {
                 console.log(err);
-            });*/
+            });*!/
 
         }
         else
@@ -283,7 +281,7 @@ angular.module('learning').service('LearnHelper', function($http, $sce, $interva
         console.log(slide);
 
         return './modules/contents/uploads/slides/' + slide;
-    };
+    };*/
 
 
     return (this);

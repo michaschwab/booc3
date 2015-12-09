@@ -2,7 +2,7 @@
 
 // Segments controller
 angular.module('learning').controller('LearnController',
-    function($scope, $stateParams, $location, $timeout, Concepts, Segments, Sources, Sourcetypes, $interval, LearnHelper, $window, ConceptStructure, Courses, YoutubePlayer)
+    function($scope, $stateParams, $location, $timeout, Concepts, Segments, Sources, Sourcetypes, $interval, LearnHelper, $window, ConceptStructure, Courses, YoutubePlayer, LectureSlidePlayer)
     {
         var me = this;
         $scope = angular.element('.course-view').scope();
@@ -25,17 +25,31 @@ angular.module('learning').controller('LearnController',
             {
                 lastSourceType = $scope.active.sourcetype;
 
-                players.forEach(function(player)
-                {
-                    player.stop();
-                });
+                me.stop();
 
                 if($scope.active.sourcetype.title === 'Lecture')
                 {
-                    YoutubePlayer.start($scope);
+                    players.push(YoutubePlayer.start($scope));
+                    players.push(LectureSlidePlayer.start($scope));
                 }
             }
 
+        };
+
+        this.play = function()
+        {
+            players.forEach(function(player)
+            {
+                player.play();
+            });
+        };
+
+        this.stop = function()
+        {
+            players.forEach(function(player)
+            {
+                player.stop();
+            });
         };
 
         $scope.launch = function()
@@ -56,32 +70,44 @@ angular.module('learning').controller('LearnController',
         {
             if(!$scope.learnMode)
             {
-                LearnHelper.pauseSource($scope.active.sourcetype);
+                ///LearnHelper.pauseSource($scope.active.sourcetype);
             }
             else
             {
-                LearnHelper.playSource($scope.active.sourcetype);
+                //LearnHelper.playSource($scope.active.sourcetype);
             }
         }
 
         /*$scope.$watch('learnMode', checkPlayPause);
         $scope.$watch('active.sourcetype', checkPlayPause);
 */
+
+        this.parseSegmentSourceData = function(source, sourcetype, segment, callback)
+        {
+            players.forEach(function(player)
+            {
+                if(player.parseSegmentSourceData)
+                    player.parseSegmentSourceData(source, sourcetype, segment, callback);
+            });
+        };
+
         $scope.setActiveLearnMaterial = function()
         {
             if(!$scope.active.source) return;
+
+            me.updateCurrentPlayers();
 
             if($scope.active.source._id !== $scope.lastSourceId)
             {
                 $scope.lastSourceId = $scope.active.source._id;
 
-                LearnHelper.parseSegmentSourceData($scope.active.source, $scope.active.sourcetype, $scope.active.segment, function(data)
+                me.parseSegmentSourceData($scope.active.source, $scope.active.sourcetype, $scope.active.segment, function(data)
                 {
                     //console.log(data);
                     data.sourceId = $scope.active.source._id;
                     $scope.sourceData = angular.extend($scope.sourceData, data);
 
-                    LearnHelper.synchronizePosition($scope, $scope.player, $scope.active.sourcetype);
+                    //LearnHelper.synchronizePosition($scope, $scope.player, $scope.active.sourcetype);
                 });
             }
             else
@@ -89,13 +115,9 @@ angular.module('learning').controller('LearnController',
                 //todo: just update position.
                 //if($scope.currentPosition < $scope.active.segment.start || $scope.currentPosition > $scope.active.segment.end)
                 {
-                    LearnHelper.setSourcePosition($scope, $scope.active.sourcetype, $scope.player, $scope.active.segment.start);
+                    //LearnHelper.setSourcePosition($scope, $scope.active.sourcetype, $scope.player, $scope.active.segment.start);
                 }
             }
-
-            me.updateCurrentPlayers();
-
-
         };
 
         $scope.ensureSourceAtCorrectPosition = function()
@@ -164,7 +186,7 @@ angular.module('learning').controller('LearnController',
                         }
                     });
 
-                    interval1 = $interval(synchronizeSlide, 1000);
+                    //interval1 = $interval(synchronizeSlide, 1000);
                     interval2 = $interval(checkWithinSegment, 1000);
                 }
             }
