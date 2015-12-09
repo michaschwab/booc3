@@ -2,7 +2,7 @@
 
 // Segments controller
 angular.module('learning').controller('LearnController',
-    function($scope, $stateParams, $location, $timeout, Concepts, Segments, Sources, Sourcetypes, $interval, LearnHelper, $window, ConceptStructure, Courses, YoutubePlayer, LectureSlidePlayer)
+    function($scope, $stateParams, $location, $timeout, Concepts, Segments, Sources, Sourcetypes, $interval, LearnHelper, $window, ConceptStructure, Courses, YoutubePlayer, LectureSlidePlayer, LecturePlayer)
     {
         var me = this;
         $scope = angular.element('.course-view').scope();
@@ -29,10 +29,13 @@ angular.module('learning').controller('LearnController',
 
                 if($scope.active.sourcetype.title === 'Lecture')
                 {
-                    players.push(YoutubePlayer.start($scope));
-                    players.push(LectureSlidePlayer.start($scope));
+                    //players.push(YoutubePlayer.start($scope));
+                    //players.push(LectureSlidePlayer.start($scope));
+                    players.push(LecturePlayer.start($scope));
                 }
             }
+
+            me.manageSize();
 
         };
 
@@ -195,7 +198,7 @@ angular.module('learning').controller('LearnController',
         //$scope.$watch('active.sourcetype.category', setupMaterial);
 
         var lastSlidePdf = '';
-
+/*
         function synchronizeSlide()
         {
             if($scope.player === undefined || $scope.player === null)
@@ -221,7 +224,7 @@ angular.module('learning').controller('LearnController',
             }
 
             //$scope.currentPosition = LearnHelper.getSourcePosition($scope.active.sourcetype, $scope.player);
-        }
+        }*/
 
         function checkWithinSegment()
         {
@@ -256,10 +259,10 @@ angular.module('learning').controller('LearnController',
 
         $scope.$on('$locationChangeSuccess', me.update);
 
-        $scope.pdfWidth = $scope.contentWidth*2/3;
-        $scope.wikiWidth = $scope.contentWidth - 30;
+        /*$scope.pdfWidth = $scope.contentWidth*2/3;
+        $scope.wikiWidth = $scope.contentWidth - 30;*/
 
-        var tries = 0;
+        /*var tries = 0;
         this.setVideoWidth = function(goalWidth)
         {
             var vidPlayer = d3.select('#videoPlayer');
@@ -277,9 +280,9 @@ angular.module('learning').controller('LearnController',
                 tries++;
                 $timeout(function() { me.setVideoWidth(goalWidth); }, 50);
             }
-        };
+        };*/
 
-        this.setPdfWidth = function(goalWidth)
+        /*this.setPdfWidth = function(goalWidth)
         {
             var start = $scope.pdfWidth;
             var distance = start - goalWidth;
@@ -291,35 +294,21 @@ angular.module('learning').controller('LearnController',
 
                 $scope.safeApply();
             }});
-        };
+        };*/
 
-        this.setWikiWidth = function(goalWidth)
+
+        this.manageSize = function()
         {
-            d3.select('#wikiframe').transition()
-                .style('width', goalWidth + 'px')
-                .each('end', function()
-                {
-                    $scope.wikiWidth = goalWidth;
-                    $scope.safeApply();
-                });
+            players.forEach(function(player)
+            {
+                if(player.manageSize)
+                    player.manageSize();
+            });
         };
-
-
-        var resizeTimeout;
 
         $scope.$watch('contentWidth', function()
         {
-            $timeout.cancel(resizeTimeout);
-
-            resizeTimeout = $timeout(function()
-            {
-                console.log('resizing learning content');
-                me.setVideoWidth($scope.contentWidth/3 - 15);
-
-                me.setPdfWidth($scope.contentWidth*2/3 - 15);
-
-                me.setWikiWidth($scope.contentWidth - 30);
-            }, 400);
+            me.manageSize();
         });
 
         var w = angular.element($window);

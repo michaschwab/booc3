@@ -11,6 +11,8 @@ angular.module('learning').service('LectureSlidePlayer', function(YoutubePlayer,
         $scope = scope;
         interval1 = $interval(me.synchronizeSlide, 1000);
 
+        $scope.pdfWidth = $scope.contentWidth*2/3;
+
         return this;
     };
 
@@ -22,6 +24,20 @@ angular.module('learning').service('LectureSlidePlayer', function(YoutubePlayer,
     this.stop = function()
     {
         $interval.cancel(interval1);
+    };
+
+    this.setSize = function(goalWidth, goalHeight)
+    {
+        var start = $scope.pdfWidth;
+        var distance = start - goalWidth;
+        var viewer = $('#viewer');
+        viewer.animate({ width: goalWidth }, {progress: function(promise, remaining)
+        {
+            //$scope.courseScope.panelWidth = start - remaining * distance;
+            $scope.pdfWidth = start - remaining * distance;
+
+            $scope.safeApply();
+        }});
     };
 
     var lastSlidePdf;
