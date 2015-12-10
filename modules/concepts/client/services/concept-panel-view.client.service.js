@@ -158,4 +158,10 @@ angular.module('concepts').service('ConceptPanelView',
         };
 
         return (this);
-    });
+    }).filter('secondsToDateTime', function() {
+    return function(seconds) {
+        var d = new Date(0,0,0,0,0,0,0);
+        d.setSeconds(seconds);
+        return d;
+    };
+});;

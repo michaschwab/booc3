@@ -27,7 +27,18 @@
 
             <a data-ui-sref="{active: concept.concept._id, segment:seg._id, learn: 'yes'}" title="{{::courseScope.sourcetypeMap[courseScope.sourceMap[seg.source].type].title}} on {{::courseScope.sourceMap[seg.source].title}}">
                 <span class="{{::courseScope.sourcetypeMap[courseScope.sourceMap[seg.source].type].icon}} segment-icon"></span>
-                <span class="segment-title">{{::courseScope.sourcetypeMap[courseScope.sourceMap[seg.source].type].title}} on <i>{{::courseScope.sourceMap[seg.source].title}}</i></span>
+
+                <span class="segment-title">
+                    {{::courseScope.sourcetypeMap[courseScope.sourceMap[seg.source].type].title}}
+                    on
+                    <i>{{::courseScope.sourceMap[seg.source].title}}</i>
+
+                    <span ng-show="seg.start&&(courseScope.sourcetypeMap[courseScope.sourceMap[seg.source].type].title=='Lecture'||courseScope.sourcetypeMap[courseScope.sourceMap[seg.source].type].title=='YouTube')">
+                        ({{seg.start | secondsToDateTime | date:'mm:ss'}}
+                        -
+                        {{seg.end | secondsToDateTime | date:'mm:ss'}})
+                    </span>
+                </span>
             </a>
         </li>
     </ul>
