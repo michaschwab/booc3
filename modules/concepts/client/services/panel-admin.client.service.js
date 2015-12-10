@@ -74,10 +74,10 @@ angular.module('courses').service('PanelAdmin', function(Concepts, $rootScope, $
 
         $scope.titleBlur = function(concept)
         {
-            if(concept.concept.title == NEW_CONCEPT_TITLE)
+            /*if(concept.concept.title == NEW_CONCEPT_TITLE)
             {
                 $scope.removeConcept(concept);
-            }
+            }*/
         };
 
         $scope.removeConcept = function(concept)
