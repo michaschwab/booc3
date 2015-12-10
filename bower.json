@@ -8,7 +8,7 @@
     "angular-bootstrap": "~0.13",
     "angular-file-upload": "1.1.5",
     "angular-mocks": "~1.4",
-    "angular-moment-duration": "~0.0.3",
+    "angular-moment-duration": "~0.0.4",
     "angular-recursion": "~1.0.5",
     "angular-resource": "~1.4",
     "angular-sanitize": "~1.4",

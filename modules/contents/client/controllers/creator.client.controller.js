@@ -227,11 +227,17 @@ angular.module('contents').controller('CreatorController',
                         var cb2 = function()
                         {
                             //TODO do some smart redirect.
-                            if($scope.courseId)
+                            if($scope.courseId || $scope.course._id)
                             {
+                                var courseId = $scope.courseId ? $scope.courseId : $scope.course._id;
+
                                 $state.go('courses.view', {
-                                    courseId: $scope.courseId
+                                    courseId: courseId
                                 });
+                            }
+                            else
+                            {
+                                $state.go('courses.list');
                             }
                         };
 
@@ -350,15 +356,16 @@ angular.module('contents').controller('CreatorController',
             $location.search('type', readableType);
         };
 
-        $scope.$watch('activeTimes.startDuration', $scope.activeSegmentTimeChange);
-        $scope.$watch('activeTimes.endDuration', $scope.activeSegmentTimeChange);
-
-        $scope.activeSegmentTimeChange = function()
+        function activeSegmentTimesChange()
         {
-            console.log($scope.activeTimes.startDuration, $scope.activeTimes.startDuration.miliseconds());
-            $scope.activeSegment.start = Math.round($scope.activeTimes.startDuration.miliseconds() / 1000);
-            $scope.activeSegment.end = Math.round($scope.activeTimes.endDuration.miliseconds() / 1000);
-        };
+            if(!$scope.activeTimes.startDuration) return;
+
+            $scope.activeSegment.start = Math.round($scope.activeTimes.startDuration._milliseconds / 1000);
+            $scope.activeSegment.end = Math.round($scope.activeTimes.endDuration._milliseconds / 1000);
+        }
+
+        $scope.$watch('activeTimes.startDuration', activeSegmentTimesChange, true);
+        $scope.$watch('activeTimes.endDuration', activeSegmentTimesChange, true);
 
         $scope.addSegment = function()
         {
