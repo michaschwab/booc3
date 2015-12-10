@@ -348,17 +348,21 @@
                             <a type="button" ng-click="previousClick()" ng-disabled="!previousConcept"
                                data-ui-sref="{active: previousConcept.concept._id}"
                                class="btn btn-primary dropdown-toggle halfWidthBtn" aria-expanded="false"
-                               title="Next: {{previousConcept.concept.title}}">
+                               title="Previous Concept: {{previousConcept.concept.title}}">
                                 <span class="glyphicon glyphicon-arrow-up"> </span>
-                                <span class="btn-label">Previous</span>
+                                <span class="btn-label">Previous
+                                    <span ng-show="panelWidth>330">Concept</span>
+                                </span>
                             </a>
 
                             <a type="button" ng-click="nextClick()" ng-show="nextConcept"
                                data-ui-sref="{active: nextConcept.concept._id}"
                                class="btn btn-primary dropdown-toggle halfWidthBtn" aria-expanded="false"
-                               title="Next: {{nextConcept.concept.title}}">
+                               title="Next Concept: {{nextConcept.concept.title}}">
                                 <span class="glyphicon glyphicon-arrow-down"> </span>
-                                <span class="btn-label">Next!</span>
+                                <span class="btn-label">Next
+                                    <span ng-show="panelWidth>330">Concept</span>
+                                </span>
                             </a>
                         </div>
                     </div>
