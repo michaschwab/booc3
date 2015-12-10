@@ -40,6 +40,16 @@ angular.module('learning').service('LectureSlidePlayer', function(YoutubePlayer,
         }});
     };
 
+    this.setSizeQuick = function(goalWidth, goalHeight)
+    {
+        var viewer = $('#viewer');
+
+        viewer.css('width', goalWidth);
+        $scope.pdfWidth = goalWidth;
+
+        $scope.safeApply();
+    };
+
     var lastSlidePdf;
     this.synchronizeSlide = function()
     {

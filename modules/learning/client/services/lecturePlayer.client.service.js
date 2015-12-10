@@ -3,6 +3,8 @@ angular.module('learning').service('LecturePlayer', function(YoutubePlayer, Lect
     var me = this;
     var $scope;
 
+    var slideWidthPercent = 66;
+
     this.start = function(scope)
     {
         $scope = scope;
@@ -10,7 +12,53 @@ angular.module('learning').service('LecturePlayer', function(YoutubePlayer, Lect
         YoutubePlayer.start($scope);
         LectureSlidePlayer.start($scope);
 
+        $timeout(me.setupDragResizer, 2000);
+
         return this;
+    };
+
+    var dragXstart = 0;
+
+    this.setupDragResizer = function()
+    {
+        $('.slides-video-divider').mousedown(function(e)
+        {
+            e.preventDefault();
+
+            dragXstart = e.pageX;
+        });
+
+        var onDrag = function(e)
+        {
+            e.preventDefault();
+
+            var relX = e.pageX - dragXstart;
+
+
+            var relPercent = relX / $scope.contentWidth;
+            slideWidthPercent += relPercent * 100;
+        };
+
+        $(document).mousemove(function(e)
+        {
+            if(dragXstart !== 0)
+            {
+                onDrag(e);
+
+                dragXstart = e.pageX;
+                me.manageSizeExecute(true);
+            }
+        })
+        .mouseup(function(e)
+        {
+            if(dragXstart !== 0)
+            {
+                onDrag(e);
+
+                dragXstart = 0;
+                me.manageSizeExecute();
+            }
+        });
     };
 
     var resizeTimeout;
@@ -19,13 +67,21 @@ angular.module('learning').service('LecturePlayer', function(YoutubePlayer, Lect
     {
         $timeout.cancel(resizeTimeout);
 
-        resizeTimeout = $timeout(function()
-        {
-            console.log('resizing learning content', $scope.contentWidth);
-            YoutubePlayer.setSize($scope.contentWidth/3 - 15);
-            LectureSlidePlayer.setSize($scope.contentWidth*2/3 - 15);
+        resizeTimeout = $timeout(me.manageSizeExecute, 200);
+    };
 
-        }, 400);
+    this.manageSizeExecute = function(quick)
+    {
+        YoutubePlayer.setSize($scope.contentWidth * (1-slideWidthPercent/100) - 15);
+
+        if(quick)
+        {
+            LectureSlidePlayer.setSizeQuick($scope.contentWidth * slideWidthPercent / 100 - 15);
+        }
+        else
+        {
+            LectureSlidePlayer.setSize($scope.contentWidth * slideWidthPercent / 100 - 15);
+        }
     };
 
     this.setSize = function()
