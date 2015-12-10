@@ -3,7 +3,7 @@ angular.module('learning').service('LecturePlayer', function(YoutubePlayer, Lect
     var me = this;
     var $scope;
 
-    var slideWidthPercent = 66;
+    var slideWidthPercent = 62;
 
     this.start = function(scope)
     {

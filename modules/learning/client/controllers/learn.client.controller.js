@@ -29,9 +29,11 @@ angular.module('learning').controller('LearnController',
 
                 if($scope.active.sourcetype.title === 'Lecture')
                 {
-                    //players.push(YoutubePlayer.start($scope));
-                    //players.push(LectureSlidePlayer.start($scope));
                     players.push(LecturePlayer.start($scope));
+                }
+                else if($scope.active.sourcetype.title === 'YouTube')
+                {
+                    players.push(YoutubePlayer.start($scope));
                 }
             }
 

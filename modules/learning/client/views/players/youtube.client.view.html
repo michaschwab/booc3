@@ -12,7 +12,7 @@
 
 </header>
 
-<div class="col-xs-8 learnContent-inner">
+<div class="learnContent-inner">
 
     <div class="{{active.sourcetype.title.toLowerCase().replace(' ','')}}">
 
@@ -29,29 +29,13 @@
             <strong><a href="" ng-click="understoodLateClick(conceptReadNotUnderstood)">Yes</a></strong> <strong><a href="" ng-click="removeConceptReadNotUnderstood()">No</a></strong>
         </div>-->
 
-        <pdfviewer ng-src="{{sourceData.document}}" width="{{pdfWidth}}" on-page-load='pageLoaded(page,total)' class="pdfViewer" id="viewer"></pdfviewer>
-
-    </div>
-
-
-</div>
-
-<div class="col-xs-4 navigation mapNav" ng-class="{ extended: map.extended }">
-
-
-    <div ng-if="active.sourcetype.title.toLowerCase().replace(' ','')=='lecture'" class="minivideo">
-
-
-
-
-        <video width="{{videoWidth}}" controls id="videoPlayer" ng-src="{{sourceData.video}}">
-            <source ng-src="{{sourceData.video}}" type="video/mp4" />
-            Your browser does not support the video tag.
-        </video>
+        <youtube-video width="{{videoWidth}}" controls id="videoPlayer" video-url="sourceData.video"></youtube-video>
 
         <div ng-show="currentPosition<segment.end" class="alert alert-info notEndNotifier" role="alert">
             This concept ends in {{(segment.end-currentPosition) * 1000 | date:'mm:ss':'UTC'}} minutes.
         </div>
 
     </div>
+
+
 </div>

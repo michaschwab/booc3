@@ -19,14 +19,27 @@ angular.module('learning').service('YoutubePlayer', function($http, $sce, $inter
         return !player ? -1 : player.getCurrentTime();
     };
 
+    var resizeTimeout;
+    this.manageSize = function()
+    {
+        $timeout.cancel(resizeTimeout);
+
+        resizeTimeout = $timeout(function()
+        {
+            me.setSize($scope.contentWidth - 30);
+        }, 200);
+    };
+
     var tries = 0;
     this.setSize = function(goalWidth, goalHeight)
     {
         var vidPlayer = d3.select('#videoPlayer');
         if(!vidPlayer.empty())
         {
+            if(!goalHeight) goalHeight = goalWidth * 0.6;
             vidPlayer.transition()
                 .style('width', goalWidth + 'px')
+                .style('height', goalHeight + 'px')
                 .each('end', function()
                 {
                     $scope.videoWidth = goalWidth;
