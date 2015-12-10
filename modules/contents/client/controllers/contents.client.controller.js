@@ -19,10 +19,8 @@ angular.module('contents').controller('ContentsController',
             });
         });
 
-        Sources.query(function(sources)
+        $scope.sources = Sources.query(function()
         {
-            $scope.sources = sources;
-
             Sourcetypes.query(function(sourceTypes)
             {
                 $scope.sourceTypes = sourceTypes;
@@ -37,7 +35,7 @@ angular.module('contents').controller('ContentsController',
                     $scope.segments = segments;
 
 
-                    sources.forEach(function(source)
+                    $scope.sources.forEach(function(source)
                     {
                         segments.filter(function(segment)
                         {
@@ -52,7 +50,7 @@ angular.module('contents').controller('ContentsController',
                         });
                     });
 
-                    /*sources.filter(function(source)
+                    /*$scope.sources.filter(function(source)
                     {
                         return source.type == $scope.sourceType._id;
                     }).forEach(function(source)
@@ -61,7 +59,7 @@ angular.module('contents').controller('ContentsController',
                     });*/
                 });
 
-                /*sources.forEach(function(source)
+                /*$scope.sources.forEach(function(source)
                 {
                     if(!$scope.sourceTypeMap[source.type])
                     {
@@ -72,6 +70,17 @@ angular.module('contents').controller('ContentsController',
 
 
         });
+
+        $scope.removeSourceOnly = function(event, sourceId)
+        {
+            event.preventDefault();
+            event.stopPropagation();
+
+            var src = $scope.sources.filter(function(source) { return source._id == sourceId; })[0];
+            src.$remove({sourceOnly: true});
+
+            return false;
+        };
 
         $scope.getSegmentsNumberShort = function(num, source)
         {

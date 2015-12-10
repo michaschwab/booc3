@@ -64,7 +64,7 @@ exports.update = function(req, res) {
 };
 
 /**
- * Delete an Course
+ * Delete a Source
  */
 exports.delete = function(req, res)
 {
@@ -73,35 +73,61 @@ exports.delete = function(req, res)
 
     var segmentQuery = { source: sourceId };
 
-    //todo also delete all segments, and remove the concept segment entries
-    Segment.find(segmentQuery).exec(function(err, segments)
+    if(req.query && req.query.sourceOnly)
     {
-        // TODO remove from concept segment list
-
-        Segment.remove(segmentQuery).exec(function(err)
+        source.remove(function(err)
         {
-            source.remove(function(err)
+            if (err)
             {
-                if (err)
-                {
-                    return res.status(400).send({
-                        message: errorHandler.getErrorMessage(err)
-                    });
-                }
-                else
-                {
-                    var deletedData = { Segment: segments, Source: [source] };
+                return res.status(400).send({
+                    message: errorHandler.getErrorMessage(err)
+                });
+            }
+            else
+            {
+                var deletedData = { Source: [source] };
 
-                    actions.doDelete(req.user, deletedData, function()
-                    {
-                        res.jsonp(source);
-                    });
-
+                actions.doDelete(req.user, deletedData, function()
+                {
                     res.jsonp(source);
-                }
+                });
+
+                //res.jsonp(source);
+            }
+        });
+    }
+    else
+    {
+        //todo remove the concept segment entries
+        Segment.find(segmentQuery).exec(function(err, segments)
+        {
+            // TODO remove from concept segment list
+
+            Segment.remove(segmentQuery).exec(function(err)
+            {
+                source.remove(function(err)
+                {
+                    if (err)
+                    {
+                        return res.status(400).send({
+                            message: errorHandler.getErrorMessage(err)
+                        });
+                    }
+                    else
+                    {
+                        var deletedData = { Segment: segments, Source: [source] };
+
+                        actions.doDelete(req.user, deletedData, function()
+                        {
+                            res.jsonp(source);
+                        });
+
+                        //res.jsonp(source);
+                    }
+                });
             });
         });
-    });
+    }
 };
 
 exports.uploadLectureSlides = function(req, res)
