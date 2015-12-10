@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('contents').controller('CreatorController',
-    function($scope, $stateParams, Courses, Sourcetypes, Sources, Segments, $timeout, $location, LectureCreator, WikiCreator, LTICreator, Concepts, $filter, YoutubeCreator)
+    function($scope, $stateParams, $state, Courses, Sourcetypes, Sources, Segments, $timeout, $location, LectureCreator, WikiCreator, LTICreator, Concepts, $filter, YoutubeCreator)
     {
         $scope.courseId = $stateParams.courseId;
         $scope.activeReadableType = '';
@@ -12,6 +12,7 @@ angular.module('contents').controller('CreatorController',
         $scope.concepts = [];
         $scope.readableTypes = [];
         $scope.segments = [];
+        $scope.deletedSegments = [];
         var sourceHelper;
 
         $scope.activeTimes = {start: 0, end: 0};
@@ -201,7 +202,14 @@ angular.module('contents').controller('CreatorController',
 
                 if($scope.segments.length > 0)
                 {
-                    //console.log($scope.segments);
+                    $scope.deletedSegments.forEach(function(segment)
+                    {
+                        if(segment._id)
+                        {
+                            segment.$remove();
+                        }
+                    });
+
                     $scope.segments.forEach(function(segment)
                     {
                         var conceptIds = !segment.conceptObjects ? [] : segment.conceptObjects.map(function(concept)
@@ -219,6 +227,12 @@ angular.module('contents').controller('CreatorController',
                         var cb2 = function()
                         {
                             //TODO do some smart redirect.
+                            if($scope.courseId)
+                            {
+                                $state.go('courses.view', {
+                                    courseId: $scope.courseId
+                                });
+                            }
                         };
 
                         if(segment._id)
@@ -391,6 +405,13 @@ angular.module('contents').controller('CreatorController',
                 $('#segmentTitle').select();
             }, 100);
             //todo check if segment has any concepts.
+        };
+
+        $scope.deleteSegment = function()
+        {
+            $scope.segments.splice($scope.segments.indexOf($scope.activeSegment), 1);
+            $scope.deletedSegments.push($scope.activeSegment);
+            $scope.activeSegment = null;
         };
 
 
