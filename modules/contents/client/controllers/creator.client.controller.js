@@ -177,20 +177,19 @@ angular.module('contents').controller('CreatorController',
             }
         };
 
-        var fixSourceType = function()
+        var getFixedSourceTypeId = function()
         {
             if($scope.activeReadableType == 'youtube' && YoutubeCreator.isLecture())
             {
                 var index = $scope.readableTypes.indexOf('lecture');
-                $scope.activeType = $scope.sourcetypes[index];
+                return $scope.sourcetypes[index]._id;
             }
+            return $scope.activeType._id
         };
 
         $scope.createContents = function()
         {
-            fixSourceType();
-
-            $scope.source.type = $scope.activeType._id;
+            $scope.source.type = getFixedSourceTypeId();
             $scope.source.courses = [$scope.course._id];
             //todo be more flexible and allow multiple courses
             //delete $scope.course;
