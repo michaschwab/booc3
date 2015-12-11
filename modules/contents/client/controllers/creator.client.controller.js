@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('contents').controller('CreatorController',
-    function($scope, $stateParams, $state, Courses, Sourcetypes, Sources, Segments, $timeout, $location, LectureCreator, WikiCreator, LTICreator, Concepts, $filter, YoutubeCreator)
+    function($scope, $stateParams, $state, Courses, Sourcetypes, Sources, Segments, $timeout, $location, LectureCreator, WikiCreator, LTICreator, Concepts, $filter, YoutubeCreator, WebsiteCreator)
     {
         $scope.courseId = $stateParams.courseId;
         $scope.activeReadableType = '';
@@ -306,6 +306,10 @@ angular.module('contents').controller('CreatorController',
             else if(readable === 'youtube')
             {
                 sourceHelper = YoutubeCreator;
+            }
+            else if(readable === 'website')
+            {
+                sourceHelper = WebsiteCreator;
             }
 
             if(sourceHelper)

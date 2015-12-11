@@ -2,7 +2,7 @@
 
 // Segments controller
 angular.module('learning').controller('LearnController',
-    function($scope, $stateParams, $location, $timeout, Concepts, Segments, Sources, Sourcetypes, $interval, LearnHelper, $window, ConceptStructure, Courses, YoutubePlayer, LectureSlidePlayer, LecturePlayer)
+    function($scope, $stateParams, $location, $timeout, Concepts, Segments, Sources, Sourcetypes, $interval, LearnHelper, $window, ConceptStructure, Courses, YoutubePlayer, LectureSlidePlayer, LecturePlayer, WebsitePlayer)
     {
         var me = this;
         $scope = angular.element('.course-view').scope();
@@ -34,6 +34,10 @@ angular.module('learning').controller('LearnController',
                 else if($scope.active.sourcetype.title === 'YouTube')
                 {
                     players.push(YoutubePlayer.start($scope));
+                }
+                else if($scope.active.sourcetype.title == 'Website')
+                {
+                    players.push(WebsitePlayer.start($scope));
                 }
             }
 
