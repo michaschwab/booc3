@@ -47,7 +47,7 @@
         <ng-include ng-if="activeReadableType" src=" 'modules/contents/views/creators/' + activeReadableType + '.client.view.html' "></ng-include>
 
         <div class="row">
-            <div class="col-md-4"><button type="button" class="btn btn-warning"><span class="glyphicon glyphicon-trash"></span> Cancel</button></div>
+            <div class="col-md-4"><button type="button" class="btn btn-warning" ng-click="cancel()"><span class="glyphicon glyphicon-trash"></span> Cancel</button></div>
             <div class="col-md-8 text-right">
                 <button ng-click="createContents()" type="button" class="btn btn-primary">
 

@@ -60,7 +60,7 @@
                     </a>
 
                     <a ng-show="learnMode||editSourceMode" class="panel-button play learnmode-{{learnMode}}" title="Show Course Map"
-                       data-ui-sref="{mode: activeMode=='minimap'?'plan':activeMode, learn: 'no'}">
+                       data-ui-sref="courses.view({courseId: course._id, mode: activeMode=='minimap'?'plan':activeMode, learn: 'no'})">
                         <!--<span class="glyphicon glyphicon-map-marker"></span>-->
                         <span class="map-icon"></span>
                         Show Map

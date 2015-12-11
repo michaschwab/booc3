@@ -188,6 +188,27 @@ angular.module('contents').controller('CreatorController',
             return $scope.activeType._id
         };
 
+        var redirectBack = function()
+        {
+            if($scope.courseId || $scope.course._id)
+            {
+                var courseId = $scope.courseId ? $scope.courseId : $scope.course._id;
+
+                $state.go('courses.view', {
+                    courseId: courseId
+                });
+            }
+            else
+            {
+                $state.go('courses.list');
+            }
+        };
+
+        $scope.cancel = function()
+        {
+            redirectBack();
+        };
+
         $scope.createContents = function()
         {
             $scope.source.type = getFixedSourceTypeId();
@@ -227,18 +248,7 @@ angular.module('contents').controller('CreatorController',
                         var cb2 = function()
                         {
                             //TODO do some smart redirect.
-                            if($scope.courseId || $scope.course._id)
-                            {
-                                var courseId = $scope.courseId ? $scope.courseId : $scope.course._id;
-
-                                $state.go('courses.view', {
-                                    courseId: courseId
-                                });
-                            }
-                            else
-                            {
-                                $state.go('courses.list');
-                            }
+                            redirectBack();
                         };
 
                         if(segment._id)
@@ -357,6 +367,12 @@ angular.module('contents').controller('CreatorController',
         {
             var readableType = $scope.getReadableType(type);
             if(readableType === 'lecture') readableType = 'youtube';
+
+            var current = $location.search();
+
+            if(!current && readableType == $scope.defaultReadableType)
+                return;
+
             $location.search('type', readableType);
         };
 

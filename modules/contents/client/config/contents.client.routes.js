@@ -34,7 +34,7 @@ angular.module('contents').config(['$stateProvider', '$urlRouterProvider',
                 }
             })
             .state('contents.createByCourseAndConcept', {
-                url: '/courses/:courseId/concepts/:conceptId/contents/add?mode',
+                url: '/courses/:courseId/concepts/:conceptId/contents/add?mode&active',
                 templateUrl: 'modules/courses/views/view-course.client.view.html',
                 data: {
                     roles: ['admin', 'courseadmin']
