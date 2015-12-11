@@ -11,6 +11,9 @@ module.exports = function(app) {
 	app.route('/api/sources/lectureZip')
 			.post(sources.uploadLectureSlides);
 
+	app.route('/api/sources/pdf')
+			.post(sources.uploadPdf);
+
 	app.route('/api/sources/:sourceId')
 		.get(sources.read)
 		.put(sources.update)

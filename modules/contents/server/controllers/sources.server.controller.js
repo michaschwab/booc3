@@ -130,6 +130,11 @@ exports.delete = function(req, res)
     }
 };
 
+exports.uploadPdf = function(req, res)
+{
+
+};
+
 exports.uploadLectureSlides = function(req, res)
 {
     var buffer = req.files.file.buffer;
