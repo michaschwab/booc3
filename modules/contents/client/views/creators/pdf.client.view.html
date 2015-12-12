@@ -35,7 +35,15 @@
         <ng-include src=" 'modules/contents/views/segmentListPanel.client.view.html' "></ng-include>
     </div>
     <div class="col-md-7">
-        <pdfviewer ng-src="{{sourceData.document}}" width="{{pdfWidth}}" on-page-load='pageLoaded(page,total)' class="pdfViewer" id="viewer"></pdfviewer>
+        <div class="panel panel-default" style="height:450px">
+            <div class="panel-heading">
+
+            </div>
+            <div class="panel-content" style="padding:0">
+                <pdfviewer ng-src="{{sourceData.document}}" width="621" height="420" on-page-load='pageLoaded(page,total)' class="pdfViewer" id="viewer"></pdfviewer>
+            </div>
+        </div>
+
     </div>
 </div>
 

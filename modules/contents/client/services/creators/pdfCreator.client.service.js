@@ -160,6 +160,7 @@ angular.module('contents').service('PdfCreator', function(ytapi, youtubeEmbedUti
 
                 callback(result);
             });
+            //callback({video: vidData });
         };
 
         /*this.isLecture = function()
