@@ -321,6 +321,10 @@ angular.module('contents').controller('CreatorController',
             {
                 sourceHelper = WebsiteCreator;
             }
+            else if(readable === 'pdf')
+            {
+                sourceHelper = PdfCreator;
+            }
 
             if(sourceHelper)
             {

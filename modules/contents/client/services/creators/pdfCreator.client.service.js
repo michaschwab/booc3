@@ -1,4 +1,4 @@
-angular.module('contents').service('PdfCreator', function(ytapi, youtubeEmbedUtils, $http, FileUploader, $window, $timeout)
+angular.module('contents').service('PdfCreator', function(ytapi, youtubeEmbedUtils, $http, FileUploader, $window, $timeout, $sce)
     {
         var me = this;
         var $scope = null;
@@ -9,6 +9,7 @@ angular.module('contents').service('PdfCreator', function(ytapi, youtubeEmbedUti
 
             $scope.player = null;
             $scope.source.data = {};
+            $scope.sourceData = {};
 
             function setupPdfUploader()
             {
@@ -26,6 +27,10 @@ angular.module('contents').service('PdfCreator', function(ytapi, youtubeEmbedUti
                 {
                     // Show success message
                     $scope.uploadSuccess = true;
+
+                    $scope.source.path = response.fileName;
+                    me.updatePdfPath();
+
 
                     /*var segments = response.segments;
                     var timestamps = response.timestamps;
@@ -68,7 +73,7 @@ angular.module('contents').service('PdfCreator', function(ytapi, youtubeEmbedUti
                     console.error(response.message);
                 };
 
-                $scope.uploadLectureZip = function(element)
+                $scope.uploadPdf = function(element)
                 {
                     if(element.files.length == 1)
                     {
@@ -128,6 +133,33 @@ angular.module('contents').service('PdfCreator', function(ytapi, youtubeEmbedUti
                     $scope.unit = '';
                 }
             });*/
+        };
+
+        this.updatePdfPath = function()
+        {
+            me.parseDocumentSegmentSourceData('./modules/contents/uploads/pdf/' + $scope.source.path, function(pdfData)
+            {
+                $scope.sourceData.document = pdfData;
+            });
+        };
+
+        this.parseDocumentSegmentSourceData = function(path, callback)
+        {
+            // If local file, display. Otherwise, use CORS Proxy for loading.
+            var url = path.indexOf('http') !== -1 ? 'http://www.corsproxy.com/' + path.replace('http://','') : path;
+
+            $http.get(url, {responseType:'arraybuffer'}).
+            //$http.get('http://www.corsproxy.com/' + source.path.replace('http://',''), {responseType:'arraybuffer'}).
+            //success(function(data, status, headers, config) {
+            success(function(data) {
+
+                var file = new Blob([data], {type: 'application/pdf'});
+                var fileURL = URL.createObjectURL(file);
+
+                var result = $sce.trustAsResourceUrl(fileURL);
+
+                callback(result);
+            });
         };
 
         /*this.isLecture = function()

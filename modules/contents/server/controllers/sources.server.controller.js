@@ -132,7 +132,20 @@ exports.delete = function(req, res)
 
 exports.uploadPdf = function(req, res)
 {
+    var buffer = req.files.file.buffer;
+    var fileName = req.files.file.name;
+    var saveAs = './modules/contents/client/uploads/pdf/' + fileName;
 
+    fs.writeFile(saveAs, buffer, function (uploadError)
+    {
+        if (uploadError) {
+            return res.status(400).send({
+                message: 'Error occurred while uploading pdf file'
+            });
+        } else {
+            res.json({filePath: saveAs, fileName: fileName});
+        }
+    });
 };
 
 exports.uploadLectureSlides = function(req, res)
