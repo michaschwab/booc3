@@ -11,6 +11,8 @@ angular.module('contents').service('PdfCreator', function(ytapi, youtubeEmbedUti
             $scope.source.data = {};
             $scope.sourceData = {};
 
+            $scope.$watch('source.path', me.updatePdfPath);
+
             function setupPdfUploader()
             {
                 $scope.uploader = new FileUploader({
@@ -137,10 +139,13 @@ angular.module('contents').service('PdfCreator', function(ytapi, youtubeEmbedUti
 
         this.updatePdfPath = function()
         {
-            me.parseDocumentSegmentSourceData('./modules/contents/uploads/pdf/' + $scope.source.path, function(pdfData)
+            if($scope.source.path)
             {
-                $scope.sourceData.document = pdfData;
-            });
+                me.parseDocumentSegmentSourceData('./modules/contents/uploads/pdf/' + $scope.source.path, function(pdfData)
+                {
+                    $scope.sourceData.document = pdfData;
+                });
+            }
         };
 
         this.parseDocumentSegmentSourceData = function(path, callback)
