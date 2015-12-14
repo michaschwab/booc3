@@ -1,6 +1,6 @@
 <div class="panel panel-default" style="width: {{contentWidth-30}}px">
     <div class="panel-heading">{{source.title}}</div>
     <div class="panel-content" style="padding:0">
-        <pdfviewer ng-src="{{sourceData.document}}" height="{{windowHeight-110}}" on-page-load='pageLoaded(page,total)' class="pdfViewer" id="viewer"></pdfviewer>
+        <pdfviewer ng-src="{{sourceData.document}}" height="{{windowHeight-110}}" scale="page-fit" on-page-load='pageLoaded(page,total)' class="pdfViewer" id="viewer"></pdfviewer>
     </div>
 </div>
