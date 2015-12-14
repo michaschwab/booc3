@@ -2,7 +2,7 @@
 
 // Segments controller
 angular.module('learning').controller('LearnController',
-    function($scope, $stateParams, $location, $timeout, Concepts, Segments, Sources, Sourcetypes, $interval, LearnHelper, $window, ConceptStructure, Courses, YoutubePlayer, LectureSlidePlayer, LecturePlayer, WebsitePlayer, PdfPlayer)
+    function($scope, $stateParams, $location, $timeout, Concepts, Segments, Sources, Sourcetypes, $interval, LearnHelper, $window, ConceptStructure, Courses, YoutubePlayer, LectureSlidePlayer, LecturePlayer, WebsitePlayer, PdfPlayer, WikiPlayer)
     {
         var me = this;
         $scope = angular.element('.course-view').scope();
@@ -39,6 +39,10 @@ angular.module('learning').controller('LearnController',
                 else if($scope.active.sourcetype.title == 'Website')
                 {
                     players.push(WebsitePlayer.start($scope));
+                }
+                else if($scope.active.sourcetype.title == 'Wikipedia Article')
+                {
+                    players.push(WikiPlayer.start($scope));
                 }
                 else if($scope.active.sourcetype.title == 'PDF')
                 {
