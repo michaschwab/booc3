@@ -141,7 +141,7 @@ angular.module('learning').service('LearnHelper', function($http, $sce, $interva
         //scope.currentPosition = me.getSourcePosition(sourcetype, player);
     };*/
 
-    this.parseDocumentSegmentSourceData = function(path, callback)
+    /*this.parseDocumentSegmentSourceData = function(path, callback)
     {
         // If local file, display. Otherwise, use CORS Proxy for loading.
         var url = path.indexOf('http') !== -1 ? 'http://www.corsproxy.com/' + path.replace('http://','') : path;
@@ -158,7 +158,7 @@ angular.module('learning').service('LearnHelper', function($http, $sce, $interva
 
                 callback(result);
             });
-    };
+    };*/
 /*
     this.parseSegmentSourceData = function(source, sourcetype, segment, callback)
     {

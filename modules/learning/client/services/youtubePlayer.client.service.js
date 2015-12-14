@@ -57,7 +57,7 @@ angular.module('learning').service('YoutubePlayer', function($http, $sce, $inter
         $scope.$on('youtube.player.ready', function ($event, thePlayer) {
             console.log('player ready');
             player = thePlayer;
-            player.playVideo();
+            //player.playVideo();
             $scope.player = player;
             //$scope.scale = 0.1;
         });

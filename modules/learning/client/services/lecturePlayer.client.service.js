@@ -11,6 +11,7 @@ angular.module('learning').service('LecturePlayer', function(YoutubePlayer, Lect
 
         YoutubePlayer.start($scope);
         LectureSlidePlayer.start($scope);
+        //console.log('lectureplayer start');
 
         $timeout(me.setupDragResizer, 2000);
 
@@ -96,7 +97,7 @@ angular.module('learning').service('LecturePlayer', function(YoutubePlayer, Lect
 
     this.stop = function()
     {
-
+        LectureSlidePlayer.stop();
     };
 
     this.parseSegmentSourceData = function(source, sourcetype, segment, callback)

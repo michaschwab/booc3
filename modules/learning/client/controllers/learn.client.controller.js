@@ -26,6 +26,7 @@ angular.module('learning').controller('LearnController',
                 lastSourceType = $scope.active.sourcetype;
 
                 me.stop();
+                players = [];
 
                 if($scope.active.sourcetype.title === 'Lecture')
                 {
@@ -97,6 +98,7 @@ angular.module('learning').controller('LearnController',
 
         this.parseSegmentSourceData = function(source, sourcetype, segment, callback)
         {
+            //console.log(players);
             players.forEach(function(player)
             {
                 if(player.parseSegmentSourceData)
@@ -113,6 +115,7 @@ angular.module('learning').controller('LearnController',
             if($scope.active.source._id !== $scope.lastSourceId)
             {
                 $scope.lastSourceId = $scope.active.source._id;
+                $scope.sourceData = {};
 
                 me.parseSegmentSourceData($scope.active.source, $scope.active.sourcetype, $scope.active.segment, function(data)
                 {

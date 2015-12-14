@@ -1,10 +1,11 @@
-angular.module('learning').service('LectureSlidePlayer', function(YoutubePlayer, $interval, $timeout, LearnHelper)
+angular.module('learning').service('LectureSlidePlayer', function(YoutubePlayer, $interval, $timeout, $http, $sce, PdfPlayer)
 {
     var me = this;
     var $scope;
 
     var player;
     var interval1;
+    var lastSlidePdf;
 
     this.start = function(scope)
     {
@@ -12,6 +13,9 @@ angular.module('learning').service('LectureSlidePlayer', function(YoutubePlayer,
         interval1 = $interval(me.synchronizeSlide, 1000);
 
         $scope.pdfWidth = $scope.contentWidth*2/3;
+        lastSlidePdf = '';
+
+        PdfPlayer.start($scope);
 
         return this;
     };
@@ -28,29 +32,15 @@ angular.module('learning').service('LectureSlidePlayer', function(YoutubePlayer,
 
     this.setSize = function(goalWidth, goalHeight)
     {
-        var start = $scope.pdfWidth;
-        var distance = start - goalWidth;
-        var viewer = $('#viewer');
-        viewer.animate({ width: goalWidth }, {progress: function(promise, remaining)
-        {
-            //$scope.courseScope.panelWidth = start - remaining * distance;
-            $scope.pdfWidth = start - remaining * distance;
-
-            $scope.safeApply();
-        }});
+        PdfPlayer.setSize(goalWidth, goalHeight);
     };
 
     this.setSizeQuick = function(goalWidth, goalHeight)
     {
-        var viewer = $('#viewer');
-
-        viewer.css('width', goalWidth);
-        $scope.pdfWidth = goalWidth;
-
-        $scope.safeApply();
+        PdfPlayer.setSizeQuick(goalWidth, goalHeight);
     };
 
-    var lastSlidePdf;
+
     this.synchronizeSlide = function()
     {
         var time = YoutubePlayer.getPosition();
@@ -69,12 +59,17 @@ angular.module('learning').service('LectureSlidePlayer', function(YoutubePlayer,
                 lastSlidePdf = slidePdf;
 
                 //this.parseDocumentSegmentSourceData = function(path, callback)
-                LearnHelper.parseDocumentSegmentSourceData(slidePdf, function(pdfData)
+                me.parseDocumentSegmentSourceData(slidePdf, function(pdfData)
                 {
                     $scope.sourceData.document = pdfData;
                 });
             }
         }
+    };
+
+    this.parseDocumentSegmentSourceData = function(path, callback)
+    {
+        PdfPlayer.parseDocumentSegmentSourceData(path, callback);
     };
 
     this.getSlideFromVidTime = function(time, timestamps)
