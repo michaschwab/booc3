@@ -106,10 +106,11 @@ angular.module('learning').controller('LearnController',
             if(player.getPosition)
             {
                 var position = player.getPosition();
-                if(position < $scope.active.segment.start || position > $scope.active.segment.end)
+
+                // Activating the next line would only make the content jump to the beginning of a Segment if the current position is not already within it.
+                // if(position < $scope.active.segment.start || position > $scope.active.segment.end)
                 {
                     player.setPosition($scope.active.segment.start);
-                    //LearnHelper.setSourcePosition($scope, $scope.active.sourcetype, $scope.player, $scope.active.segment.start);
                 }
             }
 
