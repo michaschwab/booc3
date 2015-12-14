@@ -22,6 +22,11 @@ angular.module('learning').service('PdfPlayer', function($interval, $timeout, $h
 
     };
 
+    this.manageSize = function()
+    {
+        me.setSize($scope.contentWidth - 15);
+    };
+
     this.parseSegmentSourceData = function(source, sourcetype, segment, callback)
     {
         //console.log('loading pdf player data');
@@ -76,6 +81,7 @@ angular.module('learning').service('PdfPlayer', function($interval, $timeout, $h
 
     this.setSize = function(goalWidth, goalHeight)
     {
+        console.log(goalWidth);
         var start = $scope.pdfWidth;
         var distance = start - goalWidth;
         var viewer = $('#viewer');
@@ -90,6 +96,7 @@ angular.module('learning').service('PdfPlayer', function($interval, $timeout, $h
 
     this.setSizeQuick = function(goalWidth, goalHeight)
     {
+        console.log(goalWidth, 'quick');
         var viewer = $('#viewer');
 
         viewer.css('width', goalWidth);

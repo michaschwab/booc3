@@ -123,6 +123,8 @@ angular.module('learning').controller('LearnController',
                     data.sourceId = $scope.active.source._id;
                     $scope.sourceData = angular.extend($scope.sourceData, data);
 
+                    me.manageSize();
+
                     //LearnHelper.synchronizePosition($scope, $scope.player, $scope.active.sourcetype);
                 });
             }

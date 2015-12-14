@@ -29,7 +29,7 @@
             <strong><a href="" ng-click="understoodLateClick(conceptReadNotUnderstood)">Yes</a></strong> <strong><a href="" ng-click="removeConceptReadNotUnderstood()">No</a></strong>
         </div>-->
 
-        <pdfviewer ng-src="{{sourceData.document}}" width="{{pdfWidth}}" on-page-load='pageLoaded(page,total)' class="pdfViewer" id="viewer"></pdfviewer>
+        <pdfviewer ng-src="{{sourceData.document}}" width="{{pdfWidth}}" height="{{windowHeight-110}}" scale="page-fit" on-page-load='pageLoaded(page,total)' class="pdfViewer" id="viewer"></pdfviewer>
 
     </div>
 
