@@ -16,7 +16,7 @@ angular.module('learning').controller('LearnController',
 
         $scope.$on('dataReady', me.update);
 
-        var players = [];
+        var player = null;
         var lastSourceType = '';
 
         this.updateCurrentPlayers = function()
@@ -26,27 +26,26 @@ angular.module('learning').controller('LearnController',
                 lastSourceType = $scope.active.sourcetype;
 
                 me.stop();
-                players = [];
 
                 if($scope.active.sourcetype.title === 'Lecture')
                 {
-                    players.push(LecturePlayer.start($scope));
+                    player = LecturePlayer.start($scope);
                 }
                 else if($scope.active.sourcetype.title === 'YouTube')
                 {
-                    players.push(YoutubePlayer.start($scope));
+                    player = YoutubePlayer.start($scope);
                 }
                 else if($scope.active.sourcetype.title == 'Website')
                 {
-                    players.push(WebsitePlayer.start($scope));
+                    player = WebsitePlayer.start($scope);
                 }
                 else if($scope.active.sourcetype.title == 'Wikipedia Article')
                 {
-                    players.push(WikiPlayer.start($scope));
+                    player = WikiPlayer.start($scope);
                 }
                 else if($scope.active.sourcetype.title == 'PDF')
                 {
-                    players.push(PdfPlayer.start($scope));
+                    player = PdfPlayer.start($scope);
                 }
             }
 
@@ -56,18 +55,14 @@ angular.module('learning').controller('LearnController',
 
         this.play = function()
         {
-            players.forEach(function(player)
-            {
+            if(player && player.stop)
                 player.play();
-            });
         };
 
         this.stop = function()
         {
-            players.forEach(function(player)
-            {
+            if(player && player.stop)
                 player.stop();
-            });
         };
 
         $scope.launch = function()
@@ -102,12 +97,22 @@ angular.module('learning').controller('LearnController',
 
         this.parseSegmentSourceData = function(source, sourcetype, segment, callback)
         {
-            //console.log(players);
-            players.forEach(function(player)
+            if(player.parseSegmentSourceData)
+                player.parseSegmentSourceData(source, sourcetype, segment, callback);
+        };
+
+        this.updatePosition = function()
+        {
+            if(player.getPosition)
             {
-                if(player.parseSegmentSourceData)
-                    player.parseSegmentSourceData(source, sourcetype, segment, callback);
-            });
+                var position = player.getPosition();
+                if(position < $scope.active.segment.start || position > $scope.active.segment.end)
+                {
+                    player.setPosition($scope.active.segment.start);
+                    //LearnHelper.setSourcePosition($scope, $scope.active.sourcetype, $scope.player, $scope.active.segment.start);
+                }
+            }
+
         };
 
         $scope.setActiveLearnMaterial = function()
@@ -134,11 +139,8 @@ angular.module('learning').controller('LearnController',
             }
             else
             {
-                //todo: just update position.
-                //if($scope.currentPosition < $scope.active.segment.start || $scope.currentPosition > $scope.active.segment.end)
-                {
-                    //LearnHelper.setSourcePosition($scope, $scope.active.sourcetype, $scope.player, $scope.active.segment.start);
-                }
+                // Just update position.
+                me.updatePosition();
             }
         };
 
@@ -318,11 +320,8 @@ angular.module('learning').controller('LearnController',
 
         this.manageSize = function()
         {
-            players.forEach(function(player)
-            {
-                if(player.manageSize)
-                    player.manageSize();
-            });
+            if(player && player.manageSize)
+                player.manageSize();
         };
 
         $scope.$watch('contentWidth', function()

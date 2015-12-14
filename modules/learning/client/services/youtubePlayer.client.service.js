@@ -19,6 +19,11 @@ angular.module('learning').service('YoutubePlayer', function($http, $sce, $inter
         return !player ? -1 : player.getCurrentTime();
     };
 
+    this.setPosition = function(pos)
+    {
+        return player.seekTo(pos);
+    };
+
     var resizeTimeout;
     this.manageSize = function()
     {

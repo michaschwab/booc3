@@ -90,6 +90,16 @@ angular.module('learning').service('LecturePlayer', function(YoutubePlayer, Lect
 
     };
 
+    this.getPosition = function()
+    {
+        return YoutubePlayer.getPosition();
+    };
+
+    this.setPosition = function(pos)
+    {
+        return YoutubePlayer.setPosition(pos);
+    };
+
     this.play = function()
     {
 

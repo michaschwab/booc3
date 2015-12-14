@@ -81,7 +81,7 @@ angular.module('learning').service('PdfPlayer', function($interval, $timeout, $h
 
     this.setSize = function(goalWidth, goalHeight)
     {
-        console.log(goalWidth);
+        //console.log(goalWidth);
         var start = $scope.pdfWidth;
         var distance = start - goalWidth;
         var viewer = $('#viewer');
