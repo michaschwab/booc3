@@ -101,6 +101,12 @@ angular.module('learning').controller('LearnController',
                 player.parseSegmentSourceData(source, sourcetype, segment, callback);
         };
 
+        this.stopPlay = function()
+        {
+            if(player && player.stopPlay)
+                player.stopPlay();
+        };
+
         this.updatePosition = function()
         {
             if(player.getPosition)
@@ -113,7 +119,6 @@ angular.module('learning').controller('LearnController',
                     player.setPosition($scope.active.segment.start);
                 }
             }
-
         };
 
         $scope.setActiveLearnMaterial = function()
@@ -121,6 +126,7 @@ angular.module('learning').controller('LearnController',
             if(!$scope.active.source) return;
 
             me.updateCurrentPlayers();
+            me.stopPlay();
 
             if($scope.active.source._id !== $scope.lastSourceId)
             {
@@ -144,7 +150,7 @@ angular.module('learning').controller('LearnController',
                 me.updatePosition();
             }
         };
-
+/*
         $scope.ensureSourceAtCorrectPosition = function()
         {
             // First, check whether still in the correct source.
@@ -170,18 +176,18 @@ angular.module('learning').controller('LearnController',
                     console.log($scope.sourceData.sourceId, activeSource._id, activeSource);
                     console.log('gotta get the correct source - not coded yet.');
 
-                    /*LearnHelper.parseSegmentSourceData($scope.active.source, $scope.active.sourcetype, $scope.active.segment, function(data)
+                    /!*LearnHelper.parseSegmentSourceData($scope.active.source, $scope.active.sourcetype, $scope.active.segment, function(data)
                     {
                         data.sourceId = $scope.active.source._id;
                         $scope.sourceData = angular.extend($scope.sourceData, data);
 
                         //LearnHelper.synchronizePosition($scope, $scope.active.source, $scope.player);
-                    });*/
+                    });*!/
 
                     //$scope.active.source = activeSource;
                 }
             });
-        };
+        };*/
 
         var interval1, interval2;
 

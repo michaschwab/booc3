@@ -76,6 +76,12 @@ angular.module('learning').service('YoutubePlayer', function($http, $sce, $inter
         }
     };
 
+    this.stopPlay = function()
+    {
+        if(player)
+            player.stopVideo();
+    };
+
 
     this.parseSegmentSourceData = function(source, sourcetype, segment, callback)
     {
@@ -84,7 +90,7 @@ angular.module('learning').service('YoutubePlayer', function($http, $sce, $inter
         var vidData = source.path + '#t=' + start;
         //console.log(source.path + '#t=' + start);
         //console.log(vidData);
-        console.log(vidData);
+        //console.log(vidData);
 
         callback({video: vidData });
     };
