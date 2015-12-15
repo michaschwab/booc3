@@ -10,7 +10,7 @@
         <a data-ng-repeat="source in sources" data-ui-sref="contents.edit({sourceId: source._id})" class="list-group-item">
 
             <div class="pull-right">
-                <button class="btn btn-default" ng-click="removeSourceOnly($event, source._id)"><span class="glyphicon glyphicon-trash"></span> Delete Source Only</button>
+                <button class="btn btn-default ng-hide" ng-click="removeSourceOnly($event, source._id)"><span class="glyphicon glyphicon-trash"></span> Delete Source Only</button>
                 <button class="btn btn-default" ng-click="removeSource($event, source._id)"><span class="glyphicon glyphicon-trash"></span> <span class="glyphicon glyphicon-plus"></span> Delete Source &amp; Segments</button>
             </div>
 
