@@ -170,3 +170,18 @@ a.concept:hover {
 .slides-video-divider:hover {
     text-decoration: none;
 }
+
+.pdfviewer h2 {
+    margin: 0 0 5px;
+    font-size: 20px;
+}
+.page-selector {
+    width: 100px;
+}
+#desiredPageInput {
+    width: 70px;
+    padding: 0 0 0 10px;
+    height: 22px;
+    margin: -1px;
+    text-align: center;
+}

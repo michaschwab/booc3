@@ -1,4 +1,4 @@
-angular.module('learning').service('PdfPlayer', function($interval, $timeout, $http, $sce)
+angular.module('learning').service('PdfPlayer', function($interval, $timeout, $http, $sce, PDFViewerService)
 {
     var me = this;
     var $scope;
@@ -8,6 +8,47 @@ angular.module('learning').service('PdfPlayer', function($interval, $timeout, $h
     this.start = function(scope)
     {
         $scope = scope;
+        $scope.viewer = PDFViewerService.Instance("viewer");
+        $scope.desired = {};
+        $scope.pageSelectorOpen = false;
+
+        $scope.nextPage = function() {
+            $scope.viewer.nextPage();
+        };
+
+        $scope.prevPage = function() {
+            $scope.viewer.prevPage();
+        };
+
+        $scope.pageLoaded = function(curPage, totalPages) {
+            $scope.currentPage = curPage;
+            $scope.desired.page = curPage;
+            $scope.totalPages = totalPages;
+        };
+
+        var hideFct = function() { $scope.pageSelectorOpen = false; };
+
+        $scope.openSelector = function()
+        {
+            $scope.pageSelectorOpen = true;
+            $timeout(function()
+            {
+                var input = $('#desiredPageInput');
+                input.focus();
+                input.select();
+                input.blur(hideFct);
+            }, 100);
+            hideTimeout = $timeout(hideFct, 6000);
+        };
+
+        var hideTimeout = null;
+        $scope.updateDesiredPage = function()
+        {
+            $scope.viewer.gotoPage($scope.desired.page);
+
+            $timeout.cancel(hideTimeout);
+            hideTimeout = $timeout(hideFct, 6000);
+        };
 
         return this;
     };

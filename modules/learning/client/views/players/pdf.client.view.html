@@ -1,5 +1,36 @@
-<div class="panel panel-default" style="width: {{contentWidth-30}}px">
-    <div class="panel-heading">{{source.title}}</div>
+<div class="panel panel-default pdfviewer" style="width: {{contentWidth-30}}px">
+    <div class="panel-heading">
+
+        <div class="pull-right btn-group">
+
+            <button class="btn btn-default" ng-click="prevPage()">
+                <span class="glyphicon glyphicon-chevron-left"></span>
+            </button>
+
+            <button class="btn btn-default page-selector" ng-click="openSelector()">
+                <span ng-show="!pageSelectorOpen">
+                    Page
+                    <!--<input type="number" ng-change="updateDesiredPage()" ng-model="desired.page" />-->
+                    {{currentPage}}
+                    /
+                    {{totalPages}}
+                </span>
+
+                <input type="number" class="form-control" id="desiredPageInput" ng-show="pageSelectorOpen" ng-change="updateDesiredPage()" ng-model="desired.page" />
+
+            </button>
+
+            <button class="btn btn-default" ng-click="nextPage()">
+                <span class="glyphicon glyphicon-chevron-right"></span>
+            </button>
+
+
+        </div>
+
+        <h2>{{active.source.title}}</h2>
+
+
+    </div>
     <div class="panel-content" style="padding:0">
         <pdfviewer ng-src="{{sourceData.document}}" width="{{contentWidth-30}}" height="{{windowHeight-110}}" scale="page-fit" on-page-load='pageLoaded(page,total)' class="pdfViewer" id="viewer"></pdfviewer>
     </div>
