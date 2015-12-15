@@ -82,6 +82,17 @@ angular.module('contents').controller('ContentsController',
             return false;
         };
 
+        $scope.removeSource = function(event, sourceId)
+        {
+            event.preventDefault();
+            event.stopPropagation();
+
+            var src = $scope.sources.filter(function(source) { return source._id == sourceId; })[0];
+            src.$remove();
+
+            return false;
+        };
+
         $scope.getSegmentsNumberShort = function(num, source)
         {
             if(!$scope.sourceSegments[source._id] || num > $scope.sourceSegments[source._id].length)
