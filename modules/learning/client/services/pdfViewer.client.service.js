@@ -51,5 +51,15 @@ angular.module('learning').service('PdfViewer', function($timeout, PDFViewerServ
         return this;
     };
 
+    this.getCurrentPage = function()
+    {
+        return $scope.currentPage;
+    };
+
+    this.goToPage = function(page)
+    {
+        $scope.viewer.gotoPage(page);
+    };
+
     return (this);
 });

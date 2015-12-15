@@ -75,6 +75,11 @@ angular.module('contents').service('PdfCreator', function($http, FileUploader, $
 
         };
 
+        this.getCurrentPosition = function()
+        {
+            return PdfViewer.getCurrentPage();
+        };
+
         this.updatePdfPath = function()
         {
             if($scope.source.path)

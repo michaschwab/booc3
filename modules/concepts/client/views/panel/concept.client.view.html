@@ -38,6 +38,9 @@
                         -
                         <span ng-show="seg.end>=3600">{{seg.end | secondsToDateTime | date:'HH:mm:ss'}}</span><span ng-show="seg.end<3600">{{seg.end | secondsToDateTime | date:'mm:ss'}}</span>)
                     </span>
+                    <span ng-show="seg.end&&(courseScope.sourcetypeMap[courseScope.sourceMap[seg.source].type].title=='PDF')">
+                        (p. {{seg.start}} - {{seg.end}})
+                    </span>
                 </span>
             </a>
         </li>

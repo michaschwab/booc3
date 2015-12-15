@@ -37,6 +37,14 @@ angular.module('learning').service('PdfPlayer', function($interval, $timeout, $h
         me.parseDocumentSegmentSourceData(url, function(result)
         {
             callback({document: result});
+
+            if(segment.start)
+            {
+                $timeout(function()
+                {
+                    PdfViewer.goToPage(segment.start);
+                }, 500);
+            }
         })
     };
 
