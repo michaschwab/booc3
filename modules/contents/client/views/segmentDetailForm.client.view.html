@@ -69,9 +69,14 @@
                         </a>
                     </span>
 
-                    <input id="segmentStart" momentduration="hours" ng-model="activeTimes.startDuration" class="form-control duration" ng-change="activeSegmentTimeChange()"/>
-                    <input momentduration="minutes" ng-model="activeTimes.startDuration" class="form-control duration" />
-                    <input momentduration="seconds" ng-model="activeTimes.startDuration" class="form-control duration" />
+                    <div ng-show="activeType.category=='Video'">
+                        <input id="segmentStart" momentduration="hours" ng-model="activeTimes.startDuration" class="form-control duration" ng-change="activeSegmentTimeChange()"/>
+                        <input momentduration="minutes" ng-model="activeTimes.startDuration" class="form-control duration" />
+                        <input momentduration="seconds" ng-model="activeTimes.startDuration" class="form-control duration" />
+                    </div>
+                    <div ng-show="activeType.category=='Document'">
+                        <input ng-model="activeSegment.start" class="form-control" />
+                    </div>
 
                     <span ng-show="unit" class="input-group-addon">{{unit}}</span>
                 </div>
@@ -87,9 +92,14 @@
                         </a>
                     </span>
 
-                    <input momentduration="hours" ng-model="activeTimes.endDuration" class="form-control duration" />
-                    <input momentduration="minutes" ng-model="activeTimes.endDuration" class="form-control duration" />
-                    <input momentduration="seconds" ng-model="activeTimes.endDuration" class="form-control duration" />
+                    <div ng-show="activeType.category=='Video'">
+                        <input momentduration="hours" ng-model="activeTimes.endDuration" class="form-control duration" />
+                        <input momentduration="minutes" ng-model="activeTimes.endDuration" class="form-control duration" />
+                        <input momentduration="seconds" ng-model="activeTimes.endDuration" class="form-control duration" />
+                    </div>
+                    <div ng-show="activeType.category=='Document'">
+                        <input ng-model="activeSegment.end" class="form-control" />
+                    </div>
 
                     <span ng-show="unit" class="input-group-addon">{{unit}}</span>
                 </div>
