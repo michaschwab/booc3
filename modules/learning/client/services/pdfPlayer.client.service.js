@@ -1,4 +1,4 @@
-angular.module('learning').service('PdfPlayer', function($interval, $timeout, $http, $sce, PDFViewerService)
+angular.module('learning').service('PdfPlayer', function($interval, $timeout, $http, $sce, PdfViewer)
 {
     var me = this;
     var $scope;
@@ -8,47 +8,7 @@ angular.module('learning').service('PdfPlayer', function($interval, $timeout, $h
     this.start = function(scope)
     {
         $scope = scope;
-        $scope.viewer = PDFViewerService.Instance("viewer");
-        $scope.desired = {};
-        $scope.pageSelectorOpen = false;
-
-        $scope.nextPage = function() {
-            $scope.viewer.nextPage();
-        };
-
-        $scope.prevPage = function() {
-            $scope.viewer.prevPage();
-        };
-
-        $scope.pageLoaded = function(curPage, totalPages) {
-            $scope.currentPage = curPage;
-            $scope.desired.page = curPage;
-            $scope.totalPages = totalPages;
-        };
-
-        var hideFct = function() { $scope.pageSelectorOpen = false; };
-
-        $scope.openSelector = function()
-        {
-            $scope.pageSelectorOpen = true;
-            $timeout(function()
-            {
-                var input = $('#desiredPageInput');
-                input.focus();
-                input.select();
-                input.blur(hideFct);
-            }, 100);
-            hideTimeout = $timeout(hideFct, 6000);
-        };
-
-        var hideTimeout = null;
-        $scope.updateDesiredPage = function()
-        {
-            $scope.viewer.gotoPage($scope.desired.page);
-
-            $timeout.cancel(hideTimeout);
-            hideTimeout = $timeout(hideFct, 6000);
-        };
+        PdfViewer.init($scope);
 
         return this;
     };
@@ -73,26 +33,6 @@ angular.module('learning').service('PdfPlayer', function($interval, $timeout, $h
         //console.log('loading pdf player data');
 
         var url = source.path.indexOf('http') !== -1 ? source.path : './modules/contents/uploads/pdf/' + source.path;
-
-        /*var path = source.path;
-        // If local file, display. Otherwise, use CORS Proxy for loading.
-        var url = path.indexOf('http') !== -1 ? 'http://www.corsproxy.com/' + path.replace('http://','') : './modules/contents/uploads/pdf/' + path;
-
-        $http.get(url, {responseType:'arraybuffer'}).
-        //$http.get('http://www.corsproxy.com/' + source.path.replace('http://',''), {responseType:'arraybuffer'}).
-        //success(function(data, status, headers, config) {
-        success(function(data) {
-
-            var file = new Blob([data], {type: 'application/pdf'});
-            var fileURL = URL.createObjectURL(file);
-
-            var result = $sce.trustAsResourceUrl(fileURL);
-
-            callback({document: result });
-            //$scope.sourceData.document = pdfData;
-            //callback({video: vidData });
-            //callback(result);
-        });*/
 
         me.parseDocumentSegmentSourceData(url, function(result)
         {
@@ -137,7 +77,7 @@ angular.module('learning').service('PdfPlayer', function($interval, $timeout, $h
 
     this.setSizeQuick = function(goalWidth, goalHeight)
     {
-        console.log(goalWidth, 'quick');
+        //console.log(goalWidth, 'quick');
         var viewer = $('#viewer');
 
         viewer.css('width', goalWidth);

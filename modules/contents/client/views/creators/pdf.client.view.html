@@ -35,8 +35,35 @@
         <ng-include src=" 'modules/contents/views/segmentListPanel.client.view.html' "></ng-include>
     </div>
     <div class="col-md-7">
-        <div class="panel panel-default" style="height:450px">
-            <div class="panel-heading">
+        <div class="panel panel-default" style="height:480px">
+            <div class="panel-heading" style="height: 50px">
+
+                <div class="pull-right btn-group">
+
+                    <button class="btn btn-default" ng-click="prevPage()">
+                        <span class="glyphicon glyphicon-chevron-left"></span>
+                    </button>
+
+                    <button class="btn btn-default page-selector" ng-click="openSelector()">
+                <span ng-show="!pageSelectorOpen">
+                    Page
+                    <!--<input type="number" ng-change="updateDesiredPage()" ng-model="desired.page" />-->
+                    {{currentPage}}
+                    /
+                    {{totalPages}}
+                </span>
+
+                        <input type="number" class="form-control" id="desiredPageInput" ng-show="pageSelectorOpen" ng-change="updateDesiredPage()" ng-model="desired.page" />
+
+                    </button>
+
+                    <button class="btn btn-default" ng-click="nextPage()">
+                        <span class="glyphicon glyphicon-chevron-right"></span>
+                    </button>
+
+
+                </div>
+
 
             </div>
             <div class="panel-content" style="padding:0; width:621px;">
