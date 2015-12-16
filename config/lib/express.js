@@ -96,7 +96,7 @@ module.exports.initMiddleware = function (app) {
     inMemory: true
   }));
 
-  app.use(function(req, res, next) {
+  /*app.use(function(req, res, next) {
     var user = auth(req);
 
     if (user === undefined || user['name'] !== 'booc' || user['pass'] !== 'boocster') {
@@ -106,7 +106,7 @@ module.exports.initMiddleware = function (app) {
     } else {
       next();
     }
-  });
+  });*/
 };
 
 /**

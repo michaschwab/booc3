@@ -257,6 +257,9 @@ a[disabled] .map-icon {
     left: -3px;
 }
 
+.concept.notOnPlan > a > .concept-circle {
+    background: #aaa !important;
+}
 
 .concept > a {
     position: relative;

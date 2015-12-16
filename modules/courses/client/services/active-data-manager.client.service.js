@@ -458,6 +458,12 @@ angular.module('courses').service('ActiveDataManager', function(Authentication, 
         d.inHoverHierarchy = this.isInHoverHierarchy(d);
         d.hover = this.isHover(d);
         d.isSeen = $scope.isSeen(d);
+        d.notOnPlan = !this.isOnPlan(d);
+    };
+
+    this.isOnPlan = function(d)
+    {
+        return !$scope.activeDependencyProviderIds ? false : $scope.activeDependencyProviderIds.indexOf(d.concept._id) !== -1;
     };
 
     this.updateAttributes = function()
@@ -474,7 +480,6 @@ angular.module('courses').service('ActiveDataManager', function(Authentication, 
         me.updateDepProviders();
 
         if(!$scope.activeDependencyProviderIds) return;
-        //todo: set all the active, learned etc attributes here instead of in the panel html.
 
         var checkDependencyProvider = function(d)
         {
@@ -521,6 +526,8 @@ angular.module('courses').service('ActiveDataManager', function(Authentication, 
                 d.planChildren = [];
             }
         });
+
+        me.updateAttributes();
 
         //console.log($scope.planConcepts);
 

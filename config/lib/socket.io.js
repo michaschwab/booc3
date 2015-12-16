@@ -78,7 +78,7 @@ module.exports = function (app, db) {
     key:          'connect.sid',       // the name of the cookie where express/connect stores its session_id
     secret:       config.sessionSecret,    // the session_secret to parse the cookie
     store:        mongoStore,        // we NEED to use a sessionstore. no memorystore please
-    success:      onAuthorizeSuccess,  // *optional* callback on success - read more below
+    uploadSuccess:      onAuthorizeSuccess,  // *optional* callback on success - read more below
     fail:         onAuthorizeFail     // *optional* callback on fail/error - read more below
   }));
 

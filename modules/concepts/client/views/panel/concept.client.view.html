@@ -1,5 +1,5 @@
 <li class="concept concept-{{::concept.concept._id}}"
-    ng-class="{ 'active': concept.active, 'inactive': !concept.active && concept.inGoalHierarchy && concept.inHoverHierarchy, 'hover': concept.hover, 'goal': concept.goal }"
+    ng-class="{ 'active': concept.active, 'inactive': !concept.active && concept.inGoalHierarchy && concept.inHoverHierarchy, 'notOnPlan': concept.notOnPlan, 'hover': concept.hover, 'goal': concept.goal }"
     aria-label="{{::concept.concept.title}}">
 
     <span ng-show="concept.isSeen&&!concept.learned&&!concept.goal" class="concept-seen glyphicon glyphicon-eye-open"></span>
@@ -48,7 +48,7 @@
 
     <ul class="concept-list concept-list-nested" ng-if="concept.planChildren.length">
 
-        <concept concept="concept" ng-repeat="concept in concept.planChildren track by concept.concept._id"></concept>
+        <concept concept="concept" ng-repeat="concept in concept.children track by concept.concept._id"></concept>
     </ul>
 
 </li>
