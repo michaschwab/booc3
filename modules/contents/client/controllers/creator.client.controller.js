@@ -152,7 +152,13 @@ angular.module('contents').controller('CreatorController',
                 //console.log($scope.course, $scope.allConcepts);
                 $scope.concepts = $scope.allConcepts.filter(function(c)
                 {
-                    return c.courses.indexOf($scope.course._id) !== -1;
+                    // Check if concept is in selected course
+                    if(c.courses.indexOf($scope.course._id) === -1)
+                        return false;
+
+                    // Now, check if it has children.
+                    // c.children is not well maintained, so have to use .parents.
+                    return $scope.allConcepts.filter(function(d) { return d.parents.indexOf(c._id) !== -1; }).length === 0;
                 });
             }
         });
