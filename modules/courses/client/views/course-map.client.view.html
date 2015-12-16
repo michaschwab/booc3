@@ -7,7 +7,7 @@
 
     <!--<button id="prereqButton" class="btn btn-default prereqButton" ng-click="preReqButtonClick()" ng-hide="graphWidth<800">{{prereqButtonText}}</button>
 -->
-    <div class="prereqToggle" ng-hide="graphWidth<800">
+    <div ng-if="authentication.isAdmin()" class="prereqToggle" ng-hide="graphWidth<800">
 
         Exploring <input checked="checked" type="checkbox" id="prereqButton">
         <input type="checkbox" id="learningPlansOnVal"  class="ng-hide" ng-model="learningPlansOn" />
@@ -117,7 +117,7 @@
             </div>
         </div>-->
 
-        <form class="form-inline">
+        <form class="form-inline" ng-if="authentication.isAdmin()">
 
             <div class="form-group">
 

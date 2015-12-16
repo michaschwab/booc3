@@ -304,12 +304,12 @@ text.learned, text.goal {
 
 .prereqToggle {
     position: absolute;
-    top: 80px;
+    top: 130px;
     right: 50px;
 }
 .futurePlansToggle {
     position: absolute;
-    top: 130px;
+    top: 80px;
     right: 50px;
 }
 
