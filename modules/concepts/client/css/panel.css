@@ -238,7 +238,7 @@ a[disabled] .map-icon {
 
 
 .concept-tick, .concept-seen {
-    left: 5pt;
+    left: 6pt;
     top: 4pt;
     position: absolute;
     z-index: 3;
@@ -250,7 +250,7 @@ a[disabled] .map-icon {
 
 .concept-list-nested .concept-list-nested .concept-tick, .concept-list-nested .concept-list-nested .concept-seen {
     top: 6px;
-    left: 10px;
+    left: 9px;
 }
 .concept-list-nested .concept-list-nested .flag {
     top: -6px;
@@ -407,7 +407,7 @@ input.concept-title.admin {
     width: 16pt;
     height: 16pt;
     border-radius: 8pt;
-    left: 3px;
+    left: 4px;
     top: 2px;
 }
 
@@ -415,7 +415,7 @@ input.concept-title.admin {
     width: 10pt;
     height: 10pt;
     border-radius: 5pt;
-    left: 8px;
+    left: 7px;
     top: 6px;
 }
 
