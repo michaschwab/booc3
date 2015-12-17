@@ -475,8 +475,10 @@ angular.module('courses').service('MapCircles', function(Tip, $location, $timeou
             var circleStart = {};
             circleStart.x = scale * 11;
             circleStart.y = scale * 22;
-            var circle = start.append('circle').attr('class', 'startCircle');
-            circle.attr('r', 30 * scale);
+
+            start.append('circle')
+                .attr('class', 'startCircle')
+                .attr('r', 30 * scale);
                 //.attr('transform', 'translate(' + circleStart.x +', ' + circleStart.y + ')');
         }
 

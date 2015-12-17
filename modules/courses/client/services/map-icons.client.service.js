@@ -116,13 +116,56 @@ angular.module('courses').service('MapIcons', function(Tip, ConceptStructure, $l
             .attr('r', scaleFactor * 0.6)
             .style('fill', d3.rgb('#ffffff'));
 
-        d.depCreator.append('path')
+        var label = d.depCreator.append('text')
+            .classed('dep-create-label', true)
+            .style('font-size', scaleFactor * 0.13 + 'px');
+
+        /*d.depCreator.append('path')
             .attr('d', 'm 400,300 -110,-100 0,65 -280,0 0,70 280,0 0,65 z')
             .attr('transform','translate(' + -0.4 * scaleFactor + ' ' + -0.65 * scaleFactor + ') scale(' + 0.00215 * scaleFactor + ')')
-            .style('fill', d3.rgb('#ffffff'));
-        /*d.depCreator.append('tspan').attr({
-         'font-family': 'Glyphicons Halflings'
-         }).text('?');*/
+            .style('fill', d3.rgb('#ffffff'));*/
+
+        var iconText = "\uF061";
+
+        if($scope.creatingDepConcept)
+        {
+            if(d == $scope.creatingDepConcept)
+            {
+                // cancel dep
+                iconText = "\uF00d";
+
+                label
+                    .append('tspan').attr('x',0).attr('dy', -0.3 * scaleFactor).text('Cancel');
+                label
+                    .append('tspan').attr('x',0).attr('dy',  0.15 * scaleFactor).text('Dependency');
+            }
+            else
+            {
+                // end dep here
+                iconText = "\uF051";
+
+                label
+                    .append('tspan').attr('x',0).attr('dy', -0.3 * scaleFactor).text('End');
+                label
+                    .append('tspan').attr('x',0).attr('dy',  0.15 * scaleFactor).text('Dependency');
+            }
+        }
+        else
+        {
+            label
+                .append('tspan').attr('x',0).attr('dy', -0.3 * scaleFactor).text('Start');
+            label
+                .append('tspan').attr('x',0).attr('dy',  0.15 * scaleFactor).text('Dependency');
+        }
+
+        d.depCreator.append('text').classed('arrow-icon', true)
+            .append('tspan').attr({
+            //'font-family': 'Glyphicons Halflings'
+            'font-family': 'FontAwesome',
+            'x': 0,
+            'dy': scaleFactor * 0.17
+            //'font': 'normal normal normal 14px/1 FontAwesome'
+        }).text(iconText).style('font-size', scaleFactor * 0.5 + 'px');
 
         d.depCreator.on('click', function(d)
         {
@@ -132,7 +175,13 @@ angular.module('courses').service('MapIcons', function(Tip, ConceptStructure, $l
             }
             else
             {
-                if(!ConceptStructure.depExists($scope.creatingDepConcept, d) && ConceptStructure.depIsPossible($scope.creatingDepConcept, d))
+                if($scope.creatingDepConcept == d)
+                {
+                    $scope.creatingDepConcept = null;
+
+                    d3.selectAll('.' + creatingPathClassName).remove();
+                }
+                else if(!ConceptStructure.depExists($scope.creatingDepConcept, d) && ConceptStructure.depIsPossible($scope.creatingDepConcept, d))
                 {
                     d3.selectAll('.' + creatingPathClassName).remove();
 
@@ -217,7 +266,7 @@ angular.module('courses').service('MapIcons', function(Tip, ConceptStructure, $l
             var depFontSize = d.depth > 2 ? 8.2 * $scope.graphHeight * d.radius / 10 : 3 * $scope.graphHeight * d.radius / 10;
             var depDy = d.depth > 2 ? 3.8 * $scope.graphHeight * d.radius / 10 : 1.5 * $scope.graphHeight * d.radius / 10;
             var canMakeDepToThis = $scope.creatingDepConcept
-                ? ConceptStructure.depIsPossible($scope.creatingDepConcept, d) && !ConceptStructure.depExists($scope.creatingDepConcept, d)
+                ? $scope.creatingDepConcept == d || (ConceptStructure.depIsPossible($scope.creatingDepConcept, d) && !ConceptStructure.depExists($scope.creatingDepConcept, d))
                 : true;
             var showDepCreate = within2Levels && adminMode && canMakeDepToThis;
 
