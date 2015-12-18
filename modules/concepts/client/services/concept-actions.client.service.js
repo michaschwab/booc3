@@ -9,61 +9,6 @@ angular.module('concepts').service('ConceptActions',
         {
             $scope = scope;
 
-            $scope.seeConcept = function(conceptId)
-            {
-                if(!conceptId) conceptId = $scope.activeConcept.concept._id;
-                var concept = $scope.directories.concepts[conceptId];
-
-                if(concept.children && concept.children.length)
-                {
-                    concept.children.forEach(function(child)
-                    {
-                        $scope.seeConcept(child.concept._id);
-                    });
-                }
-                else
-                {
-                    if (!$scope.seenMapByConcept[conceptId])
-                    {
-                        var data = {};
-                        data.concept = conceptId ? conceptId : $scope.activeConcept.concept._id;
-                        data.course = $scope.course._id;
-
-                        var seen = new SeenConcepts(data);
-                        seen.$save();
-                    }
-                }
-                SeenDataManager.updateSeenMap();
-            };
-
-            $scope.unseeConcept = function(conceptId)
-            {
-                SeenDataManager.updateSeenMap();
-
-                if(!conceptId) conceptId = $scope.activeConcept.concept._id;
-                var concept = $scope.directories.concepts[conceptId];
-
-                if(concept.children && concept.children.length)
-                {
-                    concept.children.forEach(function(child)
-                    {
-                        $scope.unseeConcept(child.concept._id);
-                    });
-                }
-                else
-                {
-                    if ($scope.seenMapByConcept[conceptId])
-                    {
-                        var seen = $scope.seenMapByConcept[conceptId];
-                        seen.$remove();
-                    }
-                    else {
-                        console.log('cant unsee concept ' + conceptId + ' because it doesnt seem to be marked as seen.');
-                    }
-                }
-                SeenDataManager.updateSeenMap();
-            };
-
             $scope.understood = function(concept)
             {
                 if(concept.children && concept.children.length)

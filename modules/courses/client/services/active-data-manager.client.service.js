@@ -1,4 +1,4 @@
-angular.module('courses').service('ActiveDataManager', function(Authentication, $timeout, $location, Users, MapArrows, ConceptStructure, $interval, $stateParams)
+angular.module('courses').service('ActiveDataManager', function(Authentication, $timeout, $location, Users, MapArrows, ConceptStructure, $interval, $stateParams, SeenDataManager)
 {
     var me = this;
     var $scope;
@@ -17,6 +17,8 @@ angular.module('courses').service('ActiveDataManager', function(Authentication, 
             me.updateData();
         });
         $scope.$on('dataUpdated', me.updateData);
+
+        SeenDataManager.addSeenListener(me.updateAttributes);
     };
 
     this.updateData = function()
@@ -33,7 +35,7 @@ angular.module('courses').service('ActiveDataManager', function(Authentication, 
         me.updateLectures();
 
         me.updateWatchable();
-        me.checkSeen();
+        SeenDataManager.checkSeen();
     };
 
     this.updateTodo = function()
@@ -288,26 +290,7 @@ angular.module('courses').service('ActiveDataManager', function(Authentication, 
         }
     };
 
-    var automarked = [];
-    this.checkSeen = function()
-    {
-        if($scope.learnMode
-            && $scope.activeConcept
-            && $scope.seenMapByConcept
-            && !$scope.seenMapByConcept[$scope.activeConcept.concept._id]
-            && (!$scope.activeConcept.children || !$scope.activeConcept.children.length)
-            && automarked.indexOf($scope.activeConcept.concept._id) === -1 /* to prevent it from auto marking as seen many times, even after manually marking as unseen */)
-        {
-            //console.log('gotta mark concept ', $scope.activeConcept.concept._id,  ' as seen');
-            automarked.push($scope.activeConcept.concept._id);
 
-            $scope.seeConcept();
-        }
-        else
-        {
-            //console.log($scope.learnMode, $scope.activeConcept, $scope.seenMapByConcept);
-        }
-    };
 
     this.setActiveLectureConcepts = function()
     {
