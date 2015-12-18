@@ -376,7 +376,8 @@ angular.module('courses').controller('CourseMapController', ['$scope','$statePar
             };
 
             //requestAnimFrame(doRedrawHover);
-            doRedrawHover();
+            if($scope.visParams)
+                doRedrawHover();
         };
 
         $scope.correctPathPosition = function(concept, start, end)
