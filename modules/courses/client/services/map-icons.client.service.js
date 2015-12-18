@@ -308,41 +308,54 @@ angular.module('courses').service('MapIcons', function(Tip, ConceptStructure, $l
             // Icon Priority: Play > Goal > Learned > Seen
             var icons = ['play', 'goal', 'learned', 'seen'];
 
-            for(var i = 0; i < icons.length; i++)
+            if(!adminMode)
             {
-                var showThis = me.hasIcon(d, icons[i]);
-
-                // This takes 10ms.
-                if(showThis)
+                for(var i = 0; i < icons.length; i++)
                 {
-                    iconEl.classed('icon-' + icons[i], true);
-                    break;
-                }
-                else
-                    iconEl.classed('icon-' + icons[i], false);
-            }
+                    var showThis = me.hasIcon(d, icons[i]);
 
-            var currentIcon = icons[i];
-
-            // 5ms.
-            if(!lastData[conceptId]['icon'] || lastData[conceptId]['icon'] !== currentIcon)
-            {
-                lastData[conceptId]['icon'] = currentIcon;
-
-                icons.forEach(function(icon)
-                {
-                    if(icon == currentIcon)
+                    // This takes 10ms.
+                    if(showThis)
                     {
-                        d[icon + 'Text'].classed('active', true)
-                            .transition().attr({'fill-opacity': OPACITY});
+                        iconEl.classed('icon-' + icons[i], true);
+                        break;
                     }
                     else
+                        iconEl.classed('icon-' + icons[i], false);
+                }
+
+                var currentIcon = icons[i];
+
+                // 5ms.
+                if(!lastData[conceptId]['icon'] || lastData[conceptId]['icon'] !== currentIcon)
+                {
+                    lastData[conceptId]['icon'] = currentIcon;
+
+                    icons.forEach(function(icon)
                     {
-                        d[icon + 'Text'].classed('active', false)
-                            .transition().attr({'fill-opacity': 0});
-                    }
-                });
+                        if(icon == currentIcon)
+                        {
+                            d[icon + 'Text'].classed('active', true)
+                                .transition().attr({'fill-opacity': OPACITY});
+                        }
+                        else
+                        {
+                            d[icon + 'Text'].classed('active', false)
+                                .transition().attr({'fill-opacity': 0});
+                        }
+                    });
+                }
             }
+            else
+            {
+                for(var i = 0; i < icons.length; i++)
+                {
+                    iconEl.classed('icon-' + icons[i], false);
+                    d[icons[i] + 'Text'].classed('active', false)
+                        .transition().attr({'fill-opacity': 0});
+                }
+            }
+
         });
     };
 
