@@ -6,9 +6,11 @@ angular.module('learning').controller('LearnController',
     {
         var me = this;
         $scope = angular.element('.course-view').scope();
+        var lastUpdate;
 
         this.update = function()
         {
+            lastUpdate = Date.now();
             setupMaterial();
             $scope.setActiveLearnMaterial();
             checkPlayPause();
@@ -259,7 +261,13 @@ angular.module('learning').controller('LearnController',
             if(!$scope.learnMode) return;
 
             $scope.currentPosition = player.getPosition();
-            console.log($scope.currentPosition);
+
+            if(lastUpdate > Date.now() - 5000)
+            {
+                // if something was updated within the last few seconds, you don't want the concept to be auto updated.
+                return;
+            }
+
             var pos = $scope.currentPosition;
 
             if(pos < $scope.active.segment.start || pos > $scope.active.segment.end)
@@ -287,6 +295,7 @@ angular.module('learning').controller('LearnController',
             }
         }
 
+        $scope.$on('$locationChangeSuccess', me.update);
         $scope.$on('$locationChangeSuccess', me.update);
 
         /*$scope.pdfWidth = $scope.contentWidth*2/3;
