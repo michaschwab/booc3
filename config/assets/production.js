@@ -10,7 +10,6 @@ module.exports = {
         'public/lib/font-awesome/css/font-awesome.css',
         'public/lib/ngDialog/css/ngDialog.css',
         'public/lib/ngDialog/css/ngDialog-theme-default.css',
-          'public/lib/bootstrap-toggle/css/bootstrap-toggle.css',
           'public/lib/shepherd.js/dist/css/shepherd-theme-arrows.css'
       ],
       js: [
@@ -24,7 +23,6 @@ module.exports = {
         'public/lib/angular-bootstrap/ui-bootstrap-tpls.min.js',
         'public/lib/angular-file-upload/angular-file-upload.min.js',
         'public/lib/angular-recursion/angular-recursion.js',
-          'public/lib/bootstrap-toggle/js/bootstrap-toggle.js',
           'public/lib/tether/dist/js/tether.js',
           'public/lib/shepherd.js/dist/js/shepherd.js',
 
