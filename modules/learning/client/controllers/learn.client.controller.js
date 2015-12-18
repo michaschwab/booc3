@@ -258,6 +258,8 @@ angular.module('learning').controller('LearnController',
         {
             if(!$scope.learnMode) return;
 
+            $scope.currentPosition = player.getPosition();
+            console.log($scope.currentPosition);
             var pos = $scope.currentPosition;
 
             if(pos < $scope.active.segment.start || pos > $scope.active.segment.end)
