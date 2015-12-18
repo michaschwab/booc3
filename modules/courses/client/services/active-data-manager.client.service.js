@@ -288,15 +288,18 @@ angular.module('courses').service('ActiveDataManager', function(Authentication, 
         }
     };
 
+    var automarked = [];
     this.checkSeen = function()
     {
         if($scope.learnMode
             && $scope.activeConcept
             && $scope.seenMapByConcept
             && !$scope.seenMapByConcept[$scope.activeConcept.concept._id]
-            && (!$scope.activeConcept.children || !$scope.activeConcept.children.length))
+            && (!$scope.activeConcept.children || !$scope.activeConcept.children.length)
+            && automarked.indexOf($scope.activeConcept.concept._id) === -1 /* to prevent it from auto marking as seen many times, even after manually marking as unseen */)
         {
             //console.log('gotta mark concept ', $scope.activeConcept.concept._id,  ' as seen');
+            automarked.push($scope.activeConcept.concept._id);
 
             $scope.seeConcept();
         }
