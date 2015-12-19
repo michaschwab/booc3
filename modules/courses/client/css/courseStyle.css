@@ -341,9 +341,12 @@ text.learned, text.goal {
     float: right;
     color: #fff;
 }
-.active .dep-create-label {
+.depCreate.active .dep-create-label {
     fill: #333;
     fill-opacity: 1;
+}
+.depCreate.inactive {
+    pointer-events: none;
 }
 
 .active .arrow-icon {

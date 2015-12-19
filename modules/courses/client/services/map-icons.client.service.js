@@ -270,7 +270,7 @@ angular.module('courses').service('MapIcons', function(Tip, ConceptStructure, $l
                 lastData[conceptId]['showDepCreate'] = showDepCreate;
                 //todo switch 'el' to 'iconEl' once $scope.addDependencyCreator has been moved to this file.
 
-                el.select('.depCreate').classed('active', showDepCreate)
+                el.select('.depCreate').classed('active', showDepCreate).classed('inactive', !showDepCreate)
                     .transition().attr(
                     {
                         'fill-opacity': showDepCreate ? OPACITY : 0,
