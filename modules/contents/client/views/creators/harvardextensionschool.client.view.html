@@ -1,0 +1,31 @@
+
+
+<div class="form-group">
+    <label for="path">What's the URL of the Extension school video?</label><br />
+
+    <div class="input-group" ng-class="{'has-error': contentCreateForm.path.$error.pattern, 'has-success': !contentCreateForm.path.$error.pattern&&source.path.length}">
+        <span class="input-group-addon"><span class="glyphicon glyphicon-globe"></span></span>
+        <input type="text" id="path" ng-change="pathUpdate()" ng-model="source.path" name="path" ng-pattern="extSchoolRegex"  placeholder="https://matterhorn.dce.harvard.edu/engage/player/watch.html?id=ID-HERE" class="form-control"/>
+        <span class="error" ng-show="contentCreateForm.url.$error.pattern">That doesn't look like a valid Extension School Video URL.</span>
+    </div>
+</div>
+
+<div class="form-group" ng-class="{'has-error': contentCreateForm.title.$error.required, 'has-success': !contentCreateForm.title.$error.required&&source.title.length}">
+    <label for="title">What's the title of the video?</label><br />
+
+    <div class="input-group">
+        <span class="input-group-addon"><span class="glyphicon glyphicon-pencil"></span></span>
+        <input type="text" id="title" ng-model="source.title" name="title" ng-required placeholder="Title of the video" class="form-control"/>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-5">
+        <ng-include src=" 'modules/contents/views/segmentListPanel.client.view.html' "></ng-include>
+    </div>
+    <div class="col-md-7">
+        <iframe ng-if="sourceData" src="{{sourceData}}" width="100%" height="500"></iframe>
+    </div>
+</div>
+
+<ng-include src=" 'modules/contents/views/segmentDetailForm.client.view.html' "></ng-include>

@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('contents').controller('CreatorController',
-    function($scope, $stateParams, $state, Courses, Sourcetypes, Sources, Segments, $timeout, $location, LectureCreator, WikiCreator, LTICreator, Concepts, $filter, YoutubeCreator, WebsiteCreator, PdfCreator)
+    function($scope, $stateParams, $state, Courses, Sourcetypes, Sources, Segments, $timeout, $location, LectureCreator, WikiCreator, LTICreator, Concepts, $filter, YoutubeCreator, WebsiteCreator, PdfCreator, ExtensionSchoolCreator)
     {
         $scope.courseId = $stateParams.courseId;
         $scope.activeReadableType = '';
@@ -330,6 +330,10 @@ angular.module('contents').controller('CreatorController',
             else if(readable === 'pdf')
             {
                 sourceHelper = PdfCreator;
+            }
+            else if(readable === 'harvardextensionschool')
+            {
+                sourceHelper = ExtensionSchoolCreator;
             }
 
             if(sourceHelper)

@@ -16,11 +16,11 @@ var SourcetypeSchema = new Schema({
         trim: true,
         required: 'Title cannot be blank'
     },
-    category: {
+    player: {
         type: String,
         default: '',
         trim: true,
-        required: 'Category cannot be blank'
+        required: 'Player cannot be blank'
     },
     icon: {
         type: String,

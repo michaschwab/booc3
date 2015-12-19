@@ -83,6 +83,10 @@
     background: url('../img/lti.png');
     background-size: 20px 20px;
 }
+.icon-extensionschool {
+    background: url('../img/harvardextensionschool.svg');
+    background-size: 20px 20px;
+}
 
 .segment-title-panel {
     margin-right: 95px;

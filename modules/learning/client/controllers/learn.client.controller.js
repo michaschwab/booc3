@@ -197,8 +197,6 @@ angular.module('learning').controller('LearnController',
         {
             if($scope.active.sourcetype)
             {
-                var category = $scope.active.sourcetype.category;
-
                 $scope.$on('$destroy', function()
                 {
                     $interval.cancel(interval1);
@@ -207,7 +205,9 @@ angular.module('learning').controller('LearnController',
                 $interval.cancel(interval1);
                 $interval.cancel(interval2);
 
-                if(category === 'video-document')
+                var player = $scope.active.sourcetype.player;
+
+                if(player === 'video')
                 {
                     $scope.$on('$destroy', function()
                     {
@@ -225,7 +225,6 @@ angular.module('learning').controller('LearnController',
             }
 
         };
-        //$scope.$watch('active.sourcetype.category', setupMaterial);
 
         var lastSlidePdf = '';
 /*
