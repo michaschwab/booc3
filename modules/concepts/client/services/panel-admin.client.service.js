@@ -119,6 +119,7 @@ angular.module('courses').service('PanelAdmin', function(Concepts, $rootScope, $
                     Concepts.update({_id: active.concept._id}, active.concept);
                 }
                 $rootScope.$broadcast('conceptsReordered', $scope.activeHierarchyChildren);
+                $rootScope.$broadcast('dataUpdated', $scope.activeHierarchyChildren);
             }
         };
 
