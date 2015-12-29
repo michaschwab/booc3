@@ -20,8 +20,6 @@ angular.module('contents').controller('CreatorController',
         $scope.activeConcept = null;
         $scope.newConcept = null;
 
-        $scope.addingConcept = null;
-
         $scope.init = function()
         {
             Courses.query(function(courses)
@@ -48,13 +46,6 @@ angular.module('contents').controller('CreatorController',
                 {
                     $scope.conceptMap[concept._id] = concept;
                 });
-
-                if($stateParams.conceptId)
-                {
-                    $scope.conceptId = $stateParams.conceptId;
-
-                    $scope.addingConcept = $scope.conceptMap[$scope.conceptId];
-                }
 
                 Sourcetypes.query().$promise.then(function(sourcetypes)
                 {
@@ -165,9 +156,9 @@ angular.module('contents').controller('CreatorController',
 
         $scope.$watch('activeSegment', function()
         {
-            if($scope.activeSegment && $scope.addingConcept)
+            if($scope.activeSegment && $scope.addToConcept)
             {
-                $scope.activeSegment.conceptObjects.push($scope.addingConcept);
+                $scope.activeSegment.conceptObjects.push($scope.addToConcept.concept);
             }
         });
 

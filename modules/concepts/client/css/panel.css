@@ -708,6 +708,10 @@ input.concept-title.admin {
     padding-top: 3px;
 }
 
+.addingTo {
+    border: 2px dotted #00A000;
+}
+
 /*** OPTIONS ***/
 .maximized .sidepanelOptions {
     float: right;

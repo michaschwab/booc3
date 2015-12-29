@@ -143,7 +143,7 @@ angular.module('courses').service('ActiveDataManager', function(Authentication, 
         var searchParams = $location.search();
 
         //console.log(searchParams);
-        //console.log($scope.directories.concepts);
+        //console.log($scope.directories.concepts);z
 
         if(searchParams.active && $scope.directories.concepts[searchParams.active])
         {
@@ -156,6 +156,14 @@ angular.module('courses').service('ActiveDataManager', function(Authentication, 
         else
         {
             $scope.activeConcept = null;
+        }
+        if($stateParams.addTo && $scope.directories.concepts[$stateParams.addTo])
+        {
+            $scope.addToConcept = $scope.directories.concepts[$stateParams.addTo];
+        }
+        else
+        {
+            $scope.addToConcept = null;
         }
 
         if(searchParams.goal)
