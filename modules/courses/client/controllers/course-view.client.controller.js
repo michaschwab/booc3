@@ -73,34 +73,19 @@ angular.module('courses').controller('CourseViewController',
                         return type.title === 'Lecture';
                     })[0];
 
-                    $scope.segments.forEach(function(segment)
+                    /*$scope.segments.forEach(function(segment)
                     {
                         segment.sourceObject = $scope.sourceMap[segment.source];
                         segment.sourcetypeObject = $scope.sourcetypeMap[segment.sourceObject.type];
-                    });
+                    });*/
 
                     $scope.learned = LearnedConcepts.query();
 
-                    Segments.query({courses:$stateParams.courseId}).$promise.then(function(segments) {
+                    Segments.query({courses:$stateParams.courseId}).$promise.then(function(segments)
+                    {
                         $scope.segments = segments;
-                        $scope.segmentMap = {};
-                        $scope.segmentPerConceptMap = {};
 
-                        segments.forEach(function (segment)
-                        {
-                            $scope.segmentMap[segment._id] = segment;
-
-                            segment.concepts.forEach(function(conceptId)
-                            {
-                                // If that concept is relevant here (in course)
-                                if($scope.conceptMap[conceptId])
-                                {
-                                    $scope.segmentPerConceptMap[conceptId]
-                                        ? $scope.segmentPerConceptMap[conceptId].push(segment)
-                                        : $scope.segmentPerConceptMap[conceptId] = [segment];
-                                }
-                            });
-                        });
+                        $scope.$watchCollection('segments.downloadedUpdates', $scope.parseSegments);
 
                         $scope.seen = SeenConcepts.query(function()
                         {
@@ -139,6 +124,28 @@ angular.module('courses').controller('CourseViewController',
                 $timeout.cancel(updateTodoTimeout);
             }
         });*/
+
+        $scope.parseSegments = function()
+        {
+            $scope.segmentMap = {};
+            $scope.segmentPerConceptMap = {};
+
+            $scope.segments.forEach(function (segment)
+            {
+                $scope.segmentMap[segment._id] = segment;
+
+                segment.concepts.forEach(function(conceptId)
+                {
+                    // If that concept is relevant here (in course)
+                    if($scope.conceptMap[conceptId])
+                    {
+                        $scope.segmentPerConceptMap[conceptId]
+                            ? $scope.segmentPerConceptMap[conceptId].push(segment)
+                            : $scope.segmentPerConceptMap[conceptId] = [segment];
+                    }
+                });
+            });
+        };
 
         $scope.getPathColor = function(orig)
         {
