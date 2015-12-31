@@ -159,9 +159,11 @@ angular.module('courses').service('PanelAdmin', function(Concepts, $rootScope, $
             });
         };
 
-        $scope.removeSegmentFromConcept = function(segment)
+        $scope.removeSegmentFromConcept = function(segment, concept)
         {
-
+            segment.concepts.splice(segment.concepts.indexOf(concept.concept._id), 1);
+            segment.$update();
+            $scope.parseSegments();
         };
 
         $scope.deleteSegment = function(segment)
