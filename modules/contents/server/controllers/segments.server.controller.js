@@ -148,7 +148,12 @@ exports.list = function(req, res) {
 exports.segmentByID = function(req, res, next, id) {
     Segment.findById(id).populate('user', 'displayName').exec(function(err, segment) {
         if (err) return next(err);
-        if (! segment) return next(new Error('Failed to load Segment ' + id));
+        if (! segment)
+        {
+            // For POST requests, allow it to specify a Segment via ID that might not exist (yet). This allows creation of concepts with specific ID.
+            if(req.method != 'POST')
+                return next(new Error('Failed to load Segment ' + id));
+        }
         req.segment = segment ;
         next();
     });

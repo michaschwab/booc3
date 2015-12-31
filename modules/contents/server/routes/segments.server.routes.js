@@ -11,7 +11,8 @@ module.exports = function(app) {
 	app.route('/api/segments/:segmentId')
 		.get(segments.read)
 		.put(segments.update)
-		.delete(segments.delete);
+		.delete(segments.delete)
+		.post(segments.create);
 
 	// Finish by binding the Course middleware
 	app.param('segmentId', segments.segmentByID);
