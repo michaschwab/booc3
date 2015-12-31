@@ -478,7 +478,7 @@ input.concept-title.admin {
     padding-bottom: 12px;
 }
 
-.segment a {
+.segment .segment-link {
     display: block;
     padding: 5px 15px;
     text-decoration: none;
@@ -710,6 +710,15 @@ input.concept-title.admin {
 
 .addingTo {
     border: 2px dotted #00A000;
+}
+
+.segment-actions {
+    position: absolute;
+    right: 0;
+    top: 0;
+}
+.remove-segment-from-concept, .delete-segment {
+    color: darkred;
 }
 
 /*** OPTIONS ***/
