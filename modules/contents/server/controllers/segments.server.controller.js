@@ -12,6 +12,7 @@ var path = require('path'),
     _ = require('lodash');
 
 var ObjectId = mongoose.Types.ObjectId;
+var actions = require('../../../actions/server/controllers/actions.server.controller');
 
 /**
  * Create a Segment
@@ -95,7 +96,12 @@ exports.delete = function(req, res) {
                 message: errorHandler.getErrorMessage(err)
             });
         } else {
-            res.jsonp(segment);
+            var deletedData = { Segment: [segment] };
+
+            actions.doDelete(req.user, deletedData, function()
+            {
+                res.jsonp(segment);
+            });
         }
     });
 };
