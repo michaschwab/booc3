@@ -158,6 +158,16 @@ angular.module('courses').service('PanelAdmin', function(Concepts, $rootScope, $
                 $timeout(focus, 200);
             });
         };
+
+        $scope.removeSegmentFromConcept = function(segment)
+        {
+
+        };
+
+        $scope.deleteSegment = function(segment)
+        {
+            segment.$remove();
+        };
     };
 
     return (this);
