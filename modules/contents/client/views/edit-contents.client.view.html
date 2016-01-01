@@ -1,7 +1,17 @@
 <section data-ng-controller="CreatorController" class="contentCol" data-ng-init="init()" style="margin-bottom: 200px; width: {{contentWidth}}px; padding: 0 40px">
     <div class="page-header">
-        <h1 ng-show="source._id">Edit Material</h1>
-        <h1 ng-show="!source._id">Add Material</h1>
+        <h1 style="position: relative">
+            <span ng-show="source._id">Edit Material</span>
+            <span ng-show="!source._id">Add Material</span>
+            <span ng-show="!source._id&&addToConcept">
+                to
+            </span>
+            <span ng-show="!source._id&&addToConcept" style="position:absolute; display:block; top: 5px; left: 270px;">
+                <span class="concept-circle" style="background: {{::addToConcept.concept.color}}"></span>
+                <span style="position:relative; top: -5px; left: 30px">{{::addToConcept.concept.title}}</span>
+            </span>
+        </h1>
+
     </div>
 
     <form name="contentCreateForm" novalidate role="form">
