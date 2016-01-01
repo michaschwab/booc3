@@ -1,20 +1,23 @@
 <section data-ng-controller="CreatorController" class="contentCol" data-ng-init="init()" style="margin-bottom: 200px; width: {{contentWidth}}px; padding: 0 40px">
     <div class="page-header">
-        <h1 style="position: relative">
-            <span ng-show="source._id">Edit Material</span>
-            <span ng-show="!source._id">Add Material</span>
-            <span ng-show="!source._id&&addToConcept">
-                to
-            </span>
-            <span ng-show="!source._id&&addToConcept" style="position:absolute; display:block; top: 5px; left: 270px;">
-                <span class="concept-circle" style="background: {{::addToConcept.concept.color}}"></span>
-                <span style="position:relative; top: -5px; left: 30px">{{::addToConcept.concept.title}}</span>
+        <h1>
+            {{possibleActions[activeAction]}}
+            <span ng-show="addToConcept">
+                to {{::addToConcept.concept.title}}
             </span>
         </h1>
 
     </div>
 
-    <form name="contentCreateForm" novalidate role="form">
+    <div ng-show="activeAction==='add'" class="add-material-action-selection">
+        <ul>
+            <li ng-repeat="(action, actionText) in possibleActions" ng-show="action!=='add'">
+                <a ng-click="$parent.activeAction=action" class="btn btn-default" href>{{actionText}}</a>
+            </li>
+        </ul>
+    </div>
+
+    <form ng-show="activeAction!=='add'" name="contentCreateForm" novalidate role="form">
 
         <div class="col-md-12 form-group">
             <label for="courseSelect">Which Course is the content for?</label><br />
@@ -30,8 +33,8 @@
             </ui-select>
         </div>
 
-        <div class="col-md-12 form-group">
-            <label for="sourceSelect">Optional: Select one of the last materials for editing and adding to new concepts</label><br />
+        <div class="col-md-12 form-group" ng-show="activeAction==='edit'&&!editSource">
+            <label for="sourceSelect">Select a Source</label><br />
 
             <ui-select class="source-select" ng-model="$parent.editSource" ng-required name="sourceSelect" id="sourceSelect">
                 <ui-select-match placeholder="Select Source...">{{$select.selected.title}}</ui-select-match>
@@ -44,31 +47,35 @@
             </ui-select>
         </div>
 
-        <div class="form-group">
-            <ul class="nav nav-tabs nav-justified" role="tablist">
-                <li ng-repeat="type in sourcetypes" ng-class="{'active': type._id == activeType._id}" ng-show="[ 'LTI', 'Video', 'Presentation', 'Lecture'].indexOf(type.title)===-1">
-                    <a href="" id="sourcetype-{{type._id}}" ng-click="selectSourcetype(type,$event)">
-                        <span class="{{type.icon}}"></span>
-                        {{type.title}}</a>
-                </li>
-            </ul>
-        </div>
+        <div class="main-form" ng-show="activeAction!=='edit'||editSource">
+            <div class="form-group">
+                <ul class="nav nav-tabs nav-justified" role="tablist">
+                    <li ng-repeat="type in sourcetypes" ng-class="{'active': type._id == activeType._id}" ng-show="[ 'LTI', 'Video', 'Presentation', 'Lecture'].indexOf(type.title)===-1">
+                        <a href="" id="sourcetype-{{type._id}}" ng-click="selectSourcetype(type,$event)">
+                            <span class="{{type.icon}}"></span>
+                            {{type.title}}</a>
+                    </li>
+                </ul>
+            </div>
 
-        <ng-include ng-if="activeReadableType" src=" 'modules/contents/views/creators/' + activeReadableType + '.client.view.html' "></ng-include>
+            <ng-include ng-if="activeReadableType" src=" 'modules/contents/views/creators/' + activeReadableType + '.client.view.html' "></ng-include>
 
-        <div class="row">
-            <div class="col-md-4"><button type="button" class="btn btn-warning" ng-click="cancel()"><span class="glyphicon glyphicon-trash"></span> Cancel</button></div>
-            <div class="col-md-8 text-right">
-                <button ng-click="createContents()" type="button" class="btn btn-primary">
+            <div class="row">
+                <div class="col-md-4"><button type="button" class="btn btn-warning" ng-click="cancel()"><span class="glyphicon glyphicon-trash"></span> Cancel</button></div>
+                <div class="col-md-8 text-right">
+                    <button ng-click="createContents()" type="button" class="btn btn-primary">
 
-                    <span class="glyphicon glyphicon-ok"></span>
+                        <span class="glyphicon glyphicon-ok"></span>
 
-                    <span ng-show="source._id">Save Changes</span>
-                    <span ng-show="!source._id">Save new Material</span>
+                        <span ng-show="source._id">Save Changes</span>
+                        <span ng-show="!source._id">Save new Material</span>
 
-                </button>
+                    </button>
+                </div>
             </div>
         </div>
+
+
 
     </form>
 </section>

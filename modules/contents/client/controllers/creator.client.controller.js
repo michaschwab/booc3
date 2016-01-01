@@ -4,6 +4,14 @@ angular.module('contents').controller('CreatorController',
     function($scope, $stateParams, $state, Courses, Sourcetypes, Sources, Segments, $timeout, $location, LectureCreator, WikiCreator, LTICreator, Concepts, $filter, YoutubeCreator, WebsiteCreator, PdfCreator, ExtensionSchoolCreator)
     {
         $scope.courseId = $stateParams.courseId;
+
+        $scope.possibleActions = {
+            'edit': 'Add Material from Existing Source',
+            'create': 'Add New Source',
+            'add': 'Add Material'
+        };
+        $scope.activeAction = $stateParams.sourceId ? 'edit' : 'add';
+
         $scope.activeReadableType = '';
         $scope.defaultReadableType = 'youtube';
         $scope.activeType = null;

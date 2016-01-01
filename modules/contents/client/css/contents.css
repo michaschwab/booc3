@@ -6,6 +6,20 @@
     height: 39px;
 }
 
+.add-material-action-selection ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+.add-material-action-selection ul li {
+    display: inline;
+}
+.add-material-action-selection ul li a {
+    padding: 10px 20px;
+    margin-right: 20px;
+    font-size: 13pt;
+}
+
 /** ADMIN END **/
 
 
