@@ -134,13 +134,47 @@ angular.module('contents').controller('CreatorController',
 
             if(source && source != $scope.source)
             {
+                $scope.source = source;
                 //console.log($scope.editSource);
                 //$scope.activeType = $scope.sourcetypes.filter(function(t) { return t._id == source.type; })[0];
-                var address = 'courses/' + $scope.courseId;
-                if($scope.conceptId) address += '/concepts/' + $scope.conceptId;
-                address += '/contents/' + source._id + '/edit';
+                var conceptId = $scope.conceptId ? $scope.conceptId : $stateParams.conceptId;
+                var courseId = source.course ? source.course : $scope.courseId;
 
-                $location.url(address);
+                if(conceptId)
+                {
+                    var currentParams = $location.search();
+
+                    var params = {
+                        courseId: courseId,
+                        conceptId: conceptId,
+                        sourceId: source._id,
+                        mode: 'admin'
+                    };
+
+                    if(currentParams.active)
+                        params.active = currentParams.active;
+                    if(currentParams.addTo)
+                        params.addTo = currentParams.addTo;
+
+                    $state.go('contents.editByCourseAndConcept', params);
+                }
+                else
+                {
+                    console.log('dont know where to go!');
+
+                    var address = 'courses/' + courseId;
+                    if(conceptId) address += '/concepts/' + conceptId;
+                    address += '/contents/' + source._id + '/edit';
+                    console.log(address);
+                }
+
+                /*
+                 contents.editByCourseAndConcept', {
+                 url: '/courses/:courseId/concepts/:conceptId/contents/:sourceId/edit?mode&active&addTo',
+                 */
+
+
+                //$location.url(address);
             }
         });
 

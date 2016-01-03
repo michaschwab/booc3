@@ -62,7 +62,7 @@ angular.module('contents').config(['$stateProvider', '$urlRouterProvider',
                 }
             })
             .state('contents.editByCourseAndConcept', {
-                url: '/courses/:courseId/concepts/:conceptId/contents/:sourceId/edit?mode',
+                url: '/courses/:courseId/concepts/:conceptId/contents/:sourceId/edit?mode&active&addTo',
                 templateUrl: 'modules/courses/views/view-course.client.view.html',
                 data: {
                     roles: ['admin', 'courseadmin']
