@@ -421,7 +421,13 @@ angular.module('contents').controller('CreatorController',
             if(!current && readableType == $scope.defaultReadableType)
                 return;
 
-            $location.search('type', readableType);
+            //$location.search('type', readableType);
+
+            var index = $scope.readableTypes.indexOf(readableType);
+            if(index !== -1)
+            {
+                $scope.activeType = $scope.sourcetypes[index];
+            }
         };
 
         function activeSegmentTimesChange()
