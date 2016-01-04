@@ -492,10 +492,10 @@ angular.module('contents').controller('CreatorController',
             }
             //$scope.activeConcept = segment.concepts && segment.concepts.length > 0 ? $scope.conceptMap[segment.concepts[0]] : null;
 
-            $('#segmentTitle').focus();
+            /*$('#segmentTitle').focus();
             window.setTimeout (function(){
                 $('#segmentTitle').select();
-            }, 100);
+            }, 100);*/
             //todo check if segment has any concepts.
         };
 
@@ -519,4 +519,23 @@ angular.module('contents').controller('CreatorController',
 
             return date.toISOString().substr(11, 8);
         };
-    });
+    }).directive("contenteditable", function() {
+    return {
+        restrict: "A",
+        require: "ngModel",
+        link: function(scope, element, attrs, ngModel) {
+
+            function read() {
+                ngModel.$setViewValue(element.html());
+            }
+
+            ngModel.$render = function() {
+                element.html(ngModel.$viewValue || "");
+            };
+
+            element.bind("blur keyup change", function() {
+                scope.$apply(read);
+            });
+        }
+    };
+});;

@@ -3,11 +3,11 @@
     <ul class="list-group segment-list" id="segmentList">
         <li ng-repeat="segment in segments | orderBy:'start'" class="list-group-item" ng-class="{'active': segment == activeSegment}">
             <a href="" ng-click="selectSegment(segment)">
-                <span class="segment-title-panel">{{segment.title}}</span>
-                <span ng-show="activeType.category=='Video'" class="pull-right segment-time">
+                <span class="segment-title-panel" contenteditable ng-model="segment.title"></span>
+                <span ng-show="activeType.player=='video'||activeType.player=='youtube'" class="pull-right segment-time">
                     <small><em>{{segment.start | time:'HH:mm:ss'}}-{{segment.end | time:'HH:mm:ss'}}</em></small>
                 </span>
-                <span ng-show="activeType.category=='Document'" class="pull-right segment-time">
+                <span ng-show="activeType.player=='pdf'" class="pull-right segment-time">
                     <small><em>page {{segment.start}} - {{segment.end}}</em></small>
                 </span>
             </a>

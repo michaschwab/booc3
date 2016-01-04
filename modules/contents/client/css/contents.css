@@ -105,6 +105,11 @@
 .segment-title-panel {
     margin-right: 95px;
 }
+.segment-title-panel:focus {
+    background: #fff;
+    color: #444;
+    text-shadow: none;
+}
 
 .segment-time {
     position: absolute;
