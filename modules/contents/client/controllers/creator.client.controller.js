@@ -7,11 +7,21 @@ angular.module('contents').controller('CreatorController',
         $scope.stateParams = $stateParams;
 
         $scope.possibleActions = {
-            'edit': 'Add Material from Existing Source',
+            'add_edit': 'Add Material from Existing Source',
+            'edit': 'Edit Source',
             'create': 'Add New Source',
             'add': 'Add Material'
         };
-        $scope.activeAction = $stateParams.sourceId ? 'edit' : 'add';
+        $scope.locationSearch = $location.search();
+        if($scope.locationSearch.addTo)
+        {
+            $scope.activeAction = $stateParams.sourceId ? 'add_edit' : 'add';
+        }
+        else
+        {
+            $scope.activeAction = $stateParams.sourceId ? 'edit' : 'create';
+        }
+
 
         $scope.activeReadableType = '';
         $scope.defaultReadableType = 'youtube';

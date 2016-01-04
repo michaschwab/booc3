@@ -1,4 +1,4 @@
-<div class="form-group col-md-12">
+<div class="form-group col-md-12" ng-show="activeAction!=='add_edit'">
     <label for="path">What's the URL of the LTI XML?</label><br />
 
     <div class="input-group" ng-class="{'has-error': contentCreateForm.path.$error.pattern, 'has-success': !contentCreateForm.path.$error.pattern&&source.path.length}">

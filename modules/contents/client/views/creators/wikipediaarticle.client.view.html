@@ -1,4 +1,4 @@
-<div class="form-group">
+<div class="form-group" ng-show="activeAction!=='add_edit'">
     <label for="path">What's the URL of the Wikipedia article?</label><br />
 
     <div class="input-group" ng-class="{'has-error': contentCreateForm.path.$error.pattern, 'has-success': !contentCreateForm.path.$error.pattern&&source.path.length}">
@@ -8,7 +8,7 @@
     </div>
 </div>
 
-<div class="form-group" ng-class="{'has-error': contentCreateForm.title.$error.required, 'has-success': !contentCreateForm.title.$error.required&&source.title.length}">
+<div ng-show="activeAction!=='add_edit'" class="form-group" ng-class="{'has-error': contentCreateForm.title.$error.required, 'has-success': !contentCreateForm.title.$error.required&&source.title.length}">
     <label for="title">What's the title?</label><br />
 
     <div class="input-group">

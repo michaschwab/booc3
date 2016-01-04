@@ -1,4 +1,4 @@
-<div class="form-group">
+<div class="form-group" ng-show="activeAction!=='add_edit'">
     <label for="path">What's the URL of the YouTube video?</label><br />
 
     <div class="input-group" ng-class="{'has-error': contentCreateForm.path.$error.pattern, 'has-success': !contentCreateForm.path.$error.pattern&&source.path.length}">
@@ -8,7 +8,7 @@
     </div>
 </div>
 
-<div class="form-group" ng-class="{'has-error': contentCreateForm.title.$error.required, 'has-success': !contentCreateForm.title.$error.required&&source.title.length}">
+<div class="form-group" ng-show="activeAction!=='add_edit'" ng-class="{'has-error': contentCreateForm.title.$error.required, 'has-success': !contentCreateForm.title.$error.required&&source.title.length}">
     <label for="title">What's the title of the video?</label><br />
 
     <div class="input-group">
@@ -17,7 +17,7 @@
     </div>
 </div>
 
-<div class="form-group" ng-show="!uploadSuccess" ng-class="{'has-error': contentCreateForm.lectureZip.$error.required, 'has-success': !contentCreateForm.lectureZip.$error.required&&source.lectureZip.length}">
+<div class="form-group" ng-show="!uploadSuccess&&activeAction!=='add_edit'" ng-class="{'has-error': contentCreateForm.lectureZip.$error.required, 'has-success': !contentCreateForm.lectureZip.$error.required&&source.lectureZip.length}">
     <label for="lectureZip">If this is a lecture and there are synchronized slides available, upload them here.
         <a href title="The zip package should contain the synchronization xml in the root directory, as well as a 'materials' subdirectory with the slides."><span class="glyphicon glyphicon-question-sign"></span></a>
     </label><br />

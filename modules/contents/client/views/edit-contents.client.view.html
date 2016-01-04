@@ -11,8 +11,11 @@
 
     <div ng-show="activeAction==='add'" class="add-material-action-selection">
         <ul>
-            <li ng-repeat="(action, actionText) in possibleActions" ng-show="action!=='add'">
-                <a ng-click="$parent.activeAction=action" class="btn btn-default" href>{{actionText}}</a>
+            <li>
+                <a ng-click="activeAction='add_edit'" class="btn btn-default" href>{{possibleActions['add_edit']}}</a>
+            </li>
+            <li>
+                <a ng-click="activeAction='create'" class="btn btn-default" href>{{possibleActions['create']}}</a>
             </li>
         </ul>
     </div>
@@ -33,7 +36,7 @@
             </ui-select>
         </div>
 
-        <div class="col-md-12 form-group" ng-show="activeAction==='edit'&&!editSource">
+        <div class="col-md-12 form-group" ng-show="activeAction==='add_edit'&&!editSource">
             <label for="sourceSelect">Select a Source</label><br />
 
             <ui-select class="source-select" ng-model="$parent.editSource" ng-required name="sourceSelect" id="sourceSelect">
@@ -47,7 +50,7 @@
             </ui-select>
         </div>
 
-        <div class="main-form" ng-show="activeAction!=='edit'||source._id">
+        <div class="main-form" ng-show="(activeAction!=='edit'&&activeAction!=='add_edit')||source._id">
             <div class="form-group">
                 <ul class="nav nav-tabs nav-justified" role="tablist">
                     <li ng-repeat="type in sourcetypes" ng-class="{'active': type._id == activeType._id}" ng-show="[ 'LTI', 'Video', 'Presentation', 'Lecture'].indexOf(type.title)===-1">

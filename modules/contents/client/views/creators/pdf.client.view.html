@@ -1,4 +1,4 @@
-<div class="form-group" ng-show="!uploadSuccess" ng-class="{'has-error': contentCreateForm.pdfUpload.$error.required, 'has-success': !contentCreateForm.pdfUpload.$error.required&&source.pdfUpload.length}">
+<div class="form-group" ng-show="!uploadSuccess&&activeAction!=='add_edit'" ng-class="{'has-error': contentCreateForm.pdfUpload.$error.required, 'has-success': !contentCreateForm.pdfUpload.$error.required&&source.pdfUpload.length}">
     <label for="pdfUploader">Upload the PDF file here:
     </label><br />
 
@@ -14,7 +14,7 @@
     </div>
 </div>
 
-<div class="form-group" ng-class="{'has-error': contentCreateForm.title.$error.required, 'has-success': !contentCreateForm.title.$error.required&&source.title.length}">
+<div class="form-group" ng-show="activeAction!=='add_edit'" ng-class="{'has-error': contentCreateForm.title.$error.required, 'has-success': !contentCreateForm.title.$error.required&&source.title.length}">
     <label for="title">Pick a title for this source:</label><br />
 
     <div class="input-group">
