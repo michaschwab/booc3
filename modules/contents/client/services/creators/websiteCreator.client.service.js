@@ -11,7 +11,6 @@ angular.module('contents').service('WebsiteCreator', function($http, $sce)
 
         $scope.$watch('source.path', function(path)
         {
-            console.log('aaaa');
             if(path)
             {
                 $scope.sourceData = $sce.trustAsResourceUrl(path);

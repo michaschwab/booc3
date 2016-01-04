@@ -211,7 +211,8 @@ angular.module('contents').controller('CreatorController',
         {
             if($scope.activeSegment && $scope.addToConcept)
             {
-                $scope.activeSegment.conceptObjects.push($scope.addToConcept.concept);
+                if($scope.activeSegment.conceptObjects.map(function(c) { return c._id; }).indexOf($scope.addToConcept.concept._id) === -1)
+                    $scope.activeSegment.conceptObjects.push($scope.addToConcept.concept);
             }
         });
 
