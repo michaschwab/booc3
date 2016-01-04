@@ -1,4 +1,4 @@
-angular.module('courses').service('PanelAdmin', function(Concepts, $rootScope, $timeout, Authentication)
+angular.module('courses').service('PanelAdmin', function(Concepts, $rootScope, $timeout, Authentication, $stateParams)
 {
     var $scope;
     var NEW_CONCEPT_TITLE = 'New Concept';
@@ -8,6 +8,7 @@ angular.module('courses').service('PanelAdmin', function(Concepts, $rootScope, $
     this.init = function(scope)
     {
         $scope = scope;
+        $scope.stateParams = $stateParams;
 
         $scope.titlePattern = 'a-z';
 
