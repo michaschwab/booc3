@@ -7,9 +7,9 @@ angular.module('contents').controller('CreatorController',
         $scope.stateParams = $stateParams;
 
         $scope.possibleActions = {
-            'add_edit': 'Add Material from Existing Source',
-            'edit': 'Edit Source',
-            'create': 'Add New Source',
+            'add_edit': 'Add Material from Existing [icon] Source',
+            'edit': 'Edit [icon] Source',
+            'create': 'Add New [icon] Source',
             'add': 'Add Material'
         };
         $scope.locationSearch = $location.search();
@@ -22,9 +22,8 @@ angular.module('contents').controller('CreatorController',
             $scope.activeAction = $stateParams.sourceId ? 'edit' : 'create';
         }
 
-
         $scope.activeReadableType = '';
-        $scope.defaultReadableType = 'youtube';
+        //$scope.defaultReadableType = 'youtube';
         $scope.activeType = null;
         $scope.source = {};
         $scope.allConcepts = [];
@@ -69,11 +68,12 @@ angular.module('contents').controller('CreatorController',
                 Sourcetypes.query().$promise.then(function(sourcetypes)
                 {
                     $scope.sourcetypes = sourcetypes;
-                    if($scope.defaultReadableType)
+                    $scope.readableTypes = $scope.sourcetypes.map(function(s) { return $scope.getReadableType(s); });
+
+                    /*if($scope.defaultReadableType)
                     {
-                        $scope.readableTypes = $scope.sourcetypes.map(function(s) { return $scope.getReadableType(s); });
                         $scope.activeType = $scope.sourcetypes[$scope.readableTypes.indexOf($scope.defaultReadableType)];
-                    }
+                    }*/
 
                     $scope.updateActive();
 
@@ -235,7 +235,7 @@ angular.module('contents').controller('CreatorController',
                 var index = $scope.readableTypes.indexOf('lecture');
                 return $scope.sourcetypes[index]._id;
             }
-            return $scope.activeType._id
+            return $scope.activeType._id;
         };
 
         var redirectBack = function()
@@ -428,7 +428,7 @@ angular.module('contents').controller('CreatorController',
 
             var current = $location.search();
 
-            if(!current && readableType == $scope.defaultReadableType)
+            if(!current)
                 return;
 
             //$location.search('type', readableType);

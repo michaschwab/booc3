@@ -1,7 +1,15 @@
 <section data-ng-controller="CreatorController" class="contentCol" data-ng-init="init()" style="margin-bottom: 200px; width: {{contentWidth}}px; padding: 0 40px">
     <div class="page-header">
         <h1>
-            {{possibleActions[activeAction]}}
+            <span ng-if="possibleActions[activeAction].indexOf('[icon]')>-1">
+                {{possibleActions[activeAction].substr(0, possibleActions[activeAction].indexOf('[icon]'))}}
+                <span class="{{activeType.icon}}"></span>
+                {{possibleActions[activeAction].substr( possibleActions[activeAction].indexOf('[icon]')+6)}}
+            </span>
+            <span ng-if="possibleActions[activeAction].indexOf('[icon]')==-1">
+                {{possibleActions[activeAction]}}
+            </span>
+
             <span ng-show="addToConcept">
                 to {{::addToConcept.concept.title}}
             </span>
@@ -12,10 +20,10 @@
     <div ng-show="activeAction==='add'" class="add-material-action-selection">
         <ul>
             <li>
-                <a ng-click="activeAction='add_edit'" class="btn btn-default" href>{{possibleActions['add_edit']}}</a>
+                <a ng-click="activeAction='add_edit'" class="btn btn-default" href>{{possibleActions['add_edit'].replace('[icon]', '')}}</a>
             </li>
             <li>
-                <a ng-click="activeAction='create'" class="btn btn-default" href>{{possibleActions['create']}}</a>
+                <a ng-click="activeAction='create'" class="btn btn-default" href>{{possibleActions['create'].replace('[icon]', '')}}</a>
             </li>
         </ul>
     </div>
@@ -51,10 +59,10 @@
         </div>
 
         <div class="main-form" ng-show="(activeAction!=='edit'&&activeAction!=='add_edit')||source._id">
-            <div class="form-group">
-                <ul class="nav nav-tabs nav-justified" role="tablist">
+            <div class="form-group" ng-if="!activeReadableType">
+                <ul class="list-inline" role="tablist">
                     <li ng-repeat="type in sourcetypes" ng-class="{'active': type._id == activeType._id}" ng-show="[ 'LTI', 'Video', 'Presentation', 'Lecture'].indexOf(type.title)===-1">
-                        <a href="" id="sourcetype-{{type._id}}" ng-click="selectSourcetype(type,$event)">
+                        <a href="" id="sourcetype-{{type._id}}" class="btn btn-default btn-lg" ng-click="selectSourcetype(type,$event)">
                             <span class="{{type.icon}}"></span>
                             {{type.title}}</a>
                     </li>
