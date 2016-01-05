@@ -138,6 +138,19 @@ angular.module('contents').controller('CreatorController',
             scope.$select.selected = null;
         };
 
+        $scope.removeConceptFromSegment = function(concept)
+        {
+            var index = $scope.activeSegment.conceptObjects.indexOf(concept);
+            if(index !== -1)
+            {
+                $scope.activeSegment.conceptObjects.splice(index, 1);
+            }
+            else
+            {
+                console.log('could not find ', concept, ' in ' + $scope.activeSegment.conceptObjects);
+            }
+        };
+
         $scope.$watch('editSource', function()
         {
             var source = $scope.editSource;

@@ -1,4 +1,5 @@
-{{segment|json}}
+<!--
+
 
 <div class="panel panel-default" ng-show="activeSegment">
     <div class="panel-heading">
@@ -8,7 +9,7 @@
 
         <div class="col-md-12 form-group">
             <label for="conceptSelect">Which Concept is the Segment for?</label>
-            <!--Current: {{activeConcept.title}}
+            &lt;!&ndash;Current: {{activeConcept.title}}
 
             <ui-select ng-model="$parent.activeConcept" on-select="selectConcept($item)" ng-required name="conceptSelect" id="conceptSelect" reset-search-input="true">
                 <ui-select-match placeholder="{{course._id?'Select Concept...':'Please Select a Course First'}}">
@@ -19,7 +20,7 @@
                     <div ng-bind-html="concept.title | highlight: $select.search"></div>
                 </ui-select-choices>
 
-            </ui-select>-->
+            </ui-select>&ndash;&gt;
 
             <ui-select ng-repeat="con in activeSegment.conceptObjects" ng-model="$parent.con"
                        on-select="selectConcept($item)" ng-required name="conceptSelect-{{$index}}" id="conceptSelect-{{$index}}" reset-search-input="true">
@@ -45,14 +46,14 @@
             </ui-select>
         </div>
 
-        <!--<div class="form-group">
+        &lt;!&ndash;<div class="form-group">
             <label for="segmentTitle">What's the title of this Segment?</label><br />
 
             <div class="input-group">
                 <span class="input-group-addon"><span class="glyphicon glyphicon-pencil"></span></span>
                 <input type="text" id="segmentTitle" ng-model="activeSegment.title" name="segmentTitle" placeholder="Title of the Segment" value="{{activeSegment.title}}" class="form-control"/>
             </div>
-        </div>-->
+        </div>&ndash;&gt;
 
         <div class="form-group">
             <label for="segmentStart">Which part should be included in the Segment?</label><br />
@@ -60,7 +61,7 @@
             <div class="col-md-6" style="padding-left: 0">
                 <div class="input-group segment-start">
 
-                    <!--<span>Start</span>-->
+                    &lt;!&ndash;<span>Start</span>&ndash;&gt;
 
                     <span class="input-group-addon">
                         <a href="" ng-click="setSegmentStart()">
@@ -124,3 +125,4 @@
 
     </div>
 </div>
+-->
