@@ -387,16 +387,19 @@ angular.module('courses').service('ActiveDataManager', function(Authentication, 
 
         if($scope.activeConcept !== undefined && $scope.activeConcept !== null)
         {
-            if(false)//$scope.activeConcept.children.length === 0)
+            var searchParams = $location.search();
+
+            var adminMode = searchParams.mode && searchParams.mode == 'admin';
+            var learnMode = $stateParams.learn && $stateParams.learn === 'yes';
+
+            if(learnMode && adminMode)
             {
+                // For admins, show the parent's hierarchy in the panel while in learning mode.
                 $scope.activeHierarchyChildren = $scope.activeConcept.parentData.children;
                 $scope.activeHierarchyConcept = $scope.activeConcept.parentData;
             }
             else
             {
-                //console.log($scope.activeConcept.children);
-                //console.log($scope.activeConcept);
-                //console.log($scope.directories.concepts);
                 $scope.activeHierarchyChildren = $scope.activeConcept.children;
                 $scope.activeHierarchyConcept = $scope.activeConcept;
             }
