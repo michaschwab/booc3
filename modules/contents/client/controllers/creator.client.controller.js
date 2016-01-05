@@ -246,7 +246,8 @@ angular.module('contents').controller('CreatorController',
                 var courseId = $scope.courseId ? $scope.courseId : $scope.course._id;
 
                 $state.go('courses.view', {
-                    courseId: courseId
+                    courseId: courseId,
+                    mode: 'admin'
                 });
             }
             else

@@ -100,7 +100,7 @@
 .segment-list .active a.segment-list-title {
     color: #fff;
 }
-.segment-list .active a:hover {
+.segment-list .active a.segment-list-title:hover {
     background: inherit;
 }
 
