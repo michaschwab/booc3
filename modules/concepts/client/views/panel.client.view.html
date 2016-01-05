@@ -134,10 +134,10 @@
                         <i ng-show="activeMode=='admin'">Which Concepts are within {{activeHierarchyConcept.concept.title}}?</i>
                     </p>
 
-                    <div class="learningLine">
+                    <div>
 
                         <ng-include src="'/modules/concepts/views/panel/admin.client.view.html'" />
-
+<!--
                         <ul ng-if="activeMode=='admin'" class="concept-list">
                             <li ng-repeat="child in activeHierarchyChildren | orderBy:'order':false" class="concept"  ng-class="{ 'active': activeConcept.concept._id === child.concept._id,
                         'learned':  active.learnedConceptIds.indexOf(child.concept._id) !== -1}">
@@ -162,7 +162,7 @@
                                 </ul>
 
                             </li>
-                        </ul>
+                        </ul>-->
                     </div>
                 </div>
 
