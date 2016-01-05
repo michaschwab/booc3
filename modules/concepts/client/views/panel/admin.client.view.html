@@ -18,7 +18,7 @@
         <label for="{{child.concept._id}}_color" class="concept-circle" style="background: {{child.concept.color}}"></label>
         <input type="color" id="{{child.concept._id}}_color" ng-change="colorChange(child)" data-ng-model="child.concept.color" class="form-control">
 
-        <ul ng-show="!child.children.length" class="alternative-segments">
+        <ul class="alternative-segments">
             <li ng-repeat="seg in segmentPerConceptMap[child.concept._id] track by seg._id" class="segment" ng-class="{ 'active': (seg._id === courseScope.active.segment._id||stateParams.sourceId === seg.source)}">
 
                 <span class="concept-line"></span>
