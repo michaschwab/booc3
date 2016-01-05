@@ -27,7 +27,7 @@
                             <li ng-if="activeConcept.parentData&&activeMode=='hierarchy'" ng-repeat="selected in active.hierarchy" ng-show="selected.concept._id!==activeConcept.concept._id&&selected.concept._id!==activeHierarchyConcept.concept._id">
                                 <a data-ui-sref="{active: selected.concept._id, goal: selected.concept._id}">{{selected.concept.title}}</a>
                             </li>
-                            <li ng-if="activeConcept.parentData&&(activeMode=='plan'||activeMode=='lecture')" ng-repeat="selected in active.hierarchy" ng-show="selected.concept._id!==activeConcept.concept._id">
+                            <li ng-if="activeConcept.parentData&&(activeMode=='plan'||activeMode=='admin'||activeMode=='lecture')" ng-repeat="selected in active.hierarchy" ng-show="selected.concept._id!==activeConcept.concept._id">
                                 <a data-ui-sref="{active: selected.concept._id, goal: selected.concept._id}">{{selected.concept.title}}</a>
                             </li>
                         </ol>
@@ -129,7 +129,10 @@
 
                 <div ng-if="activeMode=='hierarchy'||activeMode=='admin'" class="panel-content" ng-class="{'panel-content-active': activeMode=='hierarchy'||activeMode=='admin'}" style="height: {{panelContentHeight}}px; ">
 
-                    <p><i>What's within {{activeHierarchyConcept.concept.title}}?</i></p>
+                    <p>
+                        <i ng-show="activeMode=='hierarchy'">What's within {{activeHierarchyConcept.concept.title}}?</i>
+                        <i ng-show="activeMode=='admin'">Which Concepts are within {{activeHierarchyConcept.concept.title}}?</i>
+                    </p>
 
                     <div class="learningLine">
 
