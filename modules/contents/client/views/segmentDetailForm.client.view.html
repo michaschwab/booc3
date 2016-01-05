@@ -69,12 +69,12 @@
                         </a>
                     </span>
 
-                    <div ng-show="activeType.category=='Video'">
+                    <div ng-show="activeType.player=='video'||activeType.player=='youtube'">
                         <input id="segmentStart" momentduration="hours" ng-model="activeTimes.startDuration" class="form-control duration" ng-change="activeSegmentTimeChange()"/>
                         <input momentduration="minutes" ng-model="activeTimes.startDuration" class="form-control duration" />
                         <input momentduration="seconds" ng-model="activeTimes.startDuration" class="form-control duration" />
                     </div>
-                    <div ng-show="activeType.category=='Document'">
+                    <div ng-show="activeType.player=='pdf'">
                         <input ng-model="activeSegment.start" class="form-control" />
                     </div>
 
@@ -92,12 +92,12 @@
                         </a>
                     </span>
 
-                    <div ng-show="activeType.category=='Video'">
+                    <div ng-show="activeType.player=='video'||activeType.player=='youtube'">
                         <input momentduration="hours" ng-model="activeTimes.endDuration" class="form-control duration" />
                         <input momentduration="minutes" ng-model="activeTimes.endDuration" class="form-control duration" />
                         <input momentduration="seconds" ng-model="activeTimes.endDuration" class="form-control duration" />
                     </div>
-                    <div ng-show="activeType.category=='Document'">
+                    <div ng-show="activeType.player=='pdf'">
                         <input ng-model="activeSegment.end" class="form-control" />
                     </div>
 

@@ -12,6 +12,58 @@
                 </span>
             </a>
             <div ng-show="segment==activeSegment" class="segment-details">
+
+                <div class="segment-span">
+                    <div class="col-md-6" style="padding-left: 0">
+                        <div class="input-group segment-start">
+
+                            <!--<span>Start</span>-->
+
+                    <span class="input-group-addon">
+                        <a href="" ng-click="setSegmentStart()">
+                            <span class="glyphicon glyphicon-play"></span>
+                            Start
+                        </a>
+                    </span>
+
+                            <div ng-show="activeType.player=='video'||activeType.player=='youtube'">
+                                <input id="segmentStart" momentduration="hours" ng-model="activeTimes.startDuration" class="form-control duration" ng-change="activeSegmentTimeChange()"/>
+                                <input momentduration="minutes" ng-model="activeTimes.startDuration" class="form-control duration" />
+                                <input momentduration="seconds" ng-model="activeTimes.startDuration" class="form-control duration" />
+                            </div>
+                            <div ng-show="activeType.player=='pdf'">
+                                <input ng-model="activeSegment.start" class="form-control" />
+                            </div>
+
+                            <span ng-show="unit" class="input-group-addon">{{unit}}</span>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6" style="padding-right: 0">
+                        <div class="input-group segment-end">
+
+                    <span class="input-group-addon">
+                        <a href="" ng-click="setSegmentEnd()">
+                            <span class="glyphicon glyphicon-stop"></span>
+                            End
+                        </a>
+                    </span>
+
+                            <div ng-show="activeType.player=='video'||activeType.player=='youtube'">
+                                <input momentduration="hours" ng-model="activeTimes.endDuration" class="form-control duration" />
+                                <input momentduration="minutes" ng-model="activeTimes.endDuration" class="form-control duration" />
+                                <input momentduration="seconds" ng-model="activeTimes.endDuration" class="form-control duration" />
+                            </div>
+                            <div ng-show="activeType.player=='pdf'">
+                                <input ng-model="activeSegment.end" class="form-control" />
+                            </div>
+
+                            <span ng-show="unit" class="input-group-addon">{{unit}}</span>
+                        </div>
+                    </div>
+                </div>
+
+
                 <div ng-repeat="con in activeSegment.conceptObjects" class="segment-concept-row">
                     <ui-select ng-model="$parent.con"
                                on-select="selectConcept($item)" ng-required name="conceptSelect-{{$index}}" id="conceptSelect-{{$index}}" reset-search-input="true">
