@@ -1,7 +1,7 @@
 <div class="panel panel-default">
     <h4 style="padding: 5pt; margin: 0" class="panel-heading"><span class="glyphicon glyphicon-list-alt"></span> Segments</h4>
     <ul class="list-group segment-list" id="segmentList">
-        <li ng-repeat="segment in segments | orderBy:'start'" class="list-group-item" ng-class="{'active': segment == activeSegment}">
+        <li ng-repeat="segment in segments | orderBy:'start'" class="list-group-item" id="segment-{{segment._id}}" ng-class="{'active': segment == activeSegment}">
             <a href="" class="segment-list-title" ng-click="selectSegment(segment)">
                 <span class="segment-title-panel" contenteditable ng-model="segment.title"></span>
                 <span ng-show="activeType.player=='video'||activeType.player=='youtube'" class="pull-right segment-time">
@@ -20,7 +20,7 @@
                             <!--<span>Start</span>-->
 
                     <span class="input-group-addon">
-                        <a href="" ng-click="setSegmentStart()">
+                        <a href="" ng-click="setSegmentStart()" title="Set Segment Start to current Position">
                             <span class="glyphicon glyphicon-play"></span>
                             Start
                         </a>
@@ -43,7 +43,7 @@
                         <div class="input-group segment-end">
 
                     <span class="input-group-addon">
-                        <a href="" ng-click="setSegmentEnd()">
+                        <a href="" ng-click="setSegmentEnd()" title="Set Segment End to current Position">
                             <span class="glyphicon glyphicon-stop"></span>
                             End
                         </a>

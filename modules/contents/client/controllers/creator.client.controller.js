@@ -508,10 +508,12 @@ angular.module('contents').controller('CreatorController',
             }
             //$scope.activeConcept = segment.concepts && segment.concepts.length > 0 ? $scope.conceptMap[segment.concepts[0]] : null;
 
-            /*$('#segmentTitle').focus();
+            var el = $('#segment-' + segment._id + ' .segment-list-title');
+            console.log(el);
+            el.focus();
             window.setTimeout (function(){
-                $('#segmentTitle').select();
-            }, 100);*/
+                el.select();
+            }, 100);
             //todo check if segment has any concepts.
         };
 
