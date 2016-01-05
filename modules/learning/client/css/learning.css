@@ -149,6 +149,11 @@ a.concept:hover {
     position: absolute;
     border: 1px solid #dddddd;
 }
+
+.learnContent {
+    position: absolute;
+    right: 0;
+}
 .learnContent-inner {
     padding: 0;
 }

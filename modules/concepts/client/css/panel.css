@@ -150,8 +150,8 @@ a, a:focus {
     color: #333333;
     float: none !important;
 }
-.minimized .panel-button span {
-    /*font-size: 10pt;*/
+.minimized .panel-button.play span {
+    font-size: 10pt;
 }
 .minimized .play.learnmode-true {
     padding: 2pt 0 0 3pt;
@@ -667,7 +667,7 @@ input.concept-title.admin {
 }
 .panel-minimized .map-icon {
     background-size: 16px 16px;
-    background-position: 8px 2px;
+    background-position: 1px 2px;
 }
 .map-icon-large {
     background-size: 40px 40px;

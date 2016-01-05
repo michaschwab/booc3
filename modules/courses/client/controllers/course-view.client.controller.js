@@ -434,7 +434,8 @@ angular.module('courses').controller('CourseViewController',
                 if(bounds.width > width) width = bounds.width;
                 if(bounds.height > height) height = bounds.height;
             }
-            $scope.contentWidth = width;
+            //$scope.contentWidth = width;
+            $scope.contentWidth = $scope.windowWidth - $scope.panelWidth;
             $scope.contentHeight = height;
 
             updatePanelContentHeight();

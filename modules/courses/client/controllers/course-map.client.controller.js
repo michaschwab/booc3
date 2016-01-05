@@ -431,6 +431,7 @@ angular.module('courses').controller('CourseMapController', ['$scope','$statePar
 
             $scope.setGraphSize();
         });
+        $scope.$watch('panelWidth', $scope.setGraphSize);
 	}
 ])/*.directive('ngRightClick', function($parse) {
     return function(scope, element, attrs) {
