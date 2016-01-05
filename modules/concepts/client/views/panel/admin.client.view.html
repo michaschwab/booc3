@@ -2,7 +2,7 @@
 
     <li class="concept">
 
-        <a data-ui-sref="{active: ''}" tabindex="-1" title="{{::activeConcept.concept.title}}">
+        <a data-ui-sref="{active: activeConcept.parentData.concept._id}" tabindex="-1" title="{{activeConcept ? activeConcept.concept.title : course.short}}">
 
             <span class="concept-circle" style="background: #fff"></span>
             <span class="concept-line"></span>
