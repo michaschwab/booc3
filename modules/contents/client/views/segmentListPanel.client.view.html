@@ -2,15 +2,46 @@
     <h4 style="padding: 5pt; margin: 0" class="panel-heading"><span class="glyphicon glyphicon-list-alt"></span> Segments</h4>
     <ul class="list-group segment-list" id="segmentList">
         <li ng-repeat="segment in segments | orderBy:'start'" class="list-group-item" ng-class="{'active': segment == activeSegment}">
-            <a href="" ng-click="selectSegment(segment)">
+            <a href="" class="segment-list-title" ng-click="selectSegment(segment)">
                 <span class="segment-title-panel" contenteditable ng-model="segment.title"></span>
                 <span ng-show="activeType.player=='video'||activeType.player=='youtube'" class="pull-right segment-time">
-                    <small><em>{{segment.start | time:'HH:mm:ss'}}-{{segment.end | time:'HH:mm:ss'}}</em></small>
+                    <small><em>{{segment.start | time:'HH:mm:ss'}} - {{segment.end | time:'HH:mm:ss'}}</em></small>
                 </span>
                 <span ng-show="activeType.player=='pdf'" class="pull-right segment-time">
                     <small><em>page {{segment.start}} - {{segment.end}}</em></small>
                 </span>
             </a>
+            <div ng-show="segment==activeSegment" class="segment-details">
+                <div ng-repeat="con in activeSegment.conceptObjects" class="segment-concept-row">
+                    <ui-select ng-model="$parent.con"
+                               on-select="selectConcept($item)" ng-required name="conceptSelect-{{$index}}" id="conceptSelect-{{$index}}" reset-search-input="true">
+                        <ui-select-match placeholder="{{course._id?'Select Concept...':'Please Select a Course First'}}">
+                            <div style="width:20px; height:20px; background: {{$select.selected.color}}; float: left; margin-right: 15pt; border-radius: 10px"></div>
+                            {{$select.selected.title}}</ui-select-match>
+                        <ui-select-choices repeat="concept in concepts | filter: $select.search">
+                            <div style="width:20px; height:20px; background: {{concept.color}}; float: left; margin-right: 15pt; border-radius: 10px"></div>
+                            <div ng-bind-html="concept.title | highlight: $select.search"></div>
+                        </ui-select-choices>
+
+                    </ui-select>
+                    <a href ng-click="" class="remove-segment-from-concept">
+                        <span class="glyphicon glyphicon-trash"></span>
+                    </a><br style="clear: both"/>
+                </div>
+
+                <div class="segment-concept-row">
+                    <ui-select ng-model="newConcept" on-select="addConcept($item, this)" ng-required name="conceptSelect" id="conceptSelect" reset-search-input="true">
+                        <ui-select-match placeholder="{{course._id?'Select Concept...':'Please Select a Course First'}}">
+                            <div style="width:20px; height:20px; background: {{$select.selected.color}}; float: left; margin-right: 15pt; border-radius: 10px"></div>
+                            {{$select.selected.title}}</ui-select-match>
+                        <ui-select-choices repeat="concept in concepts | filter: $select.search">
+                            <div style="width:20px; height:20px; background: {{concept.color}}; float: left; margin-right: 15pt; border-radius: 10px"></div>
+                            <div ng-bind-html="concept.title | highlight: $select.search"></div>
+                        </ui-select-choices>
+
+                    </ui-select>
+                </div>
+            </div>
         </li>
     </ul>
     <button type="button" class="btn btn-danger" style="width:50%; border:none" ng-click="removeAllSegments()" ng-disabled="!source.path">
