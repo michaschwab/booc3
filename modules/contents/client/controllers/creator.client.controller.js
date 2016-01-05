@@ -474,6 +474,8 @@ angular.module('contents').controller('CreatorController',
 
         $scope.selectSegment = function(segment)
         {
+            if($scope.activeSegment == segment) return;
+
             $scope.activeSegment = segment;
 
             $scope.activeTimes.startDuration = moment.duration(segment.start * 1000);
