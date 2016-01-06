@@ -9,12 +9,13 @@
 -->
     <div class="futurePlansToggle" ng-hide="graphWidth<800">
 
-        Show Future Concepts
+        <a href ng-click="options.showCurrentPathFutureHierarchy=!options.showCurrentPathFutureHierarchy">
 
-        <button ng-click="options.showCurrentPathFutureHierarchy=!options.showCurrentPathFutureHierarchy" class="btn btn-default">
-            <span ng-show="options.showCurrentPathFutureHierarchy">On</span>
-            <span ng-show="!options.showCurrentPathFutureHierarchy">Off</span>
-        </button>
+            Show Future Concepts
+
+            <span ng-show="options.showCurrentPathFutureHierarchy" class="fa fa-check-square-o"></span>
+            <span ng-show="!options.showCurrentPathFutureHierarchy" class="fa fa-square-o" style="padding-right: 2px"></span>
+        </a>
 
     </div>
 

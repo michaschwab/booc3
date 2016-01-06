@@ -304,13 +304,18 @@ text.learned, text.goal {
 
 .prereqToggle {
     position: absolute;
-    top: 130px;
+    top: 110px;
     right: 50px;
+    color: #555;
 }
 .futurePlansToggle {
     position: absolute;
     top: 80px;
     right: 50px;
+}
+.futurePlansToggle a {
+    text-decoration: none;
+    color: #555;
 }
 
 .learnmode-true .prereqButton {
