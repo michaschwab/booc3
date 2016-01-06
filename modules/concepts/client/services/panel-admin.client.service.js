@@ -1,4 +1,4 @@
-angular.module('courses').service('PanelAdmin', function(Concepts, $rootScope, $timeout, Authentication, $stateParams)
+angular.module('courses').service('PanelAdmin', function(Concepts, $rootScope, $timeout, Authentication, $stateParams, $location)
 {
     var $scope;
     var NEW_CONCEPT_TITLE = 'New Concept';
@@ -122,6 +122,12 @@ angular.module('courses').service('PanelAdmin', function(Concepts, $rootScope, $
                 $rootScope.$broadcast('conceptsReordered', $scope.activeHierarchyChildren);
                 $rootScope.$broadcast('dataUpdated', $scope.activeHierarchyChildren);
             }
+        };
+
+        $scope.addSubConcept = function(concept)
+        {
+            $location.search('active', concept.concept._id);
+            $timeout($scope.addConcept, 400);
         };
 
         $scope.addConcept = function()

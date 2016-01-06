@@ -489,7 +489,7 @@ input.concept-title.admin {
     min-height: 30px;
 }
 
-.segment.active a, .segment.hover a {
+.segment.active a, .segment a:hover {
     background: #ddd;
 
 

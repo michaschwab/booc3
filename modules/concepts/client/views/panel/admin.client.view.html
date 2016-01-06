@@ -76,6 +76,20 @@
 
                         </a>
                     </li>
+                    <li class="segment add-subconcept" ng-show="!segmentPerConceptMap[child.concept._id]||segmentPerConceptMap[child.concept._id].length==0">
+
+                        <span class="concept-line"></span>
+
+                        <a ng-click="addSubConcept(child)" href class="segment-link" title="Add a child concept to {{child.concept.title}}" style="color: darkblue">
+                            <span class="glyphicon glyphicon-plus segment-icon"></span>
+
+                        <span class="segment-title">
+                            Add Sub-Concept
+                            <span ng-show="child.children.length>0">(Currently {{child.children.length}})</span>
+                        </span>
+
+                        </a>
+                    </li>
                 </ul>
 
             </li>
@@ -91,6 +105,8 @@
                 </a>
 
             </li>
+
+
         </ul>
     </li>
 </ul>
