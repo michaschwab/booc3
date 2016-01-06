@@ -1,7 +1,11 @@
 <header class="content-bar">
 
     <div class="pull-left">
-        <h4>{{active.source.title}}</h4>
+        <h4>
+            <span class="source-title">{{active.source.title}}</span>
+            <i class="fa fa-angle-double-right"></i>
+            <span class="concept-title">{{activeConcept.concept.title}}</span>
+        </h4>
     </div>
 
     <div class="pull-right actions ng-hide">
