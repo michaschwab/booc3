@@ -113,6 +113,7 @@ angular.module('learning').service('LecturePlayer', function(YoutubePlayer, Lect
     this.stop = function()
     {
         LectureSlidePlayer.stop();
+        YoutubePlayer.stop();
     };
 
     this.parseSegmentSourceData = function(source, sourcetype, segment, callback)

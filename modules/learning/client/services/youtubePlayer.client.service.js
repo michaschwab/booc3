@@ -14,6 +14,11 @@ angular.module('learning').service('YoutubePlayer', function($http, $sce, $inter
         return this;
     };
 
+    this.stop = function()
+    {
+        player = null;
+    };
+
     this.getPosition = function()
     {
         return !player ? -1 : player.getCurrentTime();
@@ -21,7 +26,18 @@ angular.module('learning').service('YoutubePlayer', function($http, $sce, $inter
 
     this.setPosition = function(pos)
     {
-        return player.seekTo(pos);
+        if(player)
+        {
+            try {
+                return player.seekTo(pos);
+            } catch (e) {
+                console.error('Something wrong with the youtube player', e);
+            }
+        }
+        else
+        {
+            console.log('player not ready to set position.');
+        }
     };
 
     var resizeTimeout;
@@ -79,7 +95,14 @@ angular.module('learning').service('YoutubePlayer', function($http, $sce, $inter
     this.stopPlay = function()
     {
         if(player)
-            player.stopVideo();
+        {
+            try {
+                player.stopVideo();
+            } catch (e)
+            {
+                console.error('Something wrong with the youtube player', e);
+            }
+        }
     };
 
 
