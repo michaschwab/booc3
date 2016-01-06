@@ -180,7 +180,7 @@ angular.module('courses').service('MapIcons', function(Tip, ConceptStructure, $l
 
                     $scope.addDependency($scope.creatingDepConcept.concept._id, d.concept._id, function()
                     {
-                        $scope.redrawHover();
+                        //$scope.redrawHover();
                     });
                     $scope.creatingDepConcept = null;
                 }

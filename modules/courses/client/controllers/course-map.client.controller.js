@@ -12,6 +12,8 @@ angular.module('courses').controller('CourseMapController', ['$scope','$statePar
         $scope.initTime = 0;
         $scope.options = {};
         var REDRAW_MINTIME = 80;
+        var REDRAW_WAITTIME = 20;
+        var redraw_timeout = null;
 
         $scope.$on('$locationChangeSuccess', function()
         {
@@ -58,7 +60,6 @@ angular.module('courses').controller('CourseMapController', ['$scope','$statePar
             $scope.zoomMode = true;
             $scope.zoomLevel = 0;
             $scope.currentZoomGoal = [0, 0];
-            $scope.lastRedraw = 0;
             $scope.lastHoverRedraw = 0;
             $scope.redrawn = 0;
             $scope.zooming = false;
@@ -200,14 +201,6 @@ angular.module('courses').controller('CourseMapController', ['$scope','$statePar
 
             $scope.absUrl = $location.absUrl(); // Sometimes this is not updated in time.
 
-            var time = new Date().getTime();
-            if(time - $scope.lastRedraw < REDRAW_MINTIME)
-            {
-                return;
-            }
-            //console.log('redrawing after ', time - $scope.lastRedraw);
-            $scope.lastRedraw = time;
-
             var doRedraw = function()
             {
                 var vis = $scope.canvas;
@@ -339,7 +332,12 @@ angular.module('courses').controller('CourseMapController', ['$scope','$statePar
                 //$timeout($scope.redrawHover, 50);
             };
 
-            requestAnimFrame(doRedraw);
+            $timeout.cancel(redraw_timeout);
+            redraw_timeout = $timeout(function()
+            {
+                requestAnimFrame(doRedraw);
+            }, REDRAW_WAITTIME);
+
             //doRedraw();
         };
 
