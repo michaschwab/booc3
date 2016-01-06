@@ -474,7 +474,7 @@ angular.module('courses').service('MapArrows', function(Tip, ConceptStructure, M
                 hoverParentChain = hoverParentChain.concat(hoverConcept);
                 hoverParentChain = hoverParentChain.filter(function(c)
                 {
-                    return $scope.zoomLevel + 1 >= c.depth;
+                    return $scope.zoomLevel + 1 >= c.depth && hoverChainIds.indexOf(c.concept._id) === -1;
                 });
                 hoverChainIds = hoverChainIds.concat(hoverParentChain.map(function(c) { return c.concept._id; }));
             }
@@ -498,7 +498,7 @@ angular.module('courses').service('MapArrows', function(Tip, ConceptStructure, M
                 if(!concept) return;
 
                 if((concept.depth > 1 && hoverChainIds.indexOf(concept.parentData.concept._id) !== -1 && (hoverChainIds.indexOf(concept.concept._id) === -1 || concept.children.length === 0))
-                    || (concept.depth === 1 &&  hoverChainIds.indexOf(concept.concept._id) === -1))
+                    || (concept.depth === 1 && (hoverChainIds.indexOf(concept.concept._id) === -1 || concept.children.length === 0)))
                 {
                     var translate = $scope.getTranslateAbs(concept);
                     pos.push(translate);
