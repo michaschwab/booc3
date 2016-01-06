@@ -2,7 +2,7 @@ angular.module('courses').service('PanelAdmin', function(Concepts, $rootScope, $
 {
     var $scope;
     var NEW_CONCEPT_TITLE = 'New Concept';
-    var defaultConceptColors = ['#CB654F', '#D3B1A7', '#CFCB9C', '#8CBEA3', '#DFBA47'];
+    var defaultConceptColors = ['#CB654F', '#D3B1A7', '#CFCB9C', '#8CBEA3', '#DFBA47', '#bdaed6'];
     var me = this;
 
     this.init = function(scope)
