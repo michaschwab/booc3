@@ -631,7 +631,8 @@ input.concept-title.admin {
     padding: 8px 0 0 11px;
 }
 .minimized .setgoal {
-    padding: 6px 0 0 7px;
+    padding: 4px 0 0 6px;
+    font-size: 14px;
 }
 
 .lecture-icon, .wiki-icon, .map-icon {
@@ -728,8 +729,13 @@ input.concept-title.admin {
     margin-top:7px;
 }
 .minimizer {
-    font-size: 32px;
+    font-size: 18px;
+    color: #555;
 }
+.minimizer:hover {
+    text-decoration: none;
+}
+
 
 input[type=color] {
     visibility: hidden;
@@ -843,7 +849,7 @@ input[type=color] {
 }
 .minimized .maximizer span {
     font-size: 12pt;
-    margin: 4px 9px;
+    margin: 6px 6px;
 }
 
 .minimized .learning-buttons {

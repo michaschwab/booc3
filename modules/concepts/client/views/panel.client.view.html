@@ -5,12 +5,12 @@
     <div class="fadein">
 
         <div ng-show="!minimized" class="sidepanelOptions" aria-hidden="true" role="presentation">
-            <a aria-hidden="true" class="minimizerToggle minimizer fa fa-thumb-tack" href="" ng-click="minimize()" title="Hide Panel"></a>
+            <a aria-hidden="true" class="minimizerToggle minimizer fa fa-times-circle" href="" ng-click="minimize()" title="Hide Panel"></a>
         </div>
 
         <div ng-if="minimized" class="sidepanelOptions" aria-hidden="true" role="presentation">
             <a aria-hidden="true" class="minimizerToggle maximizer panel-button" href="" ng-click="maximize()" title="Show Panel">
-                <span class="fa fa-thumb-tack"></span>
+                <span class="fa fa-bars"></span>
             </a>
         </div>
 
