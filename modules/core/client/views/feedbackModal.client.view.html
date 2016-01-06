@@ -34,19 +34,11 @@
 
             <p>Is there a technical problem?</p>
 
-            <div style="position: absolute; top: 10px; left: 210px;">
-                <input type="checkbox" id="technicalProblemButton" />
-                <input type="checkbox" id="technicalProblemOnVal"  class="ng-hide" ng-model="technicalProblemOn" />
-                <script>
-                    $(function() {
-                        $('#technicalProblemButton').bootstrapToggle({
-                            on: 'Yes',
-                            off: 'No'
-                        });
-                        $('#technicalProblemButton').change(function() { $('#technicalProblemOnVal').trigger('click'); });
-                    })
-                </script>
-            </div><br />
+            <a class="btn btn-default" href ng-click="technicalProblemOn=!technicalProblemOn">
+                <span ng-show="technicalProblemOn">Yes</span>
+                <span ng-show="!technicalProblemOn">No</span>
+            </a>
+            <br />
 
             <p>What would you like to tell us?</p>
             <textarea ng-model="websiteContent" class="form-control" rows="5"></textarea>
@@ -55,19 +47,10 @@
         <div style="position: relative">
             <p style="padding-top: 15px">Would you like to send this feedback anonymously?</p>
 
-            <div style="position: absolute; top: 10px; left: 330px;">
-                <input checked="checked" type="checkbox" id="anonymousButton" />
-                <input type="checkbox" id="anonymousOnVal"  class="ng-hide" ng-model="anonymousOn" />
-                <script>
-                    $(function() {
-                        $('#anonymousButton').bootstrapToggle({
-                            on: 'Yes',
-                            off: 'No'
-                        });
-                        $('#anonymousButton').change(function() { $('#anonymousOnVal').trigger('click'); });
-                    })
-                </script>
-            </div><br />
+            <a class="btn btn-default" href ng-click="anonymousOn=!anonymousOn">
+                <span ng-show="anonymousOn">Yes</span>
+                <span ng-show="!anonymousOn">No</span>
+            </a>
         </div>
     </div>
 
