@@ -244,7 +244,7 @@ a[disabled] .map-icon {
     z-index: 3;
 }
 
-.concept-list-nested .concept-list-nested .glyphicon {
+.maximized .concept-list-nested .concept-list-nested .glyphicon {
     font-size: 70%;
 }
 
@@ -477,6 +477,10 @@ input.concept-title.admin {
     position: relative;
     padding-bottom: 12px;
 }
+.segment a {
+    border-radius: 7px;
+    background: #eee;
+}
 
 .segment .segment-link {
     display: block;
@@ -487,7 +491,7 @@ input.concept-title.admin {
 
 .segment.active a, .segment.hover a {
     background: #ddd;
-    border-radius: 7px;
+
 
 }
 
@@ -832,7 +836,8 @@ input[type=color] {
 }
 .panel-minimized .segment-icon {
     top:3px;
-    left: -8px;
+    left: -6px;
+    font-size: 12px;
 }
 
 .panel-minimized .alternative-segments {
