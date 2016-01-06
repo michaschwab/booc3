@@ -114,9 +114,13 @@ angular.module('contents').controller('CreatorController',
                                 var type = $scope.sourcetypes.filter(function(t) { return t._id == $scope.source.type; })[0];
                                 $scope.setSourcetype(type);
                                 var activeCourseIds = $scope.source.courses;
-                                if(activeCourseIds.length === 1)
+
+                                if(activeCourseIds.length && !$scope.courseId)
                                 {
                                     $scope.courseId = activeCourseIds[0];
+                                }
+                                if($scope.courseId)
+                                {
                                     $scope.course = $scope.courses[$scope.courseIds.indexOf($scope.courseId)];
                                 }
                             }
@@ -161,7 +165,7 @@ angular.module('contents').controller('CreatorController',
                 //console.log($scope.editSource);
                 //$scope.activeType = $scope.sourcetypes.filter(function(t) { return t._id == source.type; })[0];
                 var conceptId = $scope.conceptId ? $scope.conceptId : $stateParams.conceptId;
-                var courseId = source.course ? source.course : $scope.courseId;
+                var courseId = $scope.courseId ? $scope.courseId : source.course;
 
                 if(conceptId)
                 {
