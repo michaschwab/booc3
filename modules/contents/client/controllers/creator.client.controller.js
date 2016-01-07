@@ -311,6 +311,21 @@ angular.module('contents').controller('CreatorController',
                         segment.concepts = conceptIds;
                         segment.source = v._id;
 
+                        if(!segment.order)
+                        {
+                            segment.order = {};
+                        }
+                        conceptIds.forEach(function(conceptId)
+                        {
+                            if(segment.order[conceptId] === undefined)
+                            {
+                                var conceptSegments = $scope.segmentPerConceptMap[conceptId];
+                                //var index = segment._id ? conceptSegments.map(function(s) { return s._id; }).indexOf(segment._id) : -1;
+
+                                segment.order[conceptId] = conceptSegments.length * 100;
+                            }
+                        });
+
                         //todo be more flexible and allow multiple courses
                         segment.courses = [$scope.course._id];
 
