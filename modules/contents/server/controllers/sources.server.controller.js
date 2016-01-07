@@ -26,6 +26,14 @@ exports.create = function(req, res)
     var source = new Source(req.body);
     source.user = req.user;
 
+    if(!source.title.length)
+    {
+        console.error('no source title');
+        return res.status(400).send({
+            message: 'No title given!'
+        });
+    }
+
     source.save(function(err) {
         if (err) {
             return res.status(400).send({

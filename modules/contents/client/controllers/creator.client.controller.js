@@ -379,7 +379,7 @@ angular.module('contents').controller('CreatorController',
             {
                 console.log('saving new source..');
                 var src = new Sources($scope.source);
-                src.$save(cb);
+                src.$save(cb, function(errorResponse) { console.error(errorResponse.data); });
             }
         };
 

@@ -74,7 +74,7 @@
             <div class="row">
                 <div class="col-md-4"><button type="button" class="btn btn-warning" ng-click="cancel()"><span class="glyphicon glyphicon-trash"></span> Cancel</button></div>
                 <div class="col-md-8 text-right">
-                    <button ng-click="createContents()" type="button" class="btn btn-primary">
+                    <button ng-click="createContents()" type="button" class="btn btn-primary" ng-disabled="!contentCreateForm.$valid">
 
                         <span class="glyphicon glyphicon-ok"></span>
 
@@ -85,8 +85,6 @@
                 </div>
             </div>
         </div>
-
-
 
     </form>
 </section>

@@ -15,7 +15,7 @@
 
     <div class="input-group" ng-class="{'has-error': contentCreateForm.vidPath.$error.pattern, 'has-success': !contentCreateForm.vidPath.$error.pattern&&source.data.vidPath.length}">
         <span class="input-group-addon"><span class="glyphicon glyphicon-film"></span></span>
-        <input type="text" id="vidPath" ng-model="source.data.vidPath" name="vidPath" ng-pattern=""  placeholder="http://domain.com/video.mp4" class="form-control"/>
+        <input type="text" id="vidPath" ng-model="source.data.vidPath" name="vidPath"  required ng-minlength="1" ng-pattern=""  placeholder="http://domain.com/video.mp4" class="form-control"/>
         <span class="error" ng-show="contentCreateForm.vidPath.$error.pattern">That doesn't look like a valid video URL.</span>
     </div>
 </div>
@@ -35,7 +35,7 @@
 
     <div class="input-group">
         <span class="input-group-addon"><span class="glyphicon glyphicon-pencil"></span></span>
-        <input type="text" id="title" ng-model="source.title" name="title" ng-required placeholder="Title" class="form-control"/>
+        <input type="text" id="title" ng-model="source.title" name="title"  required ng-minlength="1" placeholder="Title" class="form-control"/>
     </div>
 </div>
 

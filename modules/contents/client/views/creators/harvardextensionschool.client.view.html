@@ -5,7 +5,7 @@
 
     <div class="input-group" ng-class="{'has-error': contentCreateForm.path.$error.pattern, 'has-success': !contentCreateForm.path.$error.pattern&&source.path.length}">
         <span class="input-group-addon"><span class="glyphicon glyphicon-globe"></span></span>
-        <input type="text" id="path" ng-change="pathUpdate()" ng-model="source.path" name="path" ng-pattern="extSchoolRegex"  placeholder="https://matterhorn.dce.harvard.edu/engage/player/watch.html?id=ID-HERE" class="form-control"/>
+        <input type="text" id="path" ng-change="pathUpdate()"  required ng-minlength="1" ng-model="source.path" name="path" ng-pattern="extSchoolRegex"  placeholder="https://matterhorn.dce.harvard.edu/engage/player/watch.html?id=ID-HERE" class="form-control"/>
         <span class="error" ng-show="contentCreateForm.url.$error.pattern">That doesn't look like a valid Extension School Video URL.</span>
     </div>
 </div>
@@ -15,7 +15,7 @@
 
     <div class="input-group">
         <span class="input-group-addon"><span class="glyphicon glyphicon-pencil"></span></span>
-        <input type="text" id="title" ng-model="source.title" name="title" ng-required placeholder="Title of the video" class="form-control"/>
+        <input type="text" id="title" ng-model="source.title" name="title"  required ng-minlength="1" placeholder="Title of the video" class="form-control"/>
     </div>
 </div>
 

@@ -3,7 +3,7 @@
 
     <div class="input-group" ng-class="{'has-error': contentCreateForm.path.$error.pattern, 'has-success': !contentCreateForm.path.$error.pattern&&source.path.length}">
         <span class="input-group-addon"><span class="glyphicon glyphicon-globe"></span></span>
-        <input type="text" id="path" ng-model="source.path" name="path" ng-pattern="youtubeRegex"  placeholder="http://youtube.com/v/abcdefgh" class="form-control"/>
+        <input type="text" id="path" ng-model="source.path" name="path" ng-pattern="youtubeRegex" required ng-minlength="1" placeholder="http://youtube.com/v/abcdefgh" class="form-control"/>
         <span class="error" ng-show="contentCreateForm.url.$error.pattern">That doesn't look like a valid YouTube URL.</span>
     </div>
 </div>
@@ -13,7 +13,7 @@
 
     <div class="input-group">
         <span class="input-group-addon"><span class="glyphicon glyphicon-pencil"></span></span>
-        <input type="text" id="title" ng-model="source.title" name="title" ng-required placeholder="Title of the video" class="form-control"/>
+        <input type="text" id="title" ng-model="source.title" name="title" required ng-minlength="1" placeholder="Title of the video" class="form-control"/>
     </div>
 </div>
 
