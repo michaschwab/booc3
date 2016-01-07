@@ -262,10 +262,15 @@ angular.module('contents').controller('CreatorController',
             {
                 var courseId = $scope.courseId ? $scope.courseId : $scope.course._id;
 
-                $state.go('courses.view', {
+                var params = {
                     courseId: courseId,
                     mode: 'admin'
-                });
+                };
+
+                if($scope.addToConcept && $scope.addToConcept.parentData)
+                    params.active = $scope.addToConcept.parentData.concept._id;
+
+                $state.go('courses.view', params);
             }
             else
             {
