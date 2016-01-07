@@ -322,7 +322,7 @@ angular.module('contents').controller('CreatorController',
                                 var conceptSegments = $scope.segmentPerConceptMap[conceptId];
                                 //var index = segment._id ? conceptSegments.map(function(s) { return s._id; }).indexOf(segment._id) : -1;
 
-                                segment.order[conceptId] = conceptSegments.length * 100;
+                                segment.order[conceptId] = !conceptSegments ? 0 : conceptSegments.length * 100;
                             }
                         });
 
