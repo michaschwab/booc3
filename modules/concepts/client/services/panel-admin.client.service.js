@@ -124,6 +124,46 @@ angular.module('courses').service('PanelAdmin', function(Concepts, $rootScope, $
             }
         };
 
+        $scope.sortableSegmentOptions = {
+            handle: '.seg-handle',
+            items: "li:not(.not-sortable)",
+            update: function(e, ui) {
+                /*var logEntry = tmpList.map(function(i){
+                 return i.value;
+                 }).join(', ');
+                 $scope.sortingLog.push('Update: ' + logEntry);*/
+                console.log('doing stuff');
+            },
+            stop: function(e, ui) {
+                // this callback has the changed model
+                /*var logEntry = tmpList.map(function(i){
+                 return i.value;
+                 }).join(', ');
+                 $scope.sortingLog.push('Stop: ' + logEntry);*/
+
+                var listEl = e.target;
+                var conceptId = listEl.id.substr('concept-segments-'.length);
+
+                if(conceptId)
+                {
+                    var index = 0;
+                    console.log($scope.segmentPerConceptMap[conceptId].map(function(seg) { var obj = {}; obj[seg.order[conceptId]]=seg.title; return obj;}));
+                    $scope.segmentPerConceptMap[conceptId].forEach(function(segment)
+                    {
+                        if(!segment.order) segment.order = {};
+                        segment.order[conceptId] = index * 100;
+                        segment.$update();
+                        index++;
+                    });
+
+                }
+                else
+                {
+                    console.error('couldnt find the concept id of list ', listEl);
+                }
+            }
+        };
+
         $scope.addSubConcept = function(concept)
         {
             $location.search('active', concept.concept._id);

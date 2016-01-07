@@ -719,8 +719,11 @@ input.concept-title.admin {
 
 .segment-actions {
     position: absolute;
-    right: 0;
-    top: 0;
+    right: 7px;
+    top: 7px;
+}
+.segment-actions a {
+    padding: 5px;
 }
 .remove-segment-from-concept, .delete-segment {
     color: darkred;

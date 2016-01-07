@@ -139,12 +139,25 @@ angular.module('courses').controller('CourseViewController',
                     // If that concept is relevant here (in course)
                     if($scope.conceptMap[conceptId])
                     {
-                        $scope.segmentPerConceptMap[conceptId]
-                            ? $scope.segmentPerConceptMap[conceptId].push(segment)
-                            : $scope.segmentPerConceptMap[conceptId] = [segment];
+                        if(!$scope.segmentPerConceptMap[conceptId])
+                            $scope.segmentPerConceptMap[conceptId] = [];
+
+                        $scope.segmentPerConceptMap[conceptId].push(segment)
                     }
                 });
             });
+
+            // Now, sort!
+            for(var conceptId in $scope.segmentPerConceptMap)
+            {
+                if($scope.segmentPerConceptMap.hasOwnProperty(conceptId))
+                {
+                    $scope.segmentPerConceptMap[conceptId].sort(function(seg1, seg2)
+                    {
+                        return seg1.order[conceptId] - seg2.order[conceptId];
+                    });
+                }
+            }
         };
 
         $scope.getPathColor = function(orig)
