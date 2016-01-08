@@ -11,7 +11,7 @@
         </a>
 
         <ul class="concept-list" ui-sortable="sortableOptions" ng-model="activeHierarchyChildren">
-            <li ng-repeat="child in activeHierarchyChildren | orderBy:'order':false" class="concept"  ng-class="{ 'active': activeConcept.concept._id === child.concept._id,
+            <li ng-repeat="child in activeHierarchyChildren | orderBy:'order':false" class="concept sortableConcept"  ng-class="{ 'active': activeConcept.concept._id === child.concept._id,
                         'learned':  active.learnedConceptIds.indexOf(child.concept._id) !== -1, 'addingTo': addToConcept.concept._id == child.concept._id}">
 
                 <a class="concept">
@@ -31,7 +31,7 @@
                 <input type="color" id="{{child.concept._id}}_color" ng-change="colorChange(child)" data-ng-model="child.concept.color" class="form-control">
 
                 <ul class="alternative-segments" id="concept-segments-{{child.concept._id}}"  ui-sortable="sortableSegmentOptions" ng-model="segmentPerConceptMap[child.concept._id]">
-                    <li ng-repeat="seg in segmentPerConceptMap[child.concept._id] track by seg._id" class="segment"  ng-class="{ 'active': (seg._id === courseScope.active.segment._id||stateParams.sourceId === seg.source)}">
+                    <li ng-repeat="seg in segmentPerConceptMap[child.concept._id] track by seg._id" class="segment sortableSegment"  ng-class="{ 'active': (seg._id === courseScope.active.segment._id||stateParams.sourceId === seg.source)}">
 
                         <span class="concept-line"></span>
 
