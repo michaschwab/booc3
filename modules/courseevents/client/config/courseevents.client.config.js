@@ -4,7 +4,7 @@
 angular.module('contents').run(['Menus',
 	function(Menus)
 	{
-		Menus.addMenuItem('topbar', {
+		/*Menus.addMenuItem('topbar', {
 			title: 'Course Events',
 			state: 'courseevents',
 			type: 'dropdown',
@@ -19,7 +19,7 @@ angular.module('contents').run(['Menus',
 		Menus.addSubMenuItem('topbar', 'courseevents', {
 			title: 'Create Event',
 			state: 'courseevents.create'
-		});
+		});*/
 
 	}
 ]).config(function ($httpProvider) {

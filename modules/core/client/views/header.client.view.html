@@ -19,7 +19,7 @@
         </ul>
         <a ng-switch-default data-ui-sref="{{item.state}}" data-ng-bind="item.title"></a>
       </li>
-      <li ng-controller="MessagesController" ng-init="menuInit()" class="dropdown" dropdown ng-switch="dropdown">
+      <!--<li ng-controller="MessagesController" ng-init="menuInit()" class="dropdown" dropdown ng-switch="dropdown">
         <a href class="dropdown-toggle" dropdown-toggle data-toggle="button">
           <span>Messages</span>
           <span ng-show="totalNew.length">({{totalNew.length}})</span>
@@ -44,9 +44,9 @@
             </a>
           </li>
         </ul>
-        <!--<a ng-switch-default data-ui-sref="{{messages.list}}">Messages</a>-->
+        &lt;!&ndash;<a ng-switch-default data-ui-sref="{{messages.list}}">Messages</a>&ndash;&gt;
 
-      </li>
+      </li>-->
     </ul>
     <ul class="nav navbar-nav navbar-right" data-ng-hide="authentication.user">
       <li data-ui-sref-active="active">
