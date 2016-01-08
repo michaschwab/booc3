@@ -147,7 +147,7 @@ angular.module('courses').service('PanelAdmin', function(Concepts, $rootScope, $
                 if(conceptId)
                 {
                     var index = 0;
-                    console.log($scope.segmentPerConceptMap[conceptId].map(function(seg) { var obj = {}; obj[seg.order[conceptId]]=seg.title; return obj;}));
+                    //console.log($scope.segmentPerConceptMap[conceptId].map(function(seg) { var obj = {}; obj[seg.order[conceptId]]=seg.title; return obj;}));
                     $scope.segmentPerConceptMap[conceptId].forEach(function(segment)
                     {
                         if(!segment.order) segment.order = {};
