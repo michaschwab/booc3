@@ -154,7 +154,9 @@ angular.module('courses').controller('CourseViewController',
                 {
                     $scope.segmentPerConceptMap[conceptId].sort(function(seg1, seg2)
                     {
-                        return seg1.order[conceptId] - seg2.order[conceptId];
+                        var o1 = seg1.order && seg1.order[conceptId] ? seg1.order[conceptId] : 0;
+                        var o2 = seg2.order && seg2.order[conceptId] ? seg2.order[conceptId] : 0;
+                        return o1 - o2;
                     });
                 }
             }
