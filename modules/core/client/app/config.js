@@ -11,6 +11,8 @@ var ApplicationConfiguration = (function () {
     'ui.bootstrap',
     'ui.utils',
     'angularFileUpload',
+      'angular-oauth2',
+
 
     'RecursionHelper',
 
