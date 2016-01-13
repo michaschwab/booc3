@@ -49,7 +49,10 @@ angular.module('learning').controller('LearnController',
                 {
                     player = PdfPlayer.start($scope);
                 }
-                //LtiPlayer.start($scope);
+                else if($scope.active.sourcetype.title == 'LTI')
+                {
+                    player = LtiPlayer.start($scope);
+                }
             }
 
             me.manageSize();

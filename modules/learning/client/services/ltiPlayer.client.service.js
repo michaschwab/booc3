@@ -37,31 +37,33 @@ angular.module('learning').config(['OAuthProvider', function(OAuthProvider)
                 resource_link_id: '0',
                 tool_consumer_instance_guid: 'booc',
                 user_id: user.providerData.id,
-                roles: 'learner',
+                roles: 'Learner',
                 lis_person_name_full: user.providerData.displayName,
                 lis_person_name_given: user.providerData.name.givenName,
                 lis_person_name_family: user.providerData.name.familyName,
-                lis_person_contact_email_primary: user.providerData.emails[0]
+                lis_person_contact_email_primary: user.providerData.emails[0].value
             };
 
-            //var signature = oauthSignature.generate('GET', address, {}, secret, options);
+            var signature = oauthSignature.generate('GET', launchUrl, {}, sharedSecret, options);
             // console.log(signature);
 
             var token = user.providerData.accessToken;
 
-            var config = { params: {}};
-            var oauthParams = {
-                oauth_consumer_key: user.provider,
-                oauth_token: token,
-                /*oauth_signature_method: 'HMAC-SHA1',
-                oauth_signature: signature,*/
-                /*oauth_timestamp: 1191242096,*/
-                /*oauth_nonce: 'kllo9940pd9333jh',*/
-                oauth_version: 1.0
-            };
-            config.params = angular.extend(oauthParams, options);
+            /*var config = { params: {}};
+         var oauthParams = {
+         oauth_consumer_key: user.provider,
+         oauth_token: token,
+         /!*oauth_signature_method: 'HMAC-SHA1',
+         oauth_signature: signature,*!/
+         /!*oauth_timestamp: 1191242096,*!/
+         /!*oauth_nonce: 'kllo9940pd9333jh',*!/
+         oauth_version: 1.0
+         };
+         config.params = angular.extend(oauthParams, options);*/
 
 
+            // sig = oauth_sig(userAttributes, sharedSecret)
+            // POST(userAttributes, sharedSecret)
 
             //console.log(config.params);
 
@@ -71,14 +73,73 @@ angular.module('learning').config(['OAuthProvider', function(OAuthProvider)
             //options['oauth_consumer_key'] = id;
             //options['']
 
-            $http.get(launchUrl, config).then(function(response, b)
+            //var data = angular.copy(options);
+            //data['oauth_signature'] = signature;
+
+            /*var formData = new FormData();
+
+            for(var key in options)
+            {
+                if(options.hasOwnProperty(key))
+                {
+                    formData.append(key, options[key]);
+                }
+            }
+
+            formData.append('oauth_signature', signature);*/
+
+            $timeout(function()
+            {
+                //var doc = $('#lti-frame').document;
+
+                var iframe = document.getElementById("lti-frame");
+                var doc = (iframe.contentWindow || iframe.contentDocument);
+                if (doc.document) doc = doc.document;
+                //console.log(doc);
+
+                var f = doc.createElement('form');
+                f.setAttribute('method', 'get');
+                f.setAttribute('name', 'lti-launch-form');
+                f.setAttribute('id', 'lti-launch-form');
+                f.setAttribute('action', launchUrl);
+                f.setAttribute('target', '_blank');
+
+                var addData = function(name, value)
+                {
+                    var i = doc.createElement("input");
+                    i.setAttribute('type', "text");
+                    i.setAttribute('name', name);
+                    i.setAttribute('value', value);
+                    f.appendChild(i);
+                };
+
+                for(var key in options)
+                {
+                    if(options.hasOwnProperty(key))
+                    {
+                        //formData.append(key, options[key]);
+                        addData(key, options[key]);
+                    }
+                }
+
+                addData('oauth_signature', signature);
+
+                doc.getElementsByTagName('body')[0].appendChild(f);
+
+                $timeout(function()
+                {
+                    doc.getElementById('lti-launch-form').submit();
+                }, 1000);
+
+            }, 1000);
+            /*$http.post(launchUrl, data).then(function(response, b)
             {
                 console.log(response);
                 console.log(b);
             }, function(e)
             {
                 console.error(e);
-            });
+            });*/
 
             /*OAuth.getAccessToken({username: 'slaediap@trashmail.ws', password: 'testtest'}).then(function(token)
             {
@@ -95,7 +156,7 @@ angular.module('learning').config(['OAuthProvider', function(OAuthProvider)
 
             /*var consumer = new lti.ToolConsumer(address, id, secret);
 
-             consumer.withSession(function(sessecifieion)
+             consumer.withSession(function(session)
              {
              var payload = {
              lti_version: 'LTI-1p0',
