@@ -23,13 +23,35 @@ angular.module('learning').config(['OAuthProvider', function(OAuthProvider)
 
         console.log(Authentication);
 
+        var randomString = function(length) {
+            var text = "";
+            var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+            for(var i = 0; i < length; i++) {
+                text += possible.charAt(Math.floor(Math.random() * possible.length));
+            }
+            return text;
+        };
+
         this.start = function(scope)
         {
             $scope = scope;
-
             var launchUrl = 'https://app.perusall.com/lti/launch/advanced-quantitative-research-methodology-gov2001';
             var consumerKey = 'advanced-quantitative-research-methodology-gov2001';
             var sharedSecret = '4ucxWopJxjodjU-RkljbiVM2P7fUXF91dpMJn5diiIa';
+
+            /*var launchUrl = 'http://lti.tools/test/tp.php';
+            var consumerKey = 'booc';
+            var sharedSecret = 'secret';*/
+
+            var nonce = randomString(32);
+            var timestamp = Math.round(Date.now() / 1000);
+
+            var oauthParameters = {
+                oauth_consumer_key : consumerKey,
+                oauth_timestamp: timestamp,
+                oauth_nonce: nonce,
+                oauth_version : '1.0'
+            };
 
             var options = {
                 lti_version: 'LTI-1p0',
@@ -44,8 +66,10 @@ angular.module('learning').config(['OAuthProvider', function(OAuthProvider)
                 lis_person_contact_email_primary: user.providerData.emails[0].value
             };
 
-            var signature = oauthSignature.generate('GET', launchUrl, {}, sharedSecret, options);
-            // console.log(signature);
+            var combinedData = angular.extend({}, oauthParameters, options);
+
+            var signature = oauthSignature.generate('POST', launchUrl, combinedData, sharedSecret);
+            console.log(signature);
 
             var token = user.providerData.accessToken;
 
@@ -98,7 +122,7 @@ angular.module('learning').config(['OAuthProvider', function(OAuthProvider)
                 //console.log(doc);
 
                 var f = doc.createElement('form');
-                f.setAttribute('method', 'get');
+                f.setAttribute('method', 'post');
                 f.setAttribute('name', 'lti-launch-form');
                 f.setAttribute('id', 'lti-launch-form');
                 f.setAttribute('action', launchUrl);
@@ -113,12 +137,12 @@ angular.module('learning').config(['OAuthProvider', function(OAuthProvider)
                     f.appendChild(i);
                 };
 
-                for(var key in options)
+                for(var key in combinedData)
                 {
-                    if(options.hasOwnProperty(key))
+                    if(combinedData.hasOwnProperty(key))
                     {
                         //formData.append(key, options[key]);
-                        addData(key, options[key]);
+                        addData(key, combinedData[key]);
                     }
                 }
 
