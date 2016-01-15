@@ -50,6 +50,7 @@ angular.module('learning').config(['OAuthProvider', function(OAuthProvider)
                 oauth_consumer_key : consumerKey,
                 oauth_timestamp: timestamp,
                 oauth_nonce: nonce,
+                oauth_signature_method: 'HMAC-SHA1',
                 oauth_version : '1.0'
             };
 
@@ -57,6 +58,7 @@ angular.module('learning').config(['OAuthProvider', function(OAuthProvider)
                 lti_version: 'LTI-1p0',
                 lti_message_type: 'basic-lti-launch-request',
                 resource_link_id: '0',
+                resource_link_title: 'test',
                 tool_consumer_instance_guid: 'booc',
                 user_id: user.providerData.id,
                 roles: 'Learner',
@@ -68,7 +70,7 @@ angular.module('learning').config(['OAuthProvider', function(OAuthProvider)
 
             var combinedData = angular.extend({}, oauthParameters, options);
 
-            var signature = oauthSignature.generate('POST', launchUrl, combinedData, sharedSecret);
+            var signature = oauthSignature.generate('POST', launchUrl, combinedData, sharedSecret, '', { encodeSignature: false});
             console.log(signature);
 
             var token = user.providerData.accessToken;
