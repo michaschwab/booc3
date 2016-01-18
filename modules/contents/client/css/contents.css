@@ -21,6 +21,21 @@
     font-size: 13pt;
 }
 
+.segment-resource {
+    padding: 10px;
+}
+.segment-resource label span.title-label {
+    color: #333;
+    text-shadow: none;
+    display: block;
+    float: left;
+    padding: 8px 15px 0 0;
+}
+.segment-resource div {
+    width: 50%;
+    float: left;
+}
+
 /** ADMIN END **/
 
 

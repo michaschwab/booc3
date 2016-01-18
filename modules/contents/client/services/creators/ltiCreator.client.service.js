@@ -6,7 +6,7 @@ angular.module('contents').service('LTICreator', function($http, $resource)
     this.start = function(scope)
     {
         $scope = scope;
-        $scope.source.data = {};
+        //$scope.source.data = {};
 
         $scope.xmlUrlRegex = /^(?:https?:\/{2})?(?:w{3}\.)?.*?\.xml$/;
 

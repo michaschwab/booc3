@@ -13,7 +13,7 @@
             </a>
             <div ng-show="segment==activeSegment" class="segment-details">
 
-                <div class="segment-span">
+                <div class="segment-span" ng-show="activeType.player!='lti'">
                     <div class="col-md-6" style="padding-left: 0">
                         <div class="input-group segment-start">
 
@@ -61,6 +61,17 @@
                             <span ng-show="unit" class="input-group-addon">{{unit}}</span>
                         </div>
                     </div>
+                </div>
+                <div class="segment-resource" ng-show="activeType.player=='lti'">
+
+                    <label>
+                        <span class="title-label">Resource Title:</span>
+
+                    <div class="input-group">
+                        <span class="input-group-addon"><span class="glyphicon glyphicon-pencil"></span></span>
+                        <input type="text" ng-model="activeSegment.data.resource_link_title" name="path" placeholder="resource-title" class="form-control"/>
+                    </div>
+                    </label>
                 </div>
 
 
