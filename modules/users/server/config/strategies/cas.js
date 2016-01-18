@@ -11,9 +11,9 @@ module.exports = function (config)
 {
     passport.use(new CasStrategy({
         version: config.cas.version,
-        ssoBaseURL: config.cas.ssoBaseUrl,
-        serverBaseURL: config.cas.serverBaseUrl,
-        validateURL: config.cas.validateUrl
+        ssoBaseURL: config.cas.ssoBaseURL,
+        serverBaseURL: config.cas.serverBaseURL,
+        validateURL: config.cas.validateURL
     }, function(login, done) {
         console.log(arguments);
         /*User.findOne({login: login}, function (err, user) {
