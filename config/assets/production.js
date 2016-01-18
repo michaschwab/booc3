@@ -25,6 +25,7 @@ module.exports = {
         'public/lib/angular-recursion/angular-recursion.js',
           'public/lib/tether/dist/js/tether.js',
           'public/lib/shepherd.js/dist/js/shepherd.js',
+        'public/lib/oauth-signature/dist/oauth-signature.min.js',
 
         'public/lib/x2js/xml2json.js',
         'public/lib/angular-xml/angular-xml.js',
