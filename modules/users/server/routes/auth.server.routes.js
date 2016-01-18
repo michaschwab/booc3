@@ -29,6 +29,9 @@ module.exports = function (app) {
   app.route('/api/auth/twitter').get(users.oauthCall('twitter'));
   app.route('/api/auth/twitter/callback').get(users.oauthCallback('twitter'));
 
+  app.route('/api/auth/cas').get(users.oauthCall('cas'));
+  app.route('/api/auth/cas/callback').get(users.oauthCallback('cas'));
+
   // Setting the google oauth routes
   app.route('/api/auth/google').get(users.oauthCall('google', {
     scope: [
