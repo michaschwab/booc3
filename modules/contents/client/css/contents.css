@@ -129,7 +129,7 @@
 }
 
 .icon-lti {
-    background: url('../img/lti.png');
+    background: url('/modules/contents/img/lti.png');
     background-size: 20px 20px;
 }
 .icon-extensionschool {
