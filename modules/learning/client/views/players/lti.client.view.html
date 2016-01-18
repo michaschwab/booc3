@@ -7,8 +7,16 @@
 
 </form>-->
 
-<iframe name="lti-frame" id="lti-frame" width="{{windowWidth/12*9-20}}" height="{{windowHeight-100}}" frameBorder="0">
+<div class="panel panel-default" style="width: {{contentWidth-30}}px; margin-left: 13px;">
+
+    <div class="panel-content">
+        <h2>{{active.source.title}}<span ng-show="active.segment.title">: {{active.segment.title}}</span></h2>
+
+        <iframe name="lti-frame" id="lti-frame" width="{{windowWidth/12*9-20}}" height="{{windowHeight-100}}" frameBorder="0">
 
 
 
-</iframe>
+        </iframe>
+
+    </div>
+</div>

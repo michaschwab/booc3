@@ -18,6 +18,7 @@ var SegmentSchema = new Schema({
     },
     start: Number,
     end: Number,
+    data: Schema.Types.Mixed,
     //TODO do validation
     //courses: { type: [Schema.Types.ObjectId], ref: 'Course', validate: function(value) {return value.length > 0;}},
     //courses: { type: [Schema.Types.ObjectId], ref: 'Course', validate: [function(value) {return value.length > 0;}]},
