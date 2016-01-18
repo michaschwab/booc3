@@ -1,10 +1,37 @@
-<div class="form-group col-md-12" ng-show="activeAction!=='add_edit'">
-    <label for="path">What's the URL of the LTI XML?</label><br />
+<div class="form-group" ng-class="{'has-error': contentCreateForm.title.$error.required, 'has-success': !contentCreateForm.title.$error.required&&source.title.length}">
+    <label for="title">What's the title of the LTI?</label><br />
+
+    <div class="input-group">
+        <span class="input-group-addon"><span class="glyphicon glyphicon-pencil"></span></span>
+        <input type="text" id="title" ng-model="source.title" name="title"  required ng-minlength="1" placeholder="Title" class="form-control"/>
+    </div>
+</div>
+
+<div class="form-group" ng-show="activeAction!=='add_edit'" ng-class="{'has-error': contentCreateForm.path.$error.required, 'has-success': !contentCreateForm.path.$error.required&&source.path.length}">
+    <label for="path">What's the LTI's Launch URL?</label><br />
 
     <div class="input-group" ng-class="{'has-error': contentCreateForm.path.$error.pattern, 'has-success': !contentCreateForm.path.$error.pattern&&source.path.length}">
         <span class="input-group-addon"><span class="glyphicon glyphicon-globe"></span></span>
-        <input type="text" id="path" ng-model="source.path" name="path" ng-pattern="xmlUrlRegex"  required ng-minlength="1" placeholder="http://domain.com/data.xml" class="form-control"/>
-        <span class="error" ng-show="contentCreateForm.path.$error.pattern">That doesn't look like a valid XML URL.</span>
+        <input type="text" id="path" ng-model="source.path" name="path" ng-pattern="urlRegex"  required ng-minlength="1" placeholder="http://domain.com/path/to/lti" class="form-control"/>
+        <span class="error" ng-show="contentCreateForm.path.$error.pattern">That doesn't look like a valid URL.</span>
+    </div>
+</div>
+
+<div class="form-group" ng-show="activeAction!=='add_edit'" ng-class="{'has-error': contentCreateForm.consumerKey.$error.required, 'has-success': !contentCreateForm.consumerKey.$error.required&&source.data.consumerKey.length}">
+    <label for="consumerKey">What's the Consumer Key?</label><br />
+
+    <div class="input-group">
+        <span class="input-group-addon"><span class="glyphicon glyphicon-barcode"></span></span>
+        <input type="text" id="consumerKey" ng-model="source.data.consumerKey" name="title" placeholder="lti-consumer-key-for-course" class="form-control"/>
+    </div>
+</div>
+
+<div class="form-group" ng-show="activeAction!=='add_edit'" ng-class="{'has-error': contentCreateForm.sharedSecret.$error.required, 'has-success': !contentCreateForm.sharedSecret.$error.required&&source.data.sharedSecret.length}">
+    <label for="sharedSecret">What's the Shared Secret?</label><br />
+
+    <div class="input-group">
+        <span class="input-group-addon"><span class="fa fa-key"></span></span>
+        <input type="text" id="sharedSecret" ng-model="source.data.sharedSecret" name="title" placeholder="Shared Secret" class="form-control"/>
     </div>
 </div>
 
