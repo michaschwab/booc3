@@ -56,6 +56,11 @@ angular.module('learning').service('PdfViewer', function($timeout, PDFViewerServ
         return $scope.currentPage;
     };
 
+    this.getTotalPages = function()
+    {
+        return $scope.totalPages;
+    };
+
     this.goToPage = function(page)
     {
         $scope.viewer.gotoPage(page);

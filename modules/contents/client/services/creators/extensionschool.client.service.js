@@ -28,7 +28,12 @@ angular.module('contents').service('ExtensionSchoolCreator', function($sce)
 
         this.getCurrentPosition = function()
         {
-            return parseInt($scope.player.getCurrentTime());
+            return 0;
+        };
+
+        this.getEndPosition = function()
+        {
+            return 0;
         };
 
         this.stop = function()

@@ -57,6 +57,11 @@ angular.module('contents').service('WebsiteCreator', function($http, $sce)
         return 0;
     };
 
+    this.getEndPosition = function()
+    {
+        return 0;
+    };
+
     this.stop = function()
     {
 

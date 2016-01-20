@@ -494,7 +494,10 @@ angular.module('contents').controller('CreatorController',
         {
             //var randNum = parseInt(Math.rand() * 100000);
             //var segment = new Segment({title: 'New Segment', _id: 'a'+randNum});
-            var segment = new Object({title: 'New Segment', start: 0, end: 0});
+            var start = sourceHelper.getCurrentPosition();
+            var end = sourceHelper.getEndPosition();
+
+            var segment = new Object({title: 'New Segment', start: start, end: end});
 
             if($scope.segments.length !== 0 && $scope.segments[$scope.segments.length-1].end === segment.end)
             {

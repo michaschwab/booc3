@@ -80,6 +80,11 @@ angular.module('contents').service('PdfCreator', function($http, FileUploader, $
             return PdfViewer.getCurrentPage();
         };
 
+        this.getEndPosition = function()
+        {
+            return PdfViewer.getTotalPages();
+        };
+
         this.updatePdfPath = function()
         {
             if($scope.source.path)

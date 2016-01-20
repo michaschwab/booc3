@@ -143,6 +143,11 @@ angular.module('contents').service('YoutubeCreator', function(ytapi, youtubeEmbe
         return parseInt($scope.player.getCurrentTime());
     };
 
+    this.getEndPosition = function()
+    {
+        return parseInt($scope.player.getDuration());
+    };
+
     this.stop = function()
     {
 

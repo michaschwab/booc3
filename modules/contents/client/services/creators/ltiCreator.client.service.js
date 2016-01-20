@@ -45,6 +45,11 @@ angular.module('contents').service('LTICreator', function($http, $resource)
         return 0;
     };
 
+    this.getEndPosition = function()
+    {
+        return 0;
+    };
+
     this.stop = function()
     {
 

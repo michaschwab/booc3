@@ -140,6 +140,11 @@ angular.module('contents').service('LectureCreator', function($http)
         return 0;
     };
 
+    this.getEndPosition = function()
+    {
+        return 0;
+    };
+
     this.stop = function()
     {
 
