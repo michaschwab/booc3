@@ -629,6 +629,10 @@ angular.module('courses').service('MapArrows', function(Tip, ConceptStructure, M
             {
                 setToPrerequisites();
             }
+            else
+            {
+                setToLearningPlans();
+            }
         };
         $timeout(checkAdmin, 50);
 
@@ -637,6 +641,11 @@ angular.module('courses').service('MapArrows', function(Tip, ConceptStructure, M
         var setToPrerequisites = function()
         {
             $scope.setLearningPlans(false);
+        };
+
+        var setToLearningPlans = function()
+        {
+            $scope.setLearningPlans(true);
         };
 
         $scope.setLearningPlans = function(onOff)
