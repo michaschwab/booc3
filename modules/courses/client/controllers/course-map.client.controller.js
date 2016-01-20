@@ -259,7 +259,7 @@ angular.module('courses').controller('CourseMapController', ['$scope','$statePar
                         var scaleRelative = 0.75; // If 1, then the element fills out the full screen.
                         scale = smallerDim / radius / 2 * scaleRelative;
                         var topLeft = {x: trans.x - radius, y: trans.y - radius};
-
+console.log(scale);
 
                         var relativeMove = radius * (1 - scaleRelative) * scale;
                         // Dunno why 25, but seems to work well
@@ -277,7 +277,7 @@ angular.module('courses').controller('CourseMapController', ['$scope','$statePar
                     .translate([0, 0])
                     //.translate([w/2, h/2])
                     .scale(1)
-                    .scaleExtent([1, 8])
+                    //.scaleExtent([1, 8])
                     .on('zoom', function()
                     {
                         canvas.attr('transform', 'translate(' + d3.event.translate + ')scale(' + d3.event.scale + ')');
@@ -290,7 +290,7 @@ angular.module('courses').controller('CourseMapController', ['$scope','$statePar
 
                     var duration = firstZoomDone && (!$scope.lastGraphResize || Date.now() - $scope.lastGraphResize > 500) ? 750 : 0;
                     firstZoomDone = true;
-
+console.log(scale, duration);
                     if(!duration)
                     {
                         $scope.currentZoomGoal = translate;
