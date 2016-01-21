@@ -40,7 +40,7 @@ angular.module('courses').service('SeenDataManager', function(Authentication, $t
                     data.course = $scope.course._id;
 
                     var seen = new SeenConcepts(data);
-                    seen.$save();
+                    seen.$save({restrictToUserIds: [user._id]});
                 }
             }
             me.updateSeenMap();

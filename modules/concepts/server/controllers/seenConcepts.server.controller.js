@@ -100,7 +100,7 @@ exports.list = function(req, res)
 		qObject['course'] = new ObjectId(req.query['course']);
 	}
 
-    SeenConcept.find(qObject).populate('user', 'displayName').exec(function(err, seenconcepts) {
+    SeenConcept.find(qObject).exec(function(err, seenconcepts) {
 		if (err) {
 			return res.status(400).send({
 				message: errorHandler.getErrorMessage(err)
@@ -116,7 +116,7 @@ exports.list = function(req, res)
  */
 
 exports.seenconceptByID = function(req, res, next, id) {
-	SeenConcept.findById(id).populate('user', 'displayName').exec(function(err, seenconcept) {
+	SeenConcept.findById(id).exec(function(err, seenconcept) {
 		if (err) return next(err);
 		if (! seenconcept) return next(new Error('Failed to load SeenConcept ' + id));
 		req.seenconcept = seenconcept ;
