@@ -21,7 +21,7 @@ angular.module('users').factory('Authentication', ['$window',
     };
     auth.hasRole = function(role)
     {
-      return auth.user.roles.indexOf(role) !== -1;
+      return auth.user.roles && auth.user.roles.indexOf(role) !== -1;
     };
 
     auth.isAdmin = function()
