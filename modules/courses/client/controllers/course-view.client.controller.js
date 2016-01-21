@@ -79,7 +79,7 @@ angular.module('courses').controller('CourseViewController',
                         segment.sourcetypeObject = $scope.sourcetypeMap[segment.sourceObject.type];
                     });*/
 
-                    $scope.learned = LearnedConcepts.query();
+                    $scope.learned = LearnedConcepts.query({user: $scope.authentication.user._id});
 
                     Segments.query({courses:$stateParams.courseId}).$promise.then(function(segments)
                     {
