@@ -421,6 +421,7 @@ angular.module('contents').controller('CreatorController',
 
             if(sourceHelper)
             {
+                console.log(readable);
                 sourceHelper.start($scope);
             }
         });

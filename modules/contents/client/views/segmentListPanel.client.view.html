@@ -26,7 +26,7 @@
                         </a>
                     </span>
 
-                            <div ng-show="activeType.player=='video'||activeType.player=='youtube'">
+                            <div ng-show="activeType.player=='video'||activeType.player=='youtube'||activeType.player=='extensionschool'">
                                 <input id="segmentStart" momentduration="hours" ng-model="activeTimes.startDuration" class="form-control duration" ng-change="activeSegmentTimeChange()"/>
                                 <input momentduration="minutes" ng-model="activeTimes.startDuration" class="form-control duration" />
                                 <input momentduration="seconds" ng-model="activeTimes.startDuration" class="form-control duration" />
@@ -49,7 +49,7 @@
                         </a>
                     </span>
 
-                            <div ng-show="activeType.player=='video'||activeType.player=='youtube'">
+                            <div ng-show="activeType.player=='video'||activeType.player=='youtube'||activeType.player=='extensionschool'">
                                 <input momentduration="hours" ng-model="activeTimes.endDuration" class="form-control duration" />
                                 <input momentduration="minutes" ng-model="activeTimes.endDuration" class="form-control duration" />
                                 <input momentduration="seconds" ng-model="activeTimes.endDuration" class="form-control duration" />
