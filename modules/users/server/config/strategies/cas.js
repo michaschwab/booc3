@@ -16,12 +16,20 @@ module.exports = function (config)
         var hash = sha512(config.salt + huid);
 
         var providerData = {};
-        providerData.accessToken = hash;
+        providerData.huidHash = hash;
+
+	var userName = '';
+	var userNameCharacters = 'abcdefghijklmnopqrstuvwxyz';
+	for(var i = 0; i < 13; i++) {
+		var index = Math.round(Math.random()*(userNameCharacters.length-1));
+		userName += userNameCharacters[index];
+	}
 
         // Create the user OAuth profile
         var providerUserProfile = {
             provider: 'cas',
-            providerIdentifierField: 'id',
+	    username: userName,
+            providerIdentifierField: 'huidHash',
             providerData: providerData
         };
 
