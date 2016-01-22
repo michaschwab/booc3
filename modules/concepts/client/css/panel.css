@@ -338,6 +338,10 @@ a[disabled] .map-icon {
     margin-bottom: -18px;
 }
 
+.concept-list-nested .segment .concept-line span {
+    margin-bottom: -2px;
+}
+
 /*.concept > a {
     padding-bottom: 19px;
 }*/
