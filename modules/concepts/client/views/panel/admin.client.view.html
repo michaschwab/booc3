@@ -5,7 +5,7 @@
         <a data-ui-sref="{active: activeConcept.parentData.concept._id}" tabindex="-1" title="{{activeConcept ? activeConcept.concept.title : course.short}}">
 
             <span class="concept-circle" style="background: #fff"></span>
-            <span class="concept-line"></span>
+            <span class="concept-line"><span></span></span>
             <span  class="concept-title">{{activeConcept ? activeConcept.concept.title : course.short}}</span>
 
         </a>
@@ -16,7 +16,7 @@
 
                 <a class="concept">
 
-                    <span class="concept-line"></span>
+                    <span class="concept-line"><span></span></span>
 
                     <input id="concept-title-{{child.concept._id}}" class="concept-title admin" ng-change="titleChange(child)" ng-model="child.concept.title" value="{{child.concept.title}}" ng-blur="titleBlur(child)" ng-keydown="titleKeyPress($event, child)" />
 
@@ -33,7 +33,7 @@
                 <ul class="alternative-segments" id="concept-segments-{{child.concept._id}}"  ui-sortable="sortableSegmentOptions" ng-model="segmentPerConceptMap[child.concept._id]">
                     <li ng-repeat="seg in segmentPerConceptMap[child.concept._id] track by seg._id" class="segment sortableSegment"  ng-class="{ 'active': (seg._id === courseScope.active.segment._id||stateParams.sourceId === seg.source)}">
 
-                        <span class="concept-line"></span>
+                        <span class="concept-line"><span></span></span>
 
                         <a data-ui-sref="{active: child.concept._id, segment:seg._id, learn: 'yes'}" class="segment-link" title="{{::courseScope.sourcetypeMap[courseScope.sourceMap[seg.source].type].title}} on {{::courseScope.sourceMap[seg.source].title}}">
                             <span class="{{::courseScope.sourcetypeMap[courseScope.sourceMap[seg.source].type].icon}} segment-icon"></span>
@@ -66,7 +66,7 @@
 
                     <li class="segment" ng-show="!child.children.length">
 
-                        <span class="concept-line"></span>
+                        <span class="concept-line"><span></span></span>
 
                         <a data-ui-sref="contents.createByCourseAndConcept({courseId: course._id, conceptId: child.concept._id, addTo: child.concept._id, mode: 'admin', active: activeHierarchyConcept.concept._id ? activeHierarchyConcept.concept._id : child.concept._id })" data-ui-sref-opts="{absolute: true, inherit: false}" class="segment-link" title="Add Segment" style="color: darkgreen">
                             <span class="glyphicon glyphicon-plus segment-icon"></span>
@@ -79,7 +79,7 @@
                     </li>
                     <li class="segment add-subconcept" ng-show="!segmentPerConceptMap[child.concept._id]||segmentPerConceptMap[child.concept._id].length==0">
 
-                        <span class="concept-line"></span>
+                        <span class="concept-line"><span></span></span>
 
                         <a ng-click="addSubConcept(child)" href class="segment-link" title="Add a child concept to {{child.concept.title}}" style="color: darkblue">
                             <span class="glyphicon glyphicon-plus segment-icon"></span>
@@ -100,7 +100,7 @@
                 <a class="concept add-concept" ng-click="addConcept()" href>
                     <span class="glyphicon glyphicon-plus addConceptIcon" style=""></span>
                     <span class="concept-circle" style="background: #008800"></span>
-                    <span class="concept-line"></span>
+                    <span class="concept-line"><span></span></span>
                     <span class="concept-title admin" style="color:#008800">Add Concept</span>
 
                 </a>

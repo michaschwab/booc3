@@ -304,17 +304,38 @@ a[disabled] .map-icon {
 
 .concept-line {
     /*background: #4C4B86;*/
-    border-left-width: 2px;
-    border-left-style: solid;
+
     width: 2px;
     z-index: 0 !important;
-    min-height: 37px;
+    /*min-height: 37px;*/
     position: absolute;
     display: block;
     left: 14px;
     top: -7px;
     height: 100%;
 
+}
+
+.concept-line span {
+    border-left-width: 2px;
+    border-left-style: solid;
+    display: block;
+    position: absolute;
+    height: auto;
+    width: 2px;
+    bottom:0;
+    top:0;
+    left:0;
+    right:0;
+    margin-bottom: -1px;
+}
+
+.concept-list .concept-line span {
+    margin-bottom: -19px;
+}
+
+.concept-list-nested .concept-list-nested .concept-line span {
+    margin-bottom: -18px;
 }
 
 /*.concept > a {
@@ -441,7 +462,7 @@ input.concept-title.admin {
 }
 
 .panel-content {
-    padding: 0 25px 0 20px;
+    padding: 0 5% 0 4%;
     overflow-y: auto;
     overflow-x: hidden;
 }
