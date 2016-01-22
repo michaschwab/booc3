@@ -1,15 +1,19 @@
-<section data-ng-controller="CoursesController" ng-init="find()" class="container" ng-show="(authentication.user)">
+<section class="container" data-ng-controller="CoursesController">
 
-  <br />
-  <div class="jumbotron text-center">
-    <h2>
-      Welcome to booc.io!
-    </h2>
-    <i>Booc, the non-linear learning environment.</i>
+  <div ng-init="find()" ng-if="(authentication.user)">
+    <br />
+    <div class="jumbotron text-center">
+      <h2>
+        Welcome to booc.io!
+      </h2>
+      <i>Booc, the non-linear learning environment.</i>
 
+    </div>
+
+    <ng-include src="'modules/courses/views/list-courses.client.view.html'"></ng-include>
   </div>
 
-  <ng-include src="'modules/courses/views/list-courses.client.view.html'"></ng-include>
+  <ng-include ng-if="!(authentication.user)" src="'modules/users/views/authentication/authentication.client.view.html'"></ng-include>
   <!--
     <div class="alert alert-danger" role="alert" data-ng-hide="(authentication.user)">Not authenticated. Please log in.</div>
   -->
