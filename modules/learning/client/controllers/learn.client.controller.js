@@ -2,7 +2,7 @@
 
 // Segments controller
 angular.module('learning').controller('LearnController',
-    function($scope, $stateParams, $location, $timeout, Concepts, Segments, Sources, Sourcetypes, $interval, LearnHelper, $window, ConceptStructure, Courses, YoutubePlayer, LectureSlidePlayer, LecturePlayer, WebsitePlayer, PdfPlayer, WikiPlayer, LtiPlayer)
+    function($scope, $stateParams, $location, $timeout, Concepts, Segments, Sources, Sourcetypes, $interval, LearnHelper, $window, ConceptStructure, Courses, YoutubePlayer, LectureSlidePlayer, LecturePlayer, WebsitePlayer, PdfPlayer, WikiPlayer, LtiPlayer, ExtensionSchoolPlayer)
     {
         var me = this;
         $scope = angular.element('.course-view').scope();
@@ -52,6 +52,10 @@ angular.module('learning').controller('LearnController',
                 else if($scope.active.sourcetype.title == 'LTI')
                 {
                     player = LtiPlayer.start($scope);
+                }
+                else if($scope.active.sourcetype.title == 'Harvard Extension School')
+                {
+                    player = ExtensionSchoolPlayer.start($scope);
                 }
             }
 

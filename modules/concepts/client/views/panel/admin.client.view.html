@@ -43,7 +43,7 @@
                             on
                             <i>{{::courseScope.sourceMap[seg.source].title}}</i>
 
-                            <span ng-show="seg.start&&(courseScope.sourcetypeMap[courseScope.sourceMap[seg.source].type].title=='Lecture'||courseScope.sourcetypeMap[courseScope.sourceMap[seg.source].type].title=='YouTube')">
+                            <span ng-show="seg.start&&(courseScope.sourcetypeMap[courseScope.sourceMap[seg.source].type].title=='Lecture'||courseScope.sourcetypeMap[courseScope.sourceMap[seg.source].type].title=='YouTube'||courseScope.sourcetypeMap[courseScope.sourceMap[seg.source].type].title=='Harvard Extension School')">
                                 (<span ng-show="seg.start>=3600">{{seg.start | secondsToDateTime | date:'HH:mm:ss'}}</span><span ng-show="seg.start<3600">{{seg.start | secondsToDateTime | date:'mm:ss'}}</span>
                                 -
                                 <span ng-show="seg.end>=3600">{{seg.end | secondsToDateTime | date:'HH:mm:ss'}}</span><span ng-show="seg.end<3600">{{seg.end | secondsToDateTime | date:'mm:ss'}}</span>)
