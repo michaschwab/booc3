@@ -47,10 +47,20 @@
         <div style="position: relative">
             <p style="padding-top: 15px">Would you like to send this feedback anonymously?</p>
 
-            <a class="btn btn-default" href ng-click="anonymousOn=!anonymousOn">
-                <span ng-show="anonymousOn">Yes</span>
-                <span ng-show="!anonymousOn">No</span>
+            <a class="btn btn-default" href style="width: 70px" ng-click="anonymousOn=!anonymousOn">
+                <span ng-show="anonymousOn">
+                    <span class="glyphicon glyphicon-sunglasses"></span>
+                    Yes
+                </span>
+                <span ng-show="!anonymousOn">
+                    <span class="glyphicon glyphicon-user"></span>
+                    No
+                </span>
             </a>
+
+            <span ng-show="!anonymousOn" style="margin-left: 10px">You will send your User ID:
+                <code>{{authentication.user._id}}</code>
+            </span>
         </div>
     </div>
 

@@ -1,5 +1,5 @@
 angular.module('conceptdependencies').controller('FeedbackModalController',
-    function ($scope, Courses, $modalInstance, $http)
+    function ($scope, Courses, $modalInstance, $http, Authentication)
     {
         //$scope.dependency = dependency;
         $scope.feedbackMode = 'course';
@@ -9,6 +9,7 @@ angular.module('conceptdependencies').controller('FeedbackModalController',
         $scope.courses = Courses.query();
         $scope.courseContent = '';
         $scope.websiteContent = '';
+        $scope.authentication = Authentication;
 
         $scope.ok = function ()
         {
