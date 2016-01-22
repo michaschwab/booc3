@@ -42,6 +42,7 @@
     "grunt-cli": "~0.1.13",
     "helmet": "~0.9.1",
     "jasmine-core": "^2.3.4",
+    "js-sha512": "^0.2.2",
     "jszip": "^2.5.0",
     "lodash": "^3.10.0",
     "method-override": "^2.3.3",
