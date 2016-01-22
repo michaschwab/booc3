@@ -57,21 +57,29 @@
         <a data-ui-sref="authentication.signin" class="sign-in-link">Sign In</a>
       </li>
     </ul>
-    <ul class="nav navbar-nav navbar-right" data-ng-show="authentication.user">
+    <ul class="nav navbar-nav navbar-right logged-in-nav" data-ng-show="authentication.user">
       <li ng-show="tourPossible">
-        <a href title="Launch Tour" ng-click="launchTour()" class="tour-launcher" style="padding-bottom: 0;">
+        <a href title="Launch Tour" ng-click="launchTour()" class="tour-launcher">
           <span style="font-size:1.5em;" class="glyphicon glyphicon-question-sign"></span>
+          <span class="nav-link">Tour</span>
         </a>
       </li>
       <li>
         <!--<a target="_blank" href="mailto:michailschwab@fas.harvard.edu?subject=BOOC%20Feedback" title="Provide Feedback" class="feedback-button" style="padding-bottom: 0;">
           <span style="font-size:1.5em;" class="fa fa-envelope"></span>
         </a>-->
-        <a href target="_blank" ng-click="openFeedbackModal()" title="Provide Feedback" class="feedback-button" style="padding-bottom: 0;">
+        <a href target="_blank" title="Provide Feedback" ng-click="openFeedbackModal()" class="feedback-button">
           <span style="font-size:1.5em;" class="fa fa-envelope"></span>
+          <span class="nav-link">Feedback</span>
         </a>
       </li>
-      <li class="dropdown" dropdown>
+      <li>
+        <a href="/api/auth/signout" target="_self" class="signout-link">
+          <span class="glyphicon glyphicon-log-out"></span>
+          <span class="nav-link">Log Out</span>
+        </a>
+      </li>
+      <!--<li class="dropdown" dropdown>
         <a class="dropdown-toggle user-header-dropdown-toggle" dropdown-toggle role="button">
           <img data-ng-src="{{authentication.user.profileImageURL}}" alt="{{authentication.user.displayName}}" class="header-profile-image" />
           <span data-ng-bind="authentication.user.displayName"></span> <b class="caret"></b>
@@ -94,7 +102,7 @@
             <a href="/api/auth/signout" target="_self" class="signout-link">Signout</a>
           </li>
         </ul>
-      </li>
+      </li>-->
     </ul>
   </nav>
 </div>

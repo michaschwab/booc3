@@ -1,6 +1,10 @@
 header.navbar {
     background: #68647f;
-    border-color: #b5b1c6;
+    /*border: none;*/
+    border-bottom-width: 1px;
+    border-color: #625e7f;
+}
+header.navbar .navbar-brand {
     text-transform: uppercase;
 
 }
@@ -38,4 +42,19 @@ header.navbar .navbar-nav .dropdown-menu {
 .content-bar .actions a {
     margin-left: 25px;
     text-decoration: none;
+}
+
+.logged-in-nav li a {
+    height: 50px;
+    position: relative;
+    width: 115px;
+    border-right: 1px solid #524e72;
+}
+.logged-in-nav li:first-child a {
+    border-left: 1px solid #524e72;
+}
+.nav-link {
+    position: absolute;
+    top: 17px;
+    left: 40px;
 }
