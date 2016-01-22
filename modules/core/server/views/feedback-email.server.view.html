@@ -9,8 +9,14 @@
 <p>Hi there,</p>
 
 <p>
-    There's booc.io user feedback{% if !formData.anonymous %}
-        from <i><a href="http://{{url}}/admin/users/{{userId}}">{{user.displayName}}</a></i>{% endif %}.
+    There's booc.io user feedback
+    {% if !formData.anonymous %}
+        from <i>
+            <a href="http://{{url}}/admin/users/{{userId}}">
+                {% if user.displayName && user.displayName.length %}{{user.displayName}}{% endif %}
+                {% if !user.displayName || !user.displayName.length %}this user{% endif %}
+            </a></i>
+    {% endif %}.
 
     {% if formData.type == 'course' %}
     The Feedback is about the course <b>{{formData.course.title}}</b>.
