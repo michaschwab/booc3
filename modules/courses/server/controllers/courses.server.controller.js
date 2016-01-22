@@ -9,6 +9,7 @@ var path = require('path'),
 	courseAdmin = require(path.resolve('./modules/users/server/controllers/courseadmin.server.controller')),
 	concepts = require(path.resolve('./modules/concepts/server/controllers/concepts.server.controller')),
 	actions = require(path.resolve('./modules/actions/server/controllers/actions.server.controller')),
+	CourseTeacherPolicy = require('../../../users/server/services/courseteacher.server.policyhelper'),
 	Course = mongoose.model('Course'),
 	Concept = mongoose.model('Concept'),
 	_ = require('lodash');
@@ -175,7 +176,10 @@ exports.delete = function(req, res)
  */
 exports.list = function(req, res)
 {
-	Course.find().sort('+created').exec(function(err, courses) {
+	var hasPrivileges = CourseTeacherPolicy.hasAnyPrivileges(req);
+	var limitation = hasPrivileges ? {} : {published: true};
+
+	Course.find(limitation).sort('+created').exec(function(err, courses) {
 		if (err) {
 			return res.status(400).send({
 				message: errorHandler.getErrorMessage(err)

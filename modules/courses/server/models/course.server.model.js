@@ -31,7 +31,9 @@ var CourseSchema = new Schema({
     created: {
         type: Date,
         default: Date.now
-    }
+    },
+    published: Boolean
+
 });
 
 mongoose.model('Course', CourseSchema);

@@ -70,6 +70,22 @@ exports.hasAnyCourseRole = function(roles, userRoles, courseId)
     return false;
 };
 
+exports.hasAnyPrivileges = function(req)
+{
+    var roles = (req.user) ? req.user.roles : ['guest'];
+    var hasPrivileges = false;
+
+    roles.forEach(function(role)
+    {
+        if(role == 'admin' || role == 'teacher' || role.substr('courseadmin'.length) == 'courseadmin')
+        {
+            hasPrivileges = true;
+        }
+    });
+
+    return hasPrivileges;
+};
+
 exports.checkCourseSpecificRights = function(req, courseSpecificRights, courseIds)
 {
     var roles = (req.user) ? req.user.roles : ['guest'];
