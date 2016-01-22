@@ -21,7 +21,7 @@ angular.module('courses').service('MapArrows', function(Tip, ConceptStructure, M
         showAllProvidingsImplicit: false,
         showCurrentPath: false,
         showCurrentPathHierarchy: true,
-        showCurrentPathFutureHierarchy: true,
+        showCurrentPathFutureHierarchy: false,
         showAllShortestPathsHierarchy: true,
         showPathWhenInactive: false,
         grayInactiveConcepts: true,
