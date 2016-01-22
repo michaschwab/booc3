@@ -53,3 +53,17 @@
   padding-bottom:70px;
 }
 
+.harvard-login-link {
+  display: block;
+  width: 300px;
+  text-align: center;
+  padding: 20px;
+  margin: auto;
+}
+.harvard-login-link img {
+  display: block;
+  margin: 0 auto 20px auto;
+}
+.harvard-login-link:hover {
+  background: #eee;
+}
