@@ -217,10 +217,9 @@ angular.module('courses').service('ActiveDataManager', function(Authentication, 
         {
             $location.search('active', $scope.activeConcept.concept._id);
 
-            $scope.active.segments = $scope.segments.filter(function(segment)
-            {
-                return segment.concepts.indexOf($scope.activeConcept.concept._id) !== -1;
-            });
+            $scope.active.segments = $scope.segmentPerConceptMap[$scope.activeConcept.concept._id];
+            if(!$scope.active.segments) $scope.active.segments = [];
+
             //console.log($scope.active.segments);
 
             me.setSegment();
@@ -700,7 +699,7 @@ angular.module('courses').service('ActiveDataManager', function(Authentication, 
         var segments = $scope.active.segments;
         var active = $scope.active.segment;
 
-        if(active !== null)
+        if(active)
         {
             var segmentIds = segments.map(function(s) { return s._id; });
             var index = segmentIds.indexOf(active._id);
