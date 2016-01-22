@@ -11,7 +11,7 @@ angular.module('contents').service('YoutubeCreator', function(ytapi, youtubeEmbe
 
         $scope.youtubeVidId = 0;
         $scope.player = null;
-        $scope.source.data = {};
+        if(!$scope.source.data) $scope.source.data = {};
 
         function setupZipUploader()
         {
@@ -33,13 +33,16 @@ angular.module('contents').service('YoutubeCreator', function(ytapi, youtubeEmbe
                 var segments = response.segments;
                 var timestamps = response.timestamps;
 
-                segments.forEach(function(segment)
+                if(!$scope.segments || !$scope.segments.length)
                 {
-                    if(!me.checkSegmentExists($scope.segments, segment))
+                    segments.forEach(function(segment)
                     {
-                        $scope.segments.push(segment);
-                    }
-                });
+                        if(!me.checkSegmentExists($scope.segments, segment))
+                        {
+                            $scope.segments.push(segment);
+                        }
+                    });
+                }
 
                 $scope.source.data.timestamps = timestamps;
 
@@ -135,7 +138,7 @@ angular.module('contents').service('YoutubeCreator', function(ytapi, youtubeEmbe
 
     this.isLecture = function()
     {
-        return $scope.uploadSuccess;
+        return $scope.uploadSuccess || $scope.source.data.timestamps;
     };
 
     this.getCurrentPosition = function()

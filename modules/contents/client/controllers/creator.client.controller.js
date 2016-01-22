@@ -47,9 +47,10 @@ angular.module('contents').controller('CreatorController',
                     $scope.courses = courses;
                     $scope.courseIds = courses.map(function(c) { return c._id; });
 
-                    var courseSearchScope = angular.element('.course-select').scope().$$childHead;
+                    var courseSelectScope = angular.element('.course-select').scope();
+                    var courseSearchScope = courseSelectScope ? courseSelectScope.$$childHead : null;
 
-                    if($scope.courseId)
+                    if($scope.courseId && courseSearchScope)
                     {
                         courseSearchScope.$select.selected = $scope.courses[$scope.courseIds.indexOf($scope.courseId)];
                     }
@@ -320,16 +321,6 @@ angular.module('contents').controller('CreatorController',
                         {
                             segment.order = {};
                         }
-                        conceptIds.forEach(function(conceptId)
-                        {
-                            if(segment.order[conceptId] === undefined)
-                            {
-                                var conceptSegments = $scope.segmentPerConceptMap[conceptId];
-                                //var index = segment._id ? conceptSegments.map(function(s) { return s._id; }).indexOf(segment._id) : -1;
-
-                                segment.order[conceptId] = !conceptSegments ? 0 : conceptSegments.length * 100;
-                            }
-                        });
 
                         //todo be more flexible and allow multiple courses
                         segment.courses = [$scope.course._id];
@@ -421,7 +412,7 @@ angular.module('contents').controller('CreatorController',
 
             if(sourceHelper)
             {
-                console.log(readable);
+                //console.log(readable);
                 sourceHelper.start($scope);
             }
         });
