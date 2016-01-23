@@ -47,10 +47,17 @@
 
         </div>
 
-        <a class="pull-right btn btn-default" href="/api/sources/{{active.source._id}}/pdf" download="{{active.source.title}}.pdf" target="_blank" style="margin-right: 20px;">
-            <span class="glyphicon glyphicon-download-alt"></span>
-            Download
-        </a>
+        <div class="pull-right btn-group" style="margin-right: 20px;">
+            <a class="btn btn-default" href="/api/sources/{{active.source._id}}/pdf" target="_blank">
+                <span class="fa fa-external-link"></span>
+                New Tab
+            </a>
+            <a class="btn btn-default" href="/api/sources/{{active.source._id}}/pdf" download="{{active.source.title}}.pdf" target="_blank">
+                <span class="glyphicon glyphicon-download-alt"></span>
+                Download
+            </a>
+        </div>
+
 
 
 
