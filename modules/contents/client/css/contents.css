@@ -1,10 +1,16 @@
 /** ADMIN START **/
 
 .input-group input.duration {
-    width: 50px;
+    width: 43px;
     margin-bottom: 0;
     height: 39px;
-    padding: 3px 6px;
+    padding: 3px;
+}
+.segment-start .input-group-addon, .segment-end .input-group-addon {
+    padding: 3px 7px;
+}
+.segment-start .input-group-addon a, .segment-end .input-group-addon a {
+    text-decoration: none;
 }
 
 .add-material-action-selection ul {
