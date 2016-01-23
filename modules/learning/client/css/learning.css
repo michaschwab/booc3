@@ -146,8 +146,9 @@ a.concept:hover {
     /*right: -15px;*/
     /*top: 15px;*/
     float: right;
-    position: absolute;
+    /*position: absolute;*/
     border: 1px solid #dddddd;
+    margin: 0 auto;
 }
 
 .learnContent {
@@ -183,7 +184,7 @@ a.concept:hover {
 .page-selector {
     width: 100px;
 }
-#desiredPageInput {
+#desiredPageInput, #desiredZoomInput {
     width: 70px;
     padding: 0 0 0 10px;
     height: 22px;

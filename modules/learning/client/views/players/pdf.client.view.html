@@ -1,4 +1,4 @@
-<div class="panel panel-default pdfviewer" style="width: {{contentWidth-30}}px">
+<div class="panel panel-default pdfviewer" style="width: {{contentWidth-5}}px; margin: 0;">
     <div class="panel-heading">
 
         <div class="pull-right btn-group">
@@ -7,13 +7,10 @@
                 <span class="glyphicon glyphicon-chevron-left"></span>
             </button>
 
-            <button class="btn btn-default page-selector" ng-click="openSelector()">
+            <button class="btn btn-default page-selector" ng-click="openPageSelector()">
                 <span ng-show="!pageSelectorOpen">
                     Page
-                    <!--<input type="number" ng-change="updateDesiredPage()" ng-model="desired.page" />-->
-                    {{currentPage}}
-                    /
-                    {{totalPages}}
+                    {{currentPage}} / {{totalPages}}
                 </span>
 
                 <input type="number" class="form-control" id="desiredPageInput" ng-show="pageSelectorOpen" ng-change="updateDesiredPage()" ng-model="desired.page" />
@@ -27,6 +24,31 @@
 
         </div>
 
+        <div class="pull-right btn-group" style="margin-right: 20px;">
+
+            <button class="btn btn-default" ng-click="zoomOut()">
+                <span class="glyphicon glyphicon-minus"></span>
+            </button>
+
+            <button class="btn btn-default page-selector" ng-click="openZoomSelector()">
+                <span ng-show="!zoomSelectorOpen">
+                    {{pdfScale * 100 | number:0}}%
+                    Zoom
+                </span>
+
+                <input type="number" class="form-control" id="desiredZoomInput" ng-show="zoomSelectorOpen" ng-change="updateDesiredZoom()" ng-model="desired.zoom" />
+
+            </button>
+
+            <button class="btn btn-default" ng-click="zoomIn()">
+                <span class="glyphicon glyphicon-plus"></span>
+            </button>
+
+
+        </div>
+
+
+
         <h2>
             <span class="source-title">{{active.source.title}}</span>
             <i class="fa fa-angle-double-right"></i>
@@ -35,7 +57,7 @@
 
 
     </div>
-    <div class="panel-content" style="padding:0">
-        <pdfviewer ng-src="{{sourceData.document}}" width="{{contentWidth-30}}" height="{{windowHeight-110}}" scale="page-fit" on-page-load='pageLoaded(page,total)' class="pdfViewer" id="viewer"></pdfviewer>
+    <div class="panel-content" style="padding:0; overflow: auto; width: {{contentWidth-5}}px; height: {{windowHeight-110}}px;">
+        <pdfviewer ng-src="{{sourceData.document}}" width="{{pdfWidth}}" height="{{pdfHeight}}" scale="page-fit" on-page-load='pageLoaded(page,total)' class="pdfViewer" id="viewer"></pdfviewer>
     </div>
 </div>
