@@ -77,7 +77,7 @@
 
                 <div ng-repeat="con in activeSegment.conceptObjects" class="segment-concept-row">
                     <ui-select ng-model="$parent.con"
-                               on-select="selectConcept($item)" ng-required name="conceptSelect-{{$index}}" id="conceptSelect-{{$index}}" reset-search-input="true">
+                               on-select="selectConcept($item, $index, activeSegment)" ng-required name="conceptSelect-{{$index}}" id="conceptSelect-{{$index}}" reset-search-input="true">
                         <ui-select-match placeholder="{{course._id?'Select Concept...':'Please Select a Course First'}}">
                             <div style="width:20px; height:20px; background: {{$select.selected.color}}; float: left; margin-right: 15pt; border-radius: 10px"></div>
                             {{$select.selected.title}}</ui-select-match>

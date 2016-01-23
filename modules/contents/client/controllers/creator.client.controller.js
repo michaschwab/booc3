@@ -452,6 +452,11 @@ angular.module('contents').controller('CreatorController',
             $scope.setSourcetype(type);
         };
 
+        $scope.selectConcept = function(newConcept, conceptIndex, segment)
+        {
+            segment.conceptObjects[conceptIndex] = newConcept;
+        };
+
         $scope.setSourcetype = function(type)
         {
             var readableType = $scope.getReadableType(type);
