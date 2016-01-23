@@ -591,6 +591,9 @@ input.concept-title.admin {
 .lectureList {
     list-style-type: none;
 }
+.lectureList .concept-line span {
+    border-color: #337ab7;
+}
 
 .lecture {
     position: relative;

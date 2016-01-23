@@ -35,11 +35,11 @@
 
                         <span class="concept-line"><span></span></span>
 
-                        <a data-ui-sref="{active: child.concept._id, segment:seg._id, learn: 'yes'}" class="segment-link" title="{{::courseScope.sourcetypeMap[courseScope.sourceMap[seg.source].type].title}} on {{::courseScope.sourceMap[seg.source].title}}">
+                        <a data-ui-sref="{active: child.concept._id, segment:seg._id, learn: 'yes'}" class="segment-link" title="{{::seg.title}}: {{::courseScope.sourcetypeMap[courseScope.sourceMap[seg.source].type].title}} on {{::courseScope.sourceMap[seg.source].title}}">
                             <span class="{{::courseScope.sourcetypeMap[courseScope.sourceMap[seg.source].type].icon}} segment-icon"></span>
 
                         <span class="segment-title">
-                            {{::courseScope.sourcetypeMap[courseScope.sourceMap[seg.source].type].title}}
+                            {{::seg.title}}
                             on
                             <i>{{::courseScope.sourceMap[seg.source].title}}</i>
 
