@@ -156,6 +156,32 @@ exports.uploadPdf = function(req, res)
     });
 };
 
+exports.readPdf = function(req, res)
+{
+    var path = req.source.path;
+
+    if(path.indexOf('http') === 0)
+    {
+        //todo redirect
+    }
+    else
+    {
+        path = './modules/contents/client/uploads/pdf/' + path;
+        fs.readFile(path, function(err, data)
+        {
+            if (err) {
+                return res.status(400).send({
+                    message: 'Error occurred while uploading pdf file'
+                });
+            } else {
+                //res.write(data);
+                res.header('content-type', 'application/pdf');
+                res.send(data);
+            }
+        });
+    }
+};
+
 exports.uploadLectureSlides = function(req, res)
 {
     var buffer = req.files.file.buffer;

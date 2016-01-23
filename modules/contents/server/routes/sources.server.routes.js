@@ -19,6 +19,9 @@ module.exports = function(app) {
 		.put(sources.update)
 		.delete(sources.delete);
 
+	app.route('/api/sources/:sourceId/pdf')
+		.get(sources.readPdf);
+
 	// Finish by binding the Course middleware
 	app.param('sourceId', sources.sourceByID);
 };
