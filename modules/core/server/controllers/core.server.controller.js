@@ -61,7 +61,7 @@ exports.sendFeedback = function(req, res, next)
       {
         courseadmin.getCourseAdmins(req.body.course._id, function(admins)
         {
-          var receivers = admins.map(function(admin) { return admin.email; });
+          var receivers = admins.map(function(admin) { return admin.email; }).filter(function(email) { return (email);});
           receivers.push(mainAdmin);
 
           var uniqueReceivers = receivers.filter(function(item, pos) {

@@ -1,5 +1,5 @@
 angular.module('conceptdependencies').controller('FeedbackModalController',
-    function ($scope, Courses, $modalInstance, $http, Authentication, $stateParams)
+    function ($scope, Courses, $modalInstance, $http, Authentication, $stateParams, $location)
     {
         //$scope.dependency = dependency;
         $scope.feedbackMode = 'course';
@@ -32,6 +32,8 @@ angular.module('conceptdependencies').controller('FeedbackModalController',
                 feedback.technical = $scope.technicalProblemOn;
                 feedback.content = $scope.websiteContent;
             }
+            feedback.locationPath = $location.path();
+            feedback.locationSearch = JSON.stringify($location.search());
 
             $http.post('/api/feedback/send', feedback).success(function (response) {
                 /*$scope.credentials = null;
