@@ -1,12 +1,19 @@
 angular.module('conceptdependencies').controller('FeedbackModalController',
-    function ($scope, Courses, $modalInstance, $http, Authentication)
+    function ($scope, Courses, $modalInstance, $http, Authentication, $stateParams)
     {
         //$scope.dependency = dependency;
         $scope.feedbackMode = 'course';
         $scope.technicalProblemOn = false;
         $scope.anonymousOn = true;
         $scope.course = null;
-        $scope.courses = Courses.query();
+        $scope.courses = Courses.query({}, function()
+        {
+            var courseId = $stateParams.courseId;
+            if(courseId)
+            {
+                $scope.course = $scope.courses.filter(function(c) { return c._id == courseId; })[0];
+            }
+        });
         $scope.courseContent = '';
         $scope.websiteContent = '';
         $scope.authentication = Authentication;
