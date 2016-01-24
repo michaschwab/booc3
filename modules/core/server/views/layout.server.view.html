@@ -45,9 +45,7 @@
     <!--<div data-ng-include="'/modules/core/views/notloggedin.client.view.html'"></div>-->
     <div data-ng-include="'/modules/users/views/authentication/authentication.client.view.html'"></div>
 
-    <div class="container undo-container">
-      <ng-include src="'/modules/actions/views/undoMessage.client.view.html'"></ng-include>
-    </div>
+    <ng-include src="'/modules/actions/views/undoMessage.client.view.html'"></ng-include>
 
     <div class="fluid-container">
       {% block content %}{% endblock %}

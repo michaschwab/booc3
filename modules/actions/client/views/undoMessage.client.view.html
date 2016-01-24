@@ -1,10 +1,11 @@
-<div ng-controller="UndoMessageController"
-     class="alert alert-success alert-dismissible undo-message"
-     role="alert"
-    ng-show="(now.getTime()-action.date.getTime()<10000||now.getTime()-action.undoDate.getTime()<10000)&&!alert.hidden">
-    <button type="button" class="close" data-dismiss="alert" aria-label="Close" ng-click="alert.hidden=true"><span aria-hidden="true">&times;</span></button>
-    {{ action | undoMessage }}
-    <span ng-show="!action.undone"><a href ng-click="undo()">Undo</a>, or</span>
-    <span ng-show="action.undone"><a  href ng-click="redo()">Redo</a>, or</span>
-    <a href data-ui-sref="actions.list">Manage Last Actions</a>
+<div class="container undo-container"  ng-controller="UndoMessageController"
+     ng-show="(now.getTime()-action.date.getTime()<10000||now.getTime()-action.undoDate.getTime()<10000)&&!alert.hidden">
+    <div class="alert alert-success alert-dismissible undo-message"
+         role="alert">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close" ng-click="alert.hidden=true"><span aria-hidden="true">&times;</span></button>
+        {{ action | undoMessage }}
+        <span ng-show="!action.undone"><a href ng-click="undo()">Undo</a>, or</span>
+        <span ng-show="action.undone"><a  href ng-click="redo()">Redo</a>, or</span>
+        <a href data-ui-sref="actions.list">Manage Last Actions</a>
+    </div>
 </div>
