@@ -1,4 +1,4 @@
-angular.module('courses').service('MapTour', function(Authentication, $timeout, $location, Users, MapArrows, ConceptStructure)
+angular.module('courses').service('MapTour', function(Authentication, $timeout, $location, Users, MapArrows, ConceptStructure, Logger)
 {
     var me = this;
     var $scope;
@@ -87,6 +87,7 @@ angular.module('courses').service('MapTour', function(Authentication, $timeout, 
             text: 'Next',
             classes: 'shepherd-button-primary',
             action: function() {
+                Logger.log('TourNext', {currentStep: tour.getCurrentStep().id });
                 return tour.next();
             }
         };
@@ -95,6 +96,7 @@ angular.module('courses').service('MapTour', function(Authentication, $timeout, 
             text: 'Back',
             classes: 'shepherd-button-secondary pull-left',
             action: function() {
+                Logger.log('TourBack', {currentStep: tour.getCurrentStep().id });
                 return tour.back();
             }
         };
@@ -103,6 +105,7 @@ angular.module('courses').service('MapTour', function(Authentication, $timeout, 
             text: 'Exit',
             classes: 'shepherd-button-secondary',
             action: function() {
+                Logger.log('TourExit', {currentStep: tour.getCurrentStep().id });
                 MapArrows.setOptionsDefault();
                 return tour.hide();
             }
@@ -117,6 +120,7 @@ angular.module('courses').service('MapTour', function(Authentication, $timeout, 
                     text: 'No',
                     classes: 'shepherd-button-secondary pull-left',
                     action: function() {
+                        Logger.log('TourNo');
                         return tour.hide();
                     }
                 },
@@ -125,6 +129,7 @@ angular.module('courses').service('MapTour', function(Authentication, $timeout, 
                     classes: 'shepherd-button-primary',
                     action: function()
                     {
+                        Logger.log('TourYes');
                         MapArrows.disableArrows();
                         $location.search('goal', '');
                         $location.search('mode', 'plan');
@@ -157,7 +162,7 @@ angular.module('courses').service('MapTour', function(Authentication, $timeout, 
                 classes: 'shepherd-button-primary',
                 action: function() {
                     //$('#' + firstTlcId).trigger('click');
-
+                    Logger.log('TourNext', {currentStep: tour.getCurrentStep().id });
                     tour.next();
                     /*$location.search('active', firstTlcId.substr('concept-'.length));
                     $timeout(tour.next, 1000);*/
@@ -176,6 +181,7 @@ angular.module('courses').service('MapTour', function(Authentication, $timeout, 
                 action: function() {
                     //$('#' + firstTlcId).trigger('click');
                     tour.hide();
+                    Logger.log('TourNext', {currentStep: tour.getCurrentStep().id });
                     $location.search('active', firstTlcId.substr('concept-'.length));
                     $timeout(tour.next, waitTime);
                 }
@@ -198,6 +204,7 @@ angular.module('courses').service('MapTour', function(Authentication, $timeout, 
                 classes: 'shepherd-button-primary',
                 action: function() {
                     //$('#' + firstTlcId).trigger('click');
+                    Logger.log('TourNext', {currentStep: tour.getCurrentStep().id });
                     tour.hide();
                     $location.search('active', firstL3Id.substr('concept-'.length));
                     $timeout(tour.next, waitTime);
@@ -215,6 +222,7 @@ angular.module('courses').service('MapTour', function(Authentication, $timeout, 
                 classes: 'shepherd-button-primary',
                 action: function() {
                     tour.hide();
+                    Logger.log('TourNext', {currentStep: tour.getCurrentStep().id });
                     $location.search('active', '');
                     MapArrows.setOption('showCurrentPathHierarchy', true);
                     $timeout(function() { $scope.leaveConcept(); tour.next(); }, waitTime);
@@ -232,6 +240,7 @@ angular.module('courses').service('MapTour', function(Authentication, $timeout, 
                 classes: 'shepherd-button-primary',
                 action: function() {
                     tour.hide();
+                    Logger.log('TourNext', {currentStep: tour.getCurrentStep().id });
                     $location.search('active', firstTlcId.substr('concept-'.length));
                     $timeout(tour.next, waitTime);
                 }
@@ -247,6 +256,7 @@ angular.module('courses').service('MapTour', function(Authentication, $timeout, 
                 classes: 'shepherd-button-primary',
                 action: function() {
                     tour.hide();
+                    Logger.log('TourNext', {currentStep: tour.getCurrentStep().id });
                     $location.search('active', '');
                     //todo show shortcut path to tlc that skips stuff.
                     $timeout(function() { $scope.leaveConcept(); tour.next(); }, waitTime);
@@ -263,6 +273,7 @@ angular.module('courses').service('MapTour', function(Authentication, $timeout, 
                 $location.search('active', skippingFirstL3Id.substr('concept-'.length));
                 $timeout(function()
                 {
+                    Logger.log('TourNext', {currentStep: tour.getCurrentStep().id });
                     $('.understood-button').css('border', '5px solid #00cccc');
                     tour.next();
                 }, waitTime);
@@ -282,6 +293,7 @@ angular.module('courses').service('MapTour', function(Authentication, $timeout, 
                     action: function() {
                         //$location.search('active', '');
                         //$scope.hoveringConceptIds = [skipData.concept.concept._id];
+                        Logger.log('TourNext', {currentStep: tour.getCurrentStep().id });
                         $scope.hoverConcept(skipData.concept);
                         //todo show shortcut path to tlc that skips stuff.
                         $timeout(tour.next, 200);
@@ -319,6 +331,7 @@ angular.module('courses').service('MapTour', function(Authentication, $timeout, 
                 action: function() {
                     $('.understood-button').css('border', '');
                     $('.set-goal').css('border', '5px solid #00cccc');
+                    Logger.log('TourNext', {currentStep: tour.getCurrentStep().id });
                     $timeout(tour.next, 200);
                 }
             }]
@@ -332,8 +345,9 @@ angular.module('courses').service('MapTour', function(Authentication, $timeout, 
             buttons: [backButton, exitButton, {
                 text: 'Next',
                 classes: 'shepherd-button-primary',
-                action: function() {
-
+                action: function()
+                {
+                    Logger.log('TourNext', {currentStep: tour.getCurrentStep().id });
                     var newGoal = skippingFirstL3Id.substr('concept-'.length);
                     var currentGoal = $location.search()['goal'];
                     $('.set-goal').css('border', '');
@@ -402,8 +416,9 @@ angular.module('courses').service('MapTour', function(Authentication, $timeout, 
             buttons: [backButton, exitButton, {
                 text: 'Next',
                 classes: 'shepherd-button-primary',
-                action: function() {
-
+                action: function()
+                {
+                    Logger.log('TourNext', {currentStep: tour.getCurrentStep().id });
                     $location.search('mode', 'plan');
                     $timeout(tour.next, 200);
                 }}]
@@ -418,6 +433,7 @@ angular.module('courses').service('MapTour', function(Authentication, $timeout, 
                 text: 'Finish',
                 classes: 'shepherd-button-primary',
                 action: function() {
+                    Logger.log('TourFinish');
                     MapArrows.setOptionsDefault();
                     return tour.hide();
                 }
