@@ -1,0 +1,107 @@
+<div class="container tracking-consent" data-ng-controller="ConsentController">
+
+    <header>
+        <h1>Consent Form For Study:</h1>
+
+        <h2>Navigation in Non-Linear Learning Environments (Interaction tracking)</h2>
+        <i>Researcher: Hendrik Strobelt, PhD – Harvard SEAS</i>
+    </header>
+
+
+    <h4>Participation is voluntary.</h4>
+    <p>
+        It is your choice whether or not you wish to participate in this research. If you choose to participate, you can change your mind and leave the study at any time.  Refusal to participate, or stopping your participation, will involve no penalty or loss of benefits to which you are otherwise entitled.
+    </p>
+
+
+    <h4>What is the purpose of this research?</h4>
+    <p>
+        The purpose of this research is to find out if and how students make use of an alternative navigation system for course materials.
+    </p>
+
+
+    <h4>For how long will I take part in this research?</h4>
+    <p>
+        Your participation shouldn’t be more than two hours over the course of one semester. However if the system is useful to you, feel free to use it more often as long as your course performance is not negatively influenced.
+    </p>
+
+
+    <h4>What can I expect if I take part in this research?</h4>
+    <p>
+        After logging in into the system you will be able to navigate through the Gov2001 course material. You can consume different types of media (lecture slides, video, scientific publications, Wikipedia, etc.). During your visit we will log your clicks to see if the system design supports interaction. During the semester we will improve the system and will ask you to fill in questionnaires.
+    </p>
+
+
+    <h4>What are the risks and possible discomforts?</h4>
+    <p>
+        There is minimal risk to participating in this study. You might be more efficient in learning using the slides and videos of the original webpage than spending the time with the new system. The information you provide is anonymous and you are free to withdraw from participation at any time.
+    </p>
+
+
+    <h4>Are there any benefits from being in this research study?</h4>
+    <p>
+        We do not expect any direct benefits to you from taking part in this research. No one who grades the course will know whether or not you used this system.
+    </p>
+    <p>
+        You might get a better overview of the course structure. One indirect benefit of participating might be the knowledge that you helped researchers to better understand if and how a non-linear learning system would benefit users.
+    </p>
+
+
+    <h4>Will I be compensated for participating in this research?</h4>
+    <p>
+        There will be no compensation.
+    </p>
+
+
+    <h4>If I take part in this research, how will my privacy be protected? What happens to the information you collect?</h4>
+    <p>
+        All data collected from you will be coded with a number that makes it very hard to infer your identity.
+        The results of this research project might be made public,
+        with information quoted in professional journals and meetings.
+
+        However, no personal information will be released and all information from this study will only be reported as a group and not individually.
+    </p>
+    <p>
+        No one who grades the course will know whether or not you used this system.
+    </p>
+    <p>
+        Any information with your name on it will be analyzed by the researcher(s) and
+        may be reviewed by people checking to see that the research has been conducted properly.
+    </p>
+
+
+    <h4>If I have any questions, concerns or complaints about this research study, who can I talk to?</h4>
+    <p>
+        The researcher for this study is <address>Hendrik Strobelt, who can be reached at (617) 495 4639 or at <a href="mailto:hstrobelt@seas.harvard.edu">hstrobelt@seas.harvard.edu</a></address>.
+    The faculty sponsor is <address>Hanspeter Pfister, who can be reached at (617) 496-0964 or <a href="mailto:pfister@seas.harvard.edu">pfister@seas.harvard.edu</a></address>.
+    If you have questions, concerns, or complaints, then please get in touch:
+    </p>
+    <ul>
+        <li>If you would like to talk to the research team,</li>
+        <li>If you think the research has harmed you, or</li>
+        <li>If you wish to withdraw from the study.</li>
+    </ul>
+
+    <p>
+        This research has been reviewed by the <address>Committee on the Use of Human Subjects in Research at Harvard University.
+    They can be reached at 617-496-2847, 1414 Massachusetts Avenue, Second Floor, Cambridge, MA 02138, or <a href="mailto:cuhs@fas.harvard.edu">cuhs@fas.harvard.edu</a></address>
+    for any of the following:
+    </p>
+    <ul>
+        <li>If your questions, concerns, or complaints are not being answered by the research team,</li>
+        <li>If you cannot reach the research team,</li>
+        <li>If you want to talk to someone besides the research team, or</li>
+        <li>If you have questions about your rights as a research participant.</li>
+    </ul>
+
+
+
+    <h4>Statement of Consent</h4>
+    <p>I have read the information in this consent form.  All my questions about the research have been answered to my satisfaction.</p><br />
+
+    <p><u>If you consent to participate, please click “I consent to participate” below.</u></p><br />
+
+    <button class="btn btn-warning" ng-click="notConsent()"><span class="glyphicon glyphicon-remove"></span> I don't want to participate</button>
+    <button class="btn btn-success pull-right" ng-click="consent()"><span class="glyphicon glyphicon-ok"></span> I consent to participate</button>
+
+</div>

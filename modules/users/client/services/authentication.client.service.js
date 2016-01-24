@@ -1,11 +1,20 @@
 'use strict';
 
 // Authentication service for user variables
-angular.module('users').factory('Authentication', ['$window',
-  function ($window) {
+angular.module('users').factory('Authentication', function ($window, $location) {
     var auth = {
       user: $window.user
     };
+
+    var user = auth.user;
+
+    if(typeof user === 'object')
+    {
+      if(user.trackingConsent === undefined || user.trackingConsent === null)
+      {
+        $location.path('/consent');
+      }
+    }
 
     auth.hasOneRole = function(roles)
     {
@@ -57,4 +66,4 @@ angular.module('users').factory('Authentication', ['$window',
 
     return auth;
   }
-]);
+);

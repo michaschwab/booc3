@@ -5,6 +5,11 @@ angular.module('users').config(['$stateProvider',
   function ($stateProvider) {
     // Users state routing
     $stateProvider
+        .state('consent', {
+          url: '/consent',
+          templateUrl: 'modules/users/views/consent.client.view.html'
+        })
+
       .state('settings', {
         abstract: true,
         url: '/settings',

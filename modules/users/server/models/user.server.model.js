@@ -93,6 +93,12 @@ var UserSchema = new Schema({
   tourChecked: {
     type: Date
   },
+  trackingConsent: {
+    type: Date
+  },
+  lastTrackingConsentCheck: {
+    type: Date
+  },
   /* For reset password */
   resetPasswordToken: {
     type: String

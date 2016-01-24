@@ -27,6 +27,8 @@ exports.update = function (req, res)
   user.lastName = req.body.lastName;
   user.displayName = user.firstName + ' ' + user.lastName;
   user.roles = req.body.roles;
+  user.lastTrackingConsentCheck = req.body.lastTrackingConsentCheck;
+  user.trackingConsent = req.body.trackingConsent;
 
   user.save(function (err) {
     if (err) {
