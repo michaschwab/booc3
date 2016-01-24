@@ -2,7 +2,7 @@
 
 // Courses controller
 angular.module('courses').controller('CoursesController',
-	function($http, $scope, $stateParams, $location, Authentication, Courses, Concepts, LearnedConcepts, $state)
+	function($http, $scope, $stateParams, $location, Authentication, Courses, Concepts, LearnedConcepts, $state, Logger)
 	{
 		$scope.authentication = Authentication;
 
@@ -115,6 +115,11 @@ angular.module('courses').controller('CoursesController',
 					course.learnedConceptObjects = LearnedConcepts.query({course: course._id, user: $scope.authentication.user._id });
 				});
 			});
+		};
+
+		$scope.enterCourse  = function(course, event)
+		{
+			Logger.log('EnterCourse', { courseId: course._id }, event);
 		};
 
 		// Find existing Course

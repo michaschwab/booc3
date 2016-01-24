@@ -27,13 +27,13 @@
                         </a>
                     </div>
 
-                    <a class="course-contents" href data-ui-sref="courses.view({courseId: course._id})">
-                        <h4 class="list-group-item-heading course-title" data-ng-bind="course.title"></h4>
-                        <p data-ng-bind="course.description">
+                    <a class="course-contents" id="enterCourseEntry-{{course._id}}" href ng-click="enterCourse(course, $event)" data-ui-sref="courses.view({courseId: course._id})">
+                        <h4 class="list-group-item-heading course-title" data-ng-bind="course.title" id="course-list-title-{{course._id}}"></h4>
+                        <p data-ng-bind="course.description" id="course-list-description-{{course._id}}">
 
                         </p>
 
-                        <button class="btn btn-primary pull-right">Enter Course</button>
+                        <button class="btn btn-primary pull-right" id="course-list-enter-button-{{course._id}}">Enter Course</button>
 
                     </a>
                 </div>
