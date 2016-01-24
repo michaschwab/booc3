@@ -31,9 +31,9 @@ angular.module('logs').service('Logger', function (Authentication, $location, Lo
     function getEvent(log, event)
     {
         event = event || d3.event;
-        if(log.event && log.event.target)
+        if(event && event.target)
         {
-            log.eventTargetId = log.event.target.id;
+            log.eventTargetId = event.target.id;
         }
 
         var newEvent = {};
