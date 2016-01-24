@@ -17,13 +17,12 @@ angular.module('contents').run(['Menus',
 		});*/
 
 		Menus.addMenuItem('topbar', {
-			title: 'Contents',
-			state: 'contents',
-			type: 'dropdown',
+			title: 'Materials',
+			state: 'contents.manage',
 			roles: ['admin', 'teacher']
 		});
 
-		Menus.addSubMenuItem('topbar', 'contents', {
+		/*Menus.addSubMenuItem('topbar', 'contents', {
 			title: 'Manage Contents',
 			state: 'contents.manage'
 		});
@@ -31,7 +30,7 @@ angular.module('contents').run(['Menus',
 		Menus.addSubMenuItem('topbar', 'contents', {
 			title: 'Create Contents',
 			state: 'contents.create'
-		});
+		});*/
 
 		/*Menus.addMenuItem('topbar', 'Contents', 'contents', 'dropdown', '/', true, null, null, function(user)
 		{

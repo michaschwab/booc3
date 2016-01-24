@@ -3,9 +3,10 @@
 // Configuring the Articles module
 angular.module('users.admin').run(['Menus',
   function (Menus) {
-    Menus.addSubMenuItem('topbar', 'admin', {
+    Menus.addMenuItem('topbar', {
       title: 'Backups',
-      state: 'backups.manage'
+      state: 'backups.manage',
+      roles: ['admin', 'teacher']
     });
   }
 ]);
