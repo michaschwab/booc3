@@ -8,9 +8,9 @@ angular.module('users').controller('AuthenticationController', ['$scope', '$stat
     $scope.error = $location.search().err;
 
     // If user is signed in then redirect back home
-    if ($scope.authentication.user) {
+    /*if ($scope.authentication.user) {
       $location.path('/');
-    }
+    }*/
 
     $scope.signup = function () {
       $http.post('/api/auth/signup', $scope.credentials).success(function (response) {
