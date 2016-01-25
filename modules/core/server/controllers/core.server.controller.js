@@ -55,7 +55,8 @@ exports.sendFeedback = function(req, res, next)
 {
   async.waterfall([
     function(done) {
-      var mainAdmin = 'michaschwab@gmail.com';
+      //var mainAdmin = 'michaschwab@gmail.com';
+      var mainAdmin = 'booc.harvard@gmail.com';
 
       if(req.body.course && req.body.course._id)
       {
