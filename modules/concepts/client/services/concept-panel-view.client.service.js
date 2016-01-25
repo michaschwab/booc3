@@ -210,7 +210,7 @@ angular.module('concepts').service('ConceptPanelView',
                 }
                 else if($scope.activeMode == 'lecture')
                 {
-                    $scope.panelContentHeight = $scope.panelContentHeightMax-160;
+                    $scope.panelContentHeight = $scope.panelContentHeightMax-10;
                 }
             };
 
