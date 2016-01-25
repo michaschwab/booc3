@@ -1,5 +1,5 @@
 <div data-ng-controller="ConceptSearchController" class="search-container" ng-hide="windowWidth<800">
-    <ui-select class="concept-select" theme="bootstrap" ng-model="$parent.searchConcept" on-select="searchSelect($item)"
+    <ui-select class="concept-select" theme="bootstrap" ng-model="$parent.searchConcept" on-select="searchSelect($item, $event)"
                ng-required name="conceptSelect" id="conceptSelect">
         <ui-select-match placeholder="Search Learning Concept...">
             <div style="width:20px; height:20px; background: {{$select.selected.color}}; float: left; margin-right: 15pt; border-radius: 10px"></div>

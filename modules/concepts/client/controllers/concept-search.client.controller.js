@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('concepts').controller('ConceptSearchController',
-    function($scope, $stateParams, $location, Authentication, Concepts, Conceptdependencies, Courses, Sourcetypes, Segments, Sources, ConceptStructure, $timeout, LearnedConcepts)
+    function($scope, $stateParams, $location, Authentication, Concepts, Logger)
     {
         Concepts.query({courses:$stateParams.courseId}).$promise.then(function(d) {
 
@@ -9,7 +9,7 @@ angular.module('concepts').controller('ConceptSearchController',
         });
 
 
-        $scope.searchSelect = function(concept)
+        $scope.searchSelect = function(concept, event)
         {
             /*var learnScope = angular.element('.learning').scope();
              if(learnScope !== undefined)
@@ -22,11 +22,16 @@ angular.module('concepts').controller('ConceptSearchController',
              return appScope.activateConcept.apply(appScope,arguments);*/
             //$location.search('active', )
             //console.log(arguments);
+            var conceptData = { conceptId: concept._id, conceptTitle: concept.title };
+            Logger.log('ConceptSearchSelect', conceptData, event);
+
             $location.search('active', concept._id);
         };
 
         $scope.searchUnselect = function(scope)
         {
+            Logger.log('ConceptSearchUnSelect', null, event);
+
             $location.search('active', '');
             scope.$select.selected = null;
 
