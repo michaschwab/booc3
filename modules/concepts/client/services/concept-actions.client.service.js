@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('concepts').service('ConceptActions',
-    function(SeenConcepts, Authentication, LearnedConcepts, ConceptStructure, SeenDataManager)
+    function(SeenConcepts, Authentication, LearnedConcepts, ConceptStructure, SeenDataManager, Logger)
     {
         var $scope;
 
@@ -50,6 +50,26 @@ angular.module('concepts').service('ConceptActions',
                     });
 
                 });
+            };
+
+
+            $scope.conceptClick = function(concept, event)
+            {
+                var conceptData = { conceptId: concept.concept._id, conceptTitle: concept.concept.title, conceptDepth: concept.depth };
+                Logger.log('PanelConceptClick', conceptData, event);
+            };
+
+            $scope.conceptCircleClick = function(concept, event)
+            {
+                var conceptData = { conceptId: concept.concept._id, conceptTitle: concept.concept.title, conceptDepth: concept.depth };
+                Logger.log('PanelConceptCircleClick', conceptData, event);
+            };
+
+            $scope.segmentClick = function(segment, concept, event)
+            {
+                var conceptData = { conceptId: concept.concept._id, conceptTitle: concept.concept.title, conceptDepth: concept.depth };
+                var segmentData = { segmentId: segment._id, segmentTitle: segment.title };
+                Logger.log('PanelSegmentClick', { segment: segmentData, concept: conceptData }, event);
             };
         };
 
