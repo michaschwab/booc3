@@ -1,5 +1,5 @@
 
-<section data-ng-controller="CourseViewController" style="position:relative" class="course-view" ng-show="(authentication.user)">
+<section data-ng-controller="CourseViewController" style="position:relative" class="course-view" ng-show="(authentication.user) && authentication.user.trackingConsent">
 
     <!--<div data-ng-show="(authentication.user)">-->
 
