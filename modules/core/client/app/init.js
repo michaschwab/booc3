@@ -35,7 +35,7 @@ angular.module(ApplicationConfiguration.applicationModuleName).config(['$locatio
   }
 ]);
 
-angular.module(ApplicationConfiguration.applicationModuleName).run(function ($rootScope, $state, Authentication, $location) {
+angular.module(ApplicationConfiguration.applicationModuleName).run(function ($rootScope, $state, Authentication, $location, $window) {
   // Check authentication before changing state
 
   $rootScope.$watch(function(){ return $location.search(); }, function(){
@@ -74,6 +74,9 @@ angular.module(ApplicationConfiguration.applicationModuleName).run(function ($ro
       params: fromParams,
       href: $state.href(fromState, fromParams)
     };
+
+    if($window.ga)
+      $window.ga('send', 'pageview', { page: $location.url() });
   });
 });
 
