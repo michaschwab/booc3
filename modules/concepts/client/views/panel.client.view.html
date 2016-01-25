@@ -183,9 +183,9 @@
                     <p ng-hide="activeConcept"><i>Which Lectures cover parts of {{course.short}}?</i></p>
 
                     <ul class="lectureList">
-                        <li class="lecture" ng-repeat="lecture in activeLectures">
+                        <li class="lecture" ng-repeat="lecture in activeLectures | orderBy: 'lecture.title'">
 
-                            <div class="pull-right" style="font-size: 16pt; position: relative; top:-5px">
+                            <div class="pull-right ng-hide" style="font-size: 16pt; position: relative; top:-5px">
                                 <a  data-ui-sref="{}"><i class="fa fa-file-pdf-o"></i></a>
                                 <a  data-ui-sref="{}"><i class="fa fa-file-video-o"></i></a>
                             </div>
