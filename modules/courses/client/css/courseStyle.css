@@ -30,7 +30,7 @@ svg #mainLayer text, svg .startIconGroup text, svg .startIconGroup {
     font-size: 11pt;
     transition-property: font-size;
     transition-duration: 500ms;
-    pointer-events: none;
+    /*pointer-events: none;*/
     alignment-baseline: middle;
 }
 svg #mainLayer .l2Circle .concept-title, svg #mainLayer .l3Circle .concept-title {

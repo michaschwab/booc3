@@ -481,8 +481,9 @@ angular.module('courses').service('MapCircles', function(Tip, $location, $timeou
             circleStart.x = scale * 11;
             circleStart.y = scale * 22;
 
-            start.append('circle')
+            return start.append('circle')
                 .attr('class', 'startCircle')
+                .attr('id', 'mapStartCircle')
                 .attr('r', 30 * scale);
                 //.attr('transform', 'translate(' + circleStart.x +', ' + circleStart.y + ')');
         }
@@ -501,7 +502,7 @@ angular.module('courses').service('MapCircles', function(Tip, $location, $timeou
                 .attr("d", lineFunction(lineData));
         }
 
-        makeCircle();
+        var startCircle = makeCircle();
         //makeTriangle();
 
         start.append('text').attr({
@@ -513,8 +514,9 @@ angular.module('courses').service('MapCircles', function(Tip, $location, $timeou
 
         }).style({'font-size': 16 * scale}).html('Start');
 
-        start.on('click', function()
+        startCircle.on('click', function()
         {
+            Logger.log('MapStartClick');
             if($scope.active.watchableConcept)
             {
                 $location.search('active', $scope.active.watchableConcept.concept._id);
