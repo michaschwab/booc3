@@ -1,4 +1,4 @@
-angular.module('courses').service('MapArrows', function(Tip, ConceptStructure, MapArrowShaping, $location, $timeout)
+angular.module('courses').service('MapArrows', function(Tip, ConceptStructure, MapArrowShaping, $location, $timeout, Logger)
 {
     var me = this;
     var $scope;
@@ -80,6 +80,13 @@ angular.module('courses').service('MapArrows', function(Tip, ConceptStructure, M
         MapArrowShaping.init($scope);
 
         $scope.setLearningPlans($scope.learningPlansOn);
+
+        $scope.futurePlansToggleClick = function(event)
+        {
+            var logData = { oldValue: $scope.options.showCurrentPathFutureHierarchy, newValue: !$scope.options.showCurrentPathFutureHierarchy };
+            Logger.log('MapFuturePlansToggleClick', logData, event);
+            $scope.options.showCurrentPathFutureHierarchy = !$scope.options.showCurrentPathFutureHierarchy;
+        };
     };
 
     this.addLines = function(lines, layer, groupClassName, pathClassName, markerNormal, markerColored, each)
