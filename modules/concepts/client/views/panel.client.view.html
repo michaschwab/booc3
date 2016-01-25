@@ -5,30 +5,30 @@
     <div class="fadein">
 
         <div ng-show="!minimized" class="sidepanelOptions" aria-hidden="true" role="presentation">
-            <a aria-hidden="true" class="minimizerToggle minimizer fa fa-times-circle" href="" ng-click="minimize()" title="Hide Panel"></a>
+            <a aria-hidden="true" class="minimizerToggle minimizer fa fa-times-circle" href="" id="hidePanelButton" ng-click="minimize($event)" title="Hide Panel"></a>
         </div>
 
         <div ng-if="minimized" class="sidepanelOptions" aria-hidden="true" role="presentation">
-            <a aria-hidden="true" class="minimizerToggle maximizer panel-button" href="" ng-click="maximize()" title="Show Panel">
+            <a aria-hidden="true" class="minimizerToggle maximizer panel-button" href="" id="maximizePanelButton" ng-click="maximize($event)" title="Show Panel">
                 <span class="fa fa-bars"></span>
             </a>
         </div>
 
         <div ng-class="{ 'panel-minimized': minimized, 'maximized': !minimized }">
 
-            <header ng-swipe-left="minimize()"  ng-swipe-right="maximize()" class="row panel-header" tabindex="-1">
+            <header ng-swipe-left="minimize($event)"  ng-swipe-right="maximize($event)" class="row panel-header" tabindex="-1">
 
                 <div>
                     <div ng-show="activeConcept">
                         <ol ng-if="panelWidth>300">
                             <li>
-                                <a data-ui-sref="{active: ''}" tabindex="0"><span class="sr-only">Course: </span> {{::course.short}}</a>
+                                <a data-ui-sref="{active: ''}" ng-click="breadcrumbsCourseClick($event)" tabindex="0"><span class="sr-only">Course: </span> {{::course.short}}</a>
                             </li>
                             <li ng-if="activeConcept.parentData&&activeMode=='hierarchy'" ng-repeat="selected in active.hierarchy" ng-show="selected.concept._id!==activeConcept.concept._id&&selected.concept._id!==activeHierarchyConcept.concept._id">
-                                <a data-ui-sref="{active: selected.concept._id, goal: selected.concept._id}">{{selected.concept.title}}</a>
+                                <a data-ui-sref="{active: selected.concept._id, goal: selected.concept._id}" ng-click="breadcrumbsConceptClick($event)" id="breadcrumbs-hierarchy-concept-{{selected.concept._id}}">{{selected.concept.title}}</a>
                             </li>
                             <li ng-if="activeConcept.parentData&&(activeMode=='plan'||activeMode=='admin'||activeMode=='lecture')" ng-repeat="selected in active.hierarchy" ng-show="selected.concept._id!==activeConcept.concept._id">
-                                <a data-ui-sref="{active: selected.concept._id, goal: selected.concept._id}">{{selected.concept.title}}</a>
+                                <a data-ui-sref="{active: selected.concept._id, goal: selected.concept._id}" ng-click="breadcrumbsConceptClick($event)" id="breadcrumbs-plan-concept-{{selected.concept._id}}">{{selected.concept.title}}</a>
                             </li>
                         </ol>
 
@@ -47,6 +47,7 @@
 
                     <a ng-show="active.watchableConcept&&!learnMode&&activeMode!='lecture'"
                        title="Show Material on {{active.watchableConcept.concept.title}}" class="panel-button play learnmode-{{learnMode}}"
+                       ng-click="learnButtonClick($event)"
                        data-ui-sref="{active: active.watchableConcept.concept._id, learn: 'yes'}">
                         <span ng-hide="learnMode" class="glyphicon glyphicon-play"></span>
                         Learn
@@ -54,25 +55,34 @@
 
                     <a ng-show="activeLectures.length&&!learnMode&&activeMode=='lecture'"
                        title="Watch {{activeLectures[0].lecture.title}}" class="panel-button play learnmode-{{learnMode}}"
+                       ng-click="learnButtonClick($event)"
                        data-ui-sref="{source: activeLectures[0].lecture._id, learn: 'yes'}">
                         <span ng-hide="learnMode" class="glyphicon glyphicon-play"></span>
                         Learn
                     </a>
 
-                    <a ng-show="learnMode||editSourceMode" class="panel-button play learnmode-{{learnMode}}" title="Show Course Map"
+                    <a ng-show="learnMode||editSourceMode" class="panel-button play learnmode-{{learnMode}}"
+                       title="Show Course Map"
+                       ng-click="mapButtonClick($event)"
                        data-ui-sref="courses.view({courseId: course._id, mode: activeMode=='minimap'?'plan':activeMode, learn: 'no'})">
                         <!--<span class="glyphicon glyphicon-map-marker"></span>-->
                         <span class="map-icon"></span>
                         Show Map
                     </a>
 
-                    <a ng-if="!goalConcept&&activeMode=='plan'&&activeConcept" class="panel-button goal set-goal learnmode-{{learnMode}}" title="Set {{activeConcept.concept.title}} as goal"
+                    <a ng-if="!goalConcept&&activeMode=='plan'&&activeConcept"
+                       class="panel-button goal set-goal learnmode-{{learnMode}}"
+                       title="Set {{activeConcept.concept.title}} as goal"
+                       ng-click="goalButtonClick($event)"
                        data-ui-sref="{goal: activeConcept.concept._id }">
                         <span class="glyphicon glyphicon-flag setgoal"></span>
                         Set as Goal
                     </a>
 
-                    <a ng-if="goalConcept&&activeMode=='plan'" class="panel-button goal unset-goal learnmode-{{learnMode}}" title="Unset goal"
+                    <a ng-if="goalConcept&&activeMode=='plan'"
+                       class="panel-button goal unset-goal learnmode-{{learnMode}}"
+                       title="Unset goal"
+                       ng-click="unsetGoalButtonClick($event)"
                        data-ui-sref="{goal: ''}">
                         <span class="glyphicon glyphicon-flag unsetgoal">/</span>
                         <span class="unset-goal-text">Unset Goal</span>
@@ -88,7 +98,7 @@
             <div class="tab-selection">
                 <ul class="nav nav-tabs nav-justified">
                     <li role="presentation" class="panel-tab tab-plan" ng-class="{ 'active': activeMode==='plan'}">
-                        <a data-ui-sref="{mode: 'plan'}">
+                        <a data-ui-sref="{mode: 'plan'}" ng-click="planTabClick($event)">
                             <span class="fa fa-map inline-block"></span>
                             <span ng-if="panelWidth>400&&!hasConceptEditRights">Learning Plan</span>
                             <span ng-if="panelWidth>300&&(panelWidth<=400||hasConceptEditRights)">Plan</span>
@@ -103,7 +113,7 @@
                             <span class="map-icon inline-block"></span> <span ng-if="panelWidth>300">Minimap</span></a></li>
 
                     <li role="presentation" class="panel-tab tab-lectures" ng-class="{ 'active': activeMode==='lecture'}">
-                        <a data-ui-sref="{mode: 'lecture'}">
+                        <a data-ui-sref="{mode: 'lecture'}" ng-click="lectureTabClick($event)">
                             <span class="fa fa-university inline-block"></span> <span ng-if="panelWidth>300">Lectures</span></a></li>
 
                     <li role="presentation" ng-show="hasConceptEditRights" class="panel-tab tab-admin" ng-class="{ 'active': activeMode==='admin'}">
@@ -249,7 +259,7 @@
 
                         <li class="concept">
 
-                            <a data-ui-sref="{active: ''}" tabindex="-1" title="{{::course.title}}">
+                            <a data-ui-sref="{active: ''}" ng-click="courseClick($event)" tabindex="-1" title="{{::course.title}}">
 
                                 <span class="concept-circle" style="background: #fff"></span>
                                 <span class="concept-line"><span></span></span>
@@ -295,14 +305,14 @@
                         <div ng-class="{'btn-group': !minimized, 'btn-group-vertical': minimized}" role="group" aria-label="...">
                             <button type="button" class="btn btn-default notseen-button"
                                     ng-class="{'btn-primary': !activeConcept.isSeen && !activeConcept.learned }"
-                                    ng-click="notUnderstoodClick();unseeConcept(activeConcept.concept._id)"
+                                    ng-click="notSeenClick($event)"
                                     ng-disabled="!activeConcept.isSeen && !activeConcept.learned">
                                 <span class="glyphicon glyphicon-eye-close"></span>
                                 <span class="btn-label">Not Seen</span>
                             </button>
                             <button type="button" class="btn btn-default seen-button"
                                     ng-class="{'btn-primary': activeConcept.isSeen && !activeConcept.learned }"
-                                    ng-click="notUnderstoodClick();seeConcept(activeConcept.concept._id)"
+                                    ng-click="seenClick($event)"
                                     ng-disabled="activeConcept.isSeen && !activeConcept.learned">
                                 <span class="glyphicon glyphicon-eye-open"></span>
                                 <span class="btn-label">Seen</span>
@@ -360,7 +370,7 @@
                     <div class="buttonRow">
 
                         <div ng-class="{'btn-group-vertical': minimized}" role="group" aria-label="...">
-                            <a type="button" ng-click="previousClick()" ng-disabled="!previousConcept"
+                            <a type="button" ng-click="previousClick($event)" ng-disabled="!previousConcept"
                                data-ui-sref="{active: previousConcept.concept._id}"
                                class="btn btn-primary dropdown-toggle halfWidthBtn" aria-expanded="false"
                                title="Previous Concept: {{previousConcept.concept.title}}">
@@ -370,7 +380,7 @@
                                 </span>
                             </a>
 
-                            <a type="button" ng-click="nextClick()" ng-show="nextConcept"
+                            <a type="button" ng-click="nextClick($event)" ng-show="nextConcept"
                                data-ui-sref="{active: nextConcept.concept._id}"
                                class="btn btn-primary dropdown-toggle halfWidthBtn" aria-expanded="false"
                                title="Next Concept: {{nextConcept.concept.title}}">

@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('concepts').service('ConceptPanelView',
-    function($window, $timeout)
+    function($window, $timeout, Logger)
     {
         var $scope;
 
@@ -37,9 +37,10 @@ angular.module('concepts').service('ConceptPanelView',
                 //
             };
 
-            $scope.minimize = function()
+            $scope.minimize = function(event)
             {
                 $scope.minimized = true;
+                Logger.log('PanelMinimizeClick', null, event);
 
                 var newWidth = $scope.getPanelWidth();
 
@@ -51,10 +52,12 @@ angular.module('concepts').service('ConceptPanelView',
                 });
             };
 
-            $scope.maximize = function()
+            $scope.maximize = function(event)
             {
                 $scope.minimized = false;
                 var newWidth = $scope.getPanelWidth();
+
+                Logger.log('PanelMaximizeClick', null, event);
 
                 $scope.panelWidth = newWidth;
                 $scope.safeApply();
@@ -78,12 +81,96 @@ angular.module('concepts').service('ConceptPanelView',
 
             $scope.understoodClick = function()
             {
+                var conceptData = { conceptId: $scope.activeConcept.concept._id, conceptTitle: $scope.activeConcept.concept.title, conceptDepth: $scope.activeConcept.depth };
+                Logger.log('PanelUnderstoodClick', conceptData, event);
+
+                $scope.seeConcept($scope.activeConcept.concept._id);
                 $scope.understood($scope.activeConcept);
+            };
+
+            $scope.seenClick = function(event)
+            {
+                var conceptData = { conceptId: $scope.activeConcept.concept._id, conceptTitle: $scope.activeConcept.concept.title, conceptDepth: $scope.activeConcept.depth };
+                Logger.log('PanelSeenClick', conceptData, event);
+
+                $scope.notUnderstood($scope.activeConcept);
+                $scope.seeConcept($scope.activeConcept.concept._id)
+            };
+
+            $scope.notSeenClick = function(event)
+            {
+                var conceptData = { conceptId: $scope.activeConcept.concept._id, conceptTitle: $scope.activeConcept.concept.title, conceptDepth: $scope.activeConcept.depth };
+                Logger.log('PanelNotSeenClick', conceptData, event);
+
+                $scope.notUnderstood($scope.activeConcept);
+                $scope.unseeConcept($scope.activeConcept.concept._id)
             };
 
             $scope.notUnderstoodClick = function()
             {
                 $scope.notUnderstood($scope.activeConcept);
+            };
+
+            $scope.previousClick = function(event)
+            {
+                var conceptData = { conceptId: $scope.activeConcept.concept._id, conceptTitle: $scope.activeConcept.concept.title, conceptDepth: $scope.activeConcept.depth };
+                Logger.log('PanelPreviousClick', conceptData, event);
+            };
+
+            $scope.nextClick = function(event)
+            {
+                var conceptData = { conceptId: $scope.activeConcept.concept._id, conceptTitle: $scope.activeConcept.concept.title, conceptDepth: $scope.activeConcept.depth };
+                Logger.log('PanelNextClick', conceptData, event);
+            };
+
+            $scope.lectureTabClick = function(event)
+            {
+                Logger.log('LectureTabClick', null, event);
+            };
+
+            $scope.planTabClick = function(event)
+            {
+                Logger.log('PlanTabClick', null, event);
+            };
+
+            $scope.learnButtonClick = function(event)
+            {
+                var conceptData = $scope.activeConcept ? { conceptId: $scope.activeConcept.concept._id, conceptTitle: $scope.activeConcept.concept.title, conceptDepth: $scope.activeConcept.depth } : null;
+                Logger.log('PanelLearnClick', conceptData, event);
+            };
+
+            $scope.mapButtonClick = function(event)
+            {
+                var conceptData = $scope.activeConcept ? { conceptId: $scope.activeConcept.concept._id, conceptTitle: $scope.activeConcept.concept.title, conceptDepth: $scope.activeConcept.depth } : null;
+                Logger.log('PanelMapClick', conceptData, event);
+            };
+
+            $scope.goalButtonClick = function(event)
+            {
+                var conceptData = $scope.activeConcept ? { conceptId: $scope.activeConcept.concept._id, conceptTitle: $scope.activeConcept.concept.title, conceptDepth: $scope.activeConcept.depth } : null;
+                Logger.log('PanelGoalClick', conceptData, event);
+            };
+
+            $scope.unsetGoalButtonClick = function(event)
+            {
+                var conceptData = $scope.activeConcept ? { conceptId: $scope.activeConcept.concept._id, conceptTitle: $scope.activeConcept.concept.title, conceptDepth: $scope.activeConcept.depth } : null;
+                Logger.log('PanelUnsetGoalClick', conceptData, event);
+            };
+
+            $scope.courseClick = function(event)
+            {
+                var conceptData = $scope.activeConcept ? { conceptId: $scope.activeConcept.concept._id, conceptTitle: $scope.activeConcept.concept.title, conceptDepth: $scope.activeConcept.depth } : null;
+                Logger.log('PanelCourseClick', conceptData, event);
+            };
+
+            $scope.breadcrumbsCourseClick = function(event)
+            {
+                Logger.log('PanelCourseClick', null, event);
+            };
+
+            $scope.breadcrumbsConceptClick = function(event)
+            {
+                Logger.log('PanelCourseClick', null, event);
             };
 
             $scope.clickConcept = function(concept, $event)
