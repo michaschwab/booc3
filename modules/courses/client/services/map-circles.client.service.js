@@ -398,6 +398,8 @@ angular.module('courses').service('MapCircles', function(Tip, $location, $timeou
                         // If it's already selected and it has viewable contents, show them.
                         if($scope.activeConcept !== null && $scope.activeConcept.concept._id === d.concept._id && segments && segments.length > 0)
                         {
+                            var conceptData = { conceptId: d.concept._id, conceptTitle: d.concept.title, conceptDepth: d.depth };
+                            Logger.log('MapConceptPlay', conceptData, d3.event);
                             $location.search('learn', 'yes');
                             $scope.safeApply();
                         }
