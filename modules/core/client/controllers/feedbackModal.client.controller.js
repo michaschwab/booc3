@@ -1,5 +1,5 @@
 angular.module('conceptdependencies').controller('FeedbackModalController',
-    function ($scope, Courses, $modalInstance, $http, Authentication, $stateParams, $location)
+    function ($scope, Courses, $modalInstance, $http, Authentication, $stateParams, $location, Logger)
     {
         //$scope.dependency = dependency;
         $scope.feedbackMode = 'course';
@@ -18,7 +18,7 @@ angular.module('conceptdependencies').controller('FeedbackModalController',
         $scope.websiteContent = '';
         $scope.authentication = Authentication;
 
-        $scope.ok = function ()
+        function getFeedbackData()
         {
             var feedback = { type: $scope.feedbackMode, anonymous: $scope.anonymousOn };
 
@@ -35,6 +35,14 @@ angular.module('conceptdependencies').controller('FeedbackModalController',
             feedback.locationPath = $location.path();
             feedback.locationSearch = JSON.stringify($location.search());
 
+            return feedback;
+        }
+
+        $scope.ok = function(event)
+        {
+            var feedback = getFeedbackData();
+
+            Logger.log('FeedbackModalCancel', feedback, event);
             $http.post('/api/feedback/send', feedback).success(function (response) {
                 /*$scope.credentials = null;
                 $scope.success = response.message;*/
@@ -47,7 +55,11 @@ angular.module('conceptdependencies').controller('FeedbackModalController',
             $modalInstance.close();
         };
 
-        $scope.cancel = function () {
+        $scope.cancel = function(event)
+        {
+            var feedback = getFeedbackData();
+
+            Logger.log('FeedbackModalCancel', feedback, event);
             $modalInstance.dismiss();
         };
     });
