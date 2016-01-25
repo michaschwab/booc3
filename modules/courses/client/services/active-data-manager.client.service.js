@@ -32,6 +32,7 @@ angular.module('courses').service('ActiveDataManager', function(Authentication, 
         me.updateTodo();
         me.updatePlan();
         me.setActiveSegments();
+        me.setSource();
         me.updateLectures();
 
         me.updateWatchable();
@@ -271,8 +272,6 @@ angular.module('courses').service('ActiveDataManager', function(Authentication, 
         {
             $scope.active.sourceId = $scope.active.segment.source;
         }
-
-        this.setSource();
     };
 
     this.setSource = function()
