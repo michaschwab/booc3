@@ -6,7 +6,7 @@
     <span ng-show="concept.learned&&!concept.goal" class="concept-tick glyphicon glyphicon-ok"></span>
     <span ng-show="concept.learned" class="sr-only">Learned: </span>
 
-    <a data-ui-sref="{active: concept.concept._id, learn: courseScope.segmentPerConceptMap[concept.concept._id].length>0 ? courseScope.learnModeYesNo : 'no' }"
+    <a data-ui-sref="{active: concept.concept._id, learn: courseScope.segmentPerConceptMap[concept.concept._id].length>0 ? courseScope.learnModeYesNo : 'no', segment: '' }"
        ng-mouseover="courseScope.hoverConceptPanel(concept)" ng-mouseleave="courseScope.leaveConceptPanel(concept)"
        tabindex="0"
        id="panel-concept-{{concept.concept._id}}"
