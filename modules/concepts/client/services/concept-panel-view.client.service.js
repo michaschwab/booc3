@@ -202,7 +202,7 @@ angular.module('concepts').service('ConceptPanelView',
                     } else if($scope.minimized)
                         $scope.panelContentHeight = $scope.panelContentHeightMax-195;
                     else
-                        $scope.panelContentHeight = $scope.panelContentHeightMax;
+                        $scope.panelContentHeight = $scope.panelContentHeightMax-10;
                 }
                 else if($scope.activeMode == 'admin')
                 {
@@ -210,7 +210,13 @@ angular.module('concepts').service('ConceptPanelView',
                 }
                 else if($scope.activeMode == 'lecture')
                 {
-                    $scope.panelContentHeight = $scope.panelContentHeightMax-10;
+                    if($scope.activeConcept && !$scope.minimized)
+                    {
+                        $scope.panelContentHeight = $scope.panelContentHeightMax-120;
+                    } else if($scope.minimized)
+                        $scope.panelContentHeight = $scope.panelContentHeightMax-195;
+                    else
+                        $scope.panelContentHeight = $scope.panelContentHeightMax-10;
                 }
             };
 
