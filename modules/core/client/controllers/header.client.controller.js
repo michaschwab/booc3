@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('core').controller('HeaderController',
-    function ($scope, $state, Authentication, Menus, MapTour, $modal, $location) {
+    function ($scope, $state, Authentication, Menus, MapTour, $modal, $location, Logger) {
         // Expose view variables
         $scope.$state = $state;
         $scope.authentication = Authentication;
@@ -32,13 +32,26 @@ angular.module('core').controller('HeaderController',
             $scope.isCollapsed = false;
         });
 
-        $scope.launchTour = function()
+        $scope.launchTour = function(event)
         {
+            Logger.log('HeaderTourClick', null, event);
             MapTour.initTour();
         };
 
-        $scope.openFeedbackModal = function()
+        $scope.headerLogoClick = function(event)
         {
+            Logger.log('HeaderLogoClick', null, event);
+        };
+
+        $scope.headerSignoutClick = function(event)
+        {
+            Logger.log('HeaderSignoutClick', null, event);
+        };
+
+        $scope.openFeedbackModal = function(event)
+        {
+            Logger.log('HeaderFeedbackClick', null, event);
+
             var modalInstance = $modal.open({
                 animation: true,
                 templateUrl: 'modules/core/views/feedbackModal.client.view.html',

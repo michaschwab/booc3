@@ -6,7 +6,7 @@
       <span class="icon-bar"></span>
       <span class="icon-bar"></span>
     </button>
-    <a data-ui-sref="home" class="navbar-brand">booc.io</a>
+    <a data-ui-sref="home" ng-click="headerLogoClick($event)" class="navbar-brand">booc.io</a>
   </div>
   <nav class="collapse navbar-collapse" collapse="!isCollapsed" role="navigation">
     <ul class="nav navbar-nav" data-ng-if="menu.shouldRender(authentication.user);">
@@ -59,7 +59,7 @@
     </ul>-->
     <ul class="nav navbar-nav navbar-right logged-in-nav" data-ng-show="authentication.user">
       <li ng-if="tourPossible">
-        <a href title="Launch Tour" ng-click="launchTour()" class="tour-launcher">
+        <a href title="Launch Tour" ng-click="launchTour($event)" class="tour-launcher">
           <span style="font-size:1.5em;" class="glyphicon glyphicon-question-sign"></span>
           <span class="nav-link">Tour</span>
         </a>
@@ -68,13 +68,13 @@
         <!--<a target="_blank" href="mailto:michailschwab@fas.harvard.edu?subject=BOOC%20Feedback" title="Provide Feedback" class="feedback-button" style="padding-bottom: 0;">
           <span style="font-size:1.5em;" class="fa fa-envelope"></span>
         </a>-->
-        <a href target="_blank" title="Provide Feedback" ng-click="openFeedbackModal()" class="feedback-button">
+        <a href target="_blank" title="Provide Feedback" ng-click="openFeedbackModal($event)" class="feedback-button">
           <span style="font-size:1.5em;" class="fa fa-envelope"></span>
           <span class="nav-link">Feedback</span>
         </a>
       </li>
       <li>
-        <a href="/api/auth/signout" target="_self" class="signout-link">
+        <a href="/api/auth/signout" target="_self" ng-click="headerSignoutClick($event)" class="signout-link">
           <span class="glyphicon glyphicon-log-out"></span>
           <span class="nav-link">Log Out</span>
         </a>
