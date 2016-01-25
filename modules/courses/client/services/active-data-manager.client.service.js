@@ -228,6 +228,8 @@ angular.module('courses').service('ActiveDataManager', function(Authentication, 
         else
         {
             $scope.active.hierarchy = [];
+            $scope.active.segments = [];
+            $scope.active.segment = null;
             //$location.search('active', '');
         }
     };

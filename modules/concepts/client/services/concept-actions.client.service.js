@@ -61,7 +61,7 @@ angular.module('concepts').service('ConceptActions',
 
             $scope.lectureConceptClick = function(concept, event)
             {
-                var conceptData = { conceptId: concept.concept._id, conceptTitle: concept.concept.title, conceptDepth: concept.depth };
+                var conceptData = { conceptId: concept._id, conceptTitle: concept.title };
                 Logger.log('PanelLectureConceptClick', conceptData, event);
             };
 

@@ -192,7 +192,7 @@
 
                             <span class="concept-line"><span></span></span>
 
-                            <a  data-ui-sref="{source: lecture.lecture._id, learn: 'yes'}" ng-click="lectureClick(lecture, $event)">
+                            <a  data-ui-sref="{source: lecture.lecture._id, learn: 'yes', active: ''}" ng-click="lectureClick(lecture, $event)">
 
                                 <span class="fa fa-university"></span> <b>{{lecture.lecture.title}}</b>
                             </a>
@@ -211,6 +211,7 @@
                                         <span class="concept-title">{{child.title}}</span>
 
                                     </a>
+<!--
 
                                     <ul ng-show="activeConcept.concept._id === child._id" class="alternative-segments">
 
@@ -238,6 +239,7 @@
                                             </a>
                                         </li>
                                     </ul>
+-->
 
                                 </li>
                             </ul>

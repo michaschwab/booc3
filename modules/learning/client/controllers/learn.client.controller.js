@@ -121,12 +121,13 @@ angular.module('learning').controller('LearnController',
         {
             if(player.getPosition)
             {
-                var position = player.getPosition();
+                var newPosition = $scope.active.segment ? $scope.active.segment.start : 0;
+                //var position = player.getPosition();
 
                 // Activating the next line would only make the content jump to the beginning of a Segment if the current position is not already within it.
                 // if(position < $scope.active.segment.start || position > $scope.active.segment.end)
                 {
-                    player.setPosition($scope.active.segment.start);
+                    player.setPosition(newPosition);
                 }
             }
         };
