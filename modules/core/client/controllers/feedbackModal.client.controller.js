@@ -14,8 +14,7 @@ angular.module('conceptdependencies').controller('FeedbackModalController',
                 $scope.course = $scope.courses.filter(function(c) { return c._id == courseId; })[0];
             }
         });
-        $scope.courseContent = '';
-        $scope.websiteContent = '';
+        $scope.feedbackContent = '';
         $scope.authentication = Authentication;
 
         function getFeedbackData()
@@ -25,13 +24,12 @@ angular.module('conceptdependencies').controller('FeedbackModalController',
             if($scope.feedbackMode == 'course')
             {
                 feedback.course = $scope.course;
-                feedback.content = $scope.courseContent;
             }
             else if($scope.feedbackMode == 'website')
             {
                 feedback.technical = $scope.technicalProblemOn;
-                feedback.content = $scope.websiteContent;
             }
+            feedback.content = $scope.feedbackContent;
             feedback.locationPath = $location.path();
             feedback.locationSearch = JSON.stringify($location.search());
 
