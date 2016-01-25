@@ -29,7 +29,8 @@ angular.module('learning').service('YoutubePlayer', function($http, $sce, $inter
         if(player)
         {
             try {
-                return player.seekTo(pos);
+                player.seekTo(pos);
+                player.pauseVideo();
             } catch (e) {
                 console.error('Something wrong with the youtube player', e);
             }
@@ -88,6 +89,7 @@ angular.module('learning').service('YoutubePlayer', function($http, $sce, $inter
     {
         if(player)
         {
+            console.log('wtf');
             player.playVideo();
         }
     };

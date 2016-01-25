@@ -119,7 +119,7 @@ angular.module('learning').controller('LearnController',
 
         this.updatePosition = function()
         {
-            if(player.getPosition && $scope.active.segment)
+            if(player.getPosition)
             {
                 var position = player.getPosition();
 
