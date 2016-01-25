@@ -1,9 +1,14 @@
-<section ng-show="!authentication.user" ng-controller="WelcomeController">
-    <h2 class="col-md-12 text-center">Welcome to BOOC.IO!</h2>
-    <div class="col-md-12 text-center">
+<section ng-show="!authentication.user" ng-controller="WelcomeController" class="container" style="padding-top: 100px">
 
-        <video src="/vids/boocio_preview_james_vo.mp4" width="600" controls="controls"></video>
+    <div class="col-md-6 text-center">
+
+        <video src="/vids/boocio_preview_james_vo.mp4" poster="/vids/posterframe.png" width="600" controls="controls"></video>
 
     </div>
+
+    <div class="col-md-6 text-center">
+        <div data-ng-include="'/modules/users/views/authentication/authentication.client.view.html'"></div>
+    </div>
+
     <!--<div ui-view></div>-->
 </section>

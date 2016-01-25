@@ -1,8 +1,18 @@
 .jumbotron {
-    background-image: url('../../courses/img/gov2001_big.png');
+    /*background-image: url('../../courses/img/gov2001_big.png');
     background-size: 150px 150px;
     background-position: 200px 10px;
-    background-repeat: no-repeat;
+    background-repeat: no-repeat;*/
+
+    padding: 0;
+    background: #fff;
+    /*background: #68647f;*/
+    margin-bottom: 0px;
+
+}
+.welcome-text-div {
+    padding: 100px 20px 0 0;
+    font-size: 15px;
 }
 
 .courserow {
