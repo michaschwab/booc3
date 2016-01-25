@@ -1,4 +1,4 @@
-angular.module('courses').service('MapActions', function(Tip, ConceptStructure, $location, MapArrows, $modal)
+angular.module('courses').service('MapActions', function(Tip, ConceptStructure, $location, MapArrows, $modal, Logger)
 {
     var me = this;
     var $scope;
@@ -7,12 +7,26 @@ angular.module('courses').service('MapActions', function(Tip, ConceptStructure, 
     {
         $scope = scope;
 
-        $scope.activateConcept = function (d)
+        $scope.activateConcept = function (d, event)
         {
-            //console.log(d);
+            var previousLogData = {};
+            var conceptData;
+
+            if(!$scope.activeConcept)
+            {
+                previousLogData.previousConceptId = '';
+            }
+            else
+            {
+                previousLogData.previousConceptId = $scope.activeConcept.concept._id;
+                previousLogData.previousConceptTitle = $scope.activeConcept.concept.title;
+                previousLogData.previousConceptDepth = $scope.activeConcept.depth;
+            }
+
             if(d === undefined)
             {
                 //$scope.active.hierarchy = [];
+                Logger.log('MapZoomOut', { prev: previousLogData}, event);
                 $scope.active.hierarchy = [];
                 $location.search('active', '');
                 //$location.search('goal', '');
@@ -33,6 +47,9 @@ angular.module('courses').service('MapActions', function(Tip, ConceptStructure, 
                 {
                     //console.log($scope.activeConcept);
                     $location.search('active', id);
+
+                    conceptData = { conceptId: d.concept._id, conceptTitle: d.concept.title, conceptDepth: d.depth };
+                    Logger.log('MapZoomIn', { newConcept: conceptData,  prev: previousLogData}, event);
                     //$location.search('goal', id);
                 }
                 else
@@ -40,11 +57,16 @@ angular.module('courses').service('MapActions', function(Tip, ConceptStructure, 
                     //console.log('activating parent..', d.parentData);
                     if(d.parentData !== undefined)
                     {
+                        conceptData = { conceptId: d.parentData.concept._id, conceptTitle: d.parentData.concept.title, conceptDepth: d.parentData.depth };
+                        Logger.log('MapZoomOut', { newConcept: conceptData,  prev: previousLogData}, event);
+
                         $location.search('active', d.parentData.concept._id);
                         //$location.search('goal', d.parentData.concept._id);
                     }
                     else
                     {
+                        Logger.log('MapZoomOut', { prev: previousLogData}, event);
+
                         $location.search('active', '');
                         //$location.search('goal', '');
                     }

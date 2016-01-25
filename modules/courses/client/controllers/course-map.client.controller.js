@@ -1,7 +1,6 @@
 'use strict';
 
-angular.module('courses').controller('CourseMapController', ['$scope','$stateParams','Courses','Concepts','Conceptdependencies','Authentication','$window','$location', 'ConceptStructure', '$timeout', 'Tip', 'MapArrows', 'MapCircles', 'MapActions', 'MapIcons', '$rootScope', 'MapEvents', 'MapTour',
-	function($scope, $stateParams, Courses, Concepts, Conceptdependencies, Authentication, $window, $location, ConceptStructure, $timeout, Tip, MapArrows, MapCircles, MapActions, MapIcons, $rootScope, MapEvents, MapTour)
+angular.module('courses').controller('CourseMapController', function($scope, $stateParams, Courses, Concepts, Conceptdependencies, Authentication, $window, $location, ConceptStructure, $timeout, Tip, MapArrows, MapCircles, MapActions, MapIcons, $rootScope, MapEvents, MapTour, Logger)
     {
         $scope.authentication = Authentication;
 
@@ -104,9 +103,9 @@ angular.module('courses').controller('CourseMapController', ['$scope','$statePar
             }, REDRAW_MINTIME);
         };
 
-        var onBackgroundClick = function()
+        var onBackgroundClick = function(e)
         {
-            $scope.activateConcept();
+            $scope.activateConcept(undefined, e);
             //Tip.closeOpenTips();
         };
 
@@ -175,7 +174,7 @@ angular.module('courses').controller('CourseMapController', ['$scope','$statePar
             {
                 if(e.target.id == 'vis')
                 {
-                    onBackgroundClick();
+                    onBackgroundClick(e);
                     $scope.safeApply();
                 }
             });
@@ -431,7 +430,7 @@ angular.module('courses').controller('CourseMapController', ['$scope','$statePar
         });
         $scope.$watch('panelWidth', $scope.setGraphSize);
 	}
-])/*.directive('ngRightClick', function($parse) {
+)/*.directive('ngRightClick', function($parse) {
     return function(scope, element, attrs) {
         var fn = $parse(attrs.ngRightClick);
         element.bind('contextmenu', function(event) {

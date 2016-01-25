@@ -1,4 +1,4 @@
-angular.module('courses').service('MapCircles', function(Tip, $location, $timeout)
+angular.module('courses').service('MapCircles', function(Tip, $location, $timeout, Logger)
 {
     var me = this;
     var lxCircle;
@@ -374,11 +374,13 @@ angular.module('courses').service('MapCircles', function(Tip, $location, $timeou
         var lxUpdate = function(lxCircleEnter, lxCircle)
         {
             lxCircleEnter.append('circle').attr({
-                r: 5//function(d) { return d.depth == 1 ? 50 : params.scale(getConfig(d).radius); }
+                r: 5,//function(d) { return d.depth == 1 ? 50 : params.scale(getConfig(d).radius); }
+                id: function(d) { return 'concept-circle-' + d.concept._id; }
             }).on({
                 'click': function (d)
                 {
                     var now = Date.now();
+
 
                     if(mouseDownTime && now - mouseDownTime > 800)
                     {
@@ -400,7 +402,10 @@ angular.module('courses').service('MapCircles', function(Tip, $location, $timeou
                             $scope.safeApply();
                         }
                         else
-                            $scope.activateConcept(d);
+                        {
+                            $scope.activateConcept(d, d3.event);
+                        }
+
                     }
 
                     mouseDownTime = 0;
