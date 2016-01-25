@@ -17,7 +17,7 @@ angular.module('users').controller('ConsentController',
             dbUser.trackingConsent = new Date();
             dbUser.$update(function()
             {
-                $scope.authentication.user.trackingConsent = $scope.user.trackingConsent;
+                $scope.authentication.user.trackingConsent = dbUser.trackingConsent;
                 $state.go('home');
             });
         };
