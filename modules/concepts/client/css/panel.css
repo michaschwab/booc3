@@ -595,11 +595,11 @@ input.concept-title.admin {
     border-color: #337ab7;
 }
 
-.lecture {
+.lectureList .lecture {
     position: relative;
     margin-bottom: 20px;
 }
-.lecture > a {
+.lectureList .lecture > a {
     text-decoration: none;
     border: 1px solid #aaa;
     border-radius: 5px;
@@ -609,7 +609,7 @@ input.concept-title.admin {
     z-index: 2;
 }
 
-.lecture > .concept-line {
+.lectureList .lecture > .concept-line {
     left: 14px;
     top: -3px;
     height: 18px;
