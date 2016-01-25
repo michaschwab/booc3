@@ -59,6 +59,12 @@ angular.module('concepts').service('ConceptActions',
                 Logger.log('PanelConceptClick', conceptData, event);
             };
 
+            $scope.lectureConceptClick = function(concept, event)
+            {
+                var conceptData = { conceptId: concept.concept._id, conceptTitle: concept.concept.title, conceptDepth: concept.depth };
+                Logger.log('PanelLectureConceptClick', conceptData, event);
+            };
+
             $scope.conceptCircleClick = function(concept, event)
             {
                 var conceptData = { conceptId: concept.concept._id, conceptTitle: concept.concept.title, conceptDepth: concept.depth };
@@ -70,6 +76,19 @@ angular.module('concepts').service('ConceptActions',
                 var conceptData = { conceptId: concept.concept._id, conceptTitle: concept.concept.title, conceptDepth: concept.depth };
                 var segmentData = { segmentId: segment._id, segmentTitle: segment.title };
                 Logger.log('PanelSegmentClick', { segment: segmentData, concept: conceptData }, event);
+            };
+
+            $scope.lectureSegmentClick = function(segment, concept, event)
+            {
+                var conceptData = { conceptId: concept.concept._id, conceptTitle: concept.concept.title, conceptDepth: concept.depth };
+                var segmentData = { segmentId: segment._id, segmentTitle: segment.title };
+                Logger.log('PanelLectureSegmentClick', { segment: segmentData, concept: conceptData }, event);
+            };
+
+            $scope.lectureClick = function(lecture, event)
+            {
+                var lectureData = { lectureId: lecture.lecture._id, lectureTitle: lecture.lecture.title };
+                Logger.log('PanelLectureClick', lectureData, event);
             };
         };
 
