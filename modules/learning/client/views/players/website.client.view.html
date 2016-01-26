@@ -1,0 +1,9 @@
+<ng-include ng-show="active.source.data.embed" src="'/modules/learning/views/players/iframe.client.view.html'"></ng-include>
+
+<div ng-show="!active.source.data.embed" class="learnContent-inner" style="padding: 30px">
+    <h1>{{active.source.title}} - External Resource</h1>
+
+    <a class="btn btn-primary" href="{{active.source.path}}" target="_blank">
+        <span class="glyphicon glyphicon-new-window"></span> Open Website in New Window
+    </a>
+</div>
