@@ -17,13 +17,19 @@
     </div>
 </div>
 
-<div class="row">
+<div class="row" ng-show="!externalWebsite">
     <!--<div class="col-md-5">
         <ng-include src=" 'modules/sources/views/segmentListPanel.client.view.html' "></ng-include>
     </div>-->
     <div class="col-md-12">
         <iframe ng-if="sourceData" src="{{sourceData}}" width="100%" height="500"></iframe>
     </div>
+</div>
+
+<div>
+    <button class="btn btn-default">
+        {{externalWebsite}}
+    </button>
 </div>
 
 

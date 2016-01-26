@@ -7,6 +7,7 @@ angular.module('contents').service('WebsiteCreator', function($http, $sce)
     {
         $scope = scope;
 
+        $scope.externalWebsite = true;
         $scope.urlRegex = /[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/;
 
         $scope.$watch('source.path', function(path)
@@ -14,6 +15,8 @@ angular.module('contents').service('WebsiteCreator', function($http, $sce)
             if(path)
             {
                 $scope.sourceData = $sce.trustAsResourceUrl(path);
+
+                $scope.externalWebsite = path.substr(5) !== 'https';
                 /*console.log(path);
                 $http.get(path).success(function(response)
                 {
