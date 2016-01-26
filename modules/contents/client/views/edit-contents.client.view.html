@@ -1,18 +1,49 @@
 <section data-ng-controller="CreatorController" class="contentCol" data-ng-init="init()" style="margin-bottom: 200px; width: {{contentWidth}}px; padding: 0 40px">
     <div class="page-header">
         <h1>
-            <span ng-if="possibleActions[activeAction].indexOf('[icon]')>-1">
+            <!--<span ng-if="possibleActions[activeAction].indexOf('[icon]')>-1">
                 {{possibleActions[activeAction].substr(0, possibleActions[activeAction].indexOf('[icon]'))}}
-                <span class="{{activeType.icon}}"></span>
+
                 {{possibleActions[activeAction].substr( possibleActions[activeAction].indexOf('[icon]')+6)}}
             </span>
             <span ng-if="possibleActions[activeAction].indexOf('[icon]')==-1">
                 {{possibleActions[activeAction]}}
+
+                Existing Source
+            </span>-->
+
+            <span  ng-show="activeAction==='add'">
+                Add Material
+                <span ng-show="addToConcept">
+                    to {{::addToConcept.concept.title}}
+                </span>
+            </span>
+            <span  ng-show="activeAction==='add_edit'">
+
+                Add Material from
+
+                <span ng-show="!editSource">Existing <span class="{{activeType.icon}}"></span> Source</span>
+                <span ng-show="editSource"><span class="{{activeType.icon}}"></span> {{editSource.title}}</span>
+
+                <span ng-show="addToConcept">
+                    to {{::addToConcept.concept.title}}
+                </span>
+
+            </span>
+            <span  ng-show="activeAction==='edit'">
+                Edit Source
+            </span>
+            <span  ng-show="activeAction==='create'">
+
+                <span ng-show="addToConcept">
+                    Add New Material to {{::addToConcept.concept.title}}
+                </span>
+                <span ng-show="!addToConcept">
+                    Create Material
+                </span>
             </span>
 
-            <span ng-show="addToConcept">
-                to {{::addToConcept.concept.title}}
-            </span>
+
         </h1>
 
     </div>
@@ -57,6 +88,8 @@
 
             </ui-select>
         </div>
+
+
 
         <div class="main-form" ng-show="(activeAction!=='edit'&&activeAction!=='add_edit')||source._id">
             <div class="form-group" ng-if="!activeReadableType">

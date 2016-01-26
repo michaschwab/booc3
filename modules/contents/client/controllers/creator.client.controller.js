@@ -7,7 +7,7 @@ angular.module('contents').controller('CreatorController',
         $scope.stateParams = $stateParams;
 
         $scope.possibleActions = {
-            'add_edit': 'Add Material from Existing [icon] Source',
+            'add_edit': 'Add Material from Existing Source',
             'edit': 'Edit [icon] Source',
             'create': 'Add New [icon] Source',
             'add': 'Add Material'
