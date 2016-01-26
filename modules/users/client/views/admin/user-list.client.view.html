@@ -10,10 +10,26 @@
     </div>
   </div>
   <div class="list-group">
-    <a data-ng-repeat="user in pagedItems" data-ui-sref="admin.user({userId: user._id})" class="list-group-item">
-      <h4 class="list-group-item-heading" data-ng-bind="user.username"></h4>
-      <p class="list-group-item-text" data-ng-bind="user.email"></p>
-    </a>
+    <table class="table table-striped">
+      <thead>
+        <th>UserID</th>
+        <th>Admin</th>
+        <th>Signed Up</th>
+        <th>Consent</th>
+      </thead>
+      <tbody>
+        <tr ng-repeat="user in pagedItems">
+          <td>
+            <a data-ui-sref="admin.user({userId: user._id})">
+              {{user._id}}
+            </a>
+          </td>
+          <td>{{user.roles.indexOf('admin')!==-1||user.roles.indexOf('teacher')!==-1}}</td>
+          <td>{{user.created}}</td>
+          <td>{{user.trackingConsent}}</td>
+        </tr>
+      </tbody>
+    </table>
   </div>
 
   <pagination boundary-links="true" max-size="8" items-per-page="itemsPerPage" total-items="filterLength" ng-model="currentPage" ng-change="pageChanged()"></pagination>
