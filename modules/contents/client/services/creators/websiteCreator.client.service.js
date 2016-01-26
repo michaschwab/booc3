@@ -2,12 +2,14 @@ angular.module('contents').service('WebsiteCreator', function($http, $sce)
 {
     var me = this;
     var $scope = null;
+    var childScope;
 
     this.start = function(scope)
     {
         $scope = scope;
 
-        $scope.externalWebsite = true;
+        $scope.websiteEmbed = false;
+        $scope.websiteEmbedPossible = false;
         $scope.urlRegex = /[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/;
 
         $scope.$watch('source.path', function(path)
@@ -16,7 +18,15 @@ angular.module('contents').service('WebsiteCreator', function($http, $sce)
             {
                 $scope.sourceData = $sce.trustAsResourceUrl(path);
 
-                $scope.externalWebsite = path.substr(5) !== 'https';
+                childScope = angular.element('.websiteCreateFormDiv').scope();
+
+                $scope.websiteEmbedPossible = path.substr(0,5) === 'https';
+
+                if(!$scope.websiteEmbedPossible)
+                {
+                    //todo somehow this has no effect
+                    childScope.websiteEmbed = false;
+                }
                 /*console.log(path);
                 $http.get(path).success(function(response)
                 {
@@ -53,6 +63,11 @@ angular.module('contents').service('WebsiteCreator', function($http, $sce)
             }
         });
 
+    };
+
+    this.beforeSave = function()
+    {
+        $scope.source.data = { embed: childScope.websiteEmbed };
     };
 
     this.getCurrentPosition = function()

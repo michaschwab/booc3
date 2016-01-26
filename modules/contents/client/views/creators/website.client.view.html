@@ -1,3 +1,5 @@
+<div class="websiteCreateFormDiv">
+
 <div class="form-group" ng-show="activeAction!=='add_edit'">
     <label for="path">What's the URL of the Website?</label><br />
 
@@ -17,7 +19,23 @@
     </div>
 </div>
 
-<div class="row" ng-show="!externalWebsite">
+<div class="form-group">
+    <label>Should the Website be embedded, or linked to?
+        <button class="btn btn-default" ng-disabled="!websiteEmbedPossible" ng-click="websiteEmbed=!websiteEmbed">
+    <span ng-show="websiteEmbed">
+        <span class="glyphicon glyphicon-record"></span>
+        Embed Website
+    </span>
+    <span ng-show="!websiteEmbed">
+        <span class="glyphicon glyphicon-new-window"></span>
+        Link to Website
+    </span>
+        </button>
+    </label>
+    <p ng-show="!websiteEmbedPossible">Note: Only HTTPS Websites can be embedded.</p>
+</div>
+
+<div class="form-group" ng-show="websiteEmbed">
     <!--<div class="col-md-5">
         <ng-include src=" 'modules/sources/views/segmentListPanel.client.view.html' "></ng-include>
     </div>-->
@@ -26,14 +44,7 @@
     </div>
 </div>
 
-<div>
-    <button class="btn btn-default">
-        {{externalWebsite}}
-    </button>
-</div>
-
-
-<div class="col-md-12 form-group">
+<div class="form-group">
     <label for="conceptSelect">Which Concept is the content for?</label>
 
     <concept-multi-select ng-if="activeSegment.conceptObjects" id="conceptSelect" concepts="concepts" ng-model="activeSegment.conceptObjects"></concept-multi-select>
@@ -42,4 +53,6 @@
     <concept-select ng-repeat="con in activeSegment.conceptObjects" concepts="concepts" on-select="selectConcept" model="con" id="conceptSelect-{{$index}}"></concept-select>
 
     <concept-select concepts="concepts" on-select="addConcept" model="newConcept" id="conceptSelect"></concept-select>-->
+</div>
+
 </div>

@@ -288,6 +288,9 @@ angular.module('contents').controller('CreatorController',
         {
             $scope.source.type = getFixedSourceTypeId();
             $scope.source.courses = [$scope.course._id];
+
+            if(sourceHelper.beforeSave)
+                sourceHelper.beforeSave();
             //todo be more flexible and allow multiple courses
             //delete $scope.course;
 
