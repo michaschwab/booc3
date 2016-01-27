@@ -250,7 +250,7 @@ angular.module('courses').controller('CourseMapController', function($scope, $st
                             return a.depth - b.depth;
                         });
 
-                        var index = sortedHierarchy[sortedHierarchy.length - 1].depth === 3 ? sortedHierarchy.length - 2 : sortedHierarchy.length - 1;
+                        var index = !sortedHierarchy[sortedHierarchy.length - 1].children.length ? sortedHierarchy.length - 2 : sortedHierarchy.length - 1;
                         var selectedConcept = sortedHierarchy[index];
 
                         var radius = $scope.visParams.scale(selectedConcept.radius);
