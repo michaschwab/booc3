@@ -25,23 +25,25 @@ angular.module('contents').service('WebsiteCreator', function($http, $sce)
                 $scope.websiteEmbedPossible = false;
                 $scope.isHttps = path.substr(0,5) === 'https';
 
-                $http.get('/api/websiteIsEmbeddable?url=' + path).then(function(response)
+                if($scope.isHttps)
                 {
-                    if(response && response.data && response.data === 'yes')
+                    $http.get('/api/websiteIsEmbeddable?url=' + path).then(function(response)
                     {
-                        $scope.websiteEmbedPossible = true;
-                    }
-                    else
+                        if(response && response.data && response.data === 'yes')
+                        {
+                            $scope.websiteEmbedPossible = true;
+                        }
+                        else
+                        {
+                            $scope.xFrameProblem = true;
+                            childScope.websiteEmbed = false;
+                        }
+                    }, function(error)
                     {
-                        $scope.xFrameProblem = true;
+                        console.error(error);
                         childScope.websiteEmbed = false;
-                    }
-                }, function(error)
-                {
-                    console.error(error);
-                    childScope.websiteEmbed = false;
-                });
-
+                    });
+                }
             }
         }, true);
 
