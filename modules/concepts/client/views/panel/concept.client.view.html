@@ -55,7 +55,7 @@
         </li>
     </ul>
 
-    <ul class="concept-list concept-list-nested" ng-if="concept.planChildren.length">
+    <ul class="concept-list concept-list-nested" ng-if="!concept.notOnPlan && concept.planChildren.length">
 
         <concept concept="concept" ng-repeat="concept in concept.children track by concept.concept._id"></concept>
     </ul>
