@@ -11,6 +11,8 @@ angular.module('contents').service('WebsiteCreator', function($http, $sce)
         $scope.websiteEmbed = false;
         $scope.websiteEmbedPossible = false;
         $scope.urlRegex = /[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/;
+        $scope.xFrameProblem = false;
+        $scope.isHttps = false;
 
         $scope.$watch('source.path', function(path)
         {
@@ -20,21 +22,25 @@ angular.module('contents').service('WebsiteCreator', function($http, $sce)
 
                 childScope = angular.element('.websiteCreateFormDiv').scope();
 
-                $scope.websiteEmbedPossible = path.substr(0,5) === 'https';
+                $scope.websiteEmbedPossible = false;
+                $scope.isHttps = path.substr(0,5) === 'https';
 
-                if(!$scope.websiteEmbedPossible)
+                $http.get('/api/websiteIsEmbeddable?url=' + path).then(function(response)
                 {
-                    //todo somehow this has no effect
+                    if(response && response.data && response.data === 'yes')
+                    {
+                        $scope.websiteEmbedPossible = true;
+                    }
+                    else
+                    {
+                        $scope.xFrameProblem = true;
+                        childScope.websiteEmbed = false;
+                    }
+                }, function(error)
+                {
+                    console.error(error);
                     childScope.websiteEmbed = false;
-                }
-                /*console.log(path);
-                $http.get(path).success(function(response)
-                {
-                    console.log(response);
-                }).error(function(error)
-                {
-                    console.log(error);
-                });*/
+                });
 
             }
         }, true);
@@ -45,7 +51,7 @@ angular.module('contents').service('WebsiteCreator', function($http, $sce)
             {
                 var segment = $scope.segments[0];
                 $scope.activeSegment = segment;
-                console.log('doing stuff with my website segment..');
+                //console.log('doing stuff with my website segment..');
 
                 segment.conceptObjects = segment.conceptObjects.concat($scope.allConcepts.filter(function(c)
                 {

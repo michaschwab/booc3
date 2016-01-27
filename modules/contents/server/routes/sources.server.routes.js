@@ -22,6 +22,9 @@ module.exports = function(app) {
 	app.route('/api/sources/:sourceId/pdf')
 		.get(sources.readPdf);
 
+	app.route('/api/websiteIsEmbeddable')
+		.get(sources.isEmbeddable);
+
 	// Finish by binding the Course middleware
 	app.param('sourceId', sources.sourceByID);
 };

@@ -32,15 +32,18 @@
     </span>
         </button>
     </label>
-    <p ng-show="!websiteEmbedPossible">Note: Only HTTPS Websites can be embedded.</p>
+    <div class="alert alert-warning" ng-show="!websiteEmbedPossible&&source.path">
+        <span ng-show="xFrameProblem">This website can not be embedded because it explicitly forbids it.</span>
+        <span ng-show="!isHttps&&!xFrameProblem">Only HTTPS Websites can be embedded.</span>
+    </div>
 </div>
 
-<div class="form-group" ng-show="websiteEmbed">
+<div class="form-group" ng-if="websiteEmbed">
     <!--<div class="col-md-5">
         <ng-include src=" 'modules/sources/views/segmentListPanel.client.view.html' "></ng-include>
     </div>-->
     <div class="col-md-12">
-        <iframe ng-if="sourceData" src="{{sourceData}}" width="100%" height="500"></iframe>
+        <iframe ng-if="sourceData" src="{{sourceData}}" id="websiteFrame" width="100%" height="300"></iframe>
     </div>
 </div>
 

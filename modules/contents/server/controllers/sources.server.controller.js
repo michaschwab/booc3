@@ -13,6 +13,7 @@ var path = require('path'),
     fs = require('fs'),
     cheerio = require('cheerio'),
     mkdirp = require('mkdirp'),
+    request = require('request'),
     _ = require('lodash');
 
 var ObjectId = mongoose.Types.ObjectId;
@@ -180,6 +181,29 @@ exports.readPdf = function(req, res)
             }
         });
     }
+};
+
+exports.isEmbeddable = function(req, res)
+{
+    var url = req.query.url;
+
+    request.get(url, function(error, response, body)
+    {
+        var headers = response.headers;
+
+        var xFrameOptions = response.headers["x-frame-options"];
+
+        if(!xFrameOptions) return res.send('yes');
+
+        xFrameOptions = xFrameOptions.toLocaleLowerCase();
+
+        if(xFrameOptions == 'sameorigin') return res.send('no');
+        if(xFrameOptions == 'deny') return res.send('no');
+        if(xFrameOptions == 'allow-from') {
+            //todo check if domain is listed.
+            return res.send('yes');
+        }
+    });
 };
 
 exports.uploadLectureSlides = function(req, res)
