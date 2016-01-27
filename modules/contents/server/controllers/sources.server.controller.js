@@ -18,12 +18,16 @@ var path = require('path'),
 
 var ObjectId = mongoose.Types.ObjectId;
 var actions = require('../../../actions/server/controllers/actions.server.controller');
+var courseTeacherPolicy = require('../../../users/server/services/courseteacher.server.policyhelper');
 
 /**
  * Create a source
  */
 exports.create = function(req, res)
 {
+    var access = courseTeacherPolicy.hasAnyPrivileges(req);
+    if(!access) return res.send('no access');
+
     var source = new Source(req.body);
     source.user = req.user;
 
@@ -56,7 +60,11 @@ exports.read = function(req, res) {
 /**
  * Update a Source
  */
-exports.update = function(req, res) {
+exports.update = function(req, res)
+{
+    var access = courseTeacherPolicy.hasAnyPrivileges(req);
+    if(!access) return res.send('no access');
+
     var source = req.source ;
 
     source = _.extend(source , req.body);
@@ -77,6 +85,9 @@ exports.update = function(req, res) {
  */
 exports.delete = function(req, res)
 {
+    var access = courseTeacherPolicy.hasAnyPrivileges(req);
+    if(!access) return res.send('no access');
+
     var source = req.source ;
     var sourceId = source._id;
 
@@ -141,6 +152,9 @@ exports.delete = function(req, res)
 
 exports.uploadPdf = function(req, res)
 {
+    var access = courseTeacherPolicy.hasAnyPrivileges(req);
+    if(!access) return res.send('no access');
+
     var buffer = req.files.file.buffer;
     var fileName = req.files.file.name;
     var saveAs = './modules/contents/client/uploads/pdf/' + fileName;
@@ -160,6 +174,8 @@ exports.uploadPdf = function(req, res)
 exports.readPdf = function(req, res)
 {
     var path = req.source.path;
+    var access = courseTeacherPolicy.hasAnyPrivileges(req);
+    if(!access) return res.send('no access');
 
     if(path.indexOf('http') === 0)
     {
@@ -186,10 +202,12 @@ exports.readPdf = function(req, res)
 exports.isEmbeddable = function(req, res)
 {
     var url = req.query.url;
+    var access = courseTeacherPolicy.hasAnyPrivileges(req);
+    if(!access) return res.send('no access');
 
     request.get(url, function(error, response, body)
     {
-        var headers = response.headers;
+        if(!response || response.headers) return res.send('no');
 
         var xFrameOptions = response.headers["x-frame-options"];
 
@@ -208,6 +226,9 @@ exports.isEmbeddable = function(req, res)
 
 exports.uploadLectureSlides = function(req, res)
 {
+    var access = courseTeacherPolicy.hasAnyPrivileges(req);
+    if(!access) return res.send('no access');
+
     var buffer = req.files.file.buffer;
     var zip = new JSZip(buffer);
 
