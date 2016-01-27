@@ -75,7 +75,8 @@ angular.module('contents').service('WebsiteCreator', function($http, $sce)
 
     this.beforeSave = function()
     {
-        $scope.source.data = { embed: childScope.websiteEmbed };
+        if(childScope && childScope.websiteEmbed !== undefined)
+            $scope.source.data = { embed: childScope.websiteEmbed };
     };
 
     this.getCurrentPosition = function()

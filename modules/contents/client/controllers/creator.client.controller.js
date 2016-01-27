@@ -37,6 +37,7 @@ angular.module('contents').controller('CreatorController',
         $scope.activeSegment = null;
         $scope.activeConcept = null;
         $scope.newConcept = null;
+        var segmentSameTitleAsSource = false;
 
         $scope.init = function()
         {
@@ -102,6 +103,11 @@ angular.module('contents').controller('CreatorController',
                                 Segments.query({source: $scope.sourceId}, function(segments)
                                 {
                                     $scope.segments = segments.filter(function(s) { return s.source == $scope.sourceId });
+
+                                    if($scope.segments.length == 1 && $scope.segments[0].title == $scope.source.title)
+                                    {
+                                        segmentSameTitleAsSource = true;
+                                    }
 
                                     $scope.segments.forEach(function(segment)
                                     {
@@ -330,13 +336,19 @@ angular.module('contents').controller('CreatorController',
 
                         var cb2 = function()
                         {
-                            //TODO do some smart redirect.
                             redirectBack();
                         };
 
                         if(segment._id)
                         {
                             console.log('updating segment');
+
+                            if(segmentSameTitleAsSource)
+                            {
+                                // make sure it's still the same.
+                                segment.title = $scope.source.title;
+                            }
+
                             Segments.update({_id: segment._id}, segment, cb2,
                                 function(err){
                                     console.log("ERROR saving:", err);
@@ -349,7 +361,7 @@ angular.module('contents').controller('CreatorController',
                         {
                             console.log('creating new segment');
 
-                            if(!segment.title)
+                            if(!segment.title && $scope.segments.length == 1)
                             {
                                 segment.title = $scope.source.title;
                             }
@@ -583,4 +595,4 @@ angular.module('contents').controller('CreatorController',
             });
         }
     };
-});;
+});
