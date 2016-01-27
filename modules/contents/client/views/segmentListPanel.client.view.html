@@ -1,8 +1,10 @@
 <div class="panel panel-default">
     <h4 style="padding: 5pt; margin: 0" class="panel-heading"><span class="glyphicon glyphicon-list-alt"></span> Segments</h4>
 
-    <button type="button" class="btn btn-danger" style="width:50%; border:none" ng-click="removeAllSegments()" ng-disabled="!source.path">
-        <span class="glyphicon glyphicon-remove"></span> Remove all
+    <button type="button" class="btn btn-danger" style="width:50%; border:none" ng-click="removeAllSegmentsButtonClick()" ng-disabled="!source.path||!segments.length">
+        <span class="glyphicon glyphicon-remove"></span>
+        <span ng-show="!showSegmentRemoveAllConfirmation">Remove all</span>
+        <span ng-show="showSegmentRemoveAllConfirmation">Click Again to Remove All</span>
     </button>
     <button type="button" class="btn btn-primary" style="width:49%; float:right; border:none" ng-click="addSegment()" ng-disabled="!source.path">
         <span class="glyphicon glyphicon-plus"></span> Add New

@@ -520,6 +520,20 @@ angular.module('contents').controller('CreatorController',
             $scope.selectSegment(segment);
         };
 
+        $scope.showSegmentRemoveAllConfirmation = false;
+        $scope.removeAllSegmentsButtonClick = function()
+        {
+            if(!$scope.showSegmentRemoveAllConfirmation)
+            {
+                $scope.showSegmentRemoveAllConfirmation = true;
+            }
+            else
+            {
+                $scope.showSegmentRemoveAllConfirmation = false;
+                $scope.removeAllSegments();
+            }
+        };
+
         $scope.removeAllSegments = function()
         {
             $scope.segments = [];
