@@ -524,16 +524,22 @@ angular.module('contents').controller('CreatorController',
             $scope.selectSegment(segment);
         };
 
+        var confirmDeleteAllSegmentsTimeout = null;
         $scope.showSegmentRemoveAllConfirmation = false;
         $scope.removeAllSegmentsButtonClick = function()
         {
             if(!$scope.showSegmentRemoveAllConfirmation)
             {
                 $scope.showSegmentRemoveAllConfirmation = true;
+                confirmDeleteAllSegmentsTimeout = $timeout(function()
+                {
+                    $scope.showSegmentRemoveAllConfirmation = false;
+                }, 2000);
             }
             else
             {
                 $scope.showSegmentRemoveAllConfirmation = false;
+                $timeout.cancel(confirmDeleteAllSegmentsTimeout);
                 $scope.removeAllSegments();
             }
         };
