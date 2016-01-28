@@ -371,6 +371,10 @@ angular.module('contents').controller('CreatorController',
                         }
                     });
                 }
+                else
+                {
+                    redirectBack();
+                }
             };
             var source = $scope.source;
 
