@@ -2,7 +2,7 @@
 
 // Courses controller
 angular.module('courses').controller('CoursesController',
-	function($http, $scope, $stateParams, $location, Authentication, Courses, Concepts, LearnedConcepts, $state, Logger)
+	function($http, $scope, $stateParams, $location, Authentication, Courses, Concepts, LearnedConcepts, $state, Logger, Courseruns)
 	{
 		$scope.authentication = Authentication;
 
@@ -127,8 +127,16 @@ angular.module('courses').controller('CoursesController',
 
 			if($stateParams.courseId)
 			{
+				var courseId = $stateParams.courseId;
+
 				$scope.course = Courses.get({
-					courseId: $stateParams.courseId
+					courseId: courseId
+				});
+
+				$scope.courseruns = Courseruns.query({course: courseId });
+				$scope.courseruns.map(function(courseRun)
+				{
+					courseRun.deleted = false;
 				});
 			}
 			else
@@ -142,7 +150,27 @@ angular.module('courses').controller('CoursesController',
 					segments: []
 				};
 			}
+		};
 
+		$scope.addCourseRun = function(event)
+		{
+			var courseRun = {
+				title: '',
+				course: $scope.course._id,
+				start: new Date(),
+				'start_text': moment().format('YYYY-MM-DD'),
+				deleted: false
+			};
+			$scope.courseruns.push(courseRun);
+
+			event.preventDefault();
+		};
+
+		$scope.deleteCourseRun = function(courserun, event)
+		{
+			//$scope.courseruns.splice($scope.courseruns.indexOf(courserun), 1);
+			courserun.deleted = true;
+			event.preventDefault();
 		};
 	}
 );
