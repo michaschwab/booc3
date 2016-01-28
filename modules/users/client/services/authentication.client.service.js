@@ -1,20 +1,30 @@
 'use strict';
 
 // Authentication service for user variables
-angular.module('users').factory('Authentication', function ($window, $location) {
+angular.module('users').factory('Authentication', function ($window, $location, $rootScope) {
     var auth = {
       user: $window.user
     };
 
     var user = auth.user;
 
-    if(typeof user === 'object')
+    $rootScope.$on('$locationChangeSuccess', function()
     {
-      if(user.trackingConsent === undefined || user.trackingConsent === null)
-      {
-        $location.path('/consent');
-      }
+        checkConsent();
+    });
+
+    function checkConsent()
+    {
+        if(typeof user === 'object')
+        {
+            if(user.trackingConsent === undefined || user.trackingConsent === null)
+            {
+                $location.path('/consent');
+            }
+        }
     }
+
+    checkConsent();
 
     auth.hasOneRole = function(roles)
     {
