@@ -394,9 +394,17 @@ angular.module('courses').service('ActiveDataManager', function(Authentication, 
 
             if((learnMode && adminMode && $scope.activeConcept.parentData) || adminMode && !$scope.activeConcept.children.length)
             {
-                // For admins, show the parent's hierarchy in the panel while in learning mode.
-                $scope.activeHierarchyChildren = $scope.activeConcept.parentData.children;
-                $scope.activeHierarchyConcept = $scope.activeConcept.parentData;
+                // For admins, show the parent's hierarchy in the panel while in learning mode
+                if($scope.activeConcept.parentData)
+                {
+                    $scope.activeHierarchyChildren = $scope.activeConcept.parentData.children;
+                    $scope.activeHierarchyConcept = $scope.activeConcept.parentData;
+                }
+                else
+                {
+                    $scope.activeHierarchyChildren = $scope.active.topLevelConcepts;
+                    $scope.activeHierarchyConcept = { concept: $scope.course };
+                }
             }
             else
             {
