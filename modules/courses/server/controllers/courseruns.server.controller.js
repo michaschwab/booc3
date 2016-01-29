@@ -92,7 +92,13 @@ exports.list = function(req, res)
 {
     var hasPrivileges = CourseTeacherPolicy.hasAnyPrivileges(req);
 
-    CourseRun.find().sort('+created').exec(function(err, courseRuns) {
+    var limit = {};
+    if(req.query['course'])
+    {
+        limit.course = req.query.course;
+    }
+
+    CourseRun.find(limit).sort('+created').exec(function(err, courseRuns) {
         if (err) {
             return res.status(400).send({
                 message: errorHandler.getErrorMessage(err)
