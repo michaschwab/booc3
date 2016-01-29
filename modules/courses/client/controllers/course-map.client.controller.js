@@ -253,20 +253,23 @@ angular.module('courses').controller('CourseMapController', function($scope, $st
                         var index = !sortedHierarchy[sortedHierarchy.length - 1].children.length ? sortedHierarchy.length - 2 : sortedHierarchy.length - 1;
                         var selectedConcept = sortedHierarchy[index];
 
-                        var radius = $scope.visParams.scale(selectedConcept.radius);
+                        if(selectedConcept)
+                        {
+                            var radius = $scope.visParams.scale(selectedConcept.radius);
 
-                        var scaleRelative = 0.75; // If 1, then the element fills out the full screen.
-                        scale = smallerDim / radius / 2 * scaleRelative;
-                        var topLeft = {x: trans.x - radius, y: trans.y - radius};
+                            var scaleRelative = 0.75; // If 1, then the element fills out the full screen.
+                            scale = smallerDim / radius / 2 * scaleRelative;
+                            var topLeft = {x: trans.x - radius, y: trans.y - radius};
 
 
-                        var relativeMove = radius * (1 - scaleRelative) * scale;
-                        // Dunno why 25, but seems to work well
-                        var fixingAmount = 25 * $scope.graphMinDim / 800;
+                            var relativeMove = radius * (1 - scaleRelative) * scale;
+                            // Dunno why 25, but seems to work well
+                            var fixingAmount = 25 * $scope.graphMinDim / 800;
 
-                        var proportionsFix = w > h ? (w - h) / 2 : 0;
+                            var proportionsFix = w > h ? (w - h) / 2 : 0;
 
-                        translate = [topLeft.x * scale * -1 + relativeMove + fixingAmount + proportionsFix, topLeft.y * scale * -1 + relativeMove + fixingAmount];
+                            translate = [topLeft.x * scale * -1 + relativeMove + fixingAmount + proportionsFix, topLeft.y * scale * -1 + relativeMove + fixingAmount];
+                        }
                     }
                 }
 
