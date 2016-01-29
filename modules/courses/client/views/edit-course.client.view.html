@@ -53,7 +53,7 @@
                         </thead>
                         <tr ng-repeat="run in courseruns | filter:{deleted: false}">
                             <td><input class="form-control" type="text" ng-required="title" ng-model="run.title" name="title" style="width: 400px" /></td>
-                            <td><input type="text" class="form-control" uib-datepicker-popup="yyyy/MM/dd" ng-model="run.start_text" placeholder="YYYY-MM-DD" /></td>
+                            <td><input type="text" class="form-control" uib-datepicker-popup="yyyy-MM-dd" ng-model="run.start_text" placeholder="YYYY-MM-DD" ng-change="runStartChange(run)" /></td>
                             <td><button class="btn btn-default" ng-click="deleteCourseRun(run, $event)"><span class="glyphicon glyphicon-trash"></span> Delete</button></td>
                         </tr>
                     </table>

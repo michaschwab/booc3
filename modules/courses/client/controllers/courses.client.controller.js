@@ -93,7 +93,28 @@ angular.module('courses').controller('CoursesController',
 		$scope.update = function() {
 			var course = $scope.course;
 
-			course.$update(function() {
+			course.$update(function()
+			{
+				$scope.courseruns.forEach(function(courseRun)
+				{
+					if(courseRun._id)
+					{
+						if(!courseRun.deleted)
+						{
+							courseRun.$update();
+						}
+						else
+						{
+							courseRun.$remove();
+						}
+					}
+					else if(!courseRun.deleted)
+					{
+						var run = new Courseruns(courseRun);
+						run.$save();
+					}
+				});
+
 
 				$state.go('courses.view', {
 					courseId: course._id,
@@ -133,10 +154,13 @@ angular.module('courses').controller('CoursesController',
 					courseId: courseId
 				});
 
-				$scope.courseruns = Courseruns.query({course: courseId });
-				$scope.courseruns.map(function(courseRun)
+				$scope.courseruns = Courseruns.query({course: courseId }, function()
 				{
-					courseRun.deleted = false;
+					$scope.courseruns.map(function(courseRun)
+					{
+						courseRun.deleted = false;
+						courseRun['start_text'] = moment(courseRun.start).format('YYYY-MM-DD');
+					});
 				});
 			}
 			else
@@ -150,6 +174,13 @@ angular.module('courses').controller('CoursesController',
 					segments: []
 				};
 			}
+
+		};
+
+		$scope.runStartChange = function(courserun)
+		{
+			var startDate = moment(courserun.start_text, "YYYY-MM-DD");
+			courserun.start = startDate;
 		};
 
 		$scope.addCourseRun = function(event)

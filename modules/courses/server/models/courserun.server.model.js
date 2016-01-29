@@ -15,7 +15,7 @@ var CourseRunSchema = new Schema({
         trim: true,
         required: 'Title cannot be blank'
     },
-    course: [{ type: Schema.ObjectId, ref: 'Course' }],
+    course: { type: Schema.ObjectId, ref: 'Course' },
     start: {
         type: Date,
         default: Date.now
