@@ -28,7 +28,8 @@ var SourceSchema = new Schema({
     },
     type: { type: Schema.Types.ObjectId, ref: 'Sourcetype', required: 'has to have a type' },
     data: Schema.Types.Mixed,
-    courses: [{ type: Schema.Types.ObjectId, ref: 'Course' }]
+    courses: [{ type: Schema.Types.ObjectId, ref: 'Course' }],
+    courserun: { type: Schema.Types.ObjectId, ref: 'CourseRun' }
 });
 
 var Source = mongoose.model('Source', SourceSchema);
