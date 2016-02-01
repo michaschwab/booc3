@@ -664,12 +664,12 @@ angular.module('courses').service('ActiveDataManager', function(Authentication, 
                 {
                     run.activeLectures = $scope.activeLectures.filter(function(lecture)
                     {
-                        return lecture.courserun == run._id;
+                        return lecture.lecture.courserun == run._id;
                     });
                 });
                 $scope.activeLecturesWithoutRun = $scope.activeLectures.filter(function(lecture)
                 {
-                    return !lecture.courserun;
+                    return !lecture.lecture.courserun;
                 });
             }
         }

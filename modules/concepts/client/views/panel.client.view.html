@@ -180,11 +180,26 @@
 
                     <!--<h3>Concepts in {{activeLecture.title}}</h3>-->
                     <p ng-show="activeConcept"><i>Which Lectures cover parts of {{activeConcept.concept.title}}?</i></p>
-                    <p ng-hide="activeConcept"><i>Which Lectures cover parts of {{course.short}}?</i></p>
+                    <p ng-hide="activeConcept"><i>Which Lectures cover {{course.short}}?</i></p>
 
-                    <ul class="lectureList">
+                    <ul class="lectureList" ng-show="!courseruns">
                         <lecture lecture="lecture" ng-repeat="lecture in activeLectures | orderBy: 'lecture.title'"></lecture>
                     </ul>
+
+                    <div ng-show="courseruns">
+                        <div ng-repeat="run in courseruns | orderBy:'run.start':true">
+                            <h4>{{run.title}}</h4>
+                            <ul class="lectureList">
+                                <lecture lecture="lecture" ng-repeat="lecture in run.activeLectures | orderBy: 'lecture.title'"></lecture>
+                            </ul>
+                        </div>
+                        <div ng-show="activeLecturesWithoutRun.count">
+                            <h4>Others</h4>
+                            <ul class="lectureList">
+                                <lecture lecture="lecture" ng-repeat="lecture in activeLecturesWithoutRun | orderBy: 'lecture.title'"></lecture>
+                            </ul>
+                        </div>
+                    </div>
                 </div>
 
                 <div ng-show="activeMode=='plan'" class="panel-content" ng-class="{'panel-content-active': activeMode=='plan'}" style="height: {{panelContentHeight}}px;">
