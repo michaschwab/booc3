@@ -76,17 +76,14 @@
         </div>
 
         <div ng-show="activeAction=='create'||activeAction=='edit'" class="col-md-12 form-group">
+
             <label for="courseRunSelect">Which Course Run is the content for?</label><br />
 
-            <ui-select class="course-run-select" ng-model="source.courserun" ng-required name="courseRunSelect" id="courseRunSelect">
-                <ui-select-match placeholder="Select Course Run...">{{$select.selected.title}}</ui-select-match>
-                <ui-select-choices repeat="run in courseruns | filter: $select.search">
-                    <div ng-bind-html="run.title | highlight: $select.search"></div>
-                    <small ng-bind-html="run.startText | highlight: $select.search"></small>
-                </ui-select-choices>
-
-
-            </ui-select>
+            <select class="course-run-select form-control" ng-model="source.courserun" ng-required name="courseRunSelect" id="courseRunSelect">
+                <option ng-repeat="run in courseruns" value="{{run._id}}">
+                    {{run.title}}
+                </option>
+            </select>
         </div>
 
         <div class="col-md-12 form-group" ng-show="activeAction==='add_edit'&&!editSource">

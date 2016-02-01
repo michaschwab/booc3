@@ -39,6 +39,23 @@ angular.module('contents').controller('CreatorController',
         $scope.newConcept = null;
         var segmentSameTitleAsSource = false;
 
+        $scope.$watch('courseId', function()
+        {
+            if(!$scope.courseId) return;
+
+            $scope.courseruns = Courseruns.query({course: $scope.courseId}, function()
+            {
+                $scope.courseruns.map(function(run)
+                {
+                    run.startText = moment(run.start).format('YYYY-MM-DD');
+                });
+                $scope.courserunIds = $scope.courseruns.map(function(run)
+                {
+                    return run._id;
+                });
+            });
+        });
+
         $scope.init = function()
         {
             Courses.query(function(courses)
@@ -54,19 +71,6 @@ angular.module('contents').controller('CreatorController',
                     if($scope.courseId && courseSearchScope)
                     {
                         courseSearchScope.$select.selected = $scope.courses[$scope.courseIds.indexOf($scope.courseId)];
-
-                        $scope.courseruns = Courseruns.query({course: $scope.courseId}, function()
-                        {
-                            $scope.courseruns.map(function(run)
-                            {
-                                run.startText = moment(run.start).format('YYYY-MM-DD');
-                            });
-                            $scope.courserunIds = $scope.courseruns.map(function(run)
-                            {
-                                return run._id;
-                            });
-                        });
-
                     }
                 }
             });
@@ -142,17 +146,6 @@ angular.module('contents').controller('CreatorController',
                                 if($scope.courseId)
                                 {
                                     $scope.course = $scope.courses[$scope.courseIds.indexOf($scope.courseId)];
-                                }
-                                if($scope.source.courserun)
-                                {
-                                    var courseRunSelectScope = angular.element('.course-run-select').scope();
-                                    var courseRunSearchScope = courseRunSelectScope ? courseRunSelectScope.$$childHead : null;
-                                    console.log(courseRunSelectScope, courseRunSearchScope);
-
-                                    if(courseRunSelectScope)
-                                    {
-                                        courseRunSelectScope.$select.selected = $scope.courseruns[$scope.courserunIds.indexOf($scope.source.courserun)];
-                                    }
                                 }
                             }
                             else
