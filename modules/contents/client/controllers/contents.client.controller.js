@@ -1,13 +1,20 @@
 'use strict';
 
 angular.module('contents').controller('ContentsController',
-    function($scope, $stateParams, Courses, Sourcetypes, Sources, Segments, $timeout, $location, Concepts)
+    function($scope, $stateParams, Courses, Sourcetypes, Sources, Segments, $timeout, $location, Concepts, Authentication, $state)
     {
         $scope.courseId = $stateParams.courseId;
         $scope.sourceTypeMap = {};
         $scope.sourceTypes = [];
         $scope.sourceSegments = {};
         $scope.conceptMap = {};
+
+        var hasAccess = Authentication.isOneCourseAdmin();
+        if(!hasAccess)
+        {
+            console.error('no access: not content editor of any course');
+            $state.go('home');
+        }
 
         Concepts.query(function(concepts)
         {

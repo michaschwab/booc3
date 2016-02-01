@@ -1,10 +1,17 @@
 'use strict';
 
 angular.module('contents').controller('CreatorController',
-    function($scope, $stateParams, $state, Courses, Sourcetypes, Sources, Segments, $timeout, $location, Courseruns, LectureCreator, WikiCreator, LTICreator, Concepts, $filter, YoutubeCreator, WebsiteCreator, PdfCreator, ExtensionSchoolCreator)
+    function($scope, $stateParams, $state, Courses, Sourcetypes, Sources, Segments, $timeout, $location, Courseruns, LectureCreator, WikiCreator, LTICreator, Concepts, $filter, YoutubeCreator, WebsiteCreator, PdfCreator, ExtensionSchoolCreator, Authentication)
     {
         $scope.courseId = $stateParams.courseId;
         $scope.stateParams = $stateParams;
+
+        var hasAccess = Authentication.isOneCourseAdmin();
+        if(!hasAccess)
+        {
+            console.error('no access: not content editor of any course');
+            $state.go('home');
+        }
 
         $scope.possibleActions = {
             'add_edit': 'Add Material from Existing Source',
