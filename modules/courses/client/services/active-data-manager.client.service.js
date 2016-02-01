@@ -214,7 +214,7 @@ angular.module('courses').service('ActiveDataManager', function(Authentication, 
 
     this.setActiveSegments = function()
     {
-        if($scope.activeConcept)
+        if($scope.activeConcept && $scope.segmentPerConceptMap)
         {
             $location.search('active', $scope.activeConcept.concept._id);
 
