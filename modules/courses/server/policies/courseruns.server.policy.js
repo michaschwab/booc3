@@ -68,9 +68,9 @@ var courserunSpecificRights = {
 exports.isAllowed = function (req, res, next)
 {
     var roles = (req.user) ? req.user.roles : ['guest'];
-    var courserunId = typeof req.courserun == 'object' ? req.courserun._id : req.courserun;
+    var courseId = req.body.course;
 
-    if(courseTeacherPolicy.checkCourseSpecificRights(req, courserunSpecificRights, courserunId))
+    if(courseTeacherPolicy.checkCourseSpecificRights(req, courserunSpecificRights, courseId))
     {
         return next();
     }
