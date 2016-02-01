@@ -72,6 +72,10 @@ angular.module('courses').controller('CourseViewController',
                     {
                         return type.title === 'Lecture';
                     })[0];
+                    $scope.extSchoolType = sourcetypes.filter(function(type)
+                    {
+                        return type.title === 'Harvard Extension School';
+                    })[0];
 
                     /*$scope.segments.forEach(function(segment)
                     {

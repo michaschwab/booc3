@@ -622,7 +622,7 @@ angular.module('courses').service('ActiveDataManager', function(Authentication, 
             $scope.activeConceptLectureSegments = $scope.activeConceptSegments.filter(function(segment)
             {
                 var source = $scope.sourceMap[segment.source];
-                return source.type === $scope.lectureduoType._id
+                return source.type === $scope.lectureduoType._id || source.type === $scope.extSchoolType._id;
             });
 
             $scope.activeLectures = [];
