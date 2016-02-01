@@ -257,4 +257,4 @@ angular.module('concepts').service('ConceptPanelView',
         d.setSeconds(seconds);
         return d;
     };
-});;
+});
