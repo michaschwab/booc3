@@ -613,7 +613,8 @@ angular.module('courses').service('ActiveDataManager', function(Authentication, 
                 }
                 else
                 {
-                    return false;
+                    // If a segment has no concepts, then only show it if no concept was selected.
+                    return !(active);
                 }
             });
 

@@ -14,8 +14,8 @@
 
 
 
-    <ul class="concept-list">
-        <li ng-repeat="child in lecture.concepts" class="concept"  ng-class="{ 'active': activeConcept.concept._id === child._id,
+    <ul class="concept-list" ng-show="lecture.concepts.length">
+        <li ng-repeat="child in lecture.concepts" class="concept" ng-class="{ 'active': activeConcept.concept._id === child._id,
                     'learned':  active.learnedConceptIds.indexOf(child._id) !== -1}">
 
 
