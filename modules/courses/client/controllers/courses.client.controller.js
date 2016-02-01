@@ -144,11 +144,20 @@ angular.module('courses').controller('CoursesController',
 		};
 
 		// Find existing Course
-		$scope.findOne = function() {
+		$scope.editPrep = function()
+		{
+			var hasAccess;
 
 			if($stateParams.courseId)
 			{
 				var courseId = $stateParams.courseId;
+
+				hasAccess = Authentication.isCourseTeacher(courseId);
+				if(!hasAccess)
+				{
+					console.error('no access: you are not a course teacher of this course');
+					$state.go('home');
+				}
 
 				$scope.course = Courses.get({
 					courseId: courseId
@@ -165,6 +174,13 @@ angular.module('courses').controller('CoursesController',
 			}
 			else
 			{
+				hasAccess = Authentication.isTeacher();
+				if(!hasAccess)
+				{
+					console.error('no access: you are not teacher');
+					$state.go('home');
+				}
+
 				$scope.course =
 				{
 					title: '',

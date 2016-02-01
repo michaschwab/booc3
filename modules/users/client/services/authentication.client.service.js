@@ -59,9 +59,16 @@ angular.module('users').factory('Authentication', function ($window, $location, 
       return auth.hasOneRole(['admin', 'courseadmin;teacher;'+courseId, 'courseadmin;ta;'+courseId]);
     };
 
+    auth.isCourseTeacher = function(courseId)
+    {
+        var roles = auth.user.roles;
+
+        return auth.hasOneRole(['admin', 'courseadmin;teacher;'+courseId]);
+    };
+
     auth.canCreateCourses = function()
     {
-      return auth.hasRole('admin') || auth.hasRole('teacher');
+      return auth.isTeacher();
     };
     auth.canEditCourse = function(courseId)
     {

@@ -15,7 +15,7 @@
 
                 <div class="col-md-9 course-description">
 
-                    <div class="pull-right course-actions" data-ng-show="(authentication.isOneCourseAdmin())">
+                    <div class="pull-right course-actions" data-ng-show="(authentication.isCourseTeacher(course._id))">
                         <a class="btn btn-default" title="Course Backups" data-ui-sref="backups.manageByCourse({courseId: course._id})">
                             <i class="glyphicon glyphicon-floppy-save"></i>
                         </a>

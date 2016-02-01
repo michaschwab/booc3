@@ -33,10 +33,7 @@ angular.module('courses').config(['$stateProvider', '$locationProvider',
 		}).
 		state('courses.edit', {
 			url: '/:courseId/edit',
-			templateUrl: 'modules/courses/views/edit-course.client.view.html',
-			data: {
-				roles: ['admin', 'courseadmin']
-			}
+			templateUrl: 'modules/courses/views/edit-course.client.view.html'
 		});
 
         //$locationProvider.html5Mode(true);
