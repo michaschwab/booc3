@@ -1,6 +1,6 @@
 
 angular.module('courses').controller('CourseViewController',
-    function($scope, $stateParams, Courses, Concepts, Conceptdependencies, Authentication, $window, $location, ConceptStructure, Segments, Sources, Sourcetypes, LearnedConcepts, SeenConcepts, $timeout, $interval, SeenDataManager, ActiveDataManager, $cacheFactory)
+    function($scope, $stateParams, Courses, Concepts, Conceptdependencies, Authentication, $window, $location, ConceptStructure, Segments, Sources, Sourcetypes, LearnedConcepts, SeenConcepts, $timeout, $interval, SeenDataManager, ActiveDataManager, $cacheFactory, Courseruns)
     {
         $scope.authentication = Authentication;
         $scope.learnMode = false;
@@ -41,8 +41,10 @@ angular.module('courses').controller('CourseViewController',
         var dataReady = false;
 
         $scope.course = Courses.get({
-            courseId: $stateParams.courseId
+            courseId: $scope.courseId
         });
+
+        $scope.courseruns = Courseruns.query({course: $scope.courseId});
 
         ConceptStructure.init($scope, $stateParams.courseId);
         SeenDataManager.init($scope, function() { $scope.$broadcast('dataUpdated'); });

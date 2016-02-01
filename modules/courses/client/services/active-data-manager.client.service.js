@@ -656,6 +656,22 @@ angular.module('courses').service('ActiveDataManager', function(Authentication, 
                     activeConceptLectureIds.push(segment.source);
                 }
             });
+
+            // If there are courseruns, then sort the lectures by those.
+            if($scope.courseruns && $scope.courseruns.length)
+            {
+                $scope.courseruns.forEach(function(run)
+                {
+                    run.activeLectures = $scope.activeLectures.filter(function(lecture)
+                    {
+                        return lecture.courserun == run._id;
+                    });
+                });
+                $scope.activeLecturesWithoutRun = $scope.activeLectures.filter(function(lecture)
+                {
+                    return !lecture.courserun;
+                });
+            }
         }
     };
 
