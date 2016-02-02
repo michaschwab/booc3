@@ -1,0 +1,36 @@
+<section data-ng-controller="LogsController" class="container">
+    <h2>Action History</h2>
+
+    <table class="table table-hover">
+        <thead>
+        <tr>
+            <th>User</th>
+            <th>Date</th>
+            <th>Data</th>
+            <th>Action</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr ng-repeat-start="log in logs">
+            <td>{{userMap[log.user].displayName}}</td>
+            <td>{{log.time | date : 'short'}}</td>
+            <td>
+                <a href ng-click="log.active = !log.active">
+                        <span ng-repeat="(key, entries) in log.data">
+                            {{key}} <br />
+                        </span>
+                </a>
+            </td>
+            <td>
+                {{log.action}}
+            </td>
+        </tr>
+        <tr ng-repeat-end ng-show="log.active">
+            <td colspan="6">
+                <pre>{{log.data | json }}</pre>
+            </td>
+        </tr>
+        </tbody>
+
+    </table>
+</section>
