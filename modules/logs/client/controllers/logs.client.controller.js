@@ -7,6 +7,8 @@ angular.module('logs').controller('LogsController',
         setTime();
         $interval(setTime, 1000);
 
+        $scope.onlyNonAdmins = true;
+
         Log.query({}, function(logs)
         {
             $scope.logs = logs;
@@ -19,7 +21,15 @@ angular.module('logs').controller('LogsController',
             {
                 $scope.users = users;
                 $scope.userMap = {};
-                $scope.users.forEach(function(user) { $scope.userMap[user._id] = user; });
+                $scope.users.forEach(function(user)
+                {
+                    $scope.userMap[user._id] = user;
+
+                    if(user.roles.length > 1)
+                    {
+                        user.isAffiliated = true;
+                    }
+                });
             });
         });
 
