@@ -386,7 +386,11 @@ exports.list = function(req, res) {
 exports.sourceByID = function(req, res, next, id) {
     Source.findById(id).populate('user', 'displayName').exec(function(err, source) {
         if (err) return next(err);
-        if (! source) return next(new Error('Failed to load Source ' + id));
+        if (! source) {
+            // For POST requests, allow it to specify a Concept via ID that might not exist (yet). This allows creation of concepts with specific ID.
+            if(req.method != 'POST')
+                return next(new Error('Failed to load Source ' + id));
+        }
         req.source = source ;
         next();
     });

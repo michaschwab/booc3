@@ -16,6 +16,7 @@ module.exports = function(app) {
 
 	app.route('/api/sources/:sourceId')
 		.get(sources.read)
+		.post(sources.create)
 		.put(sources.update)
 		.delete(sources.delete);
 
