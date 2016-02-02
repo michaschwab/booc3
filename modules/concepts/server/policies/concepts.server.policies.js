@@ -54,9 +54,10 @@ exports.isAllowed = function (req, res, next)
 {
     var roles = (req.user) ? req.user.roles : ['guest'];
 
-    if(req.concept)
+    if(req.concept || req.body)
     {
-        var courseIds = req.concept.courses;
+        var concept = req.concept || req.body;
+        var courseIds = concept.courses;
 
         if(courseTeacherPolicy.checkCourseSpecificRights(req, courseSpecificRights, courseIds))
         {
