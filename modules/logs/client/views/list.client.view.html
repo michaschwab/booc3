@@ -9,6 +9,10 @@
         <input type="checkbox" ui-sref="logs.list({user: ''})" checked="checked" value="1" />
         Only Show Logs of User: <code>{{limitToUser}}</code>
     </label>
+    <label ng-show="limitToAction">
+        <input type="checkbox" ui-sref="logs.list({action: ''})" checked="checked" value="1" />
+        Only Show Logs of Action: {{limitToAction}}
+    </label>
 
     <table class="table table-hover">
         <thead>
@@ -20,7 +24,7 @@
             </tr>
         </thead>
         <tbody>
-            <tr ng-repeat-start="log in logs" ng-show="(!onlyNonAdmins||!userMap[log.user].isAffiliated)&&(!limitToUser||limitToUser==log.user)">
+            <tr ng-repeat-start="log in logs" ng-show="(!onlyNonAdmins||!userMap[log.user].isAffiliated)&&(!limitToUser||limitToUser==log.user)&&(!limitToAction||limitToAction==log.action)">
                 <td><a href ui-sref="logs.list({user: log.user })">{{log.user}}</a></td>
                 <td>{{log.time | date : 'short'}}</td>
                 <td>
@@ -31,7 +35,7 @@
                     </a>
                 </td>
                 <td>
-                    {{log.action}}
+                    <a href ui-sref="logs.list({action: log.action })">{{log.action}}</a>
                 </td>
             </tr>
             <tr ng-repeat-end ng-show="log.active">

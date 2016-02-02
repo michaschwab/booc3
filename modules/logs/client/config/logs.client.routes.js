@@ -14,7 +14,7 @@ angular.module('logs').config(['$stateProvider',
         }
       })
       .state('logs.list', {
-        url: '?user',
+        url: '?user&action',
         templateUrl: 'modules/logs/views/list.client.view.html',
         reloadOnSearch: false
       });

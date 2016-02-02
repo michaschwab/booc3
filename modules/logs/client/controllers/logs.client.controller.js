@@ -19,6 +19,14 @@ angular.module('logs').controller('LogsController',
                 $scope.onlyNonAdmins = true;
                 $scope.limitToUser = null;
             }
+            if($stateParams.action)
+            {
+                $scope.limitToAction = $stateParams.action;
+            }
+            else
+            {
+                $scope.limitToAction = null;
+            }
         }
         checkParams();
 
