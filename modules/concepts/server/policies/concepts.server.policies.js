@@ -60,7 +60,7 @@ exports.isAllowed = function (req, res, next)
 
         if(courseTeacherPolicy.checkCourseSpecificRights(req, courseSpecificRights, courseIds))
         {
-            next();
+            return next();
         }
     }
 
