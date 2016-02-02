@@ -77,7 +77,7 @@ exports.hasAnyPrivileges = function(req)
 
     roles.forEach(function(role)
     {
-        if(role == 'admin' || role == 'teacher' || role.substr('courseadmin'.length) == 'courseadmin')
+        if(role == 'admin' || role == 'teacher' || role.substr(0, 'courseadmin'.length) == 'courseadmin')
         {
             hasPrivileges = true;
         }
