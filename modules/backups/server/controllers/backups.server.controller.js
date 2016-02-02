@@ -31,8 +31,6 @@ exports.setIo = function(newIo)
 exports.create = function(req, res)
 {
     var courseId = req.params.possiblyDeletedCourseId;
-
-    console.log(courseId);
     var backup = {};
 
     Course.findById(courseId).exec(function(err, course)
@@ -68,6 +66,28 @@ exports.create = function(req, res)
                     });
                 });
             });
+        });
+    });
+};
+
+exports.readCourseNameFromFile = function(req, res)
+{
+    var courseId = req.params.possiblyDeletedCourseId;
+
+    var subDir = courseId;
+    var fullDir = './modules/backups/server/uploads/' + subDir;
+
+    fs.readdir(fullDir, function(err, files)
+    {
+        var backupFileName = files[0];
+        var fullPath = './modules/backups/server/uploads/' + courseId + '/' + backupFileName;
+
+        fs.readFile(fullPath, function(err, data)
+        {
+            //res.jsonp(data);
+            var json = JSON.parse(data);
+            res.send(json.course.title);
+
         });
     });
 };

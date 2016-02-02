@@ -15,6 +15,9 @@ module.exports = function(app)
         .put(backups.update)
         .delete(backups.delete);
 
+    app.route('/api/backups/:possiblyDeletedCourseId/readCourseNameFromFile')
+        .get(backups.readCourseNameFromFile);
+
     app.route('/api/backups/:possiblyDeletedCourseId/:backupFileName')
         .get(backups.read);
 

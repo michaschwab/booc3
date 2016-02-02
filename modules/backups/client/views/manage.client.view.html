@@ -38,7 +38,7 @@
 
         <ul>
             <li ng-repeat="backupCourseId in backupCourseIds" ng-show="!courseMap[backupCourseId]">
-                <a data-ui-sref="backups.manageByCourse({courseId: backupCourseId})">{{backupCourseId}}</a>
+                <a data-ui-sref="backups.manageByCourse({courseId: backupCourseId})">{{deletedCourseTitles[backupCourseId]}} ({{backupCourseId}})</a>
             </li>
         </ul>
 
@@ -48,7 +48,7 @@
         <h2>
             Backups for
             <span ng-show="course">{{course.title}}</span>
-            <span ng-show="!course">{{courseId}} (Deleted Course)</span>
+            <span ng-show="!course">{{deletedCourseTitles[courseId]}} (Deleted Course)</span>
         </h2>
 
         <a ng-show="course" href class="btn btn-default pull-right" ng-click="createBackup()">

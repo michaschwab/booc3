@@ -41,6 +41,15 @@ angular.module('actions').controller('BackupsController',
         $http.get('api/backups/').then(function(response)
         {
             $scope.backupCourseIds = response.data ? response.data : [];
+            $scope.deletedCourseTitles = {};
+
+            $scope.backupCourseIds.forEach(function(deletedCourseId)
+            {
+                $http.get('api/backups/' + deletedCourseId + '/readCourseNameFromFile').then(function(response)
+                {
+                    $scope.deletedCourseTitles[deletedCourseId] = response.data;
+                });
+            });
         });
 
         $scope.upload = function(element)
