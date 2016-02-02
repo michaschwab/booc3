@@ -19,7 +19,7 @@ angular.module('contents').run(['Menus',
 		Menus.addMenuItem('topbar', {
 			title: 'Materials',
 			state: 'contents.manage',
-			roles: ['admin', 'teacher']
+			roles: ['admin', 'teacher', 'content-editor', 'ta']
 		});
 
 		/*Menus.addSubMenuItem('topbar', 'contents', {

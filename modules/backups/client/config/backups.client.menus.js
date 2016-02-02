@@ -6,7 +6,7 @@ angular.module('users.admin').run(['Menus',
     Menus.addMenuItem('topbar', {
       title: 'Backups',
       state: 'backups.manage',
-      roles: ['admin', 'teacher']
+      roles: ['admin', 'teacher', 'content-editor', 'ta']
     });
   }
 ]);

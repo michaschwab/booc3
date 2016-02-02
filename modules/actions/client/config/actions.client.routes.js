@@ -8,10 +8,7 @@ angular.module('actions').config(['$stateProvider',
       .state('actions', {
         abstract: true,
         url: '/actions',
-        template: '<ui-view/>',
-        data: {
-          roles: ['admin', 'courseadmin']
-        }
+        template: '<ui-view/>'
       })
       .state('actions.list', {
         url: '',

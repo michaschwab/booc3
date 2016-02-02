@@ -51,7 +51,7 @@
             <span ng-show="!course">{{courseId}} (Deleted Course)</span>
         </h2>
 
-        <a ng-show="!backup" href class="btn btn-default pull-right" ng-click="createBackup()">
+        <a ng-show="course" href class="btn btn-default pull-right" ng-click="createBackup()">
             <i class="fa fa-floppy-o"></i>
             Create Backup
         </a>

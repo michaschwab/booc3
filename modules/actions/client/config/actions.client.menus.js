@@ -6,7 +6,7 @@ angular.module('users.admin').run(['Menus',
     Menus.addMenuItem('topbar', {
       title: 'Action History',
       state: 'actions.list',
-      roles: ['admin', 'teacher']
+      roles: ['admin', 'teacher', 'content-editor', 'ta']
     });
   }
 ]);

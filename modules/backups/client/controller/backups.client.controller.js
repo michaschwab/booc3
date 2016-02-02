@@ -5,6 +5,9 @@ angular.module('actions').controller('BackupsController',
     {
         $scope.authentication = Authentication;
 
+        if(!Authentication.isOneCourseAdmin())
+            $state.go('home');
+
         $scope.date = new Date();
         $scope.courses = Courses.query({}, function()
         {

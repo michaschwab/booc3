@@ -1,11 +1,14 @@
 'use strict';
 
 angular.module('actions').controller('ActionsController',
-    function($scope, $stateParams, $location, Authentication, Actions, $interval, Undo, Users)
+    function($scope, $stateParams, $location, Authentication, Actions, $interval, Undo, Users, $state)
     {
         var setTime = function() { $scope.now = new Date(); };
         setTime();
         $interval(setTime, 1000);
+
+        if(!Authentication.isOneCourseAdmin())
+            $state.go('home');
 
         Actions.query({}, function(actions)
         {
