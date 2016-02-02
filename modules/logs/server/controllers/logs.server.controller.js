@@ -87,7 +87,7 @@ exports.list = function(req, res) {
     {
         return res.jsonp([]);
     }
-    qObject['user'] = new ObjectId(req.user._id);
+    //qObject['user'] = new ObjectId(req.user._id);
 
     Log.find(qObject).sort('-time').exec(function(err, logs) {
         if (err) {
