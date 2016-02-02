@@ -7,12 +7,18 @@ angular.module('users.admin.routes').config(['$stateProvider',
       .state('admin.users', {
         url: '/users',
         templateUrl: 'modules/users/views/admin/user-list.client.view.html',
-        controller: 'UserListController'
+        controller: 'UserListController',
+        data: {
+          roles: ['admin']
+        }
       })
       .state('admin.user', {
         url: '/users/:userId',
         templateUrl: 'modules/users/views/admin/user.client.view.html',
         controller: 'UserController',
+        data: {
+          roles: ['admin']
+        },
         resolve: {
           userResolve: ['$stateParams', 'Admin', function ($stateParams, Admin) {
             return Admin.get({
@@ -25,6 +31,9 @@ angular.module('users.admin.routes').config(['$stateProvider',
         url: '/users/:userId/edit',
         templateUrl: 'modules/users/views/admin/user-edit.client.view.html',
         controller: 'UserController',
+        data: {
+          roles: ['admin']
+        },
         resolve: {
           userResolve: ['$stateParams', 'Admin', function ($stateParams, Admin) {
             return Admin.get({

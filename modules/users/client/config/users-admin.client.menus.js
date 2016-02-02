@@ -6,7 +6,7 @@ angular.module('users.admin').run(['Menus',
     Menus.addMenuItem('topbar', {
       title: 'Users',
       state: 'admin.users',
-      roles: ['admin', 'teacher']
+      roles: ['admin']
     });
   }
 ]);
