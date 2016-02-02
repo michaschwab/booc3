@@ -35,7 +35,7 @@ angular.module(ApplicationConfiguration.applicationModuleName).config(['$locatio
   }
 ]);
 
-angular.module(ApplicationConfiguration.applicationModuleName).run(function ($rootScope, $state, Authentication, $location, $window) {
+angular.module(ApplicationConfiguration.applicationModuleName).run(function ($rootScope, $state, Authentication, $location, $window, Logger) {
   // Check authentication before changing state
 
   $rootScope.$watch(function(){ return $location.search(); }, function(){
@@ -78,6 +78,13 @@ angular.module(ApplicationConfiguration.applicationModuleName).run(function ($ro
     if($window.ga)
       $window.ga('send', 'pageview', { page: $location.url() });
   });
+
+  Logger.log('WindowLoad');
+
+  $window.onbeforeunload = function(evt)
+  {
+    Logger.log('WindowUnload', null, evt);
+  };
 });
 
 //Then define the init function for starting up the application
