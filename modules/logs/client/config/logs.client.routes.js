@@ -14,8 +14,9 @@ angular.module('logs').config(['$stateProvider',
         }
       })
       .state('logs.list', {
-        url: '',
-        templateUrl: 'modules/logs/views/list.client.view.html'
+        url: '?user',
+        templateUrl: 'modules/logs/views/list.client.view.html',
+        reloadOnSearch: false
       });
   }
 ]);

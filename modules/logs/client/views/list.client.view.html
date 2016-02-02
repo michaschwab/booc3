@@ -1,9 +1,13 @@
 <section data-ng-controller="LogsController" class="container">
     <h2>Action History</h2>
 
-    <label>
+    <label ng-show="!limitToUser">
         <input type="checkbox" ng-model="onlyNonAdmins" value="1" />
         Only Show Logs of Non-Admins
+    </label>
+    <label ng-show="limitToUser">
+        <input type="checkbox" ui-sref="logs.list({user: ''})" checked="checked" value="1" />
+        Only Show Logs of User: <code>{{limitToUser}}</code>
     </label>
 
     <table class="table table-hover">
@@ -16,8 +20,8 @@
             </tr>
         </thead>
         <tbody>
-            <tr ng-repeat-start="log in logs" ng-show="!onlyNonAdmins||!userMap[log.user].isAffiliated">
-                <td><a href ui-sref="admin.user({userId: log.user })">{{log.user}}</a></td>
+            <tr ng-repeat-start="log in logs" ng-show="(!onlyNonAdmins||!userMap[log.user].isAffiliated)&&(!limitToUser||limitToUser==log.user)">
+                <td><a href ui-sref="logs.list({user: log.user })">{{log.user}}</a></td>
                 <td>{{log.time | date : 'short'}}</td>
                 <td>
                     <a href ng-click="log.active = !log.active">

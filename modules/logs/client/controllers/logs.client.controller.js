@@ -7,7 +7,22 @@ angular.module('logs').controller('LogsController',
         setTime();
         $interval(setTime, 1000);
 
-        $scope.onlyNonAdmins = true;
+        function checkParams()
+        {
+            if($stateParams.user)
+            {
+                $scope.onlyNonAdmins = false;
+                $scope.limitToUser = $stateParams.user;
+            }
+            else
+            {
+                $scope.onlyNonAdmins = true;
+                $scope.limitToUser = null;
+            }
+        }
+        checkParams();
+
+        $scope.$on('$locationChangeSuccess', checkParams);
 
         Log.query({}, function(logs)
         {
