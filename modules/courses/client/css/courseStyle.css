@@ -206,7 +206,7 @@ text.learned, text.goal {
     display: inline;
 }
 #depLayer {
-    pointer-events: visible;
+    pointer-events: auto;
 }
 #pathLayer {
     pointer-events: none;
