@@ -13,6 +13,7 @@ angular.module('courses').service('PanelAdmin', function(Concepts, $rootScope, $
         $scope.titlePattern = 'a-z';
 
         $scope.hasConceptEditRights = Authentication.isCourseTeachingAssistant($scope.course._id);
+        $scope.hasAdminPanelRights = Authentication.isCourseContentEditor($scope.course._id);
 
         $scope.titleKeyPress = function($event, concept)
         {

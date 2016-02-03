@@ -22,13 +22,13 @@
 
                 </a>
 
-                <span class="glyphicon glyphicon-align-justify action-icon handle"></span>
-                <a href ng-show="concepts.length>1" ng-click="removeConcept(child)" class="glyphicon glyphicon-remove remove-concept action-icon" title="Remove Concept"></a>
+                <span class="glyphicon glyphicon-align-justify action-icon handle" ng-show="hasConceptEditRights"></span>
+                <a href ng-show="hasConceptEditRights" ng-click="removeConcept(child)" class="glyphicon glyphicon-remove remove-concept action-icon" title="Remove Concept"></a>
                 <!--<a class="glyphicon glyphicon-folder-open add-segment-to-concept action-icon" title="Add Content"></a>-->
                 <!--<a href ng-show="!child.children.length" data-ui-sref="contents.createByCourseAndConcept({courseId: course._id, conceptId: child.concept._id, addTo: child.concept._id, mode: 'admin', active: activeHierarchyConcept.concept._id ? activeHierarchyConcept.concept._id : child.concept._id })" data-ui-sref-opts="{absolute: true, inherit: false}" class="glyphicon glyphicon-folder-open add-segment-to-concept action-icon" title="Add Content"></a>-->
 
                 <label for="{{child.concept._id}}_color" class="concept-circle" style="background: {{child.concept.color}}"></label>
-                <input type="color" id="{{child.concept._id}}_color" ng-change="colorChange(child)" data-ng-model="child.concept.color" class="form-control">
+                <input type="color" id="{{child.concept._id}}_color" ng-change="colorChange(child)"  ng-show="hasConceptEditRights" data-ng-model="child.concept.color" class="form-control">
 
                 <ul class="alternative-segments" id="concept-segments-{{child.concept._id}}"  ui-sortable="sortableSegmentOptions" ng-model="segmentPerConceptMap[child.concept._id]">
                     <li ng-repeat="seg in segmentPerConceptMap[child.concept._id] track by seg._id" class="segment sortableSegment"  ng-class="{ 'active': (seg._id === courseScope.active.segment._id||stateParams.sourceId === seg.source)}">
@@ -77,7 +77,7 @@
 
                         </a>
                     </li>
-                    <li class="segment add-subconcept" ng-show="!segmentPerConceptMap[child.concept._id]||segmentPerConceptMap[child.concept._id].length==0">
+                    <li class="segment add-subconcept" ng-show="(!segmentPerConceptMap[child.concept._id]||segmentPerConceptMap[child.concept._id].length==0)&&hasConceptEditRights">
 
                         <span class="concept-line"><span></span></span>
 
@@ -95,7 +95,7 @@
 
             </li>
 
-            <li class="concept not-sortable">
+            <li class="concept not-sortable" ng-show="hasConceptEditRights">
 
                 <a class="concept add-concept" ng-click="addConcept()" href>
                     <span class="glyphicon glyphicon-plus addConceptIcon" style=""></span>

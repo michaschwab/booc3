@@ -100,8 +100,8 @@
                     <li role="presentation" class="panel-tab tab-plan" ng-class="{ 'active': activeMode==='plan'}">
                         <a data-ui-sref="{mode: 'plan'}" ng-click="planTabClick($event)">
                             <span class="fa fa-map inline-block"></span>
-                            <span ng-if="panelWidth>400&&!hasConceptEditRights">Learning Plan</span>
-                            <span ng-if="panelWidth>300&&(panelWidth<=400||hasConceptEditRights)">Plan</span>
+                            <span ng-if="panelWidth>400&&!hasAdminPanelRights">Learning Plan</span>
+                            <span ng-if="panelWidth>300&&(panelWidth<=400||hasAdminPanelRights)">Plan</span>
                         </a>
                     </li>
                     <!--<li role="presentation" class="panel-tab" ng-class="{ 'active': activeMode==='hierarchy'}" style="background: {{activeConcept.concept.color}}">
@@ -116,7 +116,7 @@
                         <a data-ui-sref="{mode: 'lecture'}" ng-click="lectureTabClick($event)">
                             <span class="fa fa-university inline-block"></span> <span ng-if="panelWidth>300">Lectures</span></a></li>
 
-                    <li role="presentation" ng-show="hasConceptEditRights" class="panel-tab tab-admin" ng-class="{ 'active': activeMode==='admin'}">
+                    <li role="presentation" ng-show="hasAdminPanelRights" class="panel-tab tab-admin" ng-class="{ 'active': activeMode==='admin'}">
                         <a data-ui-sref="{mode: 'admin'}">
                             <span class="fa fa-lock inline-block"></span> <span ng-if="activeMode==='admin'">Admin</span></a></li>
 
