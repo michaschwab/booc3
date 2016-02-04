@@ -44,7 +44,7 @@
                         <span class="glyphicon glyphicon-chevron-left"></span>
                     </button>
 
-                    <button class="btn btn-default page-selector" ng-click="openSelector()">
+                    <button class="btn btn-default page-selector" ng-click="openPageSelector()">
                 <span ng-show="!pageSelectorOpen">
                     Page
                     <!--<input type="number" ng-change="updateDesiredPage()" ng-model="desired.page" />-->
@@ -53,7 +53,7 @@
                     {{totalPages}}
                 </span>
 
-                        <input type="number" class="form-control" id="desiredPageInput" ng-show="pageSelectorOpen" ng-change="updateDesiredPage()" ng-model="desired.page" />
+                        <input type="number" class="form-control" id="desiredPageInput" ng-show="pageSelectorOpen" ng-change="updateDesiredPage()" ng-model="desired.page" min="1" max="{{totalPages}}" />
 
                     </button>
 

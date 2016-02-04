@@ -13,7 +13,7 @@
                     {{currentPage}} / {{totalPages}}
                 </span>
 
-                <input type="number" class="form-control" id="desiredPageInput" ng-show="pageSelectorOpen" ng-change="updateDesiredPage()" ng-model="desired.page" />
+                <input type="number" class="form-control" id="desiredPageInput" ng-show="pageSelectorOpen" ng-change="updateDesiredPage()" ng-model="desired.page"  min="1" max="{{totalPages}}" />
 
             </button>
 
