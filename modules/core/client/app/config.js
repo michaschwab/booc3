@@ -17,6 +17,7 @@ var ApplicationConfiguration = (function () {
 
     'xml',
     'ui.select',
+    'n3-line-chart',
     'ngSocketResource',
     'ngSanitize',
     'ngPDFViewer',

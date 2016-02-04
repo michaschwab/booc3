@@ -17,6 +17,12 @@ angular.module('logs').config(['$stateProvider',
         url: '?user&action',
         templateUrl: 'modules/logs/views/list.client.view.html',
         reloadOnSearch: false
-      });
+      })
+    .state('logs.chart', {
+        url: '/chart',
+        templateUrl: 'modules/logs/views/chart.client.view.html',
+        reloadOnSearch: false
+    });
+
   }
 ]);

@@ -1,0 +1,16 @@
+<section data-ng-controller="LogsChartController" class="container">
+    <h2>Action History</h2>
+
+    <label ng-show="!limitToUser">
+        <input type="checkbox" checked="checked" value="1" />
+        Only Show Logs of Non-Admins
+    </label>
+    <label ng-show="limitToAction">
+        <input type="checkbox" ui-sref="logs.list({action: ''})" checked="checked" value="1" />
+        Only Show Logs of Action: {{limitToAction}}
+    </label>
+
+    <linechart data="data" options="options"></linechart>
+
+
+</section>
