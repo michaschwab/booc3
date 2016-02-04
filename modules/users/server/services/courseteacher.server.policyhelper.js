@@ -51,9 +51,21 @@ exports.isCourseContentEditor = function (req, res, next)
 exports.hasCourseRole = function(role, userRoles, courseId)
 {
     var completeRole = 'courseadmin;' + role + ';' + courseId;
-    //console.log('checking if user has role ' + completeRole);
+    var result = userRoles.indexOf(completeRole) !== -1;
 
-    return userRoles.indexOf(completeRole) !== -1;
+    if(result)
+    {
+        return result;
+    }
+    else
+    {
+        if(role == 'content-editor')
+            return exports.hasCourseRole('ta', userRoles, courseId);
+        else if(role == 'ta')
+            return exports.hasCourseRole('teacher', userRoles, courseId);
+        else
+            return false;
+    }
 };
 
 exports.hasAnyCourseRole = function(roles, userRoles, courseId)
@@ -90,6 +102,10 @@ exports.checkCourseSpecificRights = function(req, courseSpecificRights, courseId
 {
     var roles = (req.user) ? req.user.roles : ['guest'];
     if(!Array.isArray(courseIds)) courseIds = [courseIds];
+
+    console.log(req.route.path);
+    console.log(courseIds);
+    console.log(courseSpecificRights);
 
     if(courseSpecificRights[req.route.path])
     {
