@@ -10,7 +10,8 @@ module.exports = {
         'public/lib/font-awesome/css/font-awesome.css',
         'public/lib/ngDialog/css/ngDialog.css',
         'public/lib/ngDialog/css/ngDialog-theme-default.css',
-          'public/lib/shepherd.js/dist/css/shepherd-theme-arrows.css'
+        'public/lib/n3-charts/build/LineChart.css',
+        'public/lib/shepherd.js/dist/css/shepherd-theme-arrows.css'
       ],
       js: [
         'public/lib/jquery/dist/jquery.js',
@@ -39,6 +40,7 @@ module.exports = {
         'public/lib/angular-ui-select/dist/select.js',
         'public/lib/angular-sanitize/angular-sanitize.js',
         'public/lib/angular-ui-sortable/sortable.js',
+        'public/lib/n3-charts/build/LineChart.js',
 
         'public/lib/ngDialog/js/ngDialog.js',
         'public/lib/moment/moment.js',
