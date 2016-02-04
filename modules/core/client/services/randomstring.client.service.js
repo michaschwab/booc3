@@ -17,6 +17,17 @@ angular.module('contents').factory('RandomString',
             return randomString;
         };
 
+        service.getHex = function(length)
+        {
+            if(!length) length = 6;
+            var alphabet = '0123456789abcdef';
+            var randomString = '';
+            for(var i = 0; i < length; i++) {
+                randomString += alphabet[Math.round(Math.random() * (alphabet.length - 1))];
+            }
+            return randomString;
+        };
+
         return service;
     }
 );

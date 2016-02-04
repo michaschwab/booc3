@@ -81,7 +81,7 @@ angular.module('logs').controller('LogsChartController',
                     dataset: id,
                     key: "y",
                     label: label,
-                    color: "#1f77b4",
+                    color: "#" + RandomString.getHex(6),
                     type: ['line', 'dot'],
                     id: id
                 });
