@@ -25,7 +25,7 @@ angular.module('logs').controller('LogsChartController',
 
                 $scope.logs = logs.filter(function(log)
                 {
-                    return !$scope.userMap[log.user].isAffiliated;
+                    return ($scope.userMap[log.user]) && (!$scope.userMap[log.user].isAffiliated);
                 });
 
                 $scope.$watchCollection('logs.downloadedUpdates', function()
@@ -39,42 +39,78 @@ angular.module('logs').controller('LogsChartController',
 
         function initVis()
         {
-            $scope.data = {
-                logs: []
-            };
+            $scope.data = {};
 
-            var dailyLogs = {};
-
-            $scope.logs.map(function(log)
+            function getAccumulative(data)
             {
-                var date = Date.parse(log.time);
-                var day = moment(date).format('YYYY-MM-DD');
+                var dailyData = {};
 
-                if(!dailyLogs[day])
+                data.map(function(log)
                 {
-                    dailyLogs[day] = 1;
-                }
-                else
-                {
-                    dailyLogs[day]++;
-                }
-            });
+                    var date = Date.parse(log.time);
+                    var day = moment(date).format('YYYY-MM-DD');
 
-            for(var day in dailyLogs)
-            {
-                $scope.data.logs.push({x: new Date(day), y: dailyLogs[day]});
+                    if(!dailyData[day])
+                    {
+                        dailyData[day] = 1;
+                    }
+                    else
+                    {
+                        dailyData[day]++;
+                    }
+                });
+
+                var list = [];
+                for(var day in dailyData)
+                {
+                    list.push({x: new Date(day), y: dailyData[day]});
+                }
+
+                return list;
             }
+
+            $scope.data.totalLogs = getAccumulative($scope.logs);
+            $scope.data.tourYes = getAccumulative($scope.logs.filter(function(log) { return log.action == 'TourYes'}));
+            $scope.data.tourNo = getAccumulative($scope.logs.filter(function(log) { return log.action == 'TourNo'}));
+            $scope.data.tourFinish = getAccumulative($scope.logs.filter(function(log) { return log.action == 'TourFinish'}));
 
             $scope.options = {
                 series: [
                     {
                         axis: "y",
-                        dataset: "logs",
+                        dataset: "totalLogs",
                         key: "y",
-                        label: "An area series",
+                        label: "Total Logs",
                         color: "#1f77b4",
-                        type: ['line', 'dot', 'area'],
+                        type: ['line', 'dot'],
                         id: 'mySeries0'
+                    },
+                    {
+                        axis: "y",
+                        dataset: "tourYes",
+                        key: "y",
+                        label: "Tour Accepted",
+                        color: "#333366",
+                        type: ['line', 'dot'],
+                        id: 'touryes'
+                    },
+                    {
+                        axis: "y",
+                        dataset: "tourNo",
+                        key: "y",
+                        label: "Tour Declined",
+                        color: "#663333",
+                        type: ['line', 'dot'],
+                        id: 'tourno'
+                    },
+                    {
+                        axis: "y",
+                        dataset: "tourFinish",
+                        key: "y",
+                        label: "Tour Finish",
+                        color: "#336633",
+                        type: ['line', 'dot'],
+                        id: 'tourfinish'
                     }
                 ],
                 axes: {x: {key: "x", type: "date"}}
