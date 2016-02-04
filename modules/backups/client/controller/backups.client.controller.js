@@ -9,8 +9,12 @@ angular.module('actions').controller('BackupsController',
             $state.go('home');
 
         $scope.date = new Date();
-        $scope.courses = Courses.query({}, function()
+        Courses.query({}, function(courses)
         {
+            $scope.courses = courses.filter(function(course)
+            {
+                return Authentication.isCourseContentEditor(course._id);
+            });
             $scope.courseMap = {};
             $scope.courses.forEach(function(course) { $scope.courseMap[course._id] = course; });
 

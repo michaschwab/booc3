@@ -30,7 +30,7 @@
 
     </div>
 
-    <div ng-show="!courseId">
+    <div ng-show="!courseId&&authentication.isAdmin()">
 
         <h3>Other Course Backups</h3>
 
