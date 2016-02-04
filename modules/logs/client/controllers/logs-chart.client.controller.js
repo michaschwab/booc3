@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('logs').controller('LogsChartController',
-    function($scope, $stateParams, $location, Authentication, Log, $interval, Users, $state)
+    function($scope, $stateParams, $location, Authentication, Log, $interval, Users, $state, LogActions, RandomString)
     {
         var setTime = function() { $scope.now = new Date(); };
         setTime();
@@ -69,52 +69,40 @@ angular.module('logs').controller('LogsChartController',
                 return list;
             }
 
-            $scope.data.totalLogs = getAccumulative($scope.logs);
-            $scope.data.tourYes = getAccumulative($scope.logs.filter(function(log) { return log.action == 'TourYes'}));
-            $scope.data.tourNo = getAccumulative($scope.logs.filter(function(log) { return log.action == 'TourNo'}));
-            $scope.data.tourFinish = getAccumulative($scope.logs.filter(function(log) { return log.action == 'TourFinish'}));
+            var actions = LogActions.getArray();
+
+            var addData = function(data, label)
+            {
+                var id = RandomString.get();
+
+                $scope.data[id] = getAccumulative(data);
+                $scope.options.series.push({
+                    axis: "y",
+                    dataset: id,
+                    key: "y",
+                    label: label,
+                    color: "#1f77b4",
+                    type: ['line', 'dot'],
+                    id: id
+                });
+            };
 
             $scope.options = {
-                series: [
-                    {
-                        axis: "y",
-                        dataset: "totalLogs",
-                        key: "y",
-                        label: "Total Logs",
-                        color: "#1f77b4",
-                        type: ['line', 'dot'],
-                        id: 'mySeries0'
-                    },
-                    {
-                        axis: "y",
-                        dataset: "tourYes",
-                        key: "y",
-                        label: "Tour Accepted",
-                        color: "#333366",
-                        type: ['line', 'dot'],
-                        id: 'touryes'
-                    },
-                    {
-                        axis: "y",
-                        dataset: "tourNo",
-                        key: "y",
-                        label: "Tour Declined",
-                        color: "#663333",
-                        type: ['line', 'dot'],
-                        id: 'tourno'
-                    },
-                    {
-                        axis: "y",
-                        dataset: "tourFinish",
-                        key: "y",
-                        label: "Tour Finish",
-                        color: "#336633",
-                        type: ['line', 'dot'],
-                        id: 'tourfinish'
-                    }
-                ],
+                series: [],
                 axes: {x: {key: "x", type: "date"}}
             };
+
+            addData($scope.logs, "Total Logs");
+
+            function actionLogs(action)
+            {
+                return $scope.logs.filter(function(log) { return log.action == action});
+            }
+
+            actions.forEach(function(action)
+            {
+                addData(actionLogs(action), action);
+            });
         }
 
         function sortLogs()

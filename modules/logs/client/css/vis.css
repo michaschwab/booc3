@@ -1,0 +1,6 @@
+.logsVisSection .label {
+    color: #333;
+}
+.logsVisSection .hidden {
+    display: inline !important;
+}
