@@ -23,7 +23,7 @@ angular.module('courses').config(['$stateProvider', '$locationProvider',
 			url: '/create',
 			templateUrl: 'modules/courses/views/edit-course.client.view.html',
 			data: {
-				roles: ['admin', 'courseadmin']
+				roles: ['admin', 'teacher']
 			}
 		}).
 		state('courses.view', {
