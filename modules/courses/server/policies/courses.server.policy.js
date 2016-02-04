@@ -56,9 +56,11 @@ exports.invokeRolesPolicies = function () {
 
 var courseSpecificRights = {
     '/api/courses/:courseId': {
-        'post': ['teacher'], // only teachers of a specific course can edit it
         'put': ['teacher'], // only teachers of a specific course can edit it
         'delete': ['teacher'] // only teachers of a specific course can delete it
+    },
+    '/api/courses/:deletedCourseId': {
+        'post': ['teacher'] // only teachers of a specific course can restore it
     }
 };
 
@@ -69,6 +71,7 @@ exports.isAllowed = function (req, res, next)
 {
     var roles = (req.user) ? req.user.roles : ['guest'];
     var courseId = typeof req.course == 'object' ? req.course._id : req.course;
+    if(req.body._id) courseId = req.body._id;
 
     if(courseTeacherPolicy.checkCourseSpecificRights(req, courseSpecificRights, courseId))
     {

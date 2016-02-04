@@ -20,6 +20,8 @@ var path = require('path'),
 exports.create = function(req, res)
 {
 	var course = new Course(req.body);
+
+	if(req.query['deletedCourseId']) course._id = req.query['deletedCourseId'];
 	course.user = req.user;
 
 	course.save(function(err)
