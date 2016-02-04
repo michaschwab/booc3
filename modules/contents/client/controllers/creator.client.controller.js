@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('contents').controller('CreatorController',
-    function($scope, $stateParams, $state, Courses, Sourcetypes, Sources, Segments, $timeout, $location, Courseruns, LectureCreator, WikiCreator, LTICreator, Concepts, $filter, YoutubeCreator, WebsiteCreator, PdfCreator, ExtensionSchoolCreator, Authentication)
+    function($scope, $stateParams, $state, Courses, Sourcetypes, Sources, Segments, $timeout, $location, Courseruns, LectureCreator, WikiCreator, LTICreator, Concepts, $filter, YoutubeCreator, WebsiteCreator, PdfCreator, ExtensionSchoolCreator, Authentication, RandomString)
     {
         $scope.courseId = $stateParams.courseId;
         $scope.stateParams = $stateParams;
@@ -363,7 +363,7 @@ angular.module('contents').controller('CreatorController',
                             redirectBack();
                         };
 
-                        if(segment._id)
+                        if(!segment.justCreated)
                         {
                             console.log('updating segment');
 
@@ -383,6 +383,9 @@ angular.module('contents').controller('CreatorController',
                         }
                         else
                         {
+                            delete segment.justCreated;
+                            delete segment._id;
+
                             console.log('creating new segment');
 
                             if(!segment.title && $scope.segments.length == 1)
@@ -537,7 +540,8 @@ angular.module('contents').controller('CreatorController',
             var start = sourceHelper.getCurrentPosition();
             var end = sourceHelper.getEndPosition();
 
-            var segment = new Object({title: 'New Segment', start: start, end: end});
+            var id = RandomString.get(12);
+            var segment = new Object({_id: id, justCreated: true, title: 'New Segment', start: start, end: end});
 
             if($scope.segments.length !== 0 && $scope.segments[$scope.segments.length-1].end === segment.end)
             {
@@ -545,7 +549,11 @@ angular.module('contents').controller('CreatorController',
             }
 
             $scope.segments.push(segment);
-            $scope.selectSegment(segment);
+
+            $timeout(function()
+            {
+                $scope.selectSegment(segment);
+            }, 100);
         };
 
         var confirmDeleteAllSegmentsTimeout = null;
@@ -595,12 +603,15 @@ angular.module('contents').controller('CreatorController',
             }
             //$scope.activeConcept = segment.concepts && segment.concepts.length > 0 ? $scope.conceptMap[segment.concepts[0]] : null;
 
-            var el = $('#segment-' + segment._id + ' .segment-list-title');
-            console.log(el);
+            var el = $('#segment-' + segment._id + ' .segment-title-panel');
+
             el.focus();
-            window.setTimeout (function(){
-                el.select();
-            }, 100);
+            if(segment.title == 'New Segment')
+            {
+                window.setTimeout (function(){
+                    el.select();
+                }, 100);
+            }
             //todo check if segment has any concepts.
         };
 

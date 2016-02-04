@@ -13,7 +13,7 @@
     <ul class="list-group segment-list" id="segmentList">
         <li ng-repeat="segment in segments | orderBy:'start'" class="list-group-item" id="segment-{{segment._id}}" ng-class="{'active': segment == activeSegment}">
             <a href="" class="segment-list-title" ng-click="selectSegment(segment)">
-                <span class="segment-title-panel" contenteditable ng-model="segment.title"></span>
+                <input type="text" class="segment-title-panel" ng-model="segment.title" />
                 <span ng-show="activeType.player=='video'||activeType.player=='youtube'" class="pull-right segment-time">
                     <small><em>{{segment.start | time:'HH:mm:ss'}} - {{segment.end | time:'HH:mm:ss'}}</em></small>
                 </span>

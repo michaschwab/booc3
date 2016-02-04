@@ -119,7 +119,7 @@
     height: 100%;
 }
 .segment-list .active a.segment-list-title {
-    color: #fff;
+    color: #333;
 }
 .segment-list .active a.segment-list-title:hover {
     background: inherit;
