@@ -636,7 +636,7 @@ angular.module('courses').service('ActiveDataManager', function(Authentication, 
                 if(activeConceptLectureIds.indexOf(segment.source) === -1)
                 {
                     var lecture = $scope.sourceMap[segment.source];
-                    var obj = { lecture: lecture, concepts: []};
+                    var obj = { lecture: lecture, concepts: [], conceptStarts: [], conceptEnds: []};
                     var addedConceptIds = [];
 
                     $scope.segments.filter(function(seg)
@@ -650,6 +650,8 @@ angular.module('courses').service('ActiveDataManager', function(Authentication, 
                         {
                             //obj.concepts.push($scope.directories.concepts[lectureSeg.concepts[0]]);
                             obj.concepts.push($scope.conceptMap[conceptId]);
+                            obj.conceptStarts.push(lectureSeg.start);
+                            obj.conceptEnds.push(lectureSeg.end);
                             addedConceptIds.push(conceptId);
                         }
 

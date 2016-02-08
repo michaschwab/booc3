@@ -23,7 +23,16 @@
             <a  data-ui-sref="{active: child._id, learn: 'yes'}" ng-click="lectureConceptClick(child, $event)" class="concept">
                 <span class="concept-circle" style="background: {{child.color}}"></span>
                 <span class="concept-line"><span></span></span>
-                <span class="concept-title">{{child.title}}</span>
+                <span class="concept-title">
+                    {{child.title}}
+                    
+                    <span>
+                        (<span ng-show="lecture.conceptStarts[$index]>=3600">{{lecture.conceptStarts[$index] | secondsToDateTime | date:'HH:mm:ss'}}</span><span ng-show="lecture.conceptStarts[$index]<3600">{{lecture.conceptStarts[$index] | secondsToDateTime | date:'mm:ss'}}</span>
+                        -
+                        <span ng-show="lecture.conceptEnds[$index]>=3600">{{lecture.conceptEnds[$index] | secondsToDateTime | date:'HH:mm:ss'}}</span><span ng-show="lecture.conceptEnds[$index]<3600">{{lecture.conceptEnds[$index] | secondsToDateTime | date:'mm:ss'}}</span>)
+                    </span>
+                    
+                </span>
 
             </a>
             <!--
