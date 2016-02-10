@@ -186,6 +186,12 @@ angular.module('contents').controller('CreatorController',
             }
         };
 
+        $scope.selectEditSource = function(editSource)
+        {
+            $scope.editSource = editSource;
+            $scope.activeAction='add_edit';
+        };
+
         $scope.$watch('editSource', function()
         {
             var source = $scope.editSource;
