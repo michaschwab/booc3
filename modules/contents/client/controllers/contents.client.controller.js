@@ -16,6 +16,17 @@ angular.module('contents').controller('ContentsController',
             $state.go('home');
         }
 
+        Courses.query(function(courses)
+        {
+            $scope.courses = courses;
+
+            $scope.courseMap = {};
+            $scope.courses.forEach(function(course)
+            {
+                $scope.courseMap[course._id] = course;
+            });
+        });
+
         Concepts.query(function(concepts)
         {
             $scope.concepts = concepts;
@@ -76,6 +87,30 @@ angular.module('contents').controller('ContentsController',
             });
 
 
+        });
+
+        $scope.setFilters = function()
+        {
+            var searchData = $location.search();
+            if(searchData.course)
+            {
+                $scope.courseId = searchData.course;
+            }
+            else
+            {
+                $scope.courseId = '';
+            }
+        };
+        $scope.setFilters();
+
+        $scope.resetCourseFilter = function()
+        {
+            $location.search('course', '');
+        };
+
+        $scope.$on('$locationChangeSuccess', function()
+        {
+            $scope.setFilters();
         });
 
         $scope.removeSourceOnly = function(event, sourceId)

@@ -32,7 +32,8 @@ angular.module('contents').config(['$stateProvider', '$urlRouterProvider',
                 templateUrl: 'modules/courses/views/view-course.client.view.html'
             })
             .state('contents.manage', {
-                url: '/contents/manage',
+                url: '/contents/manage?course',
+                reloadOnSearch: false,
                 templateUrl: 'modules/contents/views/manage-contents.client.view.html'
             })
             .state('contents.edit', {
