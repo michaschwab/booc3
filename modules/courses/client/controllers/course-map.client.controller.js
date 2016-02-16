@@ -202,7 +202,6 @@ angular.module('courses').controller('CourseMapController', function($scope, $st
                 var params = $scope.visParams;
 
                 MapCircles.setRadius();
-                //MapCircles.setTranslates();
                 MapCircles.setup();
 
                 // For first run the radius won't be set yet, or a new concept has been added
@@ -224,6 +223,7 @@ angular.module('courses').controller('CourseMapController', function($scope, $st
                 var size = ((w>h)?h:w)/(1+l1Radius)-10;
 
                 params.scale.range([0,(size/2)]);
+                console.log('setting range with graph height: ', $scope.graphHeight);
 
                 /*lxCircleEnters.forEach(function(lxCircleEnter)
                 {

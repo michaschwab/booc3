@@ -625,7 +625,7 @@ angular.module('courses').service('MapCircles', function(Tip, $location, $timeou
         lxCircle = vis.selectAll('.lxCircle');
 
         // this takes about 4ms on my computer when nothing is really happening here.
-        lxCircle.each(function(d)
+        lxCircle.each(function(d, index)
         {
             var el = d3.select(this);
             var conceptId = d.concept._id;
@@ -654,6 +654,11 @@ angular.module('courses').service('MapCircles', function(Tip, $location, $timeou
                 {
                     //console.count(conceptId);
                     lastUpdate['radius'] = d.radius;
+
+                    if(index === 0)
+                    {
+                        console.log(params.scale(d.radius), lastUpdate['graphHeight'], $scope.graphHeight);
+                    }
 
                     lastUpdate['graphWidth'] = $scope.graphWidth;
                     lastUpdate['graphHeight'] = $scope.graphHeight;
