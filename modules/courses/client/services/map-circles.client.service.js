@@ -441,7 +441,7 @@ angular.module('courses').service('MapCircles', function(Tip, $location, $timeou
 
                 el.append('g').attr('class', 'icons');
 
-                el.append('text').attr({
+                d.titleEl = el.append('text').attr({
                     class: 'concept-title'
                 });
 
@@ -461,11 +461,15 @@ angular.module('courses').service('MapCircles', function(Tip, $location, $timeou
         return enters;
     };
 
+    var mainCanvas;
     this.makeStartCircle = function()
     {
-        var layer = d3.select('#mainCanvas');
-        layer.selectAll('.startIconGroup').remove();
-        var start = layer.append('g').classed('startIconGroup', true);
+        if(!mainCanvas)
+        {
+            mainCanvas = d3.select('#mainCanvas');
+        }
+        mainCanvas.selectAll('.startIconGroup').remove();
+        var start = mainCanvas.append('g').classed('startIconGroup', true);
 
         var firstBig = $scope.active.topLevelConcepts.slice(0).sort(function(a,b) { return a.concept.order - b.concept.order; })[0];
         var scale = ((firstBig.radius / 0.7) / 2 + 0.5) * $scope.graphMinDim / 700;
@@ -530,7 +534,7 @@ angular.module('courses').service('MapCircles', function(Tip, $location, $timeou
 
     var titlesDone = {};
 
-    this.makeTitle = function(d, el, t)
+    this.makeTitle = function(d, el)
     {
         var index = d.radius + '-' + d.concept.title + '-' + $scope.graphMinDim;
 
@@ -538,10 +542,13 @@ angular.module('courses').service('MapCircles', function(Tip, $location, $timeou
         {
             titlesDone[d.concept._id] = index;
 
-            if(!t) t = el.select('.concept-title');
+            if(!d.titleEl)
+            {
+                d.titleEl = el.select('.concept-title');
+            }
 
             var titleData = d.splitTexts.map(function(splitText) { return { text: splitText } });
-            var titleSpans = t.selectAll('tspan').data(titleData);
+            var titleSpans = d.titleEl.selectAll('tspan').data(titleData);
 
             titleSpans.enter().append('tspan').text(function(dd) { return dd.text; }).attr('x',0);
 
@@ -581,7 +588,7 @@ angular.module('courses').service('MapCircles', function(Tip, $location, $timeou
             lastUpdateData[conceptId]['translate'] = trans;
             //console.count(conceptId);
 
-            el.transition().attr({
+            el.attr({
                 'transform': 'translate(' + trans.x + ',' + trans.y + ')'
             });
         }
@@ -596,7 +603,12 @@ angular.module('courses').service('MapCircles', function(Tip, $location, $timeou
             lastUpdate['fontSize'] = fontSize;
             //console.count(d.concept._id);
 
-            el.select('.concept-title').style({
+            if(!d.titleEl)
+            {
+                d.titleEl = el.select('.concept-title');
+            }
+
+            d.titleEl.style({
                 'font-size': fontSize + 'px'
             });
         }
@@ -634,7 +646,11 @@ angular.module('courses').service('MapCircles', function(Tip, $location, $timeou
             //if(d.concept.title == 'New Concept') console.log(lastUpdate['radius'], d.radius);
             if(lastUpdate['radius'] !== d.radius || lastUpdate['color'] !== color || lastUpdate['graphWidth'] !== $scope.graphWidth || lastUpdate['graphHeight'] !== $scope.graphHeight)
             {
-                var circle = el.select('circle');
+                if(!d.circleEl)
+                {
+                    d.circleEl = el.select('circle');
+                }
+                var circle = d.circleEl;
 
                 if(lastUpdate['radius'] !== d.radius || lastUpdate['graphWidth'] !== $scope.graphWidth || lastUpdate['graphHeight'] !== $scope.graphHeight)
                 {
@@ -740,15 +756,27 @@ angular.module('courses').service('MapCircles', function(Tip, $location, $timeou
         }
     };
 
+    var colorCache = {};
+
     this.updateActive = function()
     {
         if(!lxCircle) return;
 
-        lxCircle.select('circle').transition().style(
+        lxCircle.each(function(d)
         {
-             'fill': function (d) {
-                return $scope.depthColorModification(d, $scope.options.grayInactiveConcepts);
-             }
+            var color = $scope.depthColorModification(d, $scope.options.grayInactiveConcepts);
+            var lastColor = colorCache[d.concept._id];
+
+            if(!lastColor || lastColor !== color)
+            {
+                colorCache[d.concept._id] = color;
+
+                if(!d.circleEl)
+                {
+                    d.circleEl = d3.select(this).select('circle');
+                }
+                d.circleEl.transition().style('fill', color);
+            }
         });
     };
 
