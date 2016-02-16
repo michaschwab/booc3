@@ -109,6 +109,7 @@ angular.module('courses').service('SeenDataManager', function(Authentication, $t
     {
         $scope.seenMap = {};
         $scope.seenMapByConcept = {};
+        seenCache = {};
 
         if($scope.seen)
         {
@@ -127,11 +128,19 @@ angular.module('courses').service('SeenDataManager', function(Authentication, $t
         });
     };
 
+    var seenCache = {};
     this.isSeen = function(d)
     {
+        if(seenCache[d.concept._id] !== undefined)
+        {
+            return seenCache[d.concept._id];
+        }
+
+        var isSeen;
+
         if(d.children && d.children.length)
         {
-            var isSeen = true;
+            isSeen = true;
 
             for(var i = 0; i < d.children.length; i++)
             {
@@ -140,14 +149,20 @@ angular.module('courses').service('SeenDataManager', function(Authentication, $t
                     isSeen = false;
                 }
             }
-
-            return isSeen;
         }
         else
         {
-            if(Object.keys($scope.seenMapByConcept).length === 0) return false;
-
-            return $scope.seenMapByConcept[d.concept._id] !== undefined && $scope.seenMapByConcept[d.concept._id] !== null;
+            if(Object.keys($scope.seenMapByConcept).length === 0)
+            {
+                isSeen = false;
+            }
+            else
+            {
+                isSeen = $scope.seenMapByConcept[d.concept._id] !== undefined && $scope.seenMapByConcept[d.concept._id] !== null;
+            }
         }
+
+        seenCache[d.concept._id] = isSeen;
+        return isSeen;
     };
 });
