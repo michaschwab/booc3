@@ -95,12 +95,8 @@ angular.module('courses').controller('CourseMapController', function($scope, $st
         var timeout;
         var onGraphResize = function()
         {
-            $timeout.cancel(timeout);
-            timeout = $timeout(function()
-            {
-                $scope.resizeFunction();
-                $scope.redraw();
-            }, REDRAW_MINTIME);
+            $scope.resizeFunction();
+            $scope.redraw();
         };
 
         var onBackgroundClick = function(e)
