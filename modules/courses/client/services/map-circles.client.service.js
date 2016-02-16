@@ -464,7 +464,7 @@ angular.module('courses').service('MapCircles', function(Tip, $location, $timeou
     var mainCanvas;
     this.makeStartCircle = function()
     {
-        if(!mainCanvas)
+        //if(!mainCanvas) // this needs to have some kind of course-specific caching.
         {
             mainCanvas = d3.select('#mainCanvas');
         }
