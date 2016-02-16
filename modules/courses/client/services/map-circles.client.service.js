@@ -539,23 +539,24 @@ angular.module('courses').service('MapCircles', function(Tip, $location, $timeou
             titlesDone[d.concept._id] = index;
 
             if(!t) t = el.select('.concept-title');
-            t.selectAll('tspan').remove();
+
+            var titleData = d.splitTexts.map(function(splitText) { return { text: splitText } });
+            var titleSpans = t.selectAll('tspan').data(titleData);
+
+            titleSpans.enter().append('tspan').text(function(dd) { return dd.text; }).attr('x',0);
 
             var radiusFactor = d.radius ? 0.5 + d.radius * 4 : 1;
             var offset = getConfig(d).textYOffset * $scope.graphHeight * radiusFactor;
-            //console.log(offset, getConfig(d), getConfig(d).textYOffset, $scope.graphHeight, radiusFactor);
-            d.splitTexts.forEach(function(split, splitIndex){
-                t.append('tspan').attr({
-                    'dy': function()
+
+            titleSpans.attr({
+                'dy': function(dd, index)
+                {
+                    if(index === 0)
                     {
-                        if(splitIndex === 0)
-                        {
-                            return - (-0.18 + (d.splitTexts.length - 1) / 2) * offset;
-                        }
-                        return offset;
-                    },
-                    'x':0
-                }).text(split)
+                        return - (-0.18 + (d.splitTexts.length - 1) / 2) * offset;
+                    }
+                    return offset;
+                }
             });
         }
     };
@@ -564,6 +565,12 @@ angular.module('courses').service('MapCircles', function(Tip, $location, $timeou
 
     this.setTranslate = function(d, el, config)
     {
+        if(!el)
+            el = d3.select(this);
+
+        if(!config)
+            config = getConfig(d);
+
         var trans = $scope.getTranslate(d, config);
         var conceptId = d.concept._id;
         var transCache = lastUpdateData[conceptId] ? lastUpdateData[conceptId]['translate'] : null;
@@ -676,7 +683,7 @@ angular.module('courses').service('MapCircles', function(Tip, $location, $timeou
     };
 
     //var times = [];
-    this.setRadius = function(lxCircle)
+    this.setRadius = function()
     {
         // This takes an average of 0.3 ms.
         //var start = window.performance.now();
@@ -717,6 +724,20 @@ angular.module('courses').service('MapCircles', function(Tip, $location, $timeou
         //times.push(time);
         //console.log(times.reduce(function(a, b) { return a + b; }) / times.length, times[times.length-1]);
         //console.trace();
+    };
+
+    this.setTranslates = function()
+    {
+        for(var i = 0; i < lxCircles.length; i++)
+        {
+            if(lxCircles[i])
+            {
+                lxCircles[i].each(function(d)
+                {
+                    me.setTranslate(d);
+                });
+            }
+        }
     };
 
     this.updateActive = function()

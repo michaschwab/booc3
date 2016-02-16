@@ -206,7 +206,8 @@ angular.module('courses').controller('CourseMapController', function($scope, $st
                 var params = $scope.visParams;
 
                 MapCircles.setRadius();
-                var lxCircleEnters = MapCircles.setup();
+                MapCircles.setTranslates();
+                MapCircles.setup();
 
                 // For first run the radius won't be set yet, or a new concept has been added
                 var concepts = Object.keys($scope.directories.concepts).map(function (key) {
