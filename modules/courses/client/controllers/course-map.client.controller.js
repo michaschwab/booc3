@@ -202,7 +202,7 @@ angular.module('courses').controller('CourseMapController', function($scope, $st
                 var params = $scope.visParams;
 
                 MapCircles.setRadius();
-                MapCircles.setTranslates();
+                //MapCircles.setTranslates();
                 MapCircles.setup();
 
                 // For first run the radius won't be set yet, or a new concept has been added

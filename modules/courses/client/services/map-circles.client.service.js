@@ -572,9 +572,6 @@ angular.module('courses').service('MapCircles', function(Tip, $location, $timeou
 
     this.setTranslate = function(d, el, config)
     {
-        if(!el)
-            el = d3.select(this);
-
         if(!config)
             config = getConfig(d);
 
@@ -585,6 +582,7 @@ angular.module('courses').service('MapCircles', function(Tip, $location, $timeou
         // Only ever need to do this once in zoomMode.
         if(!transCache || trans.x !== transCache.x ||  trans.y !== transCache.y)
         {
+            if(!lastUpdateData[conceptId]) lastUpdateData[conceptId] = {};
             lastUpdateData[conceptId]['translate'] = trans;
             //console.count(conceptId);
 
@@ -742,7 +740,7 @@ angular.module('courses').service('MapCircles', function(Tip, $location, $timeou
         //console.trace();
     };
 
-    this.setTranslates = function()
+    /*this.setTranslates = function()
     {
         for(var i = 0; i < lxCircles.length; i++)
         {
@@ -754,7 +752,7 @@ angular.module('courses').service('MapCircles', function(Tip, $location, $timeou
                 });
             }
         }
-    };
+    };*/
 
     var colorCache = {};
 

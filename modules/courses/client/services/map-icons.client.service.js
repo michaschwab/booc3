@@ -85,7 +85,10 @@ angular.module('courses').service('MapIcons', function(Tip, ConceptStructure, $l
         if(!Authentication.isCourseTeachingAssistant($scope.course._id))
             return;
 
-        el.selectAll('.depCreate').remove();
+        var search = $location.search();
+        var adminMode = search && search.mode && search.mode == 'admin';
+        if(adminMode)
+            el.selectAll('.depCreate').remove();
 
         this.addDependencyCreator(el, d);
     };
@@ -221,7 +224,11 @@ angular.module('courses').service('MapIcons', function(Tip, ConceptStructure, $l
             // This function takes about 22ms when activateConcept is run.
             // 1ms = classed(), 3ms = attr(),  1ms = isLearned,
             var el = d3.select(this);
-            var iconEl = el.select('.icons');
+            if(!d.iconGroup)
+            {
+                d.iconGroup = el.select('.icons');
+            }
+            var iconEl = d.iconGroup;
             var conceptId = d.concept._id;
             if(!lastData[conceptId]) lastData[conceptId] = {};
 
@@ -238,7 +245,12 @@ angular.module('courses').service('MapIcons', function(Tip, ConceptStructure, $l
             {
                 lastData[conceptId]['size'] = size;
 
-                iconEl.selectAll('.icon').attr(
+                if(!d.iconEls)
+                {
+                    d.iconEls = iconEl.selectAll('.icon');
+                }
+
+                d.iconEls.attr(
                 {
                     'dy': 2 * $scope.graphHeight * d.radius / 10
                 }).style(
@@ -270,7 +282,12 @@ angular.module('courses').service('MapIcons', function(Tip, ConceptStructure, $l
                 lastData[conceptId]['showDepCreate'] = showDepCreate;
                 //todo switch 'el' to 'iconEl' once $scope.addDependencyCreator has been moved to this file.
 
-                el.select('.depCreate').classed('active', showDepCreate).classed('inactive', !showDepCreate)
+                if(!d.depCreateEl)
+                {
+                    d.depCreateEl = el.select('.depCreate');
+                }
+
+                d.depCreateEl.classed('active', showDepCreate).classed('inactive', !showDepCreate)
                     .transition().attr(
                     {
                         'fill-opacity': showDepCreate ? OPACITY : 0,
@@ -292,7 +309,7 @@ angular.module('courses').service('MapIcons', function(Tip, ConceptStructure, $l
             {
                 lastData[conceptId]['opacity'] = opacity;
 
-                el.select('.concept-title').attr({ 'fill-opacity': function()
+                d.titleEl.attr({ 'fill-opacity': function()
                 {
                     return opacity;
                 } });
@@ -307,20 +324,22 @@ angular.module('courses').service('MapIcons', function(Tip, ConceptStructure, $l
                 {
                     var showThis = me.hasIcon(d, icons[i]);
 
-                    // This takes 10ms.
-                    if(showThis)
+                    if(showThis !== lastData[conceptId]['icon-' + icons[i]])
                     {
-                        iconEl.classed('icon-' + icons[i], true);
-                        break;
+                        lastData[conceptId]['icon-' + icons[i]] = showThis;
+
+                        // This takes 10ms.
+                        iconEl.classed('icon-' + icons[i], showThis);
                     }
-                    else
-                        iconEl.classed('icon-' + icons[i], false);
+                    if(showThis)
+                        break;
+
                 }
 
                 var currentIcon = icons[i];
 
-                // 5ms.
-                if(!lastData[conceptId]['icon'] || lastData[conceptId]['icon'] !== currentIcon)
+                // 5ms if something changed, otherwise 0.
+                if(lastData[conceptId]['icon'] !== currentIcon)
                 {
                     lastData[conceptId]['icon'] = currentIcon;
 
