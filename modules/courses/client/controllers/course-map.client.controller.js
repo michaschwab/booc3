@@ -223,7 +223,6 @@ angular.module('courses').controller('CourseMapController', function($scope, $st
                 var size = ((w>h)?h:w)/(1+l1Radius)-10;
 
                 params.scale.range([0,(size/2)]);
-                console.log('setting range with graph height: ', $scope.graphHeight);
 
                 /*lxCircleEnters.forEach(function(lxCircleEnter)
                 {
@@ -429,6 +428,10 @@ angular.module('courses').controller('CourseMapController', function($scope, $st
             $scope.setGraphSize();
         });
         $scope.$watch('panelWidth', $scope.setGraphSize);
+
+        $scope.$on("$destroy", function() {
+            w.unbind('resize');
+        });
 	}
 )/*.directive('ngRightClick', function($parse) {
     return function(scope, element, attrs) {

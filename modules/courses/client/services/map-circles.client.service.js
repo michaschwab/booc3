@@ -654,12 +654,6 @@ angular.module('courses').service('MapCircles', function(Tip, $location, $timeou
                 {
                     //console.count(conceptId);
                     lastUpdate['radius'] = d.radius;
-
-                    if(index === 0)
-                    {
-                        console.log(params.scale(d.radius), lastUpdate['graphHeight'], $scope.graphHeight);
-                    }
-
                     lastUpdate['graphWidth'] = $scope.graphWidth;
                     lastUpdate['graphHeight'] = $scope.graphHeight;
 
@@ -744,20 +738,6 @@ angular.module('courses').service('MapCircles', function(Tip, $location, $timeou
         //console.log(times.reduce(function(a, b) { return a + b; }) / times.length, times[times.length-1]);
         //console.trace();
     };
-
-    /*this.setTranslates = function()
-    {
-        for(var i = 0; i < lxCircles.length; i++)
-        {
-            if(lxCircles[i])
-            {
-                lxCircles[i].each(function(d)
-                {
-                    me.setTranslate(d);
-                });
-            }
-        }
-    };*/
 
     var colorCache = {};
 
