@@ -27,7 +27,7 @@
             <br />
 
             <p>What would you like to tell us?</p>
-            <textarea ng-model="feedbackContent" class="form-control" rows="5"></textarea>
+            <textarea ng-model="feedbackContent" class="form-control feedbackContent" rows="5"></textarea>
         </div>
 
         <div ng-show="feedbackMode=='website'">
@@ -41,20 +41,20 @@
             <br />
 
             <p>What would you like to tell us?</p>
-            <textarea ng-model="feedbackContent" class="form-control" rows="5"></textarea>
+            <textarea ng-model="feedbackContent" class="form-control feedbackContent" rows="5"></textarea>
         </div>
 
         <div style="position: relative">
-            <p style="padding-top: 15px">Would you like to send this feedback anonymously?</p>
+            <p style="padding-top: 15px">Would you like to send this feedback anonymously, or would you like us to know who you are?</p>
 
-            <a class="btn btn-default" href style="width: 70px" ng-click="anonymousOn=!anonymousOn">
+            <a class="btn btn-default" href style="width: 160px" ng-click="anonymousOn=!anonymousOn">
                 <span ng-show="anonymousOn">
                     <span class="glyphicon glyphicon-sunglasses"></span>
-                    Yes
+                    Anonymous
                 </span>
                 <span ng-show="!anonymousOn">
                     <span class="glyphicon glyphicon-user"></span>
-                    No
+                    Send Account Info
                 </span>
             </a>
 

@@ -2,7 +2,7 @@ angular.module('conceptdependencies').controller('FeedbackModalController',
     function ($scope, Courses, $modalInstance, $http, Authentication, $stateParams, $location, Logger)
     {
         //$scope.dependency = dependency;
-        $scope.feedbackMode = 'course';
+
         $scope.technicalProblemOn = false;
         $scope.anonymousOn = true;
         $scope.course = null;
@@ -12,6 +12,11 @@ angular.module('conceptdependencies').controller('FeedbackModalController',
             if(courseId)
             {
                 $scope.course = $scope.courses.filter(function(c) { return c._id == courseId; })[0];
+                $scope.feedbackMode = 'course';
+            }
+            else
+            {
+                $scope.feedbackMode = 'website';
             }
         });
         $scope.feedbackContent = '';

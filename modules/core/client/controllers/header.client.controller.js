@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('core').controller('HeaderController',
-    function ($scope, $state, Authentication, Menus, MapTour, $modal, $location, Logger) {
+    function ($scope, $state, Authentication, Menus, MapTour, $modal, $location, Logger, $timeout) {
         // Expose view variables
         $scope.$state = $state;
         $scope.authentication = Authentication;
@@ -56,12 +56,17 @@ angular.module('core').controller('HeaderController',
                 animation: true,
                 templateUrl: 'modules/core/views/feedbackModal.client.view.html',
                 controller: 'FeedbackModalController',
+                windowClass: 'feedback-modal-window',
                 resolve: {
                     /*dependency: function() { return d.dep; },
                     from: function() { return d.from; },
                     to: function() { return d.to }*/
                 }
             });
+            $timeout(function()
+            {
+                $('.feedbackContent').focus();
+            }, 200);
         };
     }
 );

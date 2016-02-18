@@ -1,3 +1,7 @@
+.feedback-modal-window .modal-dialog {
+    width: 630px;
+}
+
 #feedbackToButton {
     width: 100px;
     height: 25px;
