@@ -1,0 +1,14 @@
+.square {
+    opacity: 0;
+    transition: opacity .5s ease-in-out;
+    pointer-events: none;
+}
+
+.square text {
+    fill: #cccccc;
+}
+
+.square.active {
+    opacity: 1;
+    pointer-events: auto;
+}
