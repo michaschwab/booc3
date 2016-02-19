@@ -93,9 +93,8 @@ angular.module('courses').service('MapSquares', function(Tip, $location, $timeou
             })
             .on('mouseover', function(s)
             {
-                $scope.hoverConcept(s.concept);
                 $scope.hoverSegment(s.segment);
-
+                $scope.hoverConcept(s.concept);
             })
             .on('mouseleave', function()
             {
@@ -143,16 +142,14 @@ angular.module('courses').service('MapSquares', function(Tip, $location, $timeou
             }
         });
 
-
-        //http://localhost:3000/modules/contents/img/harvardextensionschool.svg
-        //<image x="10" y="20" width="80" height="80" xlink:href="recursion.svg" />
-
         squares.each(function(s)
         {
             var el = d3.select(this);
             var active = $scope.activeConcept && $scope.activeConcept.concept._id == s.conceptId;
+            var selected = $scope.active.hoverSegment ? $scope.active.hoverSegment == s.segment : s.segment == $scope.active.segment;
 
             el.classed('active', active);
+            el.classed('selected', selected);
 
             var width = $scope.visParams.scale(s.concept.radius * 1.5);
             var perConcept = squaresPerConcept[s.conceptId];

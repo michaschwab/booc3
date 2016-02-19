@@ -372,6 +372,7 @@ angular.module('courses').controller('CourseMapController', function($scope, $st
                 //console.log(lastRedrawHoverHovers, lastRedrawHoverTodos, lastGraphHeight, lastGraphWidth);
 
                 MapCircles.updateActive();
+                MapSquares.update();
 
                 MapArrows.drawPlans();
             };

@@ -13,3 +13,8 @@
     pointer-events: auto;
     cursor: pointer;
 }
+
+.square.selected rect {
+    stroke: #cccccc;
+    stroke-width: 0.5px;
+}
