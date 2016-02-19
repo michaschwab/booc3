@@ -86,19 +86,30 @@ angular.module('courses').service('MapSquares', function(Tip, $location, $timeou
             })
             .on('click', function(s)
             {
-                /*
-                 courses.view', {
-                 url: '/:courseId?learn&goal&active&mode&source&segment',
-                 */
+                var params;
 
-                var params = {
-                    courseId: $scope.courseId,
-                    learn: 'yes',
-                    active: s.conceptId,
-                    segment: s.segment._id
-                };
+                if(s.title == 'Comments')
+                {
+                    params = {
+                        courseId: $scope.courseId,
+                        conceptId: s.conceptId
+                    };
 
-                $state.go('courses.view', params);
+                    $state.go('conceptComments', params);
+                }
+                else
+                {
+                    params = {
+                        courseId: $scope.courseId,
+                        learn: 'yes',
+                        active: s.conceptId,
+                        segment: s.segment._id
+                    };
+
+                    $state.go('courses.view', params);
+                }
+
+
             })
             .on('mouseover', function(s)
             {
