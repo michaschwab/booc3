@@ -514,10 +514,11 @@ input.concept-title.admin {
     min-height: 30px;
 }
 
-.segment.active a, .segment a:hover {
+.segment.active a, .segment a:hover, .segment.hover a {
     background: #ddd;
-
-
+}
+.segment.active.nothover a {
+    background: #eee;
 }
 
 .alternative-segments {

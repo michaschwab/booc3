@@ -25,7 +25,7 @@
 
 
     <ul ng-show="courseScope.activeConcept.concept._id == concept.concept._id" class="alternative-segments">
-        <li ng-repeat="seg in courseScope.active.segments track by seg._id" class="segment" ng-class="{ 'active': seg._id === courseScope.active.segment._id}">
+        <li ng-repeat="seg in courseScope.active.segments track by seg._id" class="segment" ng-class="{ 'active': seg._id === courseScope.active.segment._id, 'hover': seg._id == courseScope.active.hoverSegment._id, 'nothover': courseScope.active.hoverSegment && seg._id != courseScope.active.hoverSegment._id }">
 
             <span class="concept-line"><span></span></span>
 

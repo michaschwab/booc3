@@ -90,6 +90,16 @@ angular.module('courses').service('MapSquares', function(Tip, $location, $timeou
                 };
 
                 $state.go('courses.view', params);
+            })
+            .on('mouseover', function(s)
+            {
+                $scope.hoverConcept(s.concept);
+                $scope.hoverSegment(s.segment);
+
+            })
+            .on('mouseleave', function()
+            {
+                $scope.hoverSegment();
             });
 
         squareEnter.append('rect');

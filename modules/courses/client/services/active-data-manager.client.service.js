@@ -17,6 +17,7 @@ angular.module('courses').service('ActiveDataManager', function(Authentication, 
             me.updateData();
         });
         $scope.$on('dataUpdated', me.updateData);
+        $scope.hoverSegment = me.hoverSegment;
 
         SeenDataManager.addSeenListener(me.updateAttributes);
     };
@@ -210,6 +211,11 @@ angular.module('courses').service('ActiveDataManager', function(Authentication, 
         }
 
         this.updateCurrentGoal();
+    };
+
+    this.hoverSegment = function(segment)
+    {
+        $scope.active.hoverSegment = segment;
     };
 
     this.setActiveSegments = function()
