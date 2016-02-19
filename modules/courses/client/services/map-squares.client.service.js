@@ -52,6 +52,14 @@ angular.module('courses').service('MapSquares', function(Tip, $location, $timeou
 
                 data.push(square);
             });
+
+            var commentsSquare = {};
+            commentsSquare.concept = $scope.directories.concepts[conceptId];
+            commentsSquare.conceptId = conceptId;
+            commentsSquare.title = 'Comments';
+            commentsSquare.icon = 'fa fa-comments';
+
+            data.push(commentsSquare);
         });
 
         var squaresPerConcept = {};
@@ -63,6 +71,7 @@ angular.module('courses').service('MapSquares', function(Tip, $location, $timeou
             }
             squaresPerConcept[square.conceptId].push(square);
         });
+
 
         var squares = layer.selectAll('.square').data(data);
         var squareEnter = squares.enter()
@@ -155,7 +164,7 @@ angular.module('courses').service('MapSquares', function(Tip, $location, $timeou
             var perConcept = squaresPerConcept[s.conceptId];
             var index = perConcept.indexOf(s);
             var percentIndex = index / (perConcept.length);
-            var angle = Math.PI + percentIndex * 2 * Math.PI; // they should go around most of concept (90% of 360 degrees).
+            var angle = Math.PI - percentIndex * 2 * Math.PI; // they should go around most of concept (90% of 360 degrees).
 
             var distanceFromCenter = $scope.visParams.scale(2 * s.concept.radius);
 
