@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('courses').controller('CourseMapController', function($scope, $stateParams, Courses, Concepts, Conceptdependencies, Authentication, $window, $location, ConceptStructure, $timeout, Tip, MapArrows, MapCircles, MapActions, MapIcons, $rootScope, MapEvents, MapTour, Logger)
+angular.module('courses').controller('CourseMapController', function($scope, $stateParams, Courses, Concepts, Conceptdependencies, Authentication, $window, $location, ConceptStructure, $timeout, Tip, MapArrows, MapCircles, MapSquares, MapActions, MapIcons, $rootScope, MapEvents, MapTour, Logger)
     {
         $scope.authentication = Authentication;
 
@@ -126,6 +126,7 @@ angular.module('courses').controller('CourseMapController', function($scope, $st
         };
 
         MapCircles.init($scope);
+        MapSquares.init($scope);
         MapActions.init($scope);
         MapIcons.init($scope);
 
@@ -138,6 +139,7 @@ angular.module('courses').controller('CourseMapController', function($scope, $st
             $scope.active.topLevelConcepts = tlc;
             $rootScope.$broadcast('conceptStructureLoaded');*/
             MapCircles.createLayout($scope.active.topLevelConcepts);
+            MapSquares.createLayout();
         };
 
         var initDrawn = false;
@@ -180,6 +182,7 @@ angular.module('courses').controller('CourseMapController', function($scope, $st
             $scope.canvas.append("g").attr("id", "depLayer");
             $scope.canvas.append("g").attr("id", "pathLayer");
             $scope.canvas.append("g").attr("id", "eventLayer");
+            $scope.canvas.append("g").attr("id", "squareLayer");
 
             $scope.visParams = {
                 scale:d3.scale.linear(),
@@ -203,6 +206,7 @@ angular.module('courses').controller('CourseMapController', function($scope, $st
 
                 MapCircles.setRadius();
                 MapCircles.setup();
+                MapSquares.setup();
 
                 // For first run the radius won't be set yet, or a new concept has been added
                 var concepts = Object.keys($scope.directories.concepts).map(function (key) {
@@ -230,6 +234,7 @@ angular.module('courses').controller('CourseMapController', function($scope, $st
                 });*/
 
                 MapCircles.update();
+                MapSquares.update();
                 MapEvents.update();
 
                 var canvas = $scope.canvas;

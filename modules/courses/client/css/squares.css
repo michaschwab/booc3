@@ -11,4 +11,5 @@
 .square.active {
     opacity: 1;
     pointer-events: auto;
+    cursor: pointer;
 }

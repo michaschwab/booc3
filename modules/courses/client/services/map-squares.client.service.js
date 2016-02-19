@@ -1,4 +1,4 @@
-angular.module('courses').service('MapSquares', function(Tip, $location, $timeout, Logger, FontAwesome)
+angular.module('courses').service('MapSquares', function(Tip, $location, $timeout, Logger, FontAwesome, $state)
 {
     var me = this;
     var $scope;
@@ -46,6 +46,9 @@ angular.module('courses').service('MapSquares', function(Tip, $location, $timeou
                 square.title = segment.title;
                 square.concept = $scope.directories.concepts[conceptId];
                 square.conceptId = conceptId;
+                square.segment = segment;
+                square.source = source;
+                square.sourcetype = sourcetype;
 
                 data.push(square);
             });
@@ -71,19 +74,68 @@ angular.module('courses').service('MapSquares', function(Tip, $location, $timeou
                     var conceptTrans = $scope.getTranslateAbs(s.concept);
                     return 'translate(' + conceptTrans.x + ',' + conceptTrans.y + ')';
                 }
+            })
+            .on('click', function(s)
+            {
+                /*
+                 courses.view', {
+                 url: '/:courseId?learn&goal&active&mode&source&segment',
+                 */
+
+                var params = {
+                    courseId: $scope.courseId,
+                    learn: 'yes',
+                    active: s.conceptId,
+                    segment: s.segment._id
+                };
+
+                $state.go('courses.view', params);
             });
 
         squareEnter.append('rect');
 
-        squareEnter.append('text')
-            .attr('text-anchor', 'middle')
-            .attr('dominant-baseline', 'central')
-            .attr('font-family', 'FontAwesome')
-            .attr('font-size', '5px')
-            .text(function(s)
+        squareEnter.each(function(square)
+        {
+            var el = d3.select(this);
+
+            //var width = $scope.visParams.scale(square.concept.radius * 1.5);
+            var size = 300  * square.concept.radius;
+
+            var manualIcons = {
+                'lecture-icon': '/modules/learning/img/lecture.svg',
+                'customicon icon-extensionschool': '/modules/contents/img/harvardextensionschool.svg',
+                'customicon icon-lti': '/modules/contents/img/lti.png'
+            };
+
+            if(Object.keys(manualIcons).indexOf(square.icon) !== -1)
             {
-                return FontAwesome.getCharacter(s.icon);
-            });
+                var path = manualIcons[square.icon];
+
+                el.append('image')
+                    .attr('width', size)
+                    .attr('height', size)
+                    .attr('x', size / -2)
+                    .attr('y', size / -2)
+                    .attr('xlink:href', path);
+            }
+            else if(square.icon.substr(0,'fa fa-'.length) == 'fa fa-')
+            {
+                el.append('text')
+                    .attr('text-anchor', 'middle')
+                    .attr('dominant-baseline', 'central')
+                    .attr('font-family', 'FontAwesome')
+                    .attr('font-size', size + 'px')
+                    .text(FontAwesome.getCharacter(square.icon));
+            }
+            else
+            {
+                console.log('dont know how to embed this icon in svg:' + square.icon);
+            }
+        });
+
+
+        //http://localhost:3000/modules/contents/img/harvardextensionschool.svg
+        //<image x="10" y="20" width="80" height="80" xlink:href="recursion.svg" />
 
         squares.each(function(s)
         {

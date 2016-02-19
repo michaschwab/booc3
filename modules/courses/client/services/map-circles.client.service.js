@@ -81,6 +81,7 @@ angular.module('courses').service('MapCircles', function(Tip, $location, $timeou
             if(!config)
             {
                 config = $scope.getConfig(d);
+                if(!config) return;
             }
 
             var positionFct = config.position === undefined ? function(x) { return x; } : config.position;
