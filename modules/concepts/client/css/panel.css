@@ -549,14 +549,12 @@ input.concept-title.admin {
 }
 
 .segment:first-child:not(:only-child) .concept-line {
-    /*top:5px;*/
-    /*margin-bottom: -20px;*/
     padding-bottom: 50px;
     padding-top: 50px;
 }
 
 .segment:first-child:after {
-    content: "\f005";
+    content: "\f005"; /* this is a star: fa-star */
     display: inline-block;
     font: normal normal normal 14px/1 FontAwesome;
     font-size: inherit;
