@@ -40,6 +40,11 @@ angular.module('courses').service('MapSquares', function(Tip, $location, $timeou
                 var square = {};
 
                 var source = $scope.sourceMap[segment.source];
+                if(!source)
+                {
+                    console.error('could not find the source of the following segment: ', segment, 'the map of sources is ', $scope.sourceMap);
+                    return;
+                }
                 var sourcetype = $scope.sourcetypeMap[source.type];
                 square.icon = sourcetype.icon;
 
@@ -128,7 +133,7 @@ angular.module('courses').service('MapSquares', function(Tip, $location, $timeou
             var el = d3.select(this);
 
             //var width = $scope.visParams.scale(square.concept.radius * 1.5);
-            var size = 300  * square.concept.radius;
+            var size = $scope.visParams.scale(square.concept.radius);
 
             var manualIcons = {
                 'lecture-icon': '/modules/learning/img/lecture.svg',
@@ -141,19 +146,17 @@ angular.module('courses').service('MapSquares', function(Tip, $location, $timeou
                 var path = manualIcons[square.icon];
 
                 el.append('image')
-                    .attr('width', size)
-                    .attr('height', size)
-                    .attr('x', size / -2)
-                    .attr('y', size / -2)
+                    .classed('icon-image', true)
                     .attr('xlink:href', path);
             }
             else if(square.icon.substr(0,'fa fa-'.length) == 'fa fa-')
             {
                 el.append('text')
+                    .classed('icon-fa-text', true)
                     .attr('text-anchor', 'middle')
                     .attr('dominant-baseline', 'central')
                     .attr('font-family', 'FontAwesome')
-                    .attr('font-size', size + 'px')
+
                     .text(FontAwesome.getCharacter(square.icon));
             }
             else
@@ -167,6 +170,8 @@ angular.module('courses').service('MapSquares', function(Tip, $location, $timeou
             var el = d3.select(this);
             var active = $scope.activeConcept && $scope.activeConcept.concept._id == s.conceptId;
             var selected = $scope.active.hoverSegment ? $scope.active.hoverSegment == s.segment : s.segment == $scope.active.segment;
+
+            var size = $scope.visParams.scale(s.concept.radius);
 
             el.classed('active', active);
             el.classed('selected', selected);
@@ -201,6 +206,15 @@ angular.module('courses').service('MapSquares', function(Tip, $location, $timeou
             el.transition().attr({
                 'transform': 'translate(' + Math.round(conceptTrans.x + x) + ',' + Math.round(conceptTrans.y + y) + ')'
             });
+
+            el.select('.icon-fa-text')
+                .attr('font-size', size + 'px');
+
+            el.select('.icon-image')
+                .attr('width', size)
+                .attr('height', size)
+                .attr('x', size / -2)
+                .attr('y', size / -2);
         });
 
     };
