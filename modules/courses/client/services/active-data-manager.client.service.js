@@ -248,7 +248,7 @@ angular.module('courses').service('ActiveDataManager', function(Authentication, 
                 var segment = $scope.segmentMap[$scope.active.segmentId];
                 var conceptId = $scope.activeConcept.concept._id;
             }
-            if($scope.active.segmentId !== '' && segment.concepts.indexOf(conceptId) !== -1)
+            if($scope.active.segmentId !== '' && segment && segment.concepts.indexOf(conceptId) !== -1)
             {
                 $scope.active.segment = $scope.segmentMap[$scope.active.segmentId];
             }
