@@ -45,7 +45,7 @@ angular.module('conceptdependencies').controller('FeedbackModalController',
         {
             var feedback = getFeedbackData();
 
-            Logger.log('FeedbackModalCancel', feedback, event);
+            Logger.log('FeedbackModalSend', feedback, event);
             $http.post('/api/feedback/send', feedback).success(function (response) {
                 /*$scope.credentials = null;
                 $scope.success = response.message;*/
