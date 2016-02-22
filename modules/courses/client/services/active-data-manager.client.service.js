@@ -195,10 +195,7 @@ angular.module('courses').service('ActiveDataManager', function(Authentication, 
         }
         $scope.learnModeYesNo = $scope.learnMode ? 'yes' : 'no';
 
-        if(searchParams.segment)
-        {
-            $scope.active.segmentId = searchParams.segment;
-        }
+        $scope.active.segmentId = searchParams.segment;
 
         if(searchParams.mode)
         {
