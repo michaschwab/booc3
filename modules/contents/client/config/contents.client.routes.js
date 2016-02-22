@@ -32,7 +32,7 @@ angular.module('contents').config(['$stateProvider', '$urlRouterProvider',
                 templateUrl: 'modules/courses/views/view-course.client.view.html'
             })
             .state('contents.manage', {
-                url: '/contents/manage?course',
+                url: '/contents/manage?course&sourcetype',
                 reloadOnSearch: false,
                 templateUrl: 'modules/contents/views/manage-contents.client.view.html'
             })
