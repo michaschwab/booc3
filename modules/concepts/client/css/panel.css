@@ -542,6 +542,32 @@ input.concept-title.admin {
     margin: -20px 0 0 20px;
 }
 
+/* this is to mark the 'recommended' segment */
+
+.segment:first-child:not(:only-child) {
+    margin-bottom: 9px;
+    border-bottom: 1px dashed #666;
+}
+
+.segment:first-child:not(:only-child) .concept-line {
+    padding-bottom: 50px;
+    padding-top: 50px;
+}
+
+.segment:first-child:after {
+    content: "\f005"; /* this is a star: fa-star */
+    display: inline-block;
+    font: normal normal normal 14px/1 FontAwesome;
+    font-size: inherit;
+    text-rendering: auto;
+    -webkit-font-smoothing: antialiased;
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    color: #e5c100;
+}
+
+
 /*** LEARNING BUTTONS ***/
 .maximized .learning-buttons {
     position: fixed;
