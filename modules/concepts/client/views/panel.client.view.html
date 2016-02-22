@@ -137,7 +137,7 @@
             -->
             <div class="concept-panel">
 
-                <div ng-if="activeMode=='hierarchy'||activeMode=='admin'" class="panel-content" ng-class="{'panel-content-active': activeMode=='hierarchy'||activeMode=='admin'}" style="height: {{panelContentHeight}}px; ">
+                <div ng-if="activeMode=='hierarchy'||activeMode=='admin'" class="panel-content admin-panel" ng-class="{'panel-content-active': activeMode=='hierarchy'||activeMode=='admin'}" style="height: {{panelContentHeight}}px; ">
 
                     <p>
                         <i ng-show="activeMode=='hierarchy'">What's within {{activeHierarchyConcept.concept.title}}?</i>
@@ -176,7 +176,7 @@
                     </div>
                 </div>
 
-                <div ng-if="activeMode=='lecture'" class="panel-content" ng-class="{'panel-content-active': activeMode=='lecture'}" style="height: {{panelContentHeight}}px;">
+                <div ng-if="activeMode=='lecture'" class="panel-content lectures-panel" ng-class="{'panel-content-active': activeMode=='lecture'}" style="height: {{panelContentHeight}}px;">
 
                     <!--<h3>Concepts in {{activeLecture.title}}</h3>-->
                     <p ng-show="activeConcept"><i>Which Lectures cover parts of {{activeConcept.concept.title}}?</i></p>
@@ -202,7 +202,7 @@
                     </div>
                 </div>
 
-                <div ng-show="activeMode=='plan'" class="panel-content" ng-class="{'panel-content-active': activeMode=='plan'}" style="height: {{panelContentHeight}}px;">
+                <div ng-show="activeMode=='plan'" class="panel-content plan-panel" ng-class="{'panel-content-active': activeMode=='plan'}" style="height: {{panelContentHeight}}px;">
 
                     <p class="plan-intro"><i>How do I learn
 

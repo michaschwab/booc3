@@ -543,7 +543,7 @@ input.concept-title.admin {
 
 /* this is to mark the 'recommended' segment */
 
-.segment:first-child:not(:only-child) {
+.segment:first-child:not(:only-child):not(.add-material) {
     margin-bottom: 9px;
     border-bottom: 1px dashed #666;
 }
@@ -553,7 +553,7 @@ input.concept-title.admin {
     padding-top: 50px;
 }
 
-.segment:first-child:after {
+.segment:first-child:not(.add-material):after {
     content: "\f005"; /* this is a star: fa-star */
     display: inline-block;
     font: normal normal normal 14px/1 FontAwesome;
