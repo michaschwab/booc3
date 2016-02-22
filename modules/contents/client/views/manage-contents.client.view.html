@@ -27,14 +27,15 @@
             <tr>
                 <th>Type</th>
                 <th>Title</th>
-                <th>Concepts</th>
+                <th style="width: 100px">Created</th>
                 <th>Courses</th>
+                <th>Concepts</th>
                 <th>Actions</th>
             </tr>
         </thead>
 
         <tbody>
-            <tr data-ng-repeat="source in sources | filter: searchObj | filter : sourceNameSearch">
+            <tr data-ng-repeat="source in sources | orderBy:'created' | filter: searchObj | filter : {'title': sourceNameSearch}">
 
                 <td>
                     <a title="Filter by type: {{sourceTypeMap[source.type].title}}" href data-ui-sref="{sourcetype: source.type}">
@@ -55,6 +56,14 @@
                 </td>
 
                 <td>
+                    {{source.created | date}}
+                </td>
+
+                <td>
+                    <a href data-ui-sref="{course: courseId}" ng-repeat="courseId in source.courses">{{courseMap[courseId].title}}</a>
+                </td>
+
+                <td>
                     <ul class="lecture-concepts">
                         <li ng-repeat="i in getConceptsNumberShort(3, source) track by $index">
                             <span style="background: {{conceptMap[sourceSegments[source._id][$index].concepts[0]].color}}" class="concept-color-circle"></span>
@@ -63,10 +72,6 @@
                     </ul>
 
                     <span ng-show="getConceptsNumberShort(3, source).length<sourceSegments[source._id].length">...</span>
-                </td>
-
-                <td>
-                    <a href data-ui-sref="{course: courseId}" ng-repeat="courseId in source.courses">{{courseMap[courseId].title}}</a>
                 </td>
 
                 <td>
