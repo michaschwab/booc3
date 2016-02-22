@@ -254,13 +254,16 @@ angular.module('courses').service('ActiveDataManager', function(Authentication, 
             }
             else
             {
-                //console.log('loading not what was specified, but the default segment..');
-                var lectures = $scope.active.segments.filter(function(segment)
-                {
-                    var source = $scope.sourceMap[segment.source];
-                    return source.type === $scope.lectureduoType._id;
-                });
-                $scope.active.segment = lectures.length > 0 ? lectures[0] : $scope.active.segments[0]; //todo
+                // This used to select the first lecture in the list when there was no order in the list of segments yet.
+                // Now, however, the admin chooses the order (and therefore the default segment), making the defaulting to lectures obsolete.
+                /*var lectures = $scope.active.segments.filter(function(segment)
+                 {
+                 var source = $scope.sourceMap[segment.source];
+                 return source.type === $scope.lectureduoType._id;
+                 });
+                 $scope.active.segment = lectures.length > 0 ? lectures[0] : $scope.active.segments[0];*/
+
+                $scope.active.segment = $scope.active.segments[0];
             }
 
             //$scope.active.source = $scope.sourceMap[$scope.active.segment.source];
