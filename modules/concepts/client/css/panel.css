@@ -522,6 +522,18 @@ input.concept-title.admin {
 
 .alternative-segments {
     padding-left: 15pt;
+    list-style: none;
+}
+.group-segments {
+    /*padding-left: -4px;*/
+    padding-bottom: 5px;
+
+}
+.group-segments .segment {
+    /*padding-left: 10px;*/
+}
+.group-segments .segment .concept-line {
+    left: -35px;
 }
 
 .segment .concept-line {
@@ -543,17 +555,17 @@ input.concept-title.admin {
 
 /* this is to mark the 'recommended' segment */
 
-.segment:first-child:not(:only-child):not(.add-material) {
+.alternative-segments:not(.group-segments) > .segment:first-child:not(:only-child):not(.add-material) {
     margin-bottom: 9px;
     border-bottom: 1px dashed #666;
 }
 
-.segment:first-child:not(:only-child) .concept-line {
+.alternative-segments:not(.group-segments) > .segment:first-child:not(:only-child) .concept-line {
     padding-bottom: 50px;
     padding-top: 50px;
 }
 
-.segment:first-child:not(.add-material):after {
+.alternative-segments:not(.group-segments) > .segment:first-child:not(.add-material):after {
     content: "\f005"; /* this is a star: fa-star */
     display: inline-block;
     font: normal normal normal 14px/1 FontAwesome;
