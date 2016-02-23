@@ -107,7 +107,7 @@
 
             <select class="course-run-select form-control" ng-model="source.courserun" ng-required name="courseRunSelect" id="courseRunSelect">
                 <option ng-repeat="run in courseruns" value="{{run._id}}">
-                    {{run.title}}
+                    {{courseMap[run.course].short}}: {{run.title}}
                 </option>
             </select>
         </div>

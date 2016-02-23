@@ -4,6 +4,7 @@ angular.module('contents').controller('CreatorController',
     function($scope, $stateParams, $state, Courses, Sourcetypes, Sources, Segments, $timeout, $location, Courseruns, LectureCreator, WikiCreator, LTICreator, Concepts, $filter, YoutubeCreator, WebsiteCreator, PdfCreator, ExtensionSchoolCreator, Authentication, RandomString)
     {
         $scope.courseId = $stateParams.courseId;
+        $scope.activeCourseIds = [$scope.courseId];
         $scope.stateParams = $stateParams;
 
         var hasAccess = Authentication.isOneCourseAdmin();
@@ -46,12 +47,16 @@ angular.module('contents').controller('CreatorController',
         $scope.newConcept = null;
         var segmentSameTitleAsSource = false;
 
-        $scope.$watch('courseId', function()
+        $scope.$watch('activeCourseIds', function()
         {
-            if(!$scope.courseId) return;
+            if(!$scope.activeCourseIds || !$scope.activeCourseIds.length) return;
 
-            $scope.courseruns = Courseruns.query({course: $scope.courseId}, function()
+            Courseruns.query(function(runs)
             {
+                $scope.courseruns = runs.filter(function(run)
+                {
+                    return $scope.activeCourseIds.indexOf(run.course) !== -1;
+                });
                 $scope.courseruns.map(function(run)
                 {
                     run.startText = moment(run.start).format('YYYY-MM-DD');
@@ -71,13 +76,21 @@ angular.module('contents').controller('CreatorController',
                 {
                     $scope.courses = courses;
                     $scope.courseIds = courses.map(function(c) { return c._id; });
-
-                    var courseSelectScope = angular.element('.course-select').scope();
-                    var courseSearchScope = courseSelectScope ? courseSelectScope.$$childHead : null;
-
-                    if($scope.courseId && courseSearchScope)
+                    $scope.courseMap = {};
+                    courses.forEach(function(course)
                     {
-                        courseSearchScope.$select.selected = $scope.courses[$scope.courseIds.indexOf($scope.courseId)];
+                        $scope.courseMap[course._id] = course;
+                    });
+
+                    if($scope.courseId)
+                    {
+                        $scope.course = $scope.courses[$scope.courseIds.indexOf($scope.courseId)];
+
+                        var courseSelectScope = angular.element('.course-select').scope();
+                        var courseSearchScope = courseSelectScope ? courseSelectScope.$$childHead : null;
+
+                        if(courseSearchScope)
+                            courseSearchScope.$select.selected = $scope.course;
                     }
                 }
             });
@@ -149,6 +162,7 @@ angular.module('contents').controller('CreatorController',
                                 if(activeCourseIds.length && !$scope.courseId)
                                 {
                                     $scope.courseId = activeCourseIds[0];
+                                    $scope.activeCourseIds = activeCourseIds;
                                 }
                                 if($scope.courseId)
                                 {
@@ -323,7 +337,20 @@ angular.module('contents').controller('CreatorController',
         $scope.createContents = function()
         {
             $scope.source.type = getFixedSourceTypeId();
-            $scope.source.courses = [$scope.course._id];
+            console.log($scope.source.courses);
+
+            if($scope.source.courses.length)
+            {
+                if($scope.source.courses.indexOf($scope.course._id) === -1)
+                {
+                    $scope.source.courses.push($scope.course._id);
+                }
+            }
+            else
+            {
+                $scope.source.courses = [$scope.course._id];
+            }
+
 
             if(sourceHelper.beforeSave)
                 sourceHelper.beforeSave();
