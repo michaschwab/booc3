@@ -25,6 +25,7 @@ var SegmentSchema = new Schema({
     courses: [{ type: Schema.Types.ObjectId, ref: 'Course' }],
     //courses: [{ type: Schema.Types.ObjectId, ref: 'Course', validate: function(value) {return value.length > 0;} }],
     concepts: [{ type: Schema.Types.ObjectId, ref: 'Concept' }],
+    segmentgroups: [{ type: Schema.Types.ObjectId, ref: 'Segmentgroup' }],
     order: Schema.Types.Mixed,
     tags: [{ type: Schema.Types.ObjectId, ref: 'Tag' }],
     source: { type: Schema.Types.ObjectId, ref: 'Source', required: 'has to be part of a source' },

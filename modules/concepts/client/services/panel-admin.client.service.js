@@ -1,4 +1,4 @@
-angular.module('courses').service('PanelAdmin', function(Concepts, $rootScope, $timeout, Authentication, $stateParams, $location)
+angular.module('courses').service('PanelAdmin', function(Concepts, $rootScope, $timeout, Authentication, $stateParams, $location, Segmentgroup)
 {
     var $scope;
     var NEW_CONCEPT_TITLE = 'New Concept';
@@ -217,6 +217,17 @@ angular.module('courses').service('PanelAdmin', function(Concepts, $rootScope, $
         $scope.deleteSegment = function(segment)
         {
             segment.$remove();
+        };
+
+        $scope.addSegmentGroup = function(concept)
+        {
+            var group = new Segmentgroup({
+                courses: [$scope.courseId],
+                concept: concept.concept._id,
+                order: 3
+            });
+
+            group.$save();
         };
     };
 
