@@ -58,13 +58,13 @@ angular.module('courses').service('MapSquares', function(Tip, $location, $timeou
                 data.push(square);
             });
 
-            var commentsSquare = {};
+            /*var commentsSquare = {};
             commentsSquare.concept = $scope.directories.concepts[conceptId];
             commentsSquare.conceptId = conceptId;
             commentsSquare.title = 'Comments';
             commentsSquare.icon = 'fa fa-comments';
 
-            data.push(commentsSquare);
+            data.push(commentsSquare);*/
         });
 
         var squaresPerConcept = {};
