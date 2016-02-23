@@ -92,13 +92,26 @@ angular.module('contents').controller('ContentsController',
         $scope.setFilters = function()
         {
             var searchData = $location.search();
+            $scope.searchObj = {};
+
             if(searchData.course)
             {
                 $scope.courseId = searchData.course;
+                $scope.searchObj.$ = $scope.courseId;
             }
             else
             {
                 $scope.courseId = '';
+            }
+
+            if(searchData.sourcetype)
+            {
+                $scope.sourcetypeId = searchData.sourcetype;
+                $scope.searchObj.type = $scope.sourcetypeId;
+            }
+            else
+            {
+                $scope.sourcetypeId = '';
             }
         };
         $scope.setFilters();
@@ -106,6 +119,10 @@ angular.module('contents').controller('ContentsController',
         $scope.resetCourseFilter = function()
         {
             $location.search('course', '');
+        };
+        $scope.resetSourceTypeFilter = function()
+        {
+            $location.search('sourcetype', '');
         };
 
         $scope.$on('$locationChangeSuccess', function()

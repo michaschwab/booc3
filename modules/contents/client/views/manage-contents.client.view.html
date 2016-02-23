@@ -7,34 +7,60 @@
         <h1>Manage Sources</h1>
     </div>
 
+    <input type="text" ng-model="sourceNameSearch" class="form-control" style="width: 300px; float:right;" placeholder="Search..." />
+
     <a ng-show="courseId" href ng-click="resetCourseFilter()" style="text-decoration: none">
         <span class="fa fa-check-square-o"></span>
         Only Show Sources of Course: <b>{{courseMap[courseId].title}}</b>
+    </a><br ng-show="courseId" />
+
+    <a ng-show="sourcetypeId" href ng-click="resetSourceTypeFilter()" style="text-decoration: none">
+        <span class="fa fa-check-square-o"></span>
+        Only Show Sources of Type: <b>{{sourceTypeMap[sourcetypeId].title}}</b>
     </a>
+
+    <br style="clear:both" />
 
     <table class="table">
 
         <thead>
             <tr>
+                <th>Type</th>
                 <th>Title</th>
-                <th>Concepts</th>
+                <th style="width: 100px">Created</th>
                 <th>Courses</th>
+                <th>Concepts</th>
                 <th>Actions</th>
             </tr>
         </thead>
 
         <tbody>
-            <tr data-ng-repeat="source in sources | filter: courseId">
+            <tr data-ng-repeat="source in sources | orderBy:'created' | filter: searchObj | filter : {'title': sourceNameSearch}">
 
                 <td>
-                    <a  data-ui-sref="contents.edit({sourceId: source._id})">
+                    <a title="Filter by type: {{sourceTypeMap[source.type].title}}" href data-ui-sref="{sourcetype: source.type}">
+
+
                         <span class="{{sourceTypeMap[source.type].icon}}"></span>
+                    </a>
+                </td>
+                <td>
+                    <a data-ui-sref="contents.edit({sourceId: source._id})">
+
                         <!--<button class="btn btn-default pull-right" ng-click="playVideoClick(source._id,source.course, $event)">
                             <span class="glyphicon glyphicon-play"></span>
                             Play video with slides
                         </button>-->
                         <span data-ng-bind="source.title"></span>
                     </a>
+                </td>
+
+                <td>
+                    {{source.created | date}}
+                </td>
+
+                <td>
+                    <a href data-ui-sref="{course: courseId}" ng-repeat="courseId in source.courses">{{courseMap[courseId].title}}</a>
                 </td>
 
                 <td>
@@ -49,12 +75,8 @@
                 </td>
 
                 <td>
-                    <a href data-ui-sref="{course: courseId}" ng-repeat="courseId in source.courses">{{courseMap[courseId].title}}</a>
-                </td>
-
-                <td>
                     <button class="btn btn-default ng-hide" ng-click="removeSourceOnly($event, source._id)"><span class="glyphicon glyphicon-trash"></span> Delete Source Only</button>
-                    <button class="btn btn-default" ng-click="removeSource($event, source._id)"><span class="glyphicon glyphicon-trash"></span> <span class="glyphicon glyphicon-plus"></span> Delete Source &amp; Segments</button>
+                    <button class="btn btn-default" ng-click="removeSource($event, source._id)"><span class="glyphicon glyphicon-trash"></span> <span class="glyphicon glyphicon-plus"></span> Delete</button>
                 </td>
 
 

@@ -23,6 +23,8 @@ angular.module('courses').service('MapActions', function(Tip, ConceptStructure, 
                 previousLogData.previousConceptDepth = $scope.activeConcept.depth;
             }
 
+            $location.search('segment', '');
+
             if(d === undefined)
             {
                 //$scope.active.hierarchy = [];

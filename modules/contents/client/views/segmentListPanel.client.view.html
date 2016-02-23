@@ -13,8 +13,8 @@
     <ul class="list-group segment-list" id="segmentList">
         <li ng-repeat="segment in segments | orderBy:'start'" class="list-group-item" id="segment-{{segment._id}}" ng-class="{'active': segment == activeSegment}">
             <a href="" class="segment-list-title" ng-click="selectSegment(segment)">
-                <input type="text" class="segment-title-panel" ng-model="segment.title" />
-                <span ng-show="activeType.player=='video'||activeType.player=='youtube'" class="pull-right segment-time">
+                <input type="text" class="segment-title-panel" ng-model="segment.title" style="width: 260px" />
+                <span ng-show="activeType.player=='video'||activeType.player=='youtube'||activeType.player=='extensionschool'" class="pull-right segment-time">
                     <small><em>{{segment.start | time:'HH:mm:ss'}} - {{segment.end | time:'HH:mm:ss'}}</em></small>
                 </span>
                 <span ng-show="activeType.player=='pdf'" class="pull-right segment-time">
