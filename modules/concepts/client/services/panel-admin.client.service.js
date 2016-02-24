@@ -128,6 +128,7 @@ angular.module('courses').service('PanelAdmin', function(Concepts, $rootScope, $
         $scope.sortableSegmentOptions = {
             handle: '.seg-handle',
             items: "li.sortableSegment:not(.not-sortable)",
+            connectWith: ".alternative-segments",
             update: function(e, ui) {
                 /*var logEntry = tmpList.map(function(i){
                  return i.value;
@@ -143,26 +144,92 @@ angular.module('courses').service('PanelAdmin', function(Concepts, $rootScope, $
                  $scope.sortingLog.push('Stop: ' + logEntry);*/
 
                 var listEl = e.target;
-                var conceptId = listEl.id.substr('concept-segments-'.length);
+
+                var classNames = listEl.className.split(' ');
+                var conceptId, segmentGroupId;
+
+                classNames.forEach(function(className)
+                {
+                    if(className.substr(0, 'concept-segments-'.length) == 'concept-segments-')
+                    {
+                        conceptId = className.substr('concept-segments-'.length);
+                    }
+                    if(className.substr(0, 'segment-group-segments-'.length) == 'segment-group-segments-')
+                    {
+                        segmentGroupId = className.substr('segment-group-segments-'.length);
+                    }
+                });
 
                 if(conceptId)
                 {
                     var index = 0;
                     //console.log($scope.segmentPerConceptMap[conceptId].map(function(seg) { var obj = {}; obj[seg.order[conceptId]]=seg.title; return obj;}));
-                    $scope.segmentPerConceptMap[conceptId].forEach(function(segment)
+                    $scope.segmentAndGroupPerConceptMap[conceptId].forEach(function(segment)
                     {
-                        if(!segment.order) segment.order = {};
-                        segment.order[conceptId] = index * 100;
-                        segment.$update();
+                        var newOrder = index * 100;
+
+                        if(!segment.isGroup)
+                        {
+                            if(!segment.order) segment.order = {};
+                            segment.order[conceptId] = newOrder;
+
+                            // Now, remove from segment groups in this concept.
+                            if(segment.segmentgroups && segment.segmentgroups.length)
+                            {
+                                $scope.segmentgroupPerConceptMap[conceptId].forEach(function (group)
+                                {
+                                    segment.segmentgroups = segment.segmentgroups.splice(segment.segmentgroups.indexOf(group, 1));
+                                });
+                            }
+                            segment.$update();
+                        }
+                        else
+                        {
+                            // its a segment group
+                            var group = segment;
+
+                            group.order = newOrder;
+                            group.$update();
+
+                            $scope.saveSegmentGroupSublist(group._id);
+                        }
+
                         index++;
                     });
 
                 }
                 else
                 {
-                    console.error('couldnt find the concept id of list ', listEl);
+                    if(!segmentGroupId)
+                    {
+                        console.error('couldnt find the concept id or segment group id of list ', listEl);
+                    }
+                    else
+                    {
+                        $scope.saveSegmentGroupSublist(segmentGroupId);
+                    }
                 }
             }
+        };
+
+        $scope.saveSegmentGroupSublist = function(groupId)
+        {
+            // Organize the nested segments: make sure the order is correct, and that they have the correct segment group.
+
+            var subOrder = 0;
+            var conceptId = $scope.segmentgroupMap[groupId].concept;
+
+            $scope.segmentPerGroupMap[groupId].forEach(function(subseg)
+            {
+                subseg.order[conceptId] = subOrder;
+
+                if(subseg.segmentgroups.indexOf(groupId) === -1)
+                    subseg.segmentgroups.push(groupId);
+
+                subseg.$update();
+
+                subOrder += 100;
+            });
         };
 
         $scope.addSubConcept = function(concept)
