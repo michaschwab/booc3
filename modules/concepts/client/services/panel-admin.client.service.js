@@ -160,56 +160,49 @@ angular.module('courses').service('PanelAdmin', function(Concepts, $rootScope, $
                     }
                 });
 
-                if(conceptId)
+                if(segmentGroupId)
                 {
-                    var index = 0;
-                    //console.log($scope.segmentPerConceptMap[conceptId].map(function(seg) { var obj = {}; obj[seg.order[conceptId]]=seg.title; return obj;}));
-                    $scope.segmentAndGroupPerConceptMap[conceptId].forEach(function(segment)
-                    {
-                        var newOrder = index * 100;
-
-                        if(!segment.isGroup)
-                        {
-                            if(!segment.order) segment.order = {};
-                            segment.order[conceptId] = newOrder;
-
-                            // Now, remove from segment groups in this concept.
-                            if(segment.segmentgroups && segment.segmentgroups.length)
-                            {
-                                $scope.segmentgroupPerConceptMap[conceptId].forEach(function (group)
-                                {
-                                    segment.segmentgroups = segment.segmentgroups.splice(segment.segmentgroups.indexOf(group, 1));
-                                });
-                            }
-                            segment.$update();
-                        }
-                        else
-                        {
-                            // its a segment group
-                            var group = segment;
-
-                            group.order = newOrder;
-                            group.$update();
-
-                            $scope.saveSegmentGroupSublist(group._id);
-                        }
-
-                        index++;
-                    });
-
+                    $scope.saveSegmentGroupSublist(segmentGroupId);
+                }
+                else if(conceptId)
+                {
+                    $scope.saveConceptSegmentOrder(conceptId);
                 }
                 else
                 {
-                    if(!segmentGroupId)
-                    {
-                        console.error('couldnt find the concept id or segment group id of list ', listEl);
-                    }
-                    else
-                    {
-                        $scope.saveSegmentGroupSublist(segmentGroupId);
-                    }
+                    console.error('couldnt find the concept id or segment group id of list ', listEl);
                 }
             }
+        };
+
+        $scope.saveConceptSegmentOrder = function(conceptId)
+        {
+            var index = 0;
+            //console.log($scope.segmentPerConceptMap[conceptId].map(function(seg) { var obj = {}; obj[seg.order[conceptId]]=seg.title; return obj;}));
+            $scope.segmentAndGroupPerConceptMap[conceptId].forEach(function(segment)
+            {
+                var newOrder = index * 100;
+
+                if(!segment.isGroup)
+                {
+                    if(!segment.order) segment.order = {};
+                    segment.order[conceptId] = newOrder;
+
+                    segment.$update();
+                }
+                else
+                {
+                    // its a segment group
+                    var group = segment;
+
+                    group.order = newOrder;
+                    group.$update();
+
+                    $scope.saveSegmentGroupSublist(group._id);
+                }
+
+                index++;
+            });
         };
 
         $scope.saveSegmentGroupSublist = function(groupId)
@@ -230,6 +223,25 @@ angular.module('courses').service('PanelAdmin', function(Concepts, $rootScope, $
 
                 subOrder += 100;
             });
+
+            // Check if any segments need to be removed from this group
+            var removeSegs = $scope.segmentPerConceptMap[conceptId].filter(function(segment)
+            {
+                return segment.segmentgroups.indexOf(groupId) !== -1 && $scope.segmentPerGroupMap[groupId].indexOf(segment) === -1;
+            });
+
+            if(removeSegs.length)
+            {
+                removeSegs.forEach(function(seg)
+                {
+                    seg.segmentgroups.splice(seg.segmentgroups.indexOf(groupId), 1);
+                    seg.$update();
+                });
+
+                // If a segment was moved out of the folder to the general list of concept segments,
+                // then their order needs to be recalculated.
+                $scope.saveConceptSegmentOrder(conceptId);
+            }
         };
 
         $scope.addSubConcept = function(concept)
