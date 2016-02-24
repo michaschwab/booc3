@@ -110,11 +110,19 @@ angular.module('courses').service('MapArrowShaping', function(Tip, ConceptStruct
             //addedLength = closest.pathLength - length;
 
 
-            var start = pathNode.getPointAtLength(length1);
-            start = {x: start.x, y: start.y};
+            try{
+                var start = pathNode.getPointAtLength(length1);
+                start = {x: start.x, y: start.y};
 
-            var end = pathNode.getPointAtLength(length2);
-            end = {x: end.x, y: end.y};
+                var end = pathNode.getPointAtLength(length2);
+                end = {x: end.x, y: end.y};
+            }
+            catch(e)
+            {
+                console.log('Problem shaping the arrows. Length1: ', length, ', Length2: ', length2);
+                console.log(e);
+                return;
+            }
 
             // Correct start and end position so it does not overlap with any of the child concepts.
 

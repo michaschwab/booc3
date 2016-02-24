@@ -159,7 +159,7 @@ angular.module('contents').controller('CreatorController',
                                 $scope.setSourcetype(type);
                                 var activeCourseIds = $scope.source.courses;
 
-                                if(activeCourseIds.length && !$scope.courseId)
+                                if(activeCourseIds && activeCourseIds.length && !$scope.courseId)
                                 {
                                     $scope.courseId = activeCourseIds[0];
                                     $scope.activeCourseIds = activeCourseIds;
@@ -337,9 +337,9 @@ angular.module('contents').controller('CreatorController',
         $scope.createContents = function()
         {
             $scope.source.type = getFixedSourceTypeId();
-            console.log($scope.source.courses);
+            //console.log($scope.source.courses);
 
-            if($scope.source.courses.length)
+            if($scope.source.courses && $scope.source.courses.length)
             {
                 if($scope.source.courses.indexOf($scope.course._id) === -1)
                 {
@@ -437,6 +437,9 @@ angular.module('contents').controller('CreatorController',
                 }
             };
             var source = $scope.source;
+
+            if(!source.courserun)
+                delete source.courserun;
 
             if($scope.source._id)
             {

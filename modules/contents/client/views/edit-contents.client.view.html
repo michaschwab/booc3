@@ -106,6 +106,7 @@
             <label for="courseRunSelect">Which Course Run is the content for?</label><br />
 
             <select class="course-run-select form-control" ng-model="source.courserun" ng-required name="courseRunSelect" id="courseRunSelect">
+                <option value="" ng-selected="!source.courserun">-</option>
                 <option ng-repeat="run in courseruns" value="{{run._id}}">
                     {{courseMap[run.course].short}}: {{run.title}}
                 </option>
