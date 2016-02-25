@@ -170,7 +170,12 @@ angular.module('concepts').service('ConceptPanelView',
 
             $scope.breadcrumbsConceptClick = function(event)
             {
-                Logger.log('PanelCourseClick', null, event);
+                Logger.log('PanelConceptClick', null, event);
+            };
+
+            $scope.toggleSegmentGroupCollapsed = function(segmentgroup)
+            {
+                segmentgroup.collapsed = !segmentgroup.collapsed;
             };
 
             $scope.clickConcept = function(concept, $event)

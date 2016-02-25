@@ -506,6 +506,13 @@ input.concept-title.admin {
     border-radius: 7px;
     background: #eee;
 }
+.segment.group.collapsed .segment-link {
+    box-shadow: #ccc 4px 4px 0, #ddd 8px 8px 0;
+    border-color: #fff;
+    border-bottom-width: 2px;
+    border-right-width: 2px;
+    margin-bottom: 8px;
+}
 
 .segment .segment-link {
     display: block;

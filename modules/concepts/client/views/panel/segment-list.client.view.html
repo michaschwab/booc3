@@ -1,6 +1,6 @@
 <div>
 <ul class="alternative-segments concept-segments concept-segments-{{concept.concept._id}} segment-group-segments-{{parent._id}}" ng-class="{ 'group-segments': parent }" ui-sortable="courseScope.sortableSegmentOptions" ng-model="segments">
-    <li ng-repeat="seg in segments track by seg._id" class="segment sortableSegment"  ng-class="{ 'active': (seg._id === courseScope.active.segment._id||stateParams.sourceId === seg.source)}">
+    <li ng-repeat="seg in segments track by seg._id" class="segment sortableSegment"  ng-class="{ 'active': (seg._id === courseScope.active.segment._id||(courseScope.stateParams.sourceId && courseScope.stateParams.sourceId === seg.source)), 'group': seg.isGroup, 'collapsed': seg.collapsed }">
 
         <span class="concept-line"><span></span></span>
 
@@ -10,7 +10,7 @@
                         </span>
 
                         <span ng-show="seg.isGroup">
-                            <a href class="segment-link" title="">
+                            <a href class="segment-link" title="{{seg.title}}" ng-click="courseScope.toggleSegmentGroupCollapsed(seg)">
                                 <span class="fa fa-folder segment-icon"></span>
 
                                 <span class="segment-title">
@@ -19,7 +19,7 @@
 
                             </a>
 
-                            <segment-list segments="courseScope.segmentPerGroupMap[seg._id]" parent="seg" concept="concept"></segment-list>
+                            <segment-list ng-show="!seg.collapsed" segments="courseScope.segmentPerGroupMap[seg._id]" parent="seg" concept="concept"></segment-list>
 
                             <!--<ul class="alternative-segments group-segments"  ui-sortable="sortableSegmentOptions" ng-model="segmentPerGroupMap[seg._id]">
                                 <li ng-repeat="subSeg in segmentPerGroupMap[seg._id]" class="segment sortableSegment">
