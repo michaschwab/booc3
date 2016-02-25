@@ -205,6 +205,26 @@ angular.module('courses').service('PanelAdmin', function(Concepts, $rootScope, $
             });
         };
 
+        $scope.showRenameSegmentgroup = function(group)
+        {
+            group.oldTitle = group.title;
+            group.editing = true;
+        };
+        $scope.cancelRenameSegmentgroup = function(group)
+        {
+            group.editing = false;
+
+            group.title = group.oldTitle;
+            delete group.oldTitle;
+        };
+        $scope.saveRenameSegmentgroup = function(group)
+        {
+            group.editing = false;
+
+            delete group.oldTitle;
+            group.$update();
+        };
+
         $scope.saveSegmentGroupSublist = function(groupId)
         {
             // Organize the nested segments: make sure the order is correct, and that they have the correct segment group.

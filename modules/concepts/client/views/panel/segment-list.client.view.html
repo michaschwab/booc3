@@ -14,7 +14,8 @@
                                 <span class="fa fa-folder segment-icon"></span>
 
                                 <span class="segment-title">
-                                    Group: {{seg.title}}
+                                    <span ng-show="!seg.editing">{{seg.title}}</span>
+                                    <input ng-show="seg.editing" ng-model="seg.title" type="text" />
                                 </span>
 
                             </a>
@@ -41,9 +42,15 @@
 
                         <span class="segment-actions pull-right">
 
-                            <a href data-ui-sref="contents.editByCourseAndConcept({courseId: course._id, conceptId: activeConcept.concept._id, sourceId: seg.source, mode: 'admin' })" title="Edit Source"><span class="glyphicon glyphicon-pencil edit-source"></span></a>
-                            <a href ng-click="removeSegmentFromConcept(seg, concept)" title="Remove Segment from Concept"><span class="glyphicon glyphicon-scissors remove-segment-from-concept"></span></a>
-                            <!--<a href ng-click="deleteSegment(seg)" title="Delete Segment"><span class="glyphicon glyphicon-remove delete-segment"></span></a>-->
+                            <span ng-show="seg.isGroup">
+                                <a href ng-show="!seg.editing" ng-click="courseScope.showRenameSegmentgroup(seg)" title="Rename Group"><span class="glyphicon glyphicon-pencil"></span></a>
+                                <a href ng-show="seg.editing" ng-click="courseScope.cancelRenameSegmentgroup(seg)" title="Cancel Renaming Group"><span class="glyphicon glyphicon-remove" style="color: darkred"></span></a>
+                                <a href ng-show="seg.editing" ng-click="courseScope.saveRenameSegmentgroup(seg)" title="Save Renaming Group"><span class="fa fa-check" style="color: darkgreen"></span></a>
+                            </span>
+
+                            <a href ng-show="!seg.isGroup" data-ui-sref="contents.editByCourseAndConcept({courseId: course._id, conceptId: activeConcept.concept._id, sourceId: seg.source, mode: 'admin' })" title="Edit Source"><span class="glyphicon glyphicon-pencil edit-source"></span></a>
+                            <a href ng-show="!seg.isGroup" ng-click="removeSegmentFromConcept(seg, concept)" title="Remove Segment from Concept"><span class="glyphicon glyphicon-scissors remove-segment-from-concept"></span></a>
+
                             <a href class="seg-handle" title="Drag to rearrange"><span class="glyphicon glyphicon-align-justify rearrange-segment"></span></a>
                         </span>
     </li>
