@@ -173,7 +173,7 @@ angular.module('courses').controller('CourseViewController',
                 });
             });
 
-            // Now, sort segments
+            // Now, sort segments top to bottom, no matter if they are in a group or not.
             for(conceptId in $scope.segmentPerConceptMap)
             {
                 if($scope.segmentPerConceptMap.hasOwnProperty(conceptId))
@@ -262,6 +262,28 @@ angular.module('courses').controller('CourseViewController',
                         if(seg2.isGroup) o2 = seg2.order;
 
                         return o1 - o2;
+                    });
+                }
+            }
+
+            // Now, sort segments in the order they appear in in the menu, depending on groups.
+            for(conceptId in $scope.segmentPerConceptMap)
+            {
+                if($scope.segmentPerConceptMap.hasOwnProperty(conceptId))
+                {
+                    $scope.segmentPerConceptMap[conceptId] = [];
+
+                    $scope.segmentAndGroupPerConceptMap[conceptId].forEach(function(data)
+                    {
+                        if(data.isGroup)
+                        {
+                            // Add all Group Segments
+                            $scope.segmentPerConceptMap[conceptId].push.apply($scope.segmentPerConceptMap[conceptId], $scope.segmentPerGroupMap[data._id]);
+                        }
+                        else
+                        {
+                            $scope.segmentPerConceptMap[conceptId].push(data);
+                        }
                     });
                 }
             }
