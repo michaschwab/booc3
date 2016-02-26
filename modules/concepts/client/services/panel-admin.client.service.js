@@ -1,4 +1,4 @@
-angular.module('courses').service('PanelAdmin', function(Concepts, $rootScope, $timeout, Authentication, $stateParams, $location, Segmentgroup)
+angular.module('courses').service('PanelAdmin', function(Concepts, $rootScope, $timeout, Authentication, $stateParams, $location, Segmentgroup, $http)
 {
     var $scope;
     var NEW_CONCEPT_TITLE = 'New Concept';
@@ -193,7 +193,7 @@ angular.module('courses').service('PanelAdmin', function(Concepts, $rootScope, $
                     if(!segment.order) segment.order = {};
                     segment.order[conceptId] = newOrder;
 
-                    segment.$update();
+                    safeSegmentSave(segment);
                 }
                 else
                 {
@@ -235,6 +235,34 @@ angular.module('courses').service('PanelAdmin', function(Concepts, $rootScope, $
             group.$update();
         };
 
+        var safeTimeouts = {};
+        var safeTimeout;
+        var safeSaveData = [];
+        // this is to make sure no one segment is saved more than once per 100ms to avoid concurrent requests
+        var safeSegmentSave = function(segment)
+        {
+            if(safeSaveData.indexOf(segment) === -1)
+            {
+                safeSaveData.push(segment);
+            }
+
+            $timeout.cancel(safeTimeout);
+            safeTimeout = $timeout(function()
+            {
+                $http.put('/api/segments/updateMany', safeSaveData);
+            }, 50);
+            /*var id = segment._id;
+            if(id == '54d2a0e5a14bd6701db854f8') console.log(id);
+            if(safeTimeouts[id])
+                $timeout.cancel(safeTimeouts[id]);
+
+            safeTimeouts[id] = $timeout(function()
+            {
+                if(id == '54d2a0e5a14bd6701db854f8') console.log('saving', '54d2a0e5a14bd6701db854f8');
+                segment.$update();
+            }, 100);*/
+        };
+
         $scope.saveSegmentGroupSublist = function(groupId)
         {
             // Organize the nested segments: make sure the order is correct, and that they have the correct segment group.
@@ -251,7 +279,7 @@ angular.module('courses').service('PanelAdmin', function(Concepts, $rootScope, $
                     if(subseg.segmentgroups.indexOf(groupId) === -1)
                         subseg.segmentgroups.push(groupId);
 
-                    subseg.$update();
+                    safeSegmentSave(subseg);
 
                     subOrder += 100;
                 });
@@ -260,7 +288,8 @@ angular.module('courses').service('PanelAdmin', function(Concepts, $rootScope, $
             // Check if any segments need to be removed from this group
             var removeSegs = $scope.segmentPerConceptMap[conceptId].filter(function(segment)
             {
-                return segment.segmentgroups.indexOf(groupId) !== -1 && $scope.segmentPerGroupMap[groupId].indexOf(segment) === -1;
+                return segment.segmentgroups.indexOf(groupId) !== -1
+                    && $scope.segmentPerGroupMap[groupId].indexOf(segment) === -1;
             });
 
             if(removeSegs.length)
@@ -268,7 +297,7 @@ angular.module('courses').service('PanelAdmin', function(Concepts, $rootScope, $
                 removeSegs.forEach(function(seg)
                 {
                     seg.segmentgroups.splice(seg.segmentgroups.indexOf(groupId), 1);
-                    seg.$update();
+                    safeSegmentSave(seg);
                 });
 
                 // If a segment was moved out of the folder to the general list of concept segments,

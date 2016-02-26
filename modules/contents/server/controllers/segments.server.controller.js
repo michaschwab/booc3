@@ -47,14 +47,74 @@ exports.update = function(req, res) {
 
     segment = _.extend(segment , req.body);
 
+    /*if(segment._id == '54d2a0e5a14bd6701db854f8')
+    {
+        console.log(Date.now());
+    }*/
+
     segment.save(function(err) {
         if (err) {
+            console.log(err);
             return res.status(400).send({
                 message: errorHandler.getErrorMessage(err)
             });
         } else {
             res.jsonp(segment);
         }
+    });
+};
+
+exports.updateMany = function(req, res)
+{
+    var updateSegments = req.body;
+
+    var expectedCallbacks = updateSegments.length;
+    var receivedCallbacks = 0;
+
+    var callbackErr = null;
+
+    Segment.find().exec(function(err, allSegments)
+    {
+        updateSegments.forEach(function(updateSegment)
+        {
+            var sameSegments = allSegments.filter(function(seg)
+            {
+                return seg._id == updateSegment._id;
+            });
+            if(sameSegments.length)
+            {
+                var segment = sameSegments[0];
+
+                segment = _.extend(segment, updateSegment);
+
+                segment.save(function(err)
+                {
+                    receivedCallbacks++;
+
+                    if(err)
+                    {
+                        callbackErr = err;
+                    }
+
+                    if(receivedCallbacks == expectedCallbacks)
+                    {
+                        if (callbackErr) {
+                            console.log(callbackErr);
+                            return res.status(400).send({
+                                message: errorHandler.getErrorMessage(callbackErr)
+                            });
+                        } else {
+                            res.jsonp(updateSegments);
+                        }
+                    }
+                });
+            }
+            else
+            {
+                console.error('could not find a segment for which update was scheduled:', updateSegment);
+                expectedCallbacks--;
+            }
+        });
     });
 };
 
