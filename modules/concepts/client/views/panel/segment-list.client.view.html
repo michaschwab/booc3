@@ -10,12 +10,12 @@
                         </span>
 
                         <span ng-show="seg.isGroup">
-                            <a href class="segment-link" title="{{seg.title}}" ng-click="courseScope.toggleSegmentGroupCollapsed(seg)">
+                            <a href class="segment-link" title="{{seg.title}}" ng-click="courseScope.toggleSegmentGroupCollapsed(seg);courseScope.saveGroupCollapsedState(seg)">
                                 <span class="fa fa-folder segment-icon"></span>
 
                                 <span class="segment-title">
                                     <span ng-show="!seg.editing">{{seg.title}}</span>
-                                    <input ng-show="seg.editing" ng-model="seg.title" type="text" />
+                                    <input ng-show="seg.editing" ng-model="seg.title" class="form-control" type="text" />
                                 </span>
 
                             </a>
@@ -47,7 +47,7 @@
                                 <a href ng-show="seg.editing" ng-click="courseScope.cancelRenameSegmentgroup(seg)" title="Cancel Renaming Group"><span class="glyphicon glyphicon-remove" style="color: darkred"></span></a>
                                 <a href ng-show="seg.editing" ng-click="courseScope.saveRenameSegmentgroup(seg)" title="Save Renaming Group"><span class="fa fa-check" style="color: darkgreen"></span></a>
 
-                                <a href ng-show="!seg.editing" ng-click="courseScope.deleteSegmentgroup(seg)" title="Delete Group"><span class="glyphicon glyphicon-trash" style="color: darkred"></span></a>
+                                <a href ng-show="!seg.editing&&!courseScope.segmentPerGroupMap[seg._id].length" ng-click="courseScope.deleteSegmentgroup(seg)" title="Delete Group"><span class="glyphicon glyphicon-trash" style="color: darkred"></span></a>
                             </span>
 
                             <a href ng-show="!seg.isGroup" data-ui-sref="contents.editByCourseAndConcept({courseId: course._id, conceptId: activeConcept.concept._id, sourceId: seg.source, mode: 'admin' })" title="Edit Source"><span class="glyphicon glyphicon-pencil edit-source"></span></a>
@@ -57,7 +57,7 @@
                         </span>
     </li>
 
-        <li ng-show="parent.isGroup && (!segments || !segments.length) && courseScope.sortDragging" class="segment">
+        <li ng-show="parent.isGroup &&(!segments || !segments.length) && courseScope.sortDragging" class="segment">
         <a class="segment-link" style="background: lightgreen"><span>Drop to group</span></a>
     </li>
 

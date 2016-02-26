@@ -125,6 +125,12 @@ angular.module('courses').service('PanelAdmin', function(Concepts, $rootScope, $
             }
         };
 
+        $scope.saveGroupCollapsedState = function(group)
+        {
+            if($scope.hasAdminPanelRights)
+                group.$update();
+        };
+
         $scope.sortableSegmentOptions = {
             handle: '.seg-handle',
             items: "li.sortableSegment:not(.not-sortable)",
