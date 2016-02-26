@@ -205,7 +205,7 @@ angular.module('courses').controller('CourseViewController',
                         {
                             seg.segmentgroups.forEach(function(groupId)
                             {
-                                if($scope.segmentgroupMap[groupId])
+                                if($scope.segmentgroupMap[groupId] && $scope.segmentgroupMap[groupId].concept == conceptId)
                                 {
                                     currGroupId = groupId;
                                     return;
