@@ -153,6 +153,7 @@ angular.module('courses').controller('CourseViewController',
                     $scope.segmentgroupPerConceptMap[group.concept] = [];
 
                 $scope.segmentgroupPerConceptMap[group.concept].push(group);
+                $scope.segmentPerGroupMap[group._id] = [];
             });
 
             $scope.segments.forEach(function (segment)
@@ -215,8 +216,6 @@ angular.module('courses').controller('CourseViewController',
                         if(currGroupId)
                         {
                             // Add to the segment group
-                            if(!$scope.segmentPerGroupMap[currGroupId])
-                                $scope.segmentPerGroupMap[currGroupId] = [];
 
                             $scope.segmentPerGroupMap[currGroupId].push(seg);
                         }

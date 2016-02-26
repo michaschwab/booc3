@@ -129,6 +129,10 @@ angular.module('courses').service('PanelAdmin', function(Concepts, $rootScope, $
             handle: '.seg-handle',
             items: "li.sortableSegment:not(.not-sortable)",
             connectWith: ".alternative-segments",
+            start: function()
+            {
+                $scope.sortDragging = true;
+            },
             update: function(e, ui) {
                 /*var logEntry = tmpList.map(function(i){
                  return i.value;
@@ -143,6 +147,7 @@ angular.module('courses').service('PanelAdmin', function(Concepts, $rootScope, $
                  }).join(', ');
                  $scope.sortingLog.push('Stop: ' + logEntry);*/
 
+                $scope.sortDragging = false;
                 var listEl = e.target;
 
                 var classNames = listEl.className.split(' ');
@@ -237,17 +242,20 @@ angular.module('courses').service('PanelAdmin', function(Concepts, $rootScope, $
             var subOrder = 0;
             var conceptId = $scope.segmentgroupMap[groupId].concept;
 
-            $scope.segmentPerGroupMap[groupId].forEach(function(subseg)
+            if($scope.segmentPerGroupMap[groupId])
             {
-                subseg.order[conceptId] = subOrder;
+                $scope.segmentPerGroupMap[groupId].forEach(function(subseg)
+                {
+                    subseg.order[conceptId] = subOrder;
 
-                if(subseg.segmentgroups.indexOf(groupId) === -1)
-                    subseg.segmentgroups.push(groupId);
+                    if(subseg.segmentgroups.indexOf(groupId) === -1)
+                        subseg.segmentgroups.push(groupId);
 
-                subseg.$update();
+                    subseg.$update();
 
-                subOrder += 100;
-            });
+                    subOrder += 100;
+                });
+            }
 
             // Check if any segments need to be removed from this group
             var removeSegs = $scope.segmentPerConceptMap[conceptId].filter(function(segment)

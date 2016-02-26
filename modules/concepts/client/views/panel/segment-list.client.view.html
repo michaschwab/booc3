@@ -57,6 +57,10 @@
                         </span>
     </li>
 
+    <li ng-show="parent.isGroup && (!segments || !segments.length) && courseScope.sortDragging" class="segment">
+        <a class="segment-link" style="background: lightgreen"><span>Drop to group</span></a>
+    </li>
+
     <li class="segment add-material" ng-show="!concept.children.length&&!parent">
 
         <span class="concept-line"><span></span></span>
