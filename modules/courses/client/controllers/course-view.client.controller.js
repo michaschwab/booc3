@@ -96,6 +96,7 @@ angular.module('courses').controller('CourseViewController',
                             $scope.segments = segments;
 
                             $scope.$watchCollection('segments.downloadedUpdates', $scope.parseSegments);
+                            $scope.$watchCollection('segmentgroups.downloadedUpdates', $scope.parseSegments);
 
                             $scope.seen = SeenConcepts.query({user: $scope.authentication.user._id}, function()
                             {

@@ -205,6 +205,11 @@ angular.module('courses').service('PanelAdmin', function(Concepts, $rootScope, $
             });
         };
 
+        $scope.deleteSegmentgroup = function(group)
+        {
+            group.$remove();
+        };
+
         $scope.showRenameSegmentgroup = function(group)
         {
             group.oldTitle = group.title;
@@ -327,6 +332,7 @@ angular.module('courses').service('PanelAdmin', function(Concepts, $rootScope, $
             });
 
             group.$save();
+
         };
     };
 
