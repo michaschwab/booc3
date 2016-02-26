@@ -8,7 +8,7 @@ module.exports = function(app) {
 		.get(segments.list)
 		.post(segments.create);
 
-	app.route('/api/segments/updateMany')
+	app.route('/api/segments/updateManySegmentsAndGroups')
 		.put(segments.updateMany);
 
 	app.route('/api/segments/:segmentId')

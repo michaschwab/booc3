@@ -7,6 +7,7 @@ var path = require('path'),
     mongoose = require('mongoose'),
     errorHandler = require(path.resolve('./modules/core/server/controllers/errors.server.controller')),
     Segment = mongoose.model('Segment'),
+    Segmentgroup = mongoose.model('Segmentgroup'),
     Concept = mongoose.model('Concept'),
     Courseadmin = mongoose.model('Courseadmin'),
     _ = require('lodash');
@@ -42,15 +43,11 @@ exports.read = function(req, res) {
 /**
  * Update a Segment
  */
-exports.update = function(req, res) {
+exports.update = function(req, res)
+{
     var segment = req.segment ;
 
     segment = _.extend(segment , req.body);
-
-    /*if(segment._id == '54d2a0e5a14bd6701db854f8')
-    {
-        console.log(Date.now());
-    }*/
 
     segment.save(function(err) {
         if (err) {
@@ -64,10 +61,36 @@ exports.update = function(req, res) {
     });
 };
 
-exports.updateMany = function(req, res)
+var updateGroups = function(updateGroups, callback)
 {
-    var updateSegments = req.body;
+    var groupCallbacks = 0;
+    var callbackErr = null;
 
+    updateGroups.forEach(function(updateGroup)
+    {
+        Segmentgroup.findById(updateGroup._id).exec(function(err, group)
+        {
+            group = _.extend(group, updateGroup);
+            group.save(function(err)
+            {
+                groupCallbacks++;
+
+                if(err)
+                {
+                    callbackErr = err;
+                }
+
+                if(groupCallbacks == updateGroups.length)
+                {
+                    callback(callbackErr);
+                }
+            });
+        });
+    });
+};
+
+var updateSegments = function(updateSegments, callback)
+{
     var expectedCallbacks = updateSegments.length;
     var receivedCallbacks = 0;
 
@@ -98,14 +121,7 @@ exports.updateMany = function(req, res)
 
                     if(receivedCallbacks == expectedCallbacks)
                     {
-                        if (callbackErr) {
-                            console.log(callbackErr);
-                            return res.status(400).send({
-                                message: errorHandler.getErrorMessage(callbackErr)
-                            });
-                        } else {
-                            res.jsonp(updateSegments);
-                        }
+                        callback(callbackErr);
                     }
                 });
             }
@@ -113,6 +129,26 @@ exports.updateMany = function(req, res)
             {
                 console.error('could not find a segment for which update was scheduled:', updateSegment);
                 expectedCallbacks--;
+            }
+        });
+    });
+};
+
+exports.updateMany = function(req, res)
+{
+    var updateData = req.body;
+
+    updateGroups(updateData.groups, function(err)
+    {
+        updateSegments(updateData.segments, function(callbackErr)
+        {
+            if (callbackErr) {
+                console.log(callbackErr);
+                return res.status(400).send({
+                    message: errorHandler.getErrorMessage(callbackErr)
+                });
+            } else {
+                res.jsonp(updateSegments);
             }
         });
     });

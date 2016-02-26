@@ -193,7 +193,7 @@ angular.module('courses').service('PanelAdmin', function(Concepts, $rootScope, $
                     if(!segment.order) segment.order = {};
                     segment.order[conceptId] = newOrder;
 
-                    safeSegmentSave(segment);
+                    safeSegmentAndGroupSave(segment);
                 }
                 else
                 {
@@ -201,7 +201,7 @@ angular.module('courses').service('PanelAdmin', function(Concepts, $rootScope, $
                     var group = segment;
 
                     group.order = newOrder;
-                    group.$update();
+                    safeSegmentAndGroupSave(null, group);
 
                     $scope.saveSegmentGroupSublist(group._id);
                 }
@@ -235,32 +235,32 @@ angular.module('courses').service('PanelAdmin', function(Concepts, $rootScope, $
             group.$update();
         };
 
-        var safeTimeouts = {};
         var safeTimeout;
-        var safeSaveData = [];
-        // this is to make sure no one segment is saved more than once per 100ms to avoid concurrent requests
-        var safeSegmentSave = function(segment)
+        var safeSaveData = { segments: [], groups: []};
+
+        // this is to make sure the db doesnt have to deal with concurrent requests
+        var safeSegmentAndGroupSave = function(segment, group)
         {
-            if(safeSaveData.indexOf(segment) === -1)
+            if(segment)
             {
-                safeSaveData.push(segment);
+                if(safeSaveData['segments'].indexOf(segment) === -1)
+                {
+                    safeSaveData['segments'].push(segment);
+                }
+            }
+            if(group)
+            {
+                if(safeSaveData['groups'].indexOf(group) === -1)
+                {
+                    safeSaveData['groups'].push(group);
+                }
             }
 
             $timeout.cancel(safeTimeout);
             safeTimeout = $timeout(function()
             {
-                $http.put('/api/segments/updateMany', safeSaveData);
+                $http.put('/api/segments/updateManySegmentsAndGroups', safeSaveData);
             }, 50);
-            /*var id = segment._id;
-            if(id == '54d2a0e5a14bd6701db854f8') console.log(id);
-            if(safeTimeouts[id])
-                $timeout.cancel(safeTimeouts[id]);
-
-            safeTimeouts[id] = $timeout(function()
-            {
-                if(id == '54d2a0e5a14bd6701db854f8') console.log('saving', '54d2a0e5a14bd6701db854f8');
-                segment.$update();
-            }, 100);*/
         };
 
         $scope.saveSegmentGroupSublist = function(groupId)
@@ -279,7 +279,7 @@ angular.module('courses').service('PanelAdmin', function(Concepts, $rootScope, $
                     if(subseg.segmentgroups.indexOf(groupId) === -1)
                         subseg.segmentgroups.push(groupId);
 
-                    safeSegmentSave(subseg);
+                    safeSegmentAndGroupSave(subseg);
 
                     subOrder += 100;
                 });
@@ -297,7 +297,7 @@ angular.module('courses').service('PanelAdmin', function(Concepts, $rootScope, $
                 removeSegs.forEach(function(seg)
                 {
                     seg.segmentgroups.splice(seg.segmentgroups.indexOf(groupId), 1);
-                    safeSegmentSave(seg);
+                    safeSegmentAndGroupSave(seg);
                 });
 
                 // If a segment was moved out of the folder to the general list of concept segments,
