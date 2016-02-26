@@ -1,7 +1,7 @@
 <a data-ui-sref="{active: concept.concept._id, segment:segment._id, learn: 'yes'}"
    class="segment-link"
    id="panel-segment-{{seg._id}}"
-   ng-click="courseScope.segmentClick(seg, concept, $event)"
+   ng-click="courseScope.segmentClick(segment, concept, $event)"
    title="{{::segment.title}}: {{::courseScope.sourcetypeMap[courseScope.sourceMap[segment.source].type].title}} on {{::courseScope.sourceMap[segment.source].title}}">
 
     <span class="{{::courseScope.sourcetypeMap[courseScope.sourceMap[segment.source].type].icon}} segment-icon"></span>
