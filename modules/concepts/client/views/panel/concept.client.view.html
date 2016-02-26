@@ -23,37 +23,9 @@
 
     </a>
 
+    <segment-list ng-if="courseScope.activeConcept.concept._id == concept.concept._id"
+                  segments="courseScope.segmentAndGroupPerConceptMap[concept.concept._id]" concept="concept"></segment-list>
 
-    <ul ng-show="courseScope.activeConcept.concept._id == concept.concept._id" class="alternative-segments">
-        <li ng-repeat="seg in courseScope.active.segments track by seg._id" class="segment" ng-class="{ 'active': seg._id === courseScope.active.segment._id}">
-
-            <span class="concept-line"><span></span></span>
-
-            <a data-ui-sref="{active: concept.concept._id, segment:seg._id, learn: 'yes'}"
-               class="segment-link"
-               id="panel-segment-{{seg._id}}"
-               ng-click="courseScope.segmentClick(seg, concept, $event)"
-               title="{{::seg.title}}: {{::courseScope.sourcetypeMap[courseScope.sourceMap[seg.source].type].title}} on {{::courseScope.sourceMap[seg.source].title}}"
-            >
-                <span class="{{::courseScope.sourcetypeMap[courseScope.sourceMap[seg.source].type].icon}} segment-icon"></span>
-
-                <span class="segment-title" id="panel-segment-title-{{seg._id}}">
-                    {{::seg.title}}
-                    in
-                    <i>{{::courseScope.sourceMap[seg.source].title}}</i>
-
-                    <span ng-show="seg.start&&(courseScope.sourcetypeMap[courseScope.sourceMap[seg.source].type].title=='Lecture'||courseScope.sourcetypeMap[courseScope.sourceMap[seg.source].type].title=='YouTube'||courseScope.sourcetypeMap[courseScope.sourceMap[seg.source].type].title=='Harvard Extension School')">
-                        (<span ng-show="seg.start>=3600">{{seg.start | secondsToDateTime | date:'HH:mm:ss'}}</span><span ng-show="seg.start<3600">{{seg.start | secondsToDateTime | date:'mm:ss'}}</span>
-                        -
-                        <span ng-show="seg.end>=3600">{{seg.end | secondsToDateTime | date:'HH:mm:ss'}}</span><span ng-show="seg.end<3600">{{seg.end | secondsToDateTime | date:'mm:ss'}}</span>)
-                    </span>
-                    <span ng-show="seg.end&&(courseScope.sourcetypeMap[courseScope.sourceMap[seg.source].type].title=='PDF')">
-                        (p. {{seg.start}} - {{seg.end}})
-                    </span>
-                </span>
-            </a>
-        </li>
-    </ul>
 
     <ul class="concept-list concept-list-nested" ng-if="!concept.notOnPlan && concept.planChildren.length">
 

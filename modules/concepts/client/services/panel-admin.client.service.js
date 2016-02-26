@@ -127,7 +127,7 @@ angular.module('courses').service('PanelAdmin', function(Concepts, $rootScope, $
 
         $scope.saveGroupCollapsedState = function(group)
         {
-            if($scope.hasAdminPanelRights)
+            if($scope.hasAdminPanelRights && $scope.activeMode == 'admin')
                 group.$update();
         };
 

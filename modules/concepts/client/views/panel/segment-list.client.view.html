@@ -4,64 +4,48 @@
 
         <span class="concept-line"><span></span></span>
 
-                        <span ng-show="!seg.isGroup">
+        <span ng-show="!seg.isGroup">
 
-                            <segment-link concept="concept" segment="seg"></segment-link>
-                        </span>
+            <segment-link concept="concept" segment="seg"></segment-link>
+        </span>
 
-                        <span ng-show="seg.isGroup">
-                            <a href class="segment-link" title="{{seg.title}}" ng-click="courseScope.toggleSegmentGroupCollapsed(seg);courseScope.saveGroupCollapsedState(seg)">
-                                <span class="fa fa-folder segment-icon"></span>
+        <span ng-show="seg.isGroup">
+            <a href class="segment-link" title="{{seg.title}}" ng-click="courseScope.toggleSegmentGroupCollapsed(seg);courseScope.saveGroupCollapsedState(seg)">
+                <span class="fa fa-folder segment-icon"></span>
 
-                                <span class="segment-title">
-                                    <span ng-show="!seg.editing">{{seg.title}}</span>
-                                    <input ng-show="seg.editing" ng-model="seg.title" class="form-control" type="text" />
-                                </span>
+                <span class="segment-title">
+                    <span ng-show="!seg.editing">{{seg.title}}</span>
+                    <input ng-show="seg.editing" ng-model="seg.title" class="form-control admin-action" type="text" />
+                </span>
 
-                            </a>
+            </a>
 
-                            <segment-list ng-show="!seg.collapsed" segments="courseScope.segmentPerGroupMap[seg._id]" parent="seg" concept="concept"></segment-list>
+            <segment-list ng-show="!seg.collapsed" segments="courseScope.segmentPerGroupMap[seg._id]" parent="seg" concept="concept"></segment-list>
 
-                            <!--<ul class="alternative-segments group-segments"  ui-sortable="sortableSegmentOptions" ng-model="segmentPerGroupMap[seg._id]">
-                                <li ng-repeat="subSeg in segmentPerGroupMap[seg._id]" class="segment sortableSegment">
-                                    <span class="concept-line"><span></span></span>
+        </span>
 
-                                    <segment-link concept="concept" segment="subSeg"></segment-link>
+        <span class="segment-actions pull-right admin-action">
 
-                                    <span class="segment-actions pull-right">
+            <span ng-show="seg.isGroup">
+                <a href ng-show="!seg.editing" ng-click="courseScope.showRenameSegmentgroup(seg)" title="Rename Group"><span class="glyphicon glyphicon-pencil"></span></a>
+                <a href ng-show="seg.editing" ng-click="courseScope.cancelRenameSegmentgroup(seg)" title="Cancel Renaming Group"><span class="glyphicon glyphicon-remove" style="color: darkred"></span></a>
+                <a href ng-show="seg.editing" ng-click="courseScope.saveRenameSegmentgroup(seg)" title="Save Renaming Group"><span class="fa fa-check" style="color: darkgreen"></span></a>
 
-                                        <a href data-ui-sref="contents.editByCourseAndConcept({courseId: course._id, conceptId: activeConcept.concept._id, sourceId: seg.source, mode: 'admin' })" title="Edit Source"><span class="glyphicon glyphicon-pencil edit-source"></span></a>
-                                        <a href ng-click="removeSegmentFromConcept(seg, concept)" title="Remove Segment from Concept"><span class="glyphicon glyphicon-scissors remove-segment-from-concept"></span></a>
-                                        &lt;!&ndash;<a href ng-click="deleteSegment(seg)" title="Delete Segment"><span class="glyphicon glyphicon-remove delete-segment"></span></a>&ndash;&gt;
-                                        <a href class="seg-handle" title="Drag to rearrange"><span class="glyphicon glyphicon-align-justify rearrange-segment"></span></a>
-                                    </span>
-                                </li>
-                            </ul>-->
+                <a href ng-show="!seg.editing&&!courseScope.segmentPerGroupMap[seg._id].length" ng-click="courseScope.deleteSegmentgroup(seg)" title="Delete Group"><span class="glyphicon glyphicon-trash" style="color: darkred"></span></a>
+            </span>
 
-                        </span>
+            <a href ng-show="!seg.isGroup" data-ui-sref="contents.editByCourseAndConcept({courseId: course._id, conceptId: activeConcept.concept._id, sourceId: seg.source, mode: 'admin' })" title="Edit Source"><span class="glyphicon glyphicon-pencil edit-source"></span></a>
+            <a href ng-show="!seg.isGroup" ng-click="removeSegmentFromConcept(seg, concept)" title="Remove Segment from Concept"><span class="glyphicon glyphicon-scissors remove-segment-from-concept"></span></a>
 
-                        <span class="segment-actions pull-right">
-
-                            <span ng-show="seg.isGroup">
-                                <a href ng-show="!seg.editing" ng-click="courseScope.showRenameSegmentgroup(seg)" title="Rename Group"><span class="glyphicon glyphicon-pencil"></span></a>
-                                <a href ng-show="seg.editing" ng-click="courseScope.cancelRenameSegmentgroup(seg)" title="Cancel Renaming Group"><span class="glyphicon glyphicon-remove" style="color: darkred"></span></a>
-                                <a href ng-show="seg.editing" ng-click="courseScope.saveRenameSegmentgroup(seg)" title="Save Renaming Group"><span class="fa fa-check" style="color: darkgreen"></span></a>
-
-                                <a href ng-show="!seg.editing&&!courseScope.segmentPerGroupMap[seg._id].length" ng-click="courseScope.deleteSegmentgroup(seg)" title="Delete Group"><span class="glyphicon glyphicon-trash" style="color: darkred"></span></a>
-                            </span>
-
-                            <a href ng-show="!seg.isGroup" data-ui-sref="contents.editByCourseAndConcept({courseId: course._id, conceptId: activeConcept.concept._id, sourceId: seg.source, mode: 'admin' })" title="Edit Source"><span class="glyphicon glyphicon-pencil edit-source"></span></a>
-                            <a href ng-show="!seg.isGroup" ng-click="removeSegmentFromConcept(seg, concept)" title="Remove Segment from Concept"><span class="glyphicon glyphicon-scissors remove-segment-from-concept"></span></a>
-
-                            <a href class="seg-handle" title="Drag to rearrange"><span class="glyphicon glyphicon-align-justify rearrange-segment"></span></a>
-                        </span>
+            <a href class="seg-handle" title="Drag to rearrange"><span class="glyphicon glyphicon-align-justify rearrange-segment"></span></a>
+        </span>
     </li>
 
-        <li ng-show="parent.isGroup &&(!segments || !segments.length) && courseScope.sortDragging" class="segment">
+    <li ng-show="parent.isGroup &&(!segments || !segments.length) && courseScope.sortDragging" class="segment admin-action">
         <a class="segment-link" style="background: lightgreen"><span>Drop to group</span></a>
     </li>
 
-    <li class="segment add-material" ng-show="!concept.children.length&&!parent">
+    <li class="segment add-material admin-action" ng-show="!concept.children.length&&!parent">
 
         <span class="concept-line"><span></span></span>
 
@@ -74,7 +58,7 @@
 
         </a>
     </li>
-    <li class="segment add-material" ng-show="!concept.children.length&&!parent">
+    <li class="segment add-material admin-action" ng-show="!concept.children.length&&!parent">
 
         <span class="concept-line"><span></span></span>
 
@@ -87,17 +71,17 @@
 
         </a>
     </li>
-    <li class="segment add-subconcept" ng-show="(!segmentPerConceptMap[concept.concept._id]||segmentPerConceptMap[concept.concept._id].length==0)&&hasConceptEditRights">
+    <li class="segment add-subconcept admin-action" ng-show="(!segmentPerConceptMap[concept.concept._id]||segmentPerConceptMap[concept.concept._id].length==0)&&hasConceptEditRights">
 
         <span class="concept-line"><span></span></span>
 
         <a ng-click="addSubConcept(concept)" href class="segment-link" title="Add a child concept to {{concept.concept.title}}" style="color: darkblue">
             <span class="glyphicon glyphicon-plus segment-icon"></span>
 
-                        <span class="segment-title">
-                            Add Sub-Concept
-                            <span ng-show="concept.children.length>0">(Currently {{concept.children.length}})</span>
-                        </span>
+            <span class="segment-title">
+                Add Sub-Concept
+                <span ng-show="concept.children.length>0">(Currently {{concept.children.length}})</span>
+            </span>
 
         </a>
     </li>

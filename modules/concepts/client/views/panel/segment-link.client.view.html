@@ -1,9 +1,14 @@
-<a data-ui-sref="{active: concept.concept._id, segment:segment._id, learn: 'yes'}" class="segment-link" title="{{::segment.title}}: {{::courseScope.sourcetypeMap[courseScope.sourceMap[segment.source].type].title}} on {{::courseScope.sourceMap[segment.source].title}}">
+<a data-ui-sref="{active: concept.concept._id, segment:segment._id, learn: 'yes'}"
+   class="segment-link"
+   id="panel-segment-{{seg._id}}"
+   ng-click="courseScope.segmentClick(seg, concept, $event)"
+   title="{{::segment.title}}: {{::courseScope.sourcetypeMap[courseScope.sourceMap[segment.source].type].title}} on {{::courseScope.sourceMap[segment.source].title}}">
+
     <span class="{{::courseScope.sourcetypeMap[courseScope.sourceMap[segment.source].type].icon}} segment-icon"></span>
 
-    <span class="segment-title">
+    <span class="segment-title" id="panel-segment-title-{{seg._id}}">
         {{::segment.title}}
-        on
+        in
         <i>{{::courseScope.sourceMap[segment.source].title}}</i>
 
         <span ng-show="segment.start&&(courseScope.sourcetypeMap[courseScope.sourceMap[segment.source].type].title=='Lecture'||courseScope.sourcetypeMap[courseScope.sourceMap[segment.source].type].title=='YouTube'||courseScope.sourcetypeMap[courseScope.sourceMap[segment.source].type].title=='Harvard Extension School')">

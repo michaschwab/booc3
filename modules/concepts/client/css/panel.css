@@ -169,6 +169,13 @@ a, a:focus {
     padding-top: 7px;
 }
 
+.concept-panel .admin-action {
+    display: none;
+}
+.concept-panel .admin-panel .admin-action {
+    display: inherit;
+}
+
 .course-list {
     /*left: -10px;*/
     padding-left: 0;
@@ -342,9 +349,7 @@ a[disabled] .map-icon {
     margin-bottom: -2px;
 }
 
-/*.concept > a {
-    padding-bottom: 19px;
-}*/
+
 .concept > a > .concept-title {
     position: relative;
     left: 30pt;
@@ -540,7 +545,7 @@ input.concept-title.admin {
     /*padding-left: 10px;*/
 }
 .group-segments .segment .concept-line {
-    left: -35px;
+    left: -36px !important;
 }
 
 .segment .concept-line {
