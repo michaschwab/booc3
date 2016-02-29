@@ -396,7 +396,7 @@ angular.module('contents').controller('CreatorController',
                             redirectBack();
                         };
 
-                        if(!segment.justCreated)
+                        if(segment.created)
                         {
                             console.log('updating segment');
 
