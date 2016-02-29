@@ -8,8 +8,10 @@ angular.module('contents').service('ExtensionSchoolCreator', function($sce)
             $scope = scope;
 
             //https://matterhorn.dce.harvard.edu/engage/player/watch.html?id=800b7d16-6d94-4770-884b-513e2377cbd4
+            //http://cm.dce.harvard.edu/2014/02/22403/S01/index_H264SingleHighBandwidth-16x9.shtml
 
-            $scope.extSchoolRegex = /^(?:https?:\/{2})?([^\s&]+)harvard\.edu\/engage\/player\/watch.html\?id=([^\s&]+)(?:#.?)?/;
+            //$scope.extSchoolRegex = /^(?:https?:\/{2})?([^\s&]+)harvard\.edu\/engage\/player\/watch.html\?id=([^\s&]+)(?:#.?)?/;
+            $scope.extSchoolRegex = /^(?:https?:\/{2})?([^\s&]+)dce.harvard\.edu\/([^\s&]+)(?:#.?)?/;
 
             $scope.youtubeVidId = 0;
             $scope.player = null;
