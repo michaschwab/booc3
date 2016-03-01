@@ -412,14 +412,31 @@ angular.module('courses').service('PanelAdmin', function(Concepts, $rootScope, $
 
         $scope.addSegmentGroup = function(concept)
         {
+            var contents = $scope.segmentAndGroupPerConceptMap[concept.concept._id];
+            var order = 100;
+
+            if(contents.length)
+            {
+                order = contents[contents.length-1].order + 100;
+            }
+
             var group = new Segmentgroup({
                 courses: [$scope.courseId],
+                title: 'New Group',
                 concept: concept.concept._id,
-                order: 3
+                order: order
             });
 
-            group.$save();
+            group.$save(function(savedGroup)
+            {
+                $timeout(function()
+                {
+                    var elId = 'panel-segment-' + savedGroup._id;
+                    var segmentScope = angular.element('#' + elId).scope();
 
+                    $scope.showRenameSegmentgroup(segmentScope.seg);
+                }, 100);
+            });
         };
     };
 
