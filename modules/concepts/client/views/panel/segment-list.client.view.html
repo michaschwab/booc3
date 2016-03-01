@@ -15,7 +15,7 @@
 
                 <span class="segment-title">
                     <span ng-show="!seg.editing">{{seg.title}}</span>
-                    <input ng-show="seg.editing" ng-model="seg.title" class="form-control admin-action" type="text" />
+                    <input ng-show="seg.editing" id="segmentgroup-title-input-{{seg._id}}" ng-model="seg.title" class="form-control admin-action" type="text" />
                 </span>
 
             </a>

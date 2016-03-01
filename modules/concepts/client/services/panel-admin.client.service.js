@@ -263,6 +263,12 @@ angular.module('courses').service('PanelAdmin', function(Concepts, $rootScope, $
         {
             group.oldTitle = group.title;
             group.editing = true;
+            $timeout(function()
+            {
+                var elId = 'segmentgroup-title-input-' + group._id;
+
+                $('#' + elId).focus().select();
+            }, 100);
         };
         $scope.cancelRenameSegmentgroup = function(group)
         {
