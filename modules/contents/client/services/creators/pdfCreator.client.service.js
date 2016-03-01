@@ -10,6 +10,7 @@ angular.module('contents').service('PdfCreator', function($http, FileUploader, $
             PdfViewer.init($scope);
             $scope.source.data = {};
             $scope.sourceData = {};
+            $scope.uploading = false;
 
             $scope.$watch('source.path', me.updatePdfPath);
 
@@ -21,6 +22,7 @@ angular.module('contents').service('PdfCreator', function($http, FileUploader, $
 
                 $scope.cancelUpload = function ()
                 {
+                    $scope.uploading = false;
                     $scope.uploader.clearQueue();
                     //$scope.zipURL = $scope.user.profileImageURL;
                 };
@@ -28,8 +30,9 @@ angular.module('contents').service('PdfCreator', function($http, FileUploader, $
                 $scope.uploader.onSuccessItem  = function (fileItem, response, status, headers)
                 {
                     // Show success message
-                    $scope.uploadSuccess = true;
 
+                    $scope.uploading = false;
+                    $scope.uploadSuccess = true;
                     $scope.source.path = response.fileName;
                     me.updatePdfPath();
 
@@ -46,7 +49,7 @@ angular.module('contents').service('PdfCreator', function($http, FileUploader, $
                             $timeout(function () {
                                 //$scope.zipURL = fileReaderEvent.target.result;
                                 //console.log($scope.zipURL);
-
+                                $scope.uploading = true;
                                 $scope.uploader.uploadAll();
                             }, 0);
                         };
@@ -58,6 +61,7 @@ angular.module('contents').service('PdfCreator', function($http, FileUploader, $
                     $scope.cancelUpload();
 
                     // Show error message
+                    $scope.uploading = false;
                     console.error(response.message);
                 };
 

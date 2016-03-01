@@ -87,7 +87,7 @@
 
     <form ng-show="activeAction!=='add'" name="contentCreateForm" novalidate role="form">
 
-        <div ng-show="activeAction=='create'&&!stateParams.courseId" class="col-md-12 form-group">
+        <div ng-show="activeAction=='create'&&!stateParams.courseId" class="form-group">
             <label for="courseSelect">Which Course is the content for?</label><br />
 
             <ui-select class="course-select" ng-model="$parent.course" ng-required name="courseSelect" id="courseSelect">
@@ -101,7 +101,7 @@
             </ui-select>
         </div>
 
-        <div ng-show="activeAction=='create'||activeAction=='edit'" class="col-md-12 form-group">
+        <div ng-show="activeAction=='create'||activeAction=='edit'" class="form-group">
 
             <label for="courseRunSelect">Which Course Run is the content for?</label><br />
 
