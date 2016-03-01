@@ -24,6 +24,7 @@ var SegmentGroupSchema = new Schema({
     concept: { type: Schema.Types.ObjectId, ref: 'Concept' },
     user: { type: Schema.Types.ObjectId, ref: 'User' },
     order: { type: Number },
+    collapsed: { type: Boolean, default: false },
     created: {
         type: Date,
         default: Date.now

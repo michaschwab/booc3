@@ -1,6 +1,6 @@
 
 angular.module('courses').controller('CourseViewController',
-    function($scope, $stateParams, Courses, Concepts, Conceptdependencies, Authentication, $window, $location, ConceptStructure, Segments, Sources, Sourcetypes, LearnedConcepts, SeenConcepts, $timeout, $interval, SeenDataManager, ActiveDataManager, $cacheFactory, Courseruns)
+    function($scope, $stateParams, Courses, Concepts, Conceptdependencies, Authentication, $window, $location, ConceptStructure, Segments, Sources, Sourcetypes, LearnedConcepts, SeenConcepts, $timeout, $interval, SeenDataManager, ActiveDataManager, $cacheFactory, Courseruns, Segmentgroup)
     {
         $scope.authentication = Authentication;
         $scope.learnMode = false;
@@ -87,18 +87,24 @@ angular.module('courses').controller('CourseViewController',
 
                     $scope.learned = LearnedConcepts.query({user: $scope.authentication.user._id});
 
-                    Segments.query({courses:$stateParams.courseId}).$promise.then(function(segments)
+                    Segmentgroup.query({courses:$stateParams.courseId}, function(groups)
                     {
-                        $scope.segments = segments;
+                        $scope.segmentgroups = groups;
 
-                        $scope.$watchCollection('segments.downloadedUpdates', $scope.parseSegments);
-
-                        $scope.seen = SeenConcepts.query({user: $scope.authentication.user._id}, function()
+                        Segments.query({courses:$stateParams.courseId}).$promise.then(function(segments)
                         {
-                            SeenDataManager.updateSeenMap();
+                            $scope.segments = segments;
 
-                            $scope.$broadcast('dataReady');
-                            dataReady = true;
+                            $scope.$watchCollection('segments.downloadedUpdates', $scope.parseSegments);
+                            $scope.$watchCollection('segmentgroups.downloadedUpdates', $scope.parseSegments);
+
+                            $scope.seen = SeenConcepts.query({user: $scope.authentication.user._id}, function()
+                            {
+                                SeenDataManager.updateSeenMap();
+
+                                $scope.$broadcast('dataReady');
+                                dataReady = true;
+                            });
                         });
                     });
                 });
@@ -135,6 +141,20 @@ angular.module('courses').controller('CourseViewController',
         {
             $scope.segmentMap = {};
             $scope.segmentPerConceptMap = {};
+            $scope.segmentgroupMap = {};
+            $scope.segmentgroupPerConceptMap = {};
+            $scope.segmentPerGroupMap = {};
+            var conceptId;
+
+            $scope.segmentgroups.forEach(function(group)
+            {
+                $scope.segmentgroupMap[group._id] = group;
+                if(!$scope.segmentgroupPerConceptMap[group.concept])
+                    $scope.segmentgroupPerConceptMap[group.concept] = [];
+
+                $scope.segmentgroupPerConceptMap[group.concept].push(group);
+                $scope.segmentPerGroupMap[group._id] = [];
+            });
 
             $scope.segments.forEach(function (segment)
             {
@@ -153,8 +173,8 @@ angular.module('courses').controller('CourseViewController',
                 });
             });
 
-            // Now, sort!
-            for(var conceptId in $scope.segmentPerConceptMap)
+            // Now, sort segments top to bottom, no matter if they are in a group or not.
+            for(conceptId in $scope.segmentPerConceptMap)
             {
                 if($scope.segmentPerConceptMap.hasOwnProperty(conceptId))
                 {
@@ -163,6 +183,107 @@ angular.module('courses').controller('CourseViewController',
                         var o1 = seg1.order && seg1.order[conceptId] ? seg1.order[conceptId] : 0;
                         var o2 = seg2.order && seg2.order[conceptId] ? seg2.order[conceptId] : 0;
                         return o1 - o2;
+                    });
+                }
+            }
+
+            // Now, combine segments and segment groups
+            $scope.segmentAndGroupPerConceptMap = {};
+            for(conceptId in $scope.segmentPerConceptMap)
+            {
+                if($scope.segmentPerConceptMap.hasOwnProperty(conceptId))
+                {
+                    var segs = $scope.segmentPerConceptMap[conceptId];
+                    if(!$scope.segmentAndGroupPerConceptMap[conceptId])
+                        $scope.segmentAndGroupPerConceptMap[conceptId] = [];
+
+                    segs.forEach(function(seg)
+                    {
+                        var currGroupId = null;
+
+                        if(seg.segmentgroups && seg.segmentgroups.length)
+                        {
+                            seg.segmentgroups.forEach(function(groupId)
+                            {
+                                if($scope.segmentgroupMap[groupId] && $scope.segmentgroupMap[groupId].concept == conceptId)
+                                {
+                                    currGroupId = groupId;
+                                    return;
+                                }
+                            });
+                        }
+
+                        if(currGroupId)
+                        {
+                            // Add to the segment group
+
+                            $scope.segmentPerGroupMap[currGroupId].push(seg);
+                        }
+                        else
+                        {
+                            // Add to top level segment list
+                            $scope.segmentAndGroupPerConceptMap[conceptId].push(seg);
+                        }
+                    });
+                }
+            }
+
+            for(conceptId in $scope.segmentgroupPerConceptMap)
+            {
+                if($scope.segmentgroupPerConceptMap.hasOwnProperty(conceptId))
+                {
+                    if(!$scope.segmentAndGroupPerConceptMap[conceptId])
+                    {
+                        $scope.segmentAndGroupPerConceptMap[conceptId] = [];
+                    }
+
+                    var groups = $scope.segmentgroupPerConceptMap[conceptId];
+
+                    groups.forEach(function(group)
+                    {
+                        group.isGroup = true;
+                        group.isSegment = false;
+
+                        $scope.segmentAndGroupPerConceptMap[conceptId].push(group);
+                    });
+                }
+            }
+
+            // Now, sort combined segments and segment groups list
+            for(conceptId in $scope.segmentAndGroupPerConceptMap)
+            {
+                if($scope.segmentAndGroupPerConceptMap.hasOwnProperty(conceptId))
+                {
+                    $scope.segmentAndGroupPerConceptMap[conceptId].sort(function(seg1, seg2)
+                    {
+                        var o1 = seg1.order && seg1.order[conceptId] ? seg1.order[conceptId] : 0;
+                        if(seg1.isGroup) o1 = seg1.order;
+                        var o2 = seg2.order && seg2.order[conceptId] ? seg2.order[conceptId] : 0;
+                        if(seg2.isGroup) o2 = seg2.order;
+
+                        return o1 - o2;
+                    });
+                }
+            }
+
+            // Now, sort segments in the order they appear in in the menu, depending on groups.
+            for(conceptId in $scope.segmentPerConceptMap)
+            {
+                if($scope.segmentPerConceptMap.hasOwnProperty(conceptId))
+                {
+                    $scope.segmentPerConceptMap[conceptId] = [];
+
+                    $scope.segmentAndGroupPerConceptMap[conceptId].forEach(function(data)
+                    {
+                        if(data.isGroup)
+                        {
+                            // Add all Group Segments
+                            $scope.segmentPerConceptMap[conceptId].push.apply($scope.segmentPerConceptMap[conceptId], $scope.segmentPerGroupMap[data._id]);
+                        }
+                        else
+                        {
+                            $scope.segmentPerConceptMap[conceptId].push(data);
+                        }
                     });
                 }
             }

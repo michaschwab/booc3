@@ -169,6 +169,13 @@ a, a:focus {
     padding-top: 7px;
 }
 
+.concept-panel .admin-action {
+    display: none;
+}
+.concept-panel .admin-panel .admin-action {
+    display: inherit;
+}
+
 .course-list {
     /*left: -10px;*/
     padding-left: 0;
@@ -342,9 +349,7 @@ a[disabled] .map-icon {
     margin-bottom: -2px;
 }
 
-/*.concept > a {
-    padding-bottom: 19px;
-}*/
+
 .concept > a > .concept-title {
     position: relative;
     left: 30pt;
@@ -506,6 +511,13 @@ input.concept-title.admin {
     border-radius: 7px;
     background: #eee;
 }
+.segment.group.collapsed .segment-link {
+    box-shadow: #ccc 4px 4px 0, #ddd 8px 8px 0;
+    border-color: #fff;
+    border-bottom-width: 2px;
+    border-right-width: 2px;
+    margin-bottom: 8px;
+}
 
 .segment .segment-link {
     display: block;
@@ -522,6 +534,18 @@ input.concept-title.admin {
 
 .alternative-segments {
     padding-left: 15pt;
+    list-style: none;
+}
+.group-segments {
+    /*padding-left: -4px;*/
+    padding-bottom: 5px;
+
+}
+.group-segments .segment {
+    /*padding-left: 10px;*/
+}
+.group-segments .segment .concept-line {
+    left: -36px !important;
 }
 
 .segment .concept-line {
@@ -543,17 +567,17 @@ input.concept-title.admin {
 
 /* this is to mark the 'recommended' segment */
 
-.segment:first-child:not(:only-child):not(.add-material) {
+.alternative-segments:not(.group-segments) > .segment:first-child:not(:only-child):not(.add-material) {
     margin-bottom: 9px;
     border-bottom: 1px dashed #666;
 }
 
-.segment:first-child:not(:only-child) .concept-line {
+.alternative-segments:not(.group-segments) > .segment:first-child:not(:only-child) .concept-line {
     padding-bottom: 50px;
     padding-top: 50px;
 }
 
-.segment:first-child:not(.add-material):after {
+.alternative-segments:not(.group-segments) > .segment:first-child:not(.add-material):after {
     content: "\f005"; /* this is a star: fa-star */
     display: inline-block;
     font: normal normal normal 14px/1 FontAwesome;

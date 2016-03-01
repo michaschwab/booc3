@@ -7,6 +7,7 @@ var path = require('path'),
     mongoose = require('mongoose'),
     errorHandler = require(path.resolve('./modules/core/server/controllers/errors.server.controller')),
     Segment = mongoose.model('Segment'),
+    Segmentgroup = mongoose.model('Segmentgroup'),
     Concept = mongoose.model('Concept'),
     Courseadmin = mongoose.model('Courseadmin'),
     _ = require('lodash');
@@ -42,19 +43,114 @@ exports.read = function(req, res) {
 /**
  * Update a Segment
  */
-exports.update = function(req, res) {
+exports.update = function(req, res)
+{
     var segment = req.segment ;
 
     segment = _.extend(segment , req.body);
 
     segment.save(function(err) {
         if (err) {
+            console.log(err);
             return res.status(400).send({
                 message: errorHandler.getErrorMessage(err)
             });
         } else {
             res.jsonp(segment);
         }
+    });
+};
+
+var updateGroups = function(updateGroups, callback)
+{
+    var groupCallbacks = 0;
+    var callbackErr = null;
+
+    updateGroups.forEach(function(updateGroup)
+    {
+        Segmentgroup.findById(updateGroup._id).exec(function(err, group)
+        {
+            group = _.extend(group, updateGroup);
+            group.save(function(err)
+            {
+                groupCallbacks++;
+
+                if(err)
+                {
+                    callbackErr = err;
+                }
+
+                if(groupCallbacks == updateGroups.length)
+                {
+                    callback(callbackErr);
+                }
+            });
+        });
+    });
+};
+
+var updateSegments = function(updateSegments, callback)
+{
+    var expectedCallbacks = updateSegments.length;
+    var receivedCallbacks = 0;
+
+    var callbackErr = null;
+
+    Segment.find().exec(function(err, allSegments)
+    {
+        updateSegments.forEach(function(updateSegment)
+        {
+            var sameSegments = allSegments.filter(function(seg)
+            {
+                return seg._id == updateSegment._id;
+            });
+            if(sameSegments.length)
+            {
+                var segment = sameSegments[0];
+
+                segment = _.extend(segment, updateSegment);
+
+                segment.save(function(err)
+                {
+                    receivedCallbacks++;
+
+                    if(err)
+                    {
+                        callbackErr = err;
+                    }
+
+                    if(receivedCallbacks == expectedCallbacks)
+                    {
+                        callback(callbackErr);
+                    }
+                });
+            }
+            else
+            {
+                console.error('could not find a segment for which update was scheduled:', updateSegment);
+                expectedCallbacks--;
+            }
+        });
+    });
+};
+
+exports.updateMany = function(req, res)
+{
+    var updateData = req.body;
+
+    updateGroups(updateData.groups, function(err)
+    {
+        updateSegments(updateData.segments, function(callbackErr)
+        {
+            if (callbackErr) {
+                console.log(callbackErr);
+                return res.status(400).send({
+                    message: errorHandler.getErrorMessage(callbackErr)
+                });
+            } else {
+                res.jsonp(updateSegments);
+            }
+        });
     });
 };
 
