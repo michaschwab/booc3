@@ -445,8 +445,12 @@ angular.module('courses').service('PanelAdmin', function(Concepts, $rootScope, $
                     var elId = 'panel-segment-' + savedGroup._id;
                     var segmentScope = angular.element('#' + elId).scope();
 
-                    $scope.showRenameSegmentgroup(segmentScope.seg);
-                }, 100);
+                    if(segmentScope && segmentScope.seg)
+                    {
+                        $scope.showRenameSegmentgroup(segmentScope.seg);
+                    }
+
+                }, 400);
             });
         };
     };
