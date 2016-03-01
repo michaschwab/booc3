@@ -77,9 +77,9 @@ angular.module('courses').service('PanelAdmin', function(Concepts, $rootScope, $
         $scope.titleBlur = function(concept)
         {
             /*if(concept.concept.title == NEW_CONCEPT_TITLE)
-            {
-                $scope.removeConcept(concept);
-            }*/
+             {
+             $scope.removeConcept(concept);
+             }*/
         };
 
         $scope.removeConcept = function(concept)
@@ -132,12 +132,12 @@ angular.module('courses').service('PanelAdmin', function(Concepts, $rootScope, $
         };
 
         /*
-        This is so  the segment group collapsed state in admin mode
-        is independent of the state in the plan mode.
+         This is so  the segment group collapsed state in admin mode
+         is independent of the state in the plan mode.
 
-        if an admin changes the state in the plan mode,
-        then that's a local and temporary change that will be reverted
-        when switching to the admin tab, where state changes will be saved permanently.
+         if an admin changes the state in the plan mode,
+         then that's a local and temporary change that will be reverted
+         when switching to the admin tab, where state changes will be saved permanently.
          */
 
         var originalGroupCollapsedStates = {};
@@ -417,7 +417,18 @@ angular.module('courses').service('PanelAdmin', function(Concepts, $rootScope, $
 
             if(contents.length)
             {
-                order = contents[contents.length-1].order + 100;
+                var lastOrder = 0;
+
+                if(contents[contents.length-1].isGroup)
+                {
+                    lastOrder = contents[contents.length-1].order;
+                }
+                else
+                {
+                    lastOrder = contents[contents.length-1].order[concept.concept._id];
+                }
+
+                order = parseInt(lastOrder) + 100;
             }
 
             var group = new Segmentgroup({
