@@ -131,6 +131,44 @@ angular.module('courses').service('PanelAdmin', function(Concepts, $rootScope, $
                 group.$update();
         };
 
+        /*
+        This is so  the segment group collapsed state in admin mode
+        is independent of the state in the plan mode.
+
+        if an admin changes the state in the plan mode,
+        then that's a local and temporary change that will be reverted
+        when switching to the admin tab, where state changes will be saved permanently.
+         */
+
+        var originalGroupCollapsedStates = {};
+        $scope.$watch('activeMode', function()
+        {
+            var inAdminMode = $scope.activeMode=='admin';
+            var keys = Object.keys(originalGroupCollapsedStates);
+
+            if(keys.length == 0 && $scope.segmentgroups)
+            {
+                // save
+                console.log('saving stuff');
+                $scope.segmentgroups.forEach(function(group)
+                {
+                    originalGroupCollapsedStates[group._id] = group.collapsed;
+                });
+            }
+
+            if(inAdminMode && keys.length > 0)
+            {
+                // restore original collapsed states so expanding / collapsing segment groups in plan mode does not affect the view in admin mode, because the view there is representative of the default student view.
+                $scope.segmentgroups.forEach(function(group)
+                {
+                    if(originalGroupCollapsedStates[group._id] !== undefined)
+                    {
+                        group.collapsed = originalGroupCollapsedStates[group._id];
+                    }
+                });
+            }
+        });
+
         $scope.sortableSegmentOptions = {
             handle: '.seg-handle',
             items: "li.sortableSegment:not(.not-sortable)",
