@@ -26,34 +26,42 @@ angular.module('courses').service('MapSquares', function(Tip, $location, $timeou
 
         var conceptsWithContent = $scope.concepts.filter(function(concept)
         {
-            return $scope.segmentPerConceptMap[concept._id] && $scope.segmentPerConceptMap[concept._id].length;
+            return $scope.segmentAndGroupPerConceptMap[concept._id] && $scope.segmentAndGroupPerConceptMap[concept._id].length;
         });
 
         conceptsWithContent.forEach(function(concept)
         {
             var conceptId = concept._id;
 
-            var segments = $scope.segmentPerConceptMap[conceptId];
+            var segments = $scope.segmentAndGroupPerConceptMap[conceptId];
 
             segments.forEach(function(segment)
             {
                 var square = {};
 
-                var source = $scope.sourceMap[segment.source];
-                if(!source)
-                {
-                    console.error('could not find the source of the following segment: ', segment, 'the map of sources is ', $scope.sourceMap);
-                    return;
-                }
-                var sourcetype = $scope.sourcetypeMap[source.type];
-                square.icon = sourcetype.icon;
-
-                square.title = segment.title;
                 square.concept = $scope.directories.concepts[conceptId];
                 square.conceptId = conceptId;
+                square.title = segment.title;
                 square.segment = segment;
-                square.source = source;
-                square.sourcetype = sourcetype;
+
+                if(!segment.isGroup)
+                {
+                    var source = $scope.sourceMap[segment.source];
+                    if(!source)
+                    {
+                        console.error('could not find the source of the following segment: ', segment, 'the map of sources is ', $scope.sourceMap);
+                        return;
+                    }
+                    var sourcetype = $scope.sourcetypeMap[source.type];
+                    square.icon = sourcetype.icon;
+
+                    square.source = source;
+                    square.sourcetype = sourcetype;
+                }
+                else
+                {
+                    square.icon = 'fa fa-folder';
+                }
 
                 data.push(square);
             });
