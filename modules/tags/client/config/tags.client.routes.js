@@ -28,12 +28,12 @@ angular.module('tags').config(['$stateProvider', '$locationProvider',
         }).
         state('tags.view', {
             url: '/:tagId',
-            templateUrl: 'modules/tags/views/view-tag.client.view.html',
+            templateUrl: 'modules/tags/views/view.client.view.html',
             reloadOnSearch: false
         }).
         state('tags.edit', {
             url: '/:tagId/edit',
-            templateUrl: 'modules/tags/views/edit-tag.client.view.html'
+            templateUrl: 'modules/tags/views/edit.client.view.html'
         });
 
         //$locationProvider.html5Mode(true);

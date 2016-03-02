@@ -11,7 +11,8 @@ module.exports = {
         'public/lib/ngDialog/css/ngDialog.css',
         'public/lib/ngDialog/css/ngDialog-theme-default.css',
         'public/lib/n3-charts/build/LineChart.css',
-        'public/lib/shepherd.js/dist/css/shepherd-theme-arrows.css'
+        'public/lib/shepherd.js/dist/css/shepherd-theme-arrows.css',
+        'https://afeld.github.io/emoji-css/emoji.css'
       ],
       js: [
         'public/lib/jquery/dist/jquery.js',

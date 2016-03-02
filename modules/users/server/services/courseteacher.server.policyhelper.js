@@ -82,7 +82,7 @@ exports.hasAnyCourseRole = function(roles, userRoles, courseId)
     return false;
 };
 
-exports.hasAnyPrivileges = function(req)
+exports.hasAnyPrivileges = function(req, res, next)
 {
     var roles = (req.user) ? req.user.roles : ['guest'];
     var hasPrivileges = false;
@@ -94,6 +94,20 @@ exports.hasAnyPrivileges = function(req)
             hasPrivileges = true;
         }
     });
+
+    if(next)
+    {
+        if(hasPrivileges)
+        {
+            return next();
+        }
+        else
+        {
+            return res.status(403).json({
+                message: 'User is not authorized'
+            });
+        }
+    }
 
     return hasPrivileges;
 };

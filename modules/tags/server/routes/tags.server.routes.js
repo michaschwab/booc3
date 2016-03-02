@@ -12,7 +12,7 @@ module.exports = function(app) {
         .get(courseTeacherPolicy.hasAnyPrivileges, tags.list)
         .post(courseTeacherPolicy.hasAnyPrivileges, tags.create); // Teachers can create courses
 
-    app.route('/api/courses/:courseId')
+    app.route('/api/tags/:tagId')
         .get(courseTeacherPolicy.hasAnyPrivileges, tags.read)
         .put(courseTeacherPolicy.hasAnyPrivileges, tags.update) // Course Teachers can edit own course
         .delete(courseTeacherPolicy.hasAnyPrivileges, tags.delete); // Course Teachers can delete own course
