@@ -20,21 +20,18 @@
 
                     <label class="control-label" for="icon">
                         Icon CSS
-                        <a ng-click="iconCssExplanationShow=iconCssExplanationShow?false:true" href tabindex="-1">
-                            <span class="glyphicon glyphicon-question-sign"></span>
-                        </a>
                     </label>
                     <div class="controls">
-                        <input type="text" data-ng-model="tag.icon" id="icon" class="form-control" placeholder="em em-sunglasses">
+                        <input type="text" data-ng-model="tag.icon" id="icon" class="form-control" onClick="this.setSelectionRange(0, this.value.length)" placeholder="em em-sunglasses">
                     </div>
 
-                    <span ng-show="iconCssExplanationShow">
-                        Here, you can specify an icon for the Tag.
-
-                        You can choose from the <a href="http://afeld.github.io/emoji-css/" target="_blank">list of Emoji</a>,
+                    <p>
+                        Choose from the <a href="http://afeld.github.io/emoji-css/" target="_blank">list of Emoji</a>,
                         <a href="https://fortawesome.github.io/Font-Awesome/icons/" target="_blank">Font Awesome</a>,
                         or <a href="http://getbootstrap.com/components/#glyphicons" target="_blank">Glyphicons</a>.
-                    </span>
+
+                        Emojis are listed below. Clicking an icon copies it to the clipboard, so it can be pasted in the field above.
+                    </p>
 
                     <br />
                     <br />
@@ -55,4 +52,9 @@
             </fieldset>
         </form>
     </div>
+
+    <iframe src="http://afeld.github.io/emoji-css/" style="width: 100%; height: 500px">
+
+    </iframe>
+
 </section>
