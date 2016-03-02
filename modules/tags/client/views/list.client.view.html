@@ -1,0 +1,18 @@
+<section data-ng-controller="TagsController" data-ng-init="find()" class="container">
+
+    <h3>
+        <a data-ui-sref="tags.create" class="btn btn-default pull-right">
+            <span class="glyphicon glyphicon-plus"></span>
+            Create New
+        </a>
+
+        Tags
+    </h3>
+
+
+
+
+    <div class="alert alert-warning text-center" data-ng-hide="!tags.$resolved || tags.length">
+        No Tags yet
+    </div>
+</section>
