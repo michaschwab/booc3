@@ -1,6 +1,6 @@
 <div>
 <ul class="alternative-segments concept-segments concept-segments-{{concept.concept._id}} segment-group-segments-{{parent._id}}" ng-class="{ 'group-segments': parent }" ui-sortable="courseScope.sortableSegmentOptions" ng-model="segments">
-    <li ng-repeat="seg in segments track by seg._id" id="panel-segment-{{seg._id}}" class="segment sortableSegment"  ng-class="{ 'active': (seg._id === courseScope.active.segment._id||(courseScope.stateParams.sourceId && courseScope.stateParams.sourceId === seg.source)), 'group': seg.isGroup, 'collapsed': seg.collapsed }">
+    <li ng-repeat="seg in segments track by seg._id" id="panel-segment-{{seg._id}}" class="segment sortableSegment"  ng-class="{ 'active': (seg._id === courseScope.active.segment._id||(courseScope.stateParams.sourceId && courseScope.stateParams.sourceId === seg.source)), 'group': seg.isGroup, 'collapsed': seg.collapsed, 'hover': seg._id == courseScope.active.hoverSegment._id, 'nothover': courseScope.active.hoverSegment && seg._id != courseScope.active.hoverSegment._id }">
 
         <span class="concept-line"><span></span></span>
 
