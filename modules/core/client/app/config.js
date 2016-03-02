@@ -22,6 +22,7 @@ var ApplicationConfiguration = (function () {
     'ngSanitize',
     'ngPDFViewer',
     'ngDialog',
+      'ngTagsInput',
     'ui.moment-duration',
     'ui.sortable',
     'youtube-embed'

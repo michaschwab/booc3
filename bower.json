@@ -33,7 +33,8 @@
     "bootstrap-toggle": null,
     "shepherd.js": null,
     "angular-youtube-mb": null,
-    "tether": null
+    "tether": null,
+    "ng-tags-input": "~3.0.0"
   },
   "resolutions": {
     "angular": "~1.4"

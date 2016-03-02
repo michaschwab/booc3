@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('contents').controller('CreatorController',
-    function($scope, $stateParams, $state, Courses, Sourcetypes, Sources, Segments, $timeout, $location, Courseruns, LectureCreator, WikiCreator, LTICreator, Concepts, $filter, YoutubeCreator, WebsiteCreator, PdfCreator, ExtensionSchoolCreator, Authentication, RandomString)
+    function($scope, $stateParams, $state, Courses, Sourcetypes, Sources, Segments, $timeout, $location, Courseruns, LectureCreator, WikiCreator, LTICreator, Concepts, $filter, YoutubeCreator, WebsiteCreator, PdfCreator, ExtensionSchoolCreator, Authentication, RandomString, Tag)
     {
         $scope.courseId = $stateParams.courseId;
         $scope.activeCourseIds = [$scope.courseId];
@@ -68,6 +68,13 @@ angular.module('contents').controller('CreatorController',
             });
         });
 
+        $scope.filterTags = function($query) {
+            var tags = $scope.tags;
+            return tags.filter(function(tag) {
+                return tag.title.toLowerCase().indexOf($query.toLowerCase()) != -1;
+            });
+        };
+
         $scope.init = function()
         {
             Courses.query(function(courses)
@@ -94,6 +101,8 @@ angular.module('contents').controller('CreatorController',
                     }
                 }
             });
+
+            $scope.tags = Tag.query();
 
             Concepts.query().$promise.then(function(concepts)
             {
