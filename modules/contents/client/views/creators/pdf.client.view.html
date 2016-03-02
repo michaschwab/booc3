@@ -1,4 +1,4 @@
-<div class="form-group" ng-show="!uploadSuccess&&activeAction!=='add_edit'" ng-class="{'has-error': contentCreateForm.pdfUpload.$error.required, 'has-success': !contentCreateForm.pdfUpload.$error.required&&source.pdfUpload.length}">
+<div class="form-group" ng-show="!uploading&&!uploadSuccess&&activeAction!=='add_edit'" ng-class="{'has-error': contentCreateForm.pdfUpload.$error.required, 'has-success': !contentCreateForm.pdfUpload.$error.required&&source.pdfUpload.length}">
     <label for="pdfUploader">Upload the PDF file here:
     </label><br />
 
@@ -14,6 +14,15 @@
     </div>
 </div>
 
+<div class="alert alert-success" ng-show="uploading&&!uploadSuccess">
+    <span class="glyphicon glyphicon-refresh spinning"></span> PDF Currently Uploading...
+</div>
+
+<div class="alert alert-success" ng-show="uploadSuccess">
+    <span class="glyphicon glyphicon-ok"></span> PDF Upload Successful.
+</div>
+
+
 <div class="form-group" ng-show="activeAction!=='add_edit'" ng-class="{'has-error': contentCreateForm.title.$error.required, 'has-success': !contentCreateForm.title.$error.required&&source.title.length}">
     <label for="title">Pick a title for this source:</label><br />
 
@@ -21,12 +30,6 @@
         <span class="input-group-addon"><span class="glyphicon glyphicon-pencil"></span></span>
         <input type="text" id="title" ng-model="source.title" name="title" required ng-minlength="1" placeholder="Title of the pdf" class="form-control"/>
     </div>
-</div>
-
-
-
-<div class="alert alert-success" ng-show="uploadSuccess">
-    <span class="glyphicon glyphicon-ok"></span> PDF Upload Successful.
 </div>
 
 

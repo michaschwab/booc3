@@ -60,7 +60,10 @@
                 </td>
 
                 <td>
-                    <a href data-ui-sref="{course: courseId}" ng-repeat="courseId in source.courses">{{courseMap[courseId].title}}</a>
+                    <span ng-repeat="courseId in source.courses">
+                        <a href data-ui-sref="{course: courseId}">{{courseMap[courseId].title}}</a><span ng-show="$index != source.courses.length-1">, </span>
+                    </span>
+
                 </td>
 
                 <td>

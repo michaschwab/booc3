@@ -1,4 +1,4 @@
-angular.module('courses').service('PanelAdmin', function(Concepts, $rootScope, $timeout, Authentication, $stateParams, $location)
+angular.module('courses').service('PanelAdmin', function(Concepts, $rootScope, $timeout, Authentication, $stateParams, $location, Segmentgroup, $http)
 {
     var $scope;
     var NEW_CONCEPT_TITLE = 'New Concept';
@@ -77,9 +77,9 @@ angular.module('courses').service('PanelAdmin', function(Concepts, $rootScope, $
         $scope.titleBlur = function(concept)
         {
             /*if(concept.concept.title == NEW_CONCEPT_TITLE)
-            {
-                $scope.removeConcept(concept);
-            }*/
+             {
+             $scope.removeConcept(concept);
+             }*/
         };
 
         $scope.removeConcept = function(concept)
@@ -125,9 +125,58 @@ angular.module('courses').service('PanelAdmin', function(Concepts, $rootScope, $
             }
         };
 
+        $scope.saveGroupCollapsedState = function(group)
+        {
+            if($scope.hasAdminPanelRights && $scope.activeMode == 'admin')
+                group.$update();
+        };
+
+        /*
+         This is so  the segment group collapsed state in admin mode
+         is independent of the state in the plan mode.
+
+         if an admin changes the state in the plan mode,
+         then that's a local and temporary change that will be reverted
+         when switching to the admin tab, where state changes will be saved permanently.
+         */
+
+        var originalGroupCollapsedStates = {};
+        $scope.$watch('activeMode', function()
+        {
+            var inAdminMode = $scope.activeMode=='admin';
+            var keys = Object.keys(originalGroupCollapsedStates);
+
+            if(keys.length == 0 && $scope.segmentgroups)
+            {
+                // save
+                console.log('saving stuff');
+                $scope.segmentgroups.forEach(function(group)
+                {
+                    originalGroupCollapsedStates[group._id] = group.collapsed;
+                });
+            }
+
+            if(inAdminMode && keys.length > 0)
+            {
+                // restore original collapsed states so expanding / collapsing segment groups in plan mode does not affect the view in admin mode, because the view there is representative of the default student view.
+                $scope.segmentgroups.forEach(function(group)
+                {
+                    if(originalGroupCollapsedStates[group._id] !== undefined)
+                    {
+                        group.collapsed = originalGroupCollapsedStates[group._id];
+                    }
+                });
+            }
+        });
+
         $scope.sortableSegmentOptions = {
             handle: '.seg-handle',
             items: "li.sortableSegment:not(.not-sortable)",
+            connectWith: ".alternative-segments",
+            start: function()
+            {
+                $scope.sortDragging = true;
+            },
             update: function(e, ui) {
                 /*var logEntry = tmpList.map(function(i){
                  return i.value;
@@ -142,26 +191,168 @@ angular.module('courses').service('PanelAdmin', function(Concepts, $rootScope, $
                  }).join(', ');
                  $scope.sortingLog.push('Stop: ' + logEntry);*/
 
+                $scope.sortDragging = false;
                 var listEl = e.target;
-                var conceptId = listEl.id.substr('concept-segments-'.length);
 
-                if(conceptId)
+                var classNames = listEl.className.split(' ');
+                var conceptId, segmentGroupId;
+
+                classNames.forEach(function(className)
                 {
-                    var index = 0;
-                    //console.log($scope.segmentPerConceptMap[conceptId].map(function(seg) { var obj = {}; obj[seg.order[conceptId]]=seg.title; return obj;}));
-                    $scope.segmentPerConceptMap[conceptId].forEach(function(segment)
+                    if(className.substr(0, 'concept-segments-'.length) == 'concept-segments-')
                     {
-                        if(!segment.order) segment.order = {};
-                        segment.order[conceptId] = index * 100;
-                        segment.$update();
-                        index++;
-                    });
+                        conceptId = className.substr('concept-segments-'.length);
+                    }
+                    if(className.substr(0, 'segment-group-segments-'.length) == 'segment-group-segments-')
+                    {
+                        segmentGroupId = className.substr('segment-group-segments-'.length);
+                    }
+                });
 
+                if(segmentGroupId)
+                {
+                    $scope.saveSegmentGroupSublist(segmentGroupId);
+                }
+                else if(conceptId)
+                {
+                    $scope.saveConceptSegmentOrder(conceptId);
                 }
                 else
                 {
-                    console.error('couldnt find the concept id of list ', listEl);
+                    console.error('couldnt find the concept id or segment group id of list ', listEl);
                 }
+            }
+        };
+
+        $scope.saveConceptSegmentOrder = function(conceptId)
+        {
+            var index = 0;
+            //console.log($scope.segmentPerConceptMap[conceptId].map(function(seg) { var obj = {}; obj[seg.order[conceptId]]=seg.title; return obj;}));
+            $scope.segmentAndGroupPerConceptMap[conceptId].forEach(function(segment)
+            {
+                var newOrder = index * 100;
+
+                if(!segment.isGroup)
+                {
+                    if(!segment.order) segment.order = {};
+                    segment.order[conceptId] = newOrder;
+
+                    safeSegmentAndGroupSave(segment);
+                }
+                else
+                {
+                    // its a segment group
+                    var group = segment;
+
+                    group.order = newOrder;
+                    safeSegmentAndGroupSave(null, group);
+
+                    $scope.saveSegmentGroupSublist(group._id);
+                }
+
+                index++;
+            });
+        };
+
+        $scope.deleteSegmentgroup = function(group)
+        {
+            group.$remove();
+        };
+
+        $scope.showRenameSegmentgroup = function(group)
+        {
+            group.oldTitle = group.title;
+            group.editing = true;
+            $timeout(function()
+            {
+                var elId = 'segmentgroup-title-input-' + group._id;
+
+                $('#' + elId).focus().select();
+            }, 100);
+        };
+        $scope.cancelRenameSegmentgroup = function(group)
+        {
+            group.editing = false;
+
+            group.title = group.oldTitle;
+            delete group.oldTitle;
+        };
+        $scope.saveRenameSegmentgroup = function(group)
+        {
+            group.editing = false;
+
+            delete group.oldTitle;
+            group.$update();
+        };
+
+        var safeTimeout;
+        var safeSaveData = { segments: [], groups: []};
+
+        // this is to make sure the db doesnt have to deal with concurrent requests
+        var safeSegmentAndGroupSave = function(segment, group)
+        {
+            if(segment)
+            {
+                if(safeSaveData['segments'].indexOf(segment) === -1)
+                {
+                    safeSaveData['segments'].push(segment);
+                }
+            }
+            if(group)
+            {
+                if(safeSaveData['groups'].indexOf(group) === -1)
+                {
+                    safeSaveData['groups'].push(group);
+                }
+            }
+
+            $timeout.cancel(safeTimeout);
+            safeTimeout = $timeout(function()
+            {
+                $http.put('/api/segments/updateManySegmentsAndGroups', safeSaveData);
+            }, 50);
+        };
+
+        $scope.saveSegmentGroupSublist = function(groupId)
+        {
+            // Organize the nested segments: make sure the order is correct, and that they have the correct segment group.
+
+            var subOrder = 0;
+            var conceptId = $scope.segmentgroupMap[groupId].concept;
+
+            if($scope.segmentPerGroupMap[groupId])
+            {
+                $scope.segmentPerGroupMap[groupId].forEach(function(subseg)
+                {
+                    subseg.order[conceptId] = subOrder;
+
+                    if(subseg.segmentgroups.indexOf(groupId) === -1)
+                        subseg.segmentgroups.push(groupId);
+
+                    safeSegmentAndGroupSave(subseg);
+
+                    subOrder += 100;
+                });
+            }
+
+            // Check if any segments need to be removed from this group
+            var removeSegs = $scope.segmentPerConceptMap[conceptId].filter(function(segment)
+            {
+                return segment.segmentgroups.indexOf(groupId) !== -1
+                    && $scope.segmentPerGroupMap[groupId].indexOf(segment) === -1;
+            });
+
+            if(removeSegs.length)
+            {
+                removeSegs.forEach(function(seg)
+                {
+                    seg.segmentgroups.splice(seg.segmentgroups.indexOf(groupId), 1);
+                    safeSegmentAndGroupSave(seg);
+                });
+
+                // If a segment was moved out of the folder to the general list of concept segments,
+                // then their order needs to be recalculated.
+                $scope.saveConceptSegmentOrder(conceptId);
             }
         };
 
@@ -217,6 +408,50 @@ angular.module('courses').service('PanelAdmin', function(Concepts, $rootScope, $
         $scope.deleteSegment = function(segment)
         {
             segment.$remove();
+        };
+
+        $scope.addSegmentGroup = function(concept)
+        {
+            var contents = $scope.segmentAndGroupPerConceptMap[concept.concept._id];
+            var order = 100;
+
+            if(contents.length)
+            {
+                var lastOrder = 0;
+
+                if(contents[contents.length-1].isGroup)
+                {
+                    lastOrder = contents[contents.length-1].order;
+                }
+                else
+                {
+                    lastOrder = contents[contents.length-1].order[concept.concept._id];
+                }
+
+                order = parseInt(lastOrder) + 100;
+            }
+
+            var group = new Segmentgroup({
+                courses: [$scope.courseId],
+                title: 'New Group',
+                concept: concept.concept._id,
+                order: order
+            });
+
+            group.$save(function(savedGroup)
+            {
+                $timeout(function()
+                {
+                    var elId = 'panel-segment-' + savedGroup._id;
+                    var segmentScope = angular.element('#' + elId).scope();
+
+                    if(segmentScope && segmentScope.seg)
+                    {
+                        $scope.showRenameSegmentgroup(segmentScope.seg);
+                    }
+
+                }, 400);
+            });
         };
     };
 
