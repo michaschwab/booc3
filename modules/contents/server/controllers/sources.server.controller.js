@@ -207,7 +207,7 @@ exports.isEmbeddable = function(req, res)
 
     request.get(url, function(error, response, body)
     {
-        if(!response || response.headers) return res.send('no');
+        if(!response || !response.headers) return res.send('no');
 
         var xFrameOptions = response.headers["x-frame-options"];
 
