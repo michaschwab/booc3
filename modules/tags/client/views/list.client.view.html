@@ -32,8 +32,11 @@
                         <i class="glyphicon glyphicon-th-list"></i>
                     </a>
 
-                    <a href title="Remove" class="btn btn-danger">
+                    <a href title="Remove" class="btn btn-warning" ng-show="!tag.removing" ng-click="tag.removing=true">
                         <i class="glyphicon glyphicon-remove"></i>
+                    </a>
+                    <a href title="Remove" class="btn btn-danger" ng-show="tag.removing" ng-click="tag.$remove();">
+                        <i class="glyphicon glyphicon-remove"></i> Remove?
                     </a>
                 </td>
             </tr>
