@@ -188,14 +188,19 @@ angular.module('courses').service('MapSquares', function(Tip, $location, $timeou
             var perConcept = squaresPerConcept[s.conceptId];
             var index = perConcept.indexOf(s);
             var percentIndex = index / (perConcept.length);
-            var angle = Math.PI - percentIndex * 2 * Math.PI; // they should go around most of concept (90% of 360 degrees).
 
-            var distanceFromCenter = $scope.visParams.scale(2 * s.concept.radius);
+            var angleCoverage = 80 / 100;
 
             var x = 0, y = 0;
 
             if(active)
             {
+                var conceptIndex = -1 * s.concept.parentData.children.indexOf(s.concept) / s.concept.parentData.children.length;
+                var startAngle = Math.PI * 0.55 + 1.8 * Math.PI * conceptIndex;
+
+                var distanceFromCenter = $scope.visParams.scale(2 * s.concept.radius);
+                var angle = startAngle - percentIndex * 2 * Math.PI * angleCoverage; // they should go around most of concept (90% of 360 degrees).
+
                 x = Math.sin(angle) * distanceFromCenter;
                 y = Math.cos(angle) * distanceFromCenter;
             }
