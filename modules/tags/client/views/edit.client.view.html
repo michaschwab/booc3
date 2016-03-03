@@ -36,11 +36,17 @@
                     <br />
                     <br />
                     Preview:
+                    <span class="tag-item">
                         <i class="{{tag.icon}}"></i>
                         {{tag.title}}
+                    </span>
 
                 </div>
 
+
+                <div class="form-group pull-left">
+                    <a href ui-sref="tags.list" class="btn btn-default">Cancel</a>
+                </div>
 
                 <div class="form-group pull-right">
                     <input type="submit" value="{{tag.created ? 'Update' : 'Create' }}" class="btn btn-primary">
