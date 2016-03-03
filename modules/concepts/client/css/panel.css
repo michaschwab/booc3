@@ -49,14 +49,26 @@
     margin-top: 0;
     color: #f8f7fb;
 }
-@media screen and (max-width: 1200px) {
+@media screen and (max-width: 1300px) {
     .sidepanel header h2 {
         font-size: 16pt;
     }
+    .breadcrumbs {
+        font-size: 12px;
+    }
+    .sidepanel.maximized header {
+        padding-left: 5px;
+    }
 }
-@media screen and (min-width: 1201px) {
+.panel-header-content {
+    margin-top: -10px;
+}
+@media screen and (min-width: 1301px) {
     .sidepanel header h2 {
         font-size: 24pt;
+    }
+    .breadcrumbs {
+        font-size: 14px;
     }
 }
 
@@ -100,7 +112,7 @@ a, a:focus {
 }
 
 .maximized .panel-header-buttons {
-    margin: 0 -10px;
+    margin-top: -5px;
 }
 
 .maximized .panel-button {

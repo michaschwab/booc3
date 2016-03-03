@@ -19,8 +19,8 @@
             <header ng-swipe-left="minimize($event)" ng-swipe-right="maximize($event)" class="row panel-header" tabindex="-1">
 
                 <div>
-                    <div ng-show="activeConcept">
-                        <ol ng-if="panelWidth>300">
+                    <div ng-show="activeConcept" class="panel-header-content">
+                        <ol ng-if="panelWidth>300" class="breadcrumbs">
                             <li>
                                 <a data-ui-sref="{active: '', learn: 'no', source: '', segment: ''}" ng-click="breadcrumbsCourseClick($event)" tabindex="0"><span class="sr-only">Course: </span> {{::course.short}}</a>
                             </li>
@@ -36,7 +36,7 @@
                         <h2 ng-if="activeMode=='plan'||activeMode=='lecture'||activeMode=='minimap'||activeMode=='admin'" ng-if="panelWidth>300" tabindex="0">{{activeConcept.concept.title}}</h2>
 
                     </div>
-                    <div ng-show="!activeConcept">
+                    <div ng-show="!activeConcept" class="panel-header-content">
 
                         <h2 class="course-title">{{::course.title}}</h2>
 
