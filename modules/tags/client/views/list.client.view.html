@@ -21,7 +21,7 @@
         <tbody>
             <tr ng-repeat="tag in tags">
                 <td>
-                    <a href ui-sref="tags.edit({ tagId: tag._id })">
+                    <a href ui-sref="tags.edit({ tagId: tag._id })" class="tag-item">
                         <i class="{{tag.icon}}"></i>
                         {{tag.title}}
                     </a>

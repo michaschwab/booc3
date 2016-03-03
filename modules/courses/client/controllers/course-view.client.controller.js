@@ -1,6 +1,6 @@
 
 angular.module('courses').controller('CourseViewController',
-    function($scope, $stateParams, Courses, Concepts, Conceptdependencies, Authentication, $window, $location, ConceptStructure, Segments, Sources, Sourcetypes, LearnedConcepts, SeenConcepts, $timeout, $interval, SeenDataManager, ActiveDataManager, $cacheFactory, Courseruns, Segmentgroup)
+    function($scope, $stateParams, Courses, Concepts, Conceptdependencies, Authentication, $window, $location, ConceptStructure, Segments, Sources, Sourcetypes, LearnedConcepts, SeenConcepts, $timeout, $interval, SeenDataManager, ActiveDataManager, $cacheFactory, Courseruns, Segmentgroup, Tag)
     {
         $scope.authentication = Authentication;
         $scope.learnMode = false;
@@ -49,6 +49,15 @@ angular.module('courses').controller('CourseViewController',
         ConceptStructure.init($scope, $stateParams.courseId);
         SeenDataManager.init($scope, function() { $scope.$broadcast('dataUpdated'); });
         ActiveDataManager.init($scope);
+
+        $scope.tags = Tag.query(function()
+        {
+            $scope.tagMap = {};
+            $scope.tags.forEach(function(tag)
+            {
+                $scope.tagMap[tag._id] = tag;
+            });
+        });
 
         ConceptStructure.getConceptsAndDeps(function(deps)
         {

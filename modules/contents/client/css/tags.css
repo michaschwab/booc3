@@ -1,6 +1,20 @@
-tags-input .tags .tag-item {
-    background: #d0caff;
+.tag-item, tags-input .tags .tag-item {
+    background: rgba(208, 202, 255, 0.69);
     border: none;
+    padding: 4px;
+    border-radius: 3px;
+    color: #646464;
+    text-decoration: none;
+}
+
+.tag-item:hover {
+    background: rgb(208, 202, 255);
+    text-decoration: none;
+}
+
+.tag-item i {
+    position: relative;
+    top: -2px;
 }
 
 tags-input .tags {
