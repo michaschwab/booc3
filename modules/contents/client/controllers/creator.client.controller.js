@@ -371,6 +371,10 @@ angular.module('contents').controller('CreatorController',
                     return tag._id;
                 });
             }
+            else
+            {
+                $scope.source.tags = [];
+            }
             //console.log($scope.source.courses);
 
             if($scope.source.courses && $scope.source.courses.length)
