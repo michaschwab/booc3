@@ -21,6 +21,15 @@
         <span ng-show="segment.end&&(courseScope.sourcetypeMap[courseScope.sourceMap[segment.source].type].title=='PDF')">
             (p. {{segment.start}} - {{segment.end}})
         </span>
+
+        <span ng-show="courseScope.sourceMap[segment.source].tags.length">
+            <br />
+            <!--Tags:-->
+            <span ng-repeat="tag in courseScope.sourceMap[segment.source].tags" class="tag-item">
+                <i class="{{courseScope.tagMap[tag].icon}}"></i>
+                {{courseScope.tagMap[tag].title}}
+            </span>
+        </span>
     </span>
 
 </a>

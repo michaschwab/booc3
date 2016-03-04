@@ -11,7 +11,9 @@ module.exports = {
         'public/lib/ngDialog/css/ngDialog.css',
         'public/lib/ngDialog/css/ngDialog-theme-default.css',
         'public/lib/n3-charts/build/LineChart.css',
-        'public/lib/shepherd.js/dist/css/shepherd-theme-arrows.css'
+        'public/lib/shepherd.js/dist/css/shepherd-theme-arrows.css',
+        'https://afeld.github.io/emoji-css/emoji.css',
+          'public/lib/ng-tags-input/ng-tags-input.css'
       ],
       js: [
         'public/lib/jquery/dist/jquery.js',
@@ -46,7 +48,8 @@ module.exports = {
         'public/lib/moment/moment.js',
         'public/lib/angular-moment-duration/src/angular-moment-duration.js',
           'public/lib/angular-youtube-mb/src/angular-youtube-embed.js',
-          'https://www.youtube.com/iframe_api'
+          'https://www.youtube.com/iframe_api',
+          'public/lib/ng-tags-input/ng-tags-input.js'
       ],
       tests: ['public/lib/angular-mocks/angular-mocks.js']
     },

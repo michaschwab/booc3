@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('contents').controller('CreatorController',
-    function($scope, $stateParams, $state, Courses, Sourcetypes, Sources, Segments, $timeout, $location, Courseruns, LectureCreator, WikiCreator, LTICreator, Concepts, $filter, YoutubeCreator, WebsiteCreator, PdfCreator, ExtensionSchoolCreator, Authentication, RandomString)
+    function($scope, $stateParams, $state, Courses, Sourcetypes, Sources, Segments, $timeout, $location, Courseruns, LectureCreator, WikiCreator, LTICreator, Concepts, $filter, YoutubeCreator, WebsiteCreator, PdfCreator, ExtensionSchoolCreator, Authentication, RandomString, Tag)
     {
         $scope.courseId = $stateParams.courseId;
         $scope.activeCourseIds = [$scope.courseId];
@@ -68,6 +68,13 @@ angular.module('contents').controller('CreatorController',
             });
         });
 
+        $scope.filterTags = function($query) {
+            var tags = $scope.tags;
+            return tags.filter(function(tag) {
+                return tag.title.toLowerCase().indexOf($query.toLowerCase()) != -1;
+            });
+        };
+
         $scope.init = function()
         {
             Courses.query(function(courses)
@@ -95,89 +102,108 @@ angular.module('contents').controller('CreatorController',
                 }
             });
 
-            Concepts.query().$promise.then(function(concepts)
+            $scope.tags = Tag.query(function()
             {
-                $scope.allConcepts = concepts;
-                $scope.conceptMap = {};
-                concepts.forEach(function(concept)
+                $scope.tagMap = {};
+                $scope.tags.forEach(function(tag)
                 {
-                    $scope.conceptMap[concept._id] = concept;
+                    $scope.tagMap[tag._id] = tag;
                 });
 
-                Sourcetypes.query().$promise.then(function(sourcetypes)
+                Concepts.query().$promise.then(function(concepts)
                 {
-                    $scope.sourcetypes = sourcetypes;
-                    $scope.readableTypes = $scope.sourcetypes.map(function(s) { return $scope.getReadableType(s); });
-
-                    /*if($scope.defaultReadableType)
+                    $scope.allConcepts = concepts;
+                    $scope.conceptMap = {};
+                    concepts.forEach(function(concept)
                     {
-                        $scope.activeType = $scope.sourcetypes[$scope.readableTypes.indexOf($scope.defaultReadableType)];
-                    }*/
-
-                    $scope.updateActive();
-
-                    Sources.query(function(sources)
-                    {
-                        $scope.sources = sources;
-
-                        sources.forEach(function(source)
-                        {
-                            source.typeObject = $scope.sourcetypes.filter(function(t) { return t._id == source.type; })[0];
-                        });
+                        $scope.conceptMap[concept._id] = concept;
                     });
 
-                    if($stateParams.sourceId)
+                    Sourcetypes.query().$promise.then(function(sourcetypes)
                     {
-                        $scope.sourceId = $stateParams.sourceId;
+                        $scope.sourcetypes = sourcetypes;
+                        $scope.readableTypes = $scope.sourcetypes.map(function(s) { return $scope.getReadableType(s); });
 
-                        Sources.query({_id: $scope.sourceId}, function(sources)
+                        /*if($scope.defaultReadableType)
+                         {
+                         $scope.activeType = $scope.sourcetypes[$scope.readableTypes.indexOf($scope.defaultReadableType)];
+                         }*/
+
+                        $scope.updateActive();
+
+                        Sources.query(function(sources)
                         {
-                            if(sources.length === 1)
+                            $scope.sources = sources;
+
+                            sources.forEach(function(source)
                             {
-                                $scope.source = sources[0];
-                                $scope.editSource = $scope.source;
+                                source.typeObject = $scope.sourcetypes.filter(function(t) { return t._id == source.type; })[0];
+                            });
+                        });
 
-                                Segments.query({source: $scope.sourceId}, function(segments)
+                        if($stateParams.sourceId)
+                        {
+                            $scope.sourceId = $stateParams.sourceId;
+
+                            Sources.query({_id: $scope.sourceId}, function(sources)
+                            {
+                                if(sources.length === 1)
                                 {
-                                    $scope.segments = segments.filter(function(s) { return s.source == $scope.sourceId });
+                                    $scope.source = sources[0];
+                                    $scope.editSource = $scope.source;
 
-                                    if($scope.segments.length == 1 && $scope.segments[0].title == $scope.source.title)
+                                    if($scope.source.tags && $scope.source.tags.length)
                                     {
-                                        segmentSameTitleAsSource = true;
+                                        $scope.source.tagObjects = $scope.source.tags.map(function(tagId)
+                                        {
+                                            return $scope.tagMap[tagId];
+                                        });
                                     }
 
-                                    $scope.segments.forEach(function(segment)
+                                    Segments.query({source: $scope.sourceId}, function(segments)
                                     {
-                                        segment.conceptObjects = segment.concepts.map(function(conceptId)
+                                        $scope.segments = segments.filter(function(s) { return s.source == $scope.sourceId });
+
+                                        if($scope.segments.length == 1 && $scope.segments[0].title == $scope.source.title)
                                         {
-                                            return $scope.conceptMap[conceptId];
+                                            segmentSameTitleAsSource = true;
+                                        }
+
+                                        $scope.segments.forEach(function(segment)
+                                        {
+                                            segment.conceptObjects = segment.concepts.map(function(conceptId)
+                                            {
+                                                return $scope.conceptMap[conceptId];
+                                            });
                                         });
                                     });
-                                });
 
-                                var type = $scope.sourcetypes.filter(function(t) { return t._id == $scope.source.type; })[0];
-                                $scope.setSourcetype(type);
-                                var activeCourseIds = $scope.source.courses;
+                                    var type = $scope.sourcetypes.filter(function(t) { return t._id == $scope.source.type; })[0];
+                                    $scope.setSourcetype(type);
+                                    var activeCourseIds = $scope.source.courses;
 
-                                if(activeCourseIds && activeCourseIds.length && !$scope.courseId)
-                                {
-                                    $scope.courseId = activeCourseIds[0];
-                                    $scope.activeCourseIds = activeCourseIds;
+                                    if(activeCourseIds && activeCourseIds.length && !$scope.courseId)
+                                    {
+                                        $scope.courseId = activeCourseIds[0];
+                                        $scope.activeCourseIds = activeCourseIds;
+                                    }
+                                    if($scope.courseId)
+                                    {
+                                        $scope.course = $scope.courses[$scope.courseIds.indexOf($scope.courseId)];
+                                    }
                                 }
-                                if($scope.courseId)
+                                else
                                 {
-                                    $scope.course = $scope.courses[$scope.courseIds.indexOf($scope.courseId)];
+                                    var e = new Error('Problem occurred at searching for source, found ' + sources.length + ' results!');
+                                    console.log(e.stack);
                                 }
-                            }
-                            else
-                            {
-                                var e = new Error('Problem occurred at searching for source, found ' + sources.length + ' results!');
-                                console.log(e.stack);
-                            }
-                        })
-                    }
+                            })
+                        }
+                    });
                 });
             });
+
+
         };
 
         $scope.addConcept = function(concept, scope)
@@ -337,6 +363,18 @@ angular.module('contents').controller('CreatorController',
         $scope.createContents = function()
         {
             $scope.source.type = getFixedSourceTypeId();
+
+            if($scope.source.tagObjects && $scope.source.tagObjects.length)
+            {
+                $scope.source.tags = $scope.source.tagObjects.map(function(tag)
+                {
+                    return tag._id;
+                });
+            }
+            else
+            {
+                $scope.source.tags = [];
+            }
             //console.log($scope.source.courses);
 
             if($scope.source.courses && $scope.source.courses.length)

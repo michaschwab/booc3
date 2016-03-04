@@ -1,0 +1,70 @@
+.tag-item, tags-input .tags .tag-item {
+    background: rgba(208, 202, 255, 0.69);
+    border: none;
+    padding: 4px;
+    border-radius: 3px;
+    color: #646464;
+    text-decoration: none;
+}
+
+.tag-item:hover {
+    background: rgb(208, 202, 255);
+    text-decoration: none;
+}
+
+.tag-item i {
+    position: relative;
+    top: -2px;
+}
+
+tags-input .tags {
+    border-radius: 4px;
+}
+
+
+
+.tag-template .left-panel {
+    float: left;
+}
+
+.tag-template .left-panel img {
+    width: 24px;
+    height: 24px;
+    vertical-align: middle;
+}
+
+.tag-template .right-panel {
+    float: left;
+    margin-left: 5px;
+}
+
+.autocomplete-template .left-panel {
+    float: left;
+}
+
+.autocomplete-template .left-panel img {
+    width: 48px;
+    height: 48px;
+    vertical-align: middle;
+}
+
+.autocomplete-template .right-panel {
+    float: left;
+    margin-left: 5px;
+    margin-top: 7px;
+}
+
+.autocomplete-template .right-panel span:first-child {
+    font-size: 16px;
+}
+
+.autocomplete-template .right-panel span:nth-child(2) {
+    font-size: 14px;
+    color: gray;
+}
+
+.autocomplete-template .right-panel span:last-child {
+    display: block;
+    font-size: 14px;
+    font-style: italic;
+}

@@ -142,6 +142,49 @@
 
             <ng-include ng-if="activeReadableType" src=" 'modules/contents/views/creators/' + activeReadableType + '.client.view.html' "></ng-include>
 
+            <div>
+                <div class="form-group">
+                    Would you like to choose Tags for this Material?
+
+                    <tags-input ng-model="source.tagObjects"
+                                display-property="title"
+                                placeholder="Add a Tag"
+                                replace-spaces-with-dashes="false"
+                                template="tag-template">
+                        <auto-complete source="filterTags($query)"
+                                       min-length="0"
+                                       load-on-focus="true"
+                                       load-on-empty="true"
+                                       max-results-to-show="32"
+                                       template="autocomplete-template"></auto-complete>
+                    </tags-input>
+                </div>
+            </div>
+
+            <script type="text/ng-template" id="tag-template">
+                <div class="tag-template">
+                    <div class="left-panel">
+                        <i class="{{data.icon}}" ng-if="data.icon"></i>
+                    </div>
+                    <div class="right-panel">
+                        <span>{{$getDisplayText()}}</span>
+                        <a class="remove-button" ng-click="$removeTag()">&#10006;</a>
+                    </div>
+                </div>
+            </script>
+
+            <script type="text/ng-template" id="autocomplete-template">
+                <div class="autocomplete-template">
+                    <div class="left-panel">
+                        <i class="{{data.icon}}" ng-if="data.icon"></i>
+                    </div>
+                    <div class="right-panel">
+                        <span ng-bind-html="$highlight($getDisplayText())"></span>
+                        <span>{{data.icon}}</span>
+                    </div>
+                </div>
+            </script>
+
             <div class="row">
                 <div class="col-md-4">
                     <button type="button" class="btn btn-warning" ng-click="cancel()">

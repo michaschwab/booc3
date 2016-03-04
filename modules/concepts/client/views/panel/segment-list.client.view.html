@@ -71,11 +71,11 @@
 
         </a>
     </li>
-    <li class="segment add-subconcept admin-action" ng-show="(!segmentPerConceptMap[concept.concept._id]||segmentPerConceptMap[concept.concept._id].length==0)&&hasConceptEditRights">
+    <li class="segment add-subconcept admin-action" ng-show="(!courseScope.segmentPerConceptMap[concept.concept._id]||courseScope.segmentPerConceptMap[concept.concept._id].length==0)&&courseScope.hasConceptEditRights">
 
         <span class="concept-line"><span></span></span>
 
-        <a ng-click="addSubConcept(concept)" href class="segment-link" title="Add a child concept to {{concept.concept.title}}" style="color: darkblue">
+        <a ng-click="courseScope.addSubConcept(concept)" href class="segment-link" title="Add a child concept to {{concept.concept.title}}" style="color: darkblue">
             <span class="glyphicon glyphicon-plus segment-icon"></span>
 
                 <span class="segment-title">
