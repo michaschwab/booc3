@@ -2,11 +2,40 @@
 
 // Courses controller
 angular.module('tags').controller('TagsController',
-    function($scope, Tag, $state, $stateParams)
+    function($scope, Tag, $state, $stateParams, Sources, Sourcetypes)
     {
         $scope.find = function()
         {
-            $scope.tags = Tag.query();
+            $scope.tags = Tag.query(function()
+            {
+                $scope.sourcesByTagMap = {};
+
+                Sources.query(function(sources)
+                {
+                    sources.forEach(function(source)
+                    {
+                        if(source.tags && source.tags.length)
+                        {
+                            source.tags.forEach(function(tagId)
+                            {
+                                if(!$scope.sourcesByTagMap[tagId])
+                                    $scope.sourcesByTagMap[tagId] = [];
+
+                                $scope.sourcesByTagMap[tagId].push(source);
+                            });
+                        }
+                    });
+
+                    Sourcetypes.query(function(sourcetypes)
+                    {
+                        $scope.sourcetypeMap = {};
+                        sourcetypes.forEach(function(type)
+                        {
+                            $scope.sourcetypeMap[type._id] = type;
+                        });
+                    });
+                });
+            });
         };
 
         $scope.editPrep = function()
@@ -14,11 +43,34 @@ angular.module('tags').controller('TagsController',
             if($stateParams.tagId)
             {
                 $scope.tag = Tag.get({ tagId: $stateParams.tagId });
+                $scope.tagId = $stateParams.tagId;
+
+                Sources.query(function(sources)
+                {
+                    $scope.sources = sources.filter(function(source)
+                    {
+                        return source.tags.indexOf($scope.tagId) !== -1;
+                    });
+
+                    Sourcetypes.query(function(sourcetypes)
+                    {
+                        $scope.sourcetypeMap = {};
+                        sourcetypes.forEach(function(type)
+                        {
+                            $scope.sourcetypeMap[type._id] = type;
+                        });
+                    });
+                });
             }
             else
             {
                 $scope.tag = {};
             }
+        };
+
+        $scope.removeFromSource = function(source, tag)
+        {
+
         };
 
         $scope.$watch('tag.icon', function()

@@ -15,6 +15,7 @@
             <tr>
                 <th>Tag</th>
                 <th>Icon</th>
+                <th>Sources</th>
                 <th style="width:15%">Actions</th>
             </tr>
         </thead>
@@ -28,16 +29,28 @@
                 </td>
                 <td>{{tag.icon}}</td>
                 <td>
-                    <a href title="Show Contents with this Tag" class="btn btn-default" disabled="disabled">
+                    <span ng-repeat="source in sourcesByTagMap[tag._id]">
+                        <i class="{{sourcetypeMap[source.type].icon}}"></i>
+                        {{source.title}}
+                    </span>
+                </td>
+                <td>
+                    <!--<a href title="Show Contents with this Tag" class="btn btn-default" disabled="disabled">
                         <i class="glyphicon glyphicon-th-list"></i>
+                    </a>-->
+
+                    <a href disabled="disabled" ng-show="sourcesByTagMap[tag._id].length" class="btn btn-default">
+                        Remove Sources From Tag before Delete
                     </a>
 
-                    <a href title="Remove" class="btn btn-warning" ng-show="!tag.removing" ng-click="tag.removing=true">
-                        <i class="glyphicon glyphicon-remove"></i>
-                    </a>
-                    <a href title="Remove" class="btn btn-danger" ng-show="tag.removing" ng-click="tag.$remove();">
-                        <i class="glyphicon glyphicon-remove"></i> Remove?
-                    </a>
+                    <span ng-show="!sourcesByTagMap[tag._id].length">
+                        <a href title="Remove" class="btn btn-warning" ng-show="!tag.removing" ng-click="tag.removing=true">
+                            <i class="glyphicon glyphicon-remove"></i>
+                        </a>
+                        <a href title="Remove" class="btn btn-danger" ng-show="tag.removing" ng-click="tag.$remove();">
+                            <i class="glyphicon glyphicon-remove"></i> Remove?
+                        </a>
+                    </span>
                 </td>
             </tr>
         </tbody>

@@ -63,4 +63,32 @@
 
     </iframe>
 
+    <div class="form-group" ng-show="sources">
+
+        <h3>Material with this Tag</h3>
+
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Source</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="source in sources">
+                    <td><i class="{{sourcetypeMap[source.type].icon}}"></i> {{source.title}}</td>
+                    <td>
+                        <a href class="btn btn-danger" ng-click="removeFromSource(source, tag)">
+                            <span class="glyphicon glyphicon-remove"></span>
+                            Remove Tag from Source
+                        </a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+    </div>
+
+    <br /><br /><br />
+
 </section>
