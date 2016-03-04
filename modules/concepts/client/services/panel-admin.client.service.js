@@ -55,7 +55,11 @@ angular.module('courses').service('PanelAdmin', function(Concepts, $rootScope, $
 
             saveTimeouts[conceptId] = $timeout(function()
             {
-                console.log('saving concept change..');
+                //console.log('saving concept change..', concept.concept);
+
+                concept.concept.$update();
+                /*
+                console.log(concept.concept);
 
                 Concepts.update({_id: conceptId}, concept.concept,
                     function(v){
@@ -70,7 +74,7 @@ angular.module('courses').service('PanelAdmin', function(Concepts, $rootScope, $
                         console.log(err.data);
                         $scope.error = "DID NOT SAVE !! (Error) ";
                     }
-                );
+                );*/
             }, 500);
         };
 

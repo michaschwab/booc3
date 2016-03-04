@@ -88,9 +88,12 @@ angular.module('courses').service('MapIcons', function(Tip, ConceptStructure, $l
         var search = $location.search();
         var adminMode = search && search.mode && search.mode == 'admin';
         if(adminMode)
+        {
             el.selectAll('.depCreate').remove();
+            delete d.depCreateEl;
 
-        this.addDependencyCreator(el, d);
+            this.addDependencyCreator(el, d);
+        }
     };
 
     var creatingPathClassName = 'creatingDep';
@@ -116,12 +119,12 @@ angular.module('courses').service('MapIcons', function(Tip, ConceptStructure, $l
         });
         //console.log($scope.visParams.scale(1), $scope.visParams.scale, d.radius, d);
         d.depCreator.append('circle')
-            .attr('r', scaleFactor * 0.9)
+            .attr('r', $scope.visParams.scale(d.radius * 0.5))
             .style('fill', d3.rgb('#ffffff'));
 
         var label = d.depCreator.append('text')
             .classed('dep-create-label', true)
-            .style('font-size', scaleFactor * 0.15 + 'px');
+            .style('font-size', $scope.visParams.scale(d.radius * 0.1) + 'px');
 
         /*d.depCreator.append('path')
             .attr('d', 'm 400,300 -110,-100 0,65 -280,0 0,70 280,0 0,65 z')
@@ -130,9 +133,9 @@ angular.module('courses').service('MapIcons', function(Tip, ConceptStructure, $l
 
         var iconText = "\uF061";
         var firstLine = label
-            .append('tspan').attr('x',0).attr('dy', -0.5 * scaleFactor);
+            .append('tspan').attr('x',0).attr('dy', $scope.visParams.scale(d.radius * -0.3));
         var secondLine = label
-            .append('tspan').attr('x',0).attr('dy',  0.2 * scaleFactor).text('Dependency');
+            .append('tspan').attr('x',0).attr('dy', $scope.visParams.scale(d.radius * 0.15)).text('Dependency');
 
         if($scope.creatingDepConcept)
         {
@@ -224,7 +227,7 @@ angular.module('courses').service('MapIcons', function(Tip, ConceptStructure, $l
             // This function takes about 22ms when activateConcept is run.
             // 1ms = classed(), 3ms = attr(),  1ms = isLearned,
             var el = d3.select(this);
-            if(!d.iconGroup)
+            if(!d.iconGroup || d.iconGroup.empty())
             {
                 d.iconGroup = el.select('.icons');
             }
@@ -233,7 +236,7 @@ angular.module('courses').service('MapIcons', function(Tip, ConceptStructure, $l
             if(!lastData[conceptId]) lastData[conceptId] = {};
 
             // If icons are not set up for some reason (eg after creating new concept), set them up now.
-            if(!d.goalText)
+            if(!d.goalText || d.goalText.empty())
             {
                 me.add(iconEl, d);
             }
@@ -245,7 +248,7 @@ angular.module('courses').service('MapIcons', function(Tip, ConceptStructure, $l
             {
                 lastData[conceptId]['size'] = size;
 
-                if(!d.iconEls)
+                if(!d.iconEls || d.iconEls.empty())
                 {
                     d.iconEls = iconEl.selectAll('.icon');
                 }
@@ -282,10 +285,12 @@ angular.module('courses').service('MapIcons', function(Tip, ConceptStructure, $l
                 lastData[conceptId]['showDepCreate'] = showDepCreate;
                 //todo switch 'el' to 'iconEl' once $scope.addDependencyCreator has been moved to this file.
 
-                if(!d.depCreateEl)
+                if(!d.depCreateEl || d.depCreateEl.empty())
                 {
                     d.depCreateEl = el.select('.depCreate');
                 }
+                if(d.concept._id == '548234177c6e45dd1527bd81')
+                    console.log(el, d.depCreateEl, showDepCreate);
 
                 d.depCreateEl.classed('active', showDepCreate).classed('inactive', !showDepCreate)
                     .transition().attr(

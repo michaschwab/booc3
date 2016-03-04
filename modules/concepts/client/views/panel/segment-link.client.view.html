@@ -8,8 +8,10 @@
 
     <span class="segment-title" id="panel-segment-title-{{segment._id}}">
         {{::segment.title}}
-        in
-        <i>{{::courseScope.sourceMap[segment.source].title}}</i>
+        <span ng-show="courseScope.sourcetypeMap[courseScope.sourceMap[segment.source].type].player!='iframe' && courseScope.sourcetypeMap[courseScope.sourceMap[segment.source].type].player!='website' && courseScope.sourcetypeMap[courseScope.sourceMap[segment.source].type].player!='lti'">
+            in
+            <i>{{::courseScope.sourceMap[segment.source].title}}</i>
+        </span>
 
         <span ng-show="segment.start&&(courseScope.sourcetypeMap[courseScope.sourceMap[segment.source].type].title=='Lecture'||courseScope.sourcetypeMap[courseScope.sourceMap[segment.source].type].title=='YouTube'||courseScope.sourcetypeMap[courseScope.sourceMap[segment.source].type].title=='Harvard Extension School')">
             (<span ng-show="segment.start>=3600">{{segment.start | secondsToDateTime | date:'HH:mm:ss'}}</span><span ng-show="segment.start<3600">{{segment.start | secondsToDateTime | date:'mm:ss'}}</span>
