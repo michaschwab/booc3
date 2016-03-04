@@ -119,12 +119,12 @@ angular.module('courses').service('MapIcons', function(Tip, ConceptStructure, $l
         });
         //console.log($scope.visParams.scale(1), $scope.visParams.scale, d.radius, d);
         d.depCreator.append('circle')
-            .attr('r', scaleFactor * 0.9)
+            .attr('r', $scope.visParams.scale(d.radius * 0.5))
             .style('fill', d3.rgb('#ffffff'));
 
         var label = d.depCreator.append('text')
             .classed('dep-create-label', true)
-            .style('font-size', scaleFactor * 0.15 + 'px');
+            .style('font-size', $scope.visParams.scale(d.radius * 0.1) + 'px');
 
         /*d.depCreator.append('path')
             .attr('d', 'm 400,300 -110,-100 0,65 -280,0 0,70 280,0 0,65 z')
@@ -133,9 +133,9 @@ angular.module('courses').service('MapIcons', function(Tip, ConceptStructure, $l
 
         var iconText = "\uF061";
         var firstLine = label
-            .append('tspan').attr('x',0).attr('dy', -0.5 * scaleFactor);
+            .append('tspan').attr('x',0).attr('dy', $scope.visParams.scale(d.radius * -0.3));
         var secondLine = label
-            .append('tspan').attr('x',0).attr('dy',  0.2 * scaleFactor).text('Dependency');
+            .append('tspan').attr('x',0).attr('dy', $scope.visParams.scale(d.radius * 0.15)).text('Dependency');
 
         if($scope.creatingDepConcept)
         {
