@@ -28,11 +28,7 @@ angular.module('tags').controller('TagsController',
 
                     Sourcetypes.query(function(sourcetypes)
                     {
-                        $scope.sourcetypeMap = {};
-                        sourcetypes.forEach(function(type)
-                        {
-                            $scope.sourcetypeMap[type._id] = type;
-                        });
+                        $scope.sourcetypeMap = LookupObject(sourcetypes);
                     });
                 });
             });
@@ -54,11 +50,7 @@ angular.module('tags').controller('TagsController',
 
                     Sourcetypes.query(function(sourcetypes)
                     {
-                        $scope.sourcetypeMap = {};
-                        sourcetypes.forEach(function(type)
-                        {
-                            $scope.sourcetypeMap[type._id] = type;
-                        });
+                        $scope.sourcetypeMap = LookupObject(sourcetypes);
                     });
                 });
             }
