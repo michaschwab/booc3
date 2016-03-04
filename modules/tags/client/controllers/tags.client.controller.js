@@ -6,31 +6,33 @@ angular.module('tags').controller('TagsController',
     {
         $scope.find = function()
         {
-            $scope.tags = Tag.query(function()
+            Sourcetypes.query(function(sourcetypes)
             {
-                $scope.sourcesByTagMap = {};
+                $scope.sourcetypeMap = LookupObject(sourcetypes);
+            });
 
-                Sources.query(function(sources)
+            Sources.query(createSourceByTagMap);
+
+            $scope.tags = Tag.query();
+        };
+
+        var createSourceByTagMap = function(sources)
+        {
+            $scope.sources = sources;
+            $scope.sourcesByTagMap = {};
+
+            sources.forEach(function(source)
+            {
+                if(source.tags && source.tags.length)
                 {
-                    sources.forEach(function(source)
+                    source.tags.forEach(function(tagId)
                     {
-                        if(source.tags && source.tags.length)
-                        {
-                            source.tags.forEach(function(tagId)
-                            {
-                                if(!$scope.sourcesByTagMap[tagId])
-                                    $scope.sourcesByTagMap[tagId] = [];
+                        if(!$scope.sourcesByTagMap[tagId])
+                            $scope.sourcesByTagMap[tagId] = [];
 
-                                $scope.sourcesByTagMap[tagId].push(source);
-                            });
-                        }
+                        $scope.sourcesByTagMap[tagId].push(source);
                     });
-
-                    Sourcetypes.query(function(sourcetypes)
-                    {
-                        $scope.sourcetypeMap = LookupObject(sourcetypes);
-                    });
-                });
+                }
             });
         };
 
@@ -41,18 +43,12 @@ angular.module('tags').controller('TagsController',
                 $scope.tag = Tag.get({ tagId: $stateParams.tagId });
                 $scope.tagId = $stateParams.tagId;
 
-                Sources.query(function(sources)
+                Sourcetypes.query(function(sourcetypes)
                 {
-                    $scope.sources = sources.filter(function(source)
-                    {
-                        return source.tags.indexOf($scope.tagId) !== -1;
-                    });
-
-                    Sourcetypes.query(function(sourcetypes)
-                    {
-                        $scope.sourcetypeMap = LookupObject(sourcetypes);
-                    });
+                    $scope.sourcetypeMap = LookupObject(sourcetypes);
                 });
+
+                $scope.sources = Sources.query(createSourceByTagMap);
             }
             else
             {
@@ -62,7 +58,15 @@ angular.module('tags').controller('TagsController',
 
         $scope.removeFromSource = function(source, tag)
         {
+            source.tags.splice(source.tags.indexOf(tag._id), 1);
 
+
+
+            source.$update(function()
+            {
+                console.log($scope.sources);
+                createSourceByTagMap($scope.sources);
+            });
         };
 
         $scope.$watch('tag.icon', function()

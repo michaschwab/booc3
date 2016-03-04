@@ -63,7 +63,7 @@
 
     </iframe>
 
-    <div class="form-group" ng-show="sources">
+    <div class="form-group" ng-show="sourcesByTagMap[tag._id].length">
 
         <h3>Material with this Tag</h3>
 
@@ -75,7 +75,7 @@
                 </tr>
             </thead>
             <tbody>
-                <tr ng-repeat="source in sources">
+                <tr ng-repeat="source in sourcesByTagMap[tag._id]">
                     <td><i class="{{sourcetypeMap[source.type].icon}}"></i> {{source.title}}</td>
                     <td>
                         <a href class="btn btn-danger" ng-click="removeFromSource(source, tag)">
