@@ -20,6 +20,21 @@ angular.module('courses').service('MapSquares', function(Tip, $location, $timeou
 
     };
 
+    var setSegmentSquareProps = function(square, segment)
+    {
+        var source = $scope.sourceMap[segment.source];
+        if(!source)
+        {
+            console.error('could not find the source of the following segment: ', segment, 'the map of sources is ', $scope.sourceMap);
+            return;
+        }
+        var sourcetype = $scope.sourcetypeMap[source.type];
+        square.icon = sourcetype.icon;
+
+        square.source = source;
+        square.sourcetype = sourcetype;
+    };
+
     this.update = function()
     {
         var data = [];
@@ -46,21 +61,13 @@ angular.module('courses').service('MapSquares', function(Tip, $location, $timeou
 
                 if(!segment.isGroup)
                 {
-                    var source = $scope.sourceMap[segment.source];
-                    if(!source)
-                    {
-                        console.error('could not find the source of the following segment: ', segment, 'the map of sources is ', $scope.sourceMap);
-                        return;
-                    }
-                    var sourcetype = $scope.sourcetypeMap[source.type];
-                    square.icon = sourcetype.icon;
-
-                    square.source = source;
-                    square.sourcetype = sourcetype;
+                    setSegmentSquareProps(square, segment);
+                    square.isSegment = true;
                 }
                 else
                 {
                     square.icon = 'fa fa-folder';
+                    square.isGroup = true;
                 }
 
                 data.push(square);
@@ -74,6 +81,29 @@ angular.module('courses').service('MapSquares', function(Tip, $location, $timeou
 
             data.push(commentsSquare);*/
         });
+
+        for(var groupId in $scope.segmentPerGroupMap)
+        {
+            if($scope.segmentPerGroupMap.hasOwnProperty(groupId))
+            {
+                $scope.segmentPerGroupMap[groupId].forEach(function(segment)
+                {
+                    var square = {};
+
+                    square.isGroupChild = true;
+                    square.groupId = groupId;
+                    square.group = $scope.segmentgroupMap[groupId];
+                    square.conceptId = square.group.concept;
+                    square.concept = $scope.directories.concepts[square.conceptId];
+
+                    square.title = segment.title;
+
+                    setSegmentSquareProps(square, segment);
+
+                    //data.push(square);
+                });
+            }
+        }
 
         var squaresPerConcept = {};
         data.forEach(function(square)
