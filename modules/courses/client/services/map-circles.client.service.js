@@ -542,7 +542,7 @@ angular.module('courses').service('MapCircles', function(Tip, $location, $timeou
         {
             titlesDone[d.concept._id] = index;
 
-            if(!d.titleEl)
+            if(!d.titleEl || d.titleEl.empty())
             {
                 d.titleEl = el.select('.concept-title');
             }
@@ -550,7 +550,8 @@ angular.module('courses').service('MapCircles', function(Tip, $location, $timeou
             var titleData = d.splitTexts.map(function(splitText) { return { text: splitText } });
             var titleSpans = d.titleEl.selectAll('tspan').data(titleData);
 
-            titleSpans.enter().append('tspan').text(function(dd) { return dd.text; }).attr('x',0);
+            titleSpans.enter().append('tspan').attr('x',0);
+            titleSpans.text(function(dd) { return dd.text; });
 
             var radiusFactor = d.radius ? 0.5 + d.radius * 4 : 1;
             var offset = getConfig(d).textYOffset * $scope.graphHeight * radiusFactor;
