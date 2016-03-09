@@ -245,12 +245,13 @@ angular.module('courses').controller('CourseMapController', function($scope, $st
                 {
                     if ($scope.active.hierarchy.length > 0)
                     {
-                        var trans = $scope.getTranslateAbs($scope.activeConcept, 2);
+                        var trans = $scope.getTranslateAbs($scope.activeConcept);
 
                         var sortedHierarchy = $scope.active.hierarchy.sort(function (a, b) {
                             return a.depth - b.depth;
                         });
 
+                        // The following line makes it so it does not zoom in further if a concept has no children.
                         var index = !sortedHierarchy[sortedHierarchy.length - 1].children.length ? sortedHierarchy.length - 2 : sortedHierarchy.length - 1;
                         var selectedConcept = sortedHierarchy[index];
 
