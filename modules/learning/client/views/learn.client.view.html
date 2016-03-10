@@ -4,7 +4,7 @@
 
     <div class="learnContent"  style="width: {{contentWidth}}px">
 
-        <ng-include ng-if="active.sourcetype.title" src="'modules/learning/views/players/' + active.sourcetype.player + '.client.view.html'"></ng-include>
+        <ng-include ng-if="active.sourcetype.title&&!waitLoadingPlayer" src="'modules/learning/views/players/' + active.sourcetype.player + '.client.view.html'"></ng-include>
 
     </div>
 
