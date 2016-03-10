@@ -15,6 +15,7 @@ angular.module('learning').controller('LearnController',
 
             var doUpdate = function()
             {
+                $scope.waitLoadingPlayer = false;
                 lastUpdate = Date.now();
                 setupMaterial();
                 $scope.setActiveLearnMaterial();
@@ -26,6 +27,7 @@ angular.module('learning').controller('LearnController',
             }
             else
             {
+                $scope.waitLoadingPlayer = true;
                 $timeout(doUpdate, 500);
             }
         };
