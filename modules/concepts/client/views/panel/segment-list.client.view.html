@@ -41,11 +41,11 @@
         </span>
     </li>
 
-    <li ng-show="parent.isGroup &&(!segments || !segments.length) && courseScope.sortDragging" class="segment admin-action">
+    <li ng-show="parent.isGroup &&(!segments || !segments.length) && courseScope.sortDragging" ng-if="courseScope.hasAdminPanelRights&&courseScope.activeMode==='admin'" class="segment admin-action">
         <a class="segment-link" style="background: lightgreen"><span>Drop to group</span></a>
     </li>
 
-    <li class="segment add-material admin-action" ng-show="!concept.children.length&&!parent">
+    <li class="segment add-material admin-action" ng-show="!concept.children.length&&!parent" ng-if="courseScope.hasAdminPanelRights&&courseScope.activeMode==='admin'">
 
         <span class="concept-line"><span></span></span>
 
@@ -58,7 +58,7 @@
 
         </a>
     </li>
-    <li class="segment add-material admin-action" ng-show="!concept.children.length&&!parent">
+    <li class="segment add-material admin-action" ng-show="!concept.children.length&&!parent" ng-if="courseScope.hasAdminPanelRights&&courseScope.activeMode==='admin'">
 
         <span class="concept-line"><span></span></span>
 
@@ -71,7 +71,7 @@
 
         </a>
     </li>
-    <li class="segment add-subconcept admin-action" ng-show="(!courseScope.segmentPerConceptMap[concept.concept._id]||courseScope.segmentPerConceptMap[concept.concept._id].length==0)&&courseScope.hasConceptEditRights">
+    <li class="segment add-subconcept admin-action" ng-show="(!courseScope.segmentPerConceptMap[concept.concept._id]||courseScope.segmentPerConceptMap[concept.concept._id].length==0)&&courseScope.hasConceptEditRights" ng-if="courseScope.hasAdminPanelRights&&courseScope.activeMode==='admin'">
 
         <span class="concept-line"><span></span></span>
 

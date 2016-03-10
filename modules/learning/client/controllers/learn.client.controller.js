@@ -8,12 +8,26 @@ angular.module('learning').controller('LearnController',
         $scope = angular.element('.course-view').scope();
         var lastUpdate;
 
+        var updateTimeout;
         this.update = function()
         {
-            lastUpdate = Date.now();
-            setupMaterial();
-            $scope.setActiveLearnMaterial();
-            checkPlayPause();
+            $timeout.cancel(updateTimeout);
+
+            var doUpdate = function()
+            {
+                lastUpdate = Date.now();
+                setupMaterial();
+                $scope.setActiveLearnMaterial();
+                checkPlayPause();
+            };
+            if($stateParams.learn === 'yes')
+            {
+                doUpdate();
+            }
+            else
+            {
+                $timeout(doUpdate, 500);
+            }
         };
 
         $scope.$on('dataReady', me.update);
