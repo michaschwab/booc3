@@ -5,6 +5,12 @@ angular.module('courses').service('MapSquares', function(Tip, $location, $timeou
     var layer, mainLayer, subLayer, squareMap;
     var activeGroupId = null;
 
+    var topLevelSquaresData = [];
+    var groupSquaresData = [];
+
+    var squaresPerConcept = {};
+    var squaresPerGroup = {};
+
     this.init = function(scope)
     {
         $scope = scope;
@@ -41,11 +47,9 @@ angular.module('courses').service('MapSquares', function(Tip, $location, $timeou
         square.sourcetype = sourcetype;
     };
 
-    this.update = function()
+    this.generateSquares = function()
     {
-        var topLevelSquares = [];
-        var groupSquares = [];
-
+        //console.count('generating squares');
         var conceptsWithContent = $scope.concepts.filter(function(concept)
         {
             return $scope.segmentAndGroupPerConceptMap[concept._id] && $scope.segmentAndGroupPerConceptMap[concept._id].length;
@@ -77,16 +81,16 @@ angular.module('courses').service('MapSquares', function(Tip, $location, $timeou
                     square.isGroup = true;
                 }
 
-                topLevelSquares.push(square);
+                topLevelSquaresData.push(square);
             });
 
             /*var commentsSquare = {};
-            commentsSquare.concept = $scope.directories.concepts[conceptId];
-            commentsSquare.conceptId = conceptId;
-            commentsSquare.title = 'Comments';
-            commentsSquare.icon = 'fa fa-comments';
+             commentsSquare.concept = $scope.directories.concepts[conceptId];
+             commentsSquare.conceptId = conceptId;
+             commentsSquare.title = 'Comments';
+             commentsSquare.icon = 'fa fa-comments';
 
-            data.push(commentsSquare);*/
+             data.push(commentsSquare);*/
         });
 
         for(var groupId in $scope.segmentPerGroupMap)
@@ -107,16 +111,16 @@ angular.module('courses').service('MapSquares', function(Tip, $location, $timeou
 
                     setSegmentSquareProps(square, segment);
 
-                    groupSquares.push(square);
+                    groupSquaresData.push(square);
                 });
             }
         }
 
-        var squaresPerConcept = {};
+        squaresPerConcept = {};
         squareMap = {};
-        var squaresPerGroup = {};
+        squaresPerGroup = {};
 
-        topLevelSquares.forEach(function(square)
+        topLevelSquaresData.forEach(function(square)
         {
             if(!squaresPerConcept[square.conceptId])
             {
@@ -126,7 +130,7 @@ angular.module('courses').service('MapSquares', function(Tip, $location, $timeou
             if(square.segment && square.segment._id) squareMap[square.segment._id] = square;
         });
 
-        groupSquares.forEach(function(square)
+        groupSquaresData.forEach(function(square)
         {
             if(!squaresPerGroup[square.groupId])
             {
@@ -135,216 +139,226 @@ angular.module('courses').service('MapSquares', function(Tip, $location, $timeou
             squaresPerGroup[square.groupId].push(square);
             if(square.segment && square.segment._id) squareMap[square.segment._id] = square;
         });
+    };
 
-        var enterSquares = function(squares)
-        {
-            var squareEnter = squares.enter()
-                .append('g')
-                .classed('square', true)
-                .attr({
-                    'transform': function(s)
-                    {
-                        var conceptTrans = $scope.getTranslateAbs(s.concept);
-                        return 'translate(' + conceptTrans.x + ',' + conceptTrans.y + ')';
-                    }
-                })
-                .on('click', function(s)
+    this.squaresEnter = function(squares)
+    {
+        var squareEnter = squares.enter()
+            .append('g')
+            .classed('square', true)
+            .attr({
+                'transform': function(s)
                 {
-                    var params;
-
-                    if(s.title == 'Comments')
-                    {
-                        params = {
-                            courseId: $scope.courseId,
-                            conceptId: s.conceptId
-                        };
-
-                        $state.go('conceptComments', params);
-                    }
-                    else if(s.isGroup)
-                    {
-                        activeGroupId = activeGroupId == s.segment._id ? null : s.segment._id;
-
-                        me.update();
-                    }
-                    else
-                    {
-                        params = {
-                            courseId: $scope.courseId,
-                            learn: 'yes',
-                            active: s.conceptId,
-                            segment: s.segment._id
-                        };
-
-                        $state.go('courses.view', params);
-                    }
-
-
-                })
-                .on('mouseover', function(s)
-                {
-                    $scope.hoverSegment(s.segment);
-                    $scope.hoverConcept(s.concept);
-                })
-                .on('mouseleave', function()
-                {
-                    $scope.hoverSegment();
-                });
-
-            squareEnter.append('rect');
-
-            squareEnter.each(function(square)
-            {
-                var el = d3.select(this);
-
-                //var width = $scope.visParams.scale(square.concept.radius * 1.5);
-                var size = $scope.visParams.scale(square.concept.radius);
-
-                var manualIcons = {
-                    'lecture-icon': '/modules/learning/img/lecture.svg',
-                    'customicon icon-extensionschool': '/modules/contents/img/harvardextensionschool.svg',
-                    'customicon icon-lti': '/modules/contents/img/lti.png'
-                };
-
-                if(Object.keys(manualIcons).indexOf(square.icon) !== -1)
-                {
-                    var path = manualIcons[square.icon];
-
-                    el.append('image')
-                        .classed('icon-image', true)
-                        .attr('xlink:href', path);
+                    var conceptTrans = $scope.getTranslateAbs(s.concept);
+                    return 'translate(' + conceptTrans.x + ',' + conceptTrans.y + ')';
                 }
-                else if(square.icon.substr(0,'fa fa-'.length) == 'fa fa-')
-                {
-                    el.append('text')
-                        .classed('icon-fa-text', true)
-                        .classed('icon-fa', true)
-                        .attr('text-anchor', 'middle')
-                        .attr('dominant-baseline', 'central')
-                        .attr('font-family', 'FontAwesome')
+            })
+            .on('click', function(s)
+            {
+                var params;
 
-                        .text(FontAwesome.getCharacter(square.icon));
+                if(s.title == 'Comments')
+                {
+                    params = {
+                        courseId: $scope.courseId,
+                        conceptId: s.conceptId
+                    };
+
+                    $state.go('conceptComments', params);
+                }
+                else if(s.isGroup)
+                {
+                    activeGroupId = activeGroupId == s.segment._id ? null : s.segment._id;
+
+                    me.update();
                 }
                 else
                 {
-                    console.log('dont know how to embed this icon in svg:' + square.icon);
+                    params = {
+                        courseId: $scope.courseId,
+                        learn: 'yes',
+                        active: s.conceptId,
+                        segment: s.segment._id
+                    };
+
+                    $state.go('courses.view', params);
                 }
+
+
+            })
+            .on('mouseover', function(s)
+            {
+                $scope.hoverSegment(s.segment);
+                $scope.hoverConcept(s.concept);
+            })
+            .on('mouseleave', function()
+            {
+                $scope.hoverSegment();
             });
 
-            return squareEnter;
-        };
+        squareEnter.append('rect');
 
-        var updateSquares = function(squares)
+        squareEnter.each(function(square)
         {
-            squares.each(function(s)
+            var el = d3.select(this);
+
+            //var width = $scope.visParams.scale(square.concept.radius * 1.5);
+            var size = $scope.visParams.scale(square.concept.radius);
+
+            var manualIcons = {
+                'lecture-icon': '/modules/learning/img/lecture.svg',
+                'customicon icon-extensionschool': '/modules/contents/img/harvardextensionschool.svg',
+                'customicon icon-lti': '/modules/contents/img/lti.png'
+            };
+
+            if(Object.keys(manualIcons).indexOf(square.icon) !== -1)
             {
-                var el = d3.select(this);
-                var activeConcept = $scope.activeConcept && $scope.activeConcept.concept._id == s.conceptId;
-                var isActiveGroup = s.group ? activeGroupId == s.group._id : false;
-                var selected = $scope.active.hoverSegment ? $scope.active.hoverSegment == s.segment : s.segment == $scope.active.segment;
+                var path = manualIcons[square.icon];
 
-                var size = $scope.visParams.scale(s.concept.radius);
+                el.append('image')
+                    .classed('icon-image', true)
+                    .attr('xlink:href', path);
+            }
+            else if(square.icon.substr(0,'fa fa-'.length) == 'fa fa-')
+            {
+                el.append('text')
+                    .classed('icon-fa-text', true)
+                    .classed('icon-fa', true)
+                    .attr('text-anchor', 'middle')
+                    .attr('dominant-baseline', 'central')
+                    .attr('font-family', 'FontAwesome')
 
-                el.classed('active', activeConcept);
-                el.classed('selected', selected);
+                    .text(FontAwesome.getCharacter(square.icon));
+            }
+            else
+            {
+                console.log('dont know how to embed this icon in svg:' + square.icon);
+            }
+        });
 
-                var width = $scope.visParams.scale(s.concept.radius * 1.5);
-                var neighbourSquares;
+        return squareEnter;
+    };
 
-                if(s.isGroupChild)
+    this.squaresUpdate = function(squares)
+    {
+        squares.each(function(s)
+        {
+            var el = d3.select(this);
+            var activeConcept = $scope.activeConcept && $scope.activeConcept.concept._id == s.conceptId;
+            var isActiveGroup = s.group ? activeGroupId == s.group._id : false;
+            var selected = $scope.active.hoverSegment ? $scope.active.hoverSegment == s.segment : s.segment == $scope.active.segment;
+
+            var size = $scope.visParams.scale(s.concept.radius);
+
+            el.classed('active', activeConcept);
+            el.classed('selected', selected);
+
+            var width = $scope.visParams.scale(s.concept.radius * 1.5);
+            var neighbourSquares;
+
+            if(s.isGroupChild)
+            {
+                neighbourSquares = squaresPerGroup[s.groupId];
+            }
+            else
+            {
+                neighbourSquares = squaresPerConcept[s.conceptId];
+            }
+
+            var index = neighbourSquares.indexOf(s);
+            var percentIndex = index / (neighbourSquares.length);
+            var angleCoverage = 1; //80 / 100;
+
+            var x = 0, y = 0;
+
+            if(!s.isGroupChild && activeConcept || isActiveGroup)
+            {
+                // Only move out of center if this square is either directly assigned to a concept and the concept is
+                // active, or if this is a material group square and the material group was activated before.
+
+                //var conceptIndex = -1 * s.concept.parentData.children.indexOf(s.concept) / s.concept.parentData.children.length;
+                //var startAngle = Math.PI * 0.55 + 1.8 * Math.PI * conceptIndex;
+                var startAngle = Math.PI;
+
+                var distanceFromCenter = 2;
+
+                if(s.isGroup && s.segment._id == activeGroupId)
                 {
-                    neighbourSquares = squaresPerGroup[s.groupId];
-                }
-                else
-                {
-                    neighbourSquares = squaresPerConcept[s.conceptId];
+                    distanceFromCenter = 4;
                 }
 
-                var index = neighbourSquares.indexOf(s);
-                var percentIndex = index / (neighbourSquares.length);
-                var angleCoverage = 1; //80 / 100;
+                var distanceFromCenterAbs = $scope.visParams.scale(distanceFromCenter * s.concept.radius);
+                var angle = startAngle - percentIndex * 2 * Math.PI * angleCoverage; // they should go around most of concept (90% of 360 degrees).
 
-                var x = 0, y = 0;
+                x = Math.sin(angle) * distanceFromCenterAbs;
+                y = Math.cos(angle) * distanceFromCenterAbs;
+            }
+            s.x = x;
+            s.y = y;
 
-                if(!s.isGroupChild && activeConcept || isActiveGroup)
-                {
-                    // Only move out of center if this square is either directly assigned to a concept and the concept is
-                    // active, or if this is a material group square and the material group was activated before.
+            var conceptTrans = $scope.getTranslateAbs(s.concept);
+            var center;
 
-                    //var conceptIndex = -1 * s.concept.parentData.children.indexOf(s.concept) / s.concept.parentData.children.length;
-                    //var startAngle = Math.PI * 0.55 + 1.8 * Math.PI * conceptIndex;
-                    var startAngle = Math.PI;
+            if(s.isGroupChild)
+            {
+                // Arrange around material group
+                center = conceptTrans;
 
-                    var distanceFromCenter = 2;
+                //console.log(squareMap[s.groupId]);
+                center.x += squareMap[s.groupId].x;
+                center.y += squareMap[s.groupId].y;
+            }
+            else
+            {
+                // Arrange around concept
+                center = conceptTrans;
+            }
 
-                    if(s.isGroup && s.segment._id == activeGroupId)
-                    {
-                        distanceFromCenter = 4;
-                    }
+            var squareRect = el.select('rect')
+                .attr('height', width)
+                .attr('width', width)
+                .attr('x', width / -2)
+                .attr('y', width / -2)
+                .attr('rx', width/4)
+                .attr('ry', width/4)
+                .attr('fill', $scope.depthColorModification(s.concept));
 
-                    var distanceFromCenterAbs = $scope.visParams.scale(distanceFromCenter * s.concept.radius);
-                    var angle = startAngle - percentIndex * 2 * Math.PI * angleCoverage; // they should go around most of concept (90% of 360 degrees).
-
-                    x = Math.sin(angle) * distanceFromCenterAbs;
-                    y = Math.cos(angle) * distanceFromCenterAbs;
-                }
-                s.x = x;
-                s.y = y;
-
-                var conceptTrans = $scope.getTranslateAbs(s.concept);
-                var center;
-
-                if(s.isGroupChild)
-                {
-                    // Arrange around material group
-                    center = conceptTrans;
-
-                    //console.log(squareMap[s.groupId]);
-                    center.x += squareMap[s.groupId].x;
-                    center.y += squareMap[s.groupId].y;
-                }
-                else
-                {
-                    // Arrange around concept
-                    center = conceptTrans;
-                }
-
-                var squareRect = el.select('rect')
-                    .attr('height', width)
-                    .attr('width', width)
-                    .attr('x', width / -2)
-                    .attr('y', width / -2)
-                    .attr('rx', width/4)
-                    .attr('ry', width/4)
-                    .attr('fill', $scope.depthColorModification(s.concept));
-
-                el.transition().attr({
-                    'transform': 'translate(' + Math.round(center.x + x) + ',' + Math.round(center.y + y) + ')'
-                });
-
-                el.select('.icon-fa-text')
-                    .attr('font-size', size + 'px');
-
-                el.select('.icon-image')
-                    .attr('width', size)
-                    .attr('height', size)
-                    .attr('x', size / -2)
-                    .attr('y', size / -2);
+            el.transition().attr({
+                'transform': 'translate(' + Math.round(center.x + x) + ',' + Math.round(center.y + y) + ')'
             });
-        };
 
+            el.select('.icon-fa-text')
+                .attr('font-size', size + 'px');
 
-        var squares = mainLayer.selectAll('.square').data(topLevelSquares);
-        enterSquares(squares);
-        updateSquares(squares);
+            el.select('.icon-image')
+                .attr('width', size)
+                .attr('height', size)
+                .attr('x', size / -2)
+                .attr('y', size / -2);
+        });
+    };
 
-        var groupSquares = subLayer.selectAll('.square').data(groupSquares);
-        enterSquares(groupSquares);
-        updateSquares(groupSquares);
+    this.update = function()
+    {
+        if(!topLevelSquaresData.length)
+        {
+            this.generateSquares();
+        }
+        //console.count('updating');
 
+        if(topLevelSquaresData.length)
+        {
+            var squares = mainLayer.selectAll('.square').data(topLevelSquaresData);
+            this.squaresEnter(squares);
+            this.squaresUpdate(squares);
+        }
 
-
-
+        if(groupSquaresData.length)
+        {
+            var groupSquares = subLayer.selectAll('.square').data(groupSquaresData);
+            this.squaresEnter(groupSquares);
+            this.squaresUpdate(groupSquares);
+        }
     };
 
     this.setFontSize = function(d, el, lastUpdate)
