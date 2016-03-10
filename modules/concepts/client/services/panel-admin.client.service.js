@@ -13,7 +13,7 @@ angular.module('courses').service('PanelAdmin', function(Concepts, $rootScope, $
         $scope.hasConceptEditRights = Authentication.isCourseTeachingAssistant($scope.course._id);
         $scope.hasAdminPanelRights = Authentication.isCourseContentEditor($scope.course._id);
 
-        $scope.sortableSegmentOptions = false;
+        $scope.sortableSegmentOptions = { disabled: true };
 
         var ran = false;
         $scope.$watch('activeMode', function()
