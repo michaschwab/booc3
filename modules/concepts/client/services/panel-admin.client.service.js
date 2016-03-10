@@ -10,10 +10,24 @@ angular.module('courses').service('PanelAdmin', function(Concepts, $rootScope, $
         $scope = scope;
         $scope.stateParams = $stateParams;
 
-        $scope.titlePattern = 'a-z';
-
         $scope.hasConceptEditRights = Authentication.isCourseTeachingAssistant($scope.course._id);
         $scope.hasAdminPanelRights = Authentication.isCourseContentEditor($scope.course._id);
+
+        $scope.sortableSegmentOptions = false;
+
+        var ran = false;
+        $scope.$watch('activeMode', function()
+        {
+            if(!ran && $scope.hasAdminPanelRights && $scope.activeMode == 'admin')
+            {
+                me.run();
+            }
+        });
+    };
+
+    this.run = function()
+    {
+        $scope.titlePattern = 'a-z';
 
         $scope.titleKeyPress = function($event, concept)
         {
@@ -58,23 +72,6 @@ angular.module('courses').service('PanelAdmin', function(Concepts, $rootScope, $
                 //console.log('saving concept change..', concept.concept);
 
                 concept.concept.$update();
-                /*
-                console.log(concept.concept);
-
-                Concepts.update({_id: conceptId}, concept.concept,
-                    function(v){
-                        //console.log("saved:", v);
-                        $scope.error = "saved  at " +new Date();
-                        //$scope.directories.concepts[concept.concept._id].concept.title = 'aaa';
-                        //$scope.directories.concepts[concept.concept._id].concept.title = concept.concept.title;
-
-                    },
-                    function(err){
-                        console.log("ERROR saving:", err);
-                        console.log(err.data);
-                        $scope.error = "DID NOT SAVE !! (Error) ";
-                    }
-                );*/
             }, 500);
         };
 
