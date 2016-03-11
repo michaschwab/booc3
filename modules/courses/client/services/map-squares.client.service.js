@@ -242,6 +242,9 @@ angular.module('courses').service('MapSquares', function(Tip, $location, $timeou
 
     this.squaresUpdate = function(squares)
     {
+        subLayer.classed('has-active-group', activeGroupId);
+        subLayer.classed('has-no-active-group', !activeGroupId);
+
         squares.each(function(s)
         {
             var el = d3.select(this);
@@ -294,6 +297,8 @@ angular.module('courses').service('MapSquares', function(Tip, $location, $timeou
                 x = Math.sin(angle) * distanceFromCenterAbs;
                 y = Math.cos(angle) * distanceFromCenterAbs;
             }
+            s.lastX = s.x;
+            s.lastY = s.y;
             s.x = x;
             s.y = y;
 
@@ -335,7 +340,36 @@ angular.module('courses').service('MapSquares', function(Tip, $location, $timeou
                 .attr('ry', width/4)
                 .attr('fill', $scope.depthColorModification(s.concept));
 
-            el.transition().attr({
+            var delay = 0;
+
+            if(x != 0 || y != 0)
+            {
+                var animationIndex = neighbourSquares.filter(function(s)
+                {
+                    return s.lastX !== s.x || s.lastY !== s.y;
+                }).indexOf(s);
+                delay = animationIndex * 150;
+
+                el.transition().attr({
+                    'transform': 'translate(' + Math.round(center.x) + ',' + Math.round(center.y) + ')'
+                });
+            }
+
+            el.transition().delay(delay).attr({
+                'transform': 'translate(' + Math.round(center.x + x) + ',' + Math.round(center.y + y) + ')'
+            });
+
+
+            //var delay = x == 0 && y == 0 ? 0 : index * 500;
+            //todo this index should only be the index within the elements that are actually moving.
+            /*if(delay)
+            {
+                el.transition().attr({
+                    'transform': 'translate(' + Math.round(center.x) + ',' + Math.round(center.y) + ')'
+                });
+            }*/
+
+            el.transition().delay(delay).attr({
                 'transform': 'translate(' + Math.round(center.x + x) + ',' + Math.round(center.y + y) + ')'
             });
 

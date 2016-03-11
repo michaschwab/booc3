@@ -18,3 +18,7 @@
     stroke: #cccccc;
     stroke-width: 0.5px;
 }
+
+#subLayer.has-no-active-group .square {
+    opacity: 0;
+}
