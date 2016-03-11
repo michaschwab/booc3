@@ -262,7 +262,7 @@ angular.module('courses').service('MapSquares', function(Tip, $location, $timeou
             el.classed('active', activeConcept);
             el.classed('selected', selected);
 
-            var width = $scope.visParams.scale(s.concept.radius * 1.1);
+            var width = $scope.visParams.scale(s.concept.radius * 1);
             var neighbourSquares;
 
             if(s.isGroupChild)
@@ -289,7 +289,7 @@ angular.module('courses').service('MapSquares', function(Tip, $location, $timeou
                 var startAngle = Math.PI * 0.4 + 1.8 * Math.PI * conceptIndex;
                 //var startAngle = Math.PI;
 
-                var distanceFromCenter = 1.8;
+                var distanceFromCenter = 2;
 
                 /*if(s.isGroup && s.segment._id == activeGroupId)
                 {
@@ -299,7 +299,7 @@ angular.module('courses').service('MapSquares', function(Tip, $location, $timeou
                 if(s.isGroupChild)
                 {
                     startAngle -= Math.PI * 0.2;
-                    distanceFromCenter = 3;
+                    distanceFromCenter = 3.4;
                 }
 
                 var distanceFromCenterAbs = $scope.visParams.scale(distanceFromCenter * s.concept.radius);
@@ -386,7 +386,7 @@ angular.module('courses').service('MapSquares', function(Tip, $location, $timeou
                 'transform': 'translate(' + Math.round(center.x + x) + ',' + Math.round(center.y + y) + ')'
             });
 
-            var iconSize = size * 0.7;
+            var iconSize = size * 0.6;
 
             el.select('.icon-fa-text')
                 .attr('font-size', iconSize + 'px');
