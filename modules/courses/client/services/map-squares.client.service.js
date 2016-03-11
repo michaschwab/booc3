@@ -108,6 +108,7 @@ angular.module('courses').service('MapSquares', function(Tip, $location, $timeou
                     square.concept = $scope.directories.concepts[square.conceptId];
 
                     square.title = segment.title;
+                    square.segment = segment;
 
                     setSegmentSquareProps(square, segment);
 
