@@ -53,7 +53,7 @@ angular.module('courses').service('MapSquares', function(Tip, $location, $timeou
 
     this.generateSquares = function()
     {
-        console.count('generating squares');
+        //console.count('generating squares');
         var conceptsWithContent = $scope.concepts.filter(function(concept)
         {
             return $scope.segmentAndGroupPerConceptMap[concept._id] && $scope.segmentAndGroupPerConceptMap[concept._id].length;
@@ -262,7 +262,7 @@ angular.module('courses').service('MapSquares', function(Tip, $location, $timeou
             el.classed('active', activeConcept);
             el.classed('selected', selected);
 
-            var width = $scope.visParams.scale(s.concept.radius * 1.5);
+            var width = $scope.visParams.scale(s.concept.radius * 1.1);
             var neighbourSquares;
 
             if(s.isGroupChild)
@@ -289,11 +289,15 @@ angular.module('courses').service('MapSquares', function(Tip, $location, $timeou
                 //var startAngle = Math.PI * 0.55 + 1.8 * Math.PI * conceptIndex;
                 var startAngle = Math.PI;
 
-                var distanceFromCenter = 2;
+                var distanceFromCenter = 1.8;
 
                 if(s.isGroup && s.segment._id == activeGroupId)
                 {
-                    distanceFromCenter = 4;
+                    distanceFromCenter = 3;
+                }
+                else if(s.isGroupChild)
+                {
+                    distanceFromCenter = 1.4;
                 }
 
                 var distanceFromCenterAbs = $scope.visParams.scale(distanceFromCenter * s.concept.radius);
@@ -335,6 +339,8 @@ angular.module('courses').service('MapSquares', function(Tip, $location, $timeou
                 // Arrange around concept
                 center = conceptTrans;
             }
+            //center.x += .095;
+            //center.y += .009;
 
             var squareRect = el.select('rect')
                 .attr('height', width)
@@ -378,14 +384,16 @@ angular.module('courses').service('MapSquares', function(Tip, $location, $timeou
                 'transform': 'translate(' + Math.round(center.x + x) + ',' + Math.round(center.y + y) + ')'
             });
 
+            var iconSize = size * 0.7;
+
             el.select('.icon-fa-text')
-                .attr('font-size', size + 'px');
+                .attr('font-size', iconSize + 'px');
 
             el.select('.icon-image')
-                .attr('width', size)
-                .attr('height', size)
-                .attr('x', size / -2)
-                .attr('y', size / -2);
+                .attr('width', iconSize)
+                .attr('height', iconSize)
+                .attr('x', iconSize / -2)
+                .attr('y', iconSize / -2);
         });
     };
 
