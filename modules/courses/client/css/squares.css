@@ -14,9 +14,14 @@
     cursor: pointer;
 }
 
-.square.selected rect {
+.square rect {
     stroke: #cccccc;
-    stroke-width: 0.5px;
+    stroke-width: 0.1;
+}
+
+.square.selected rect {
+    /*stroke: #cccccc;*/
+    stroke-width: 0.5;
 }
 
 #subLayer.has-no-active-group .square {

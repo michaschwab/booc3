@@ -202,7 +202,7 @@ angular.module('courses').service('MapSquares', function(Tip, $location, $timeou
                 $scope.hoverSegment();
             });
 
-        squareEnter.append('rect');
+        squareEnter.append('rect').classed('background', true);
 
         squareEnter.each(function(square)
         {
@@ -276,7 +276,7 @@ angular.module('courses').service('MapSquares', function(Tip, $location, $timeou
 
             var index = neighbourSquares.indexOf(s);
             var percentIndex = index / (neighbourSquares.length);
-            var angleCoverage = !s.isGroupChild ? 0.5 : 0.3;
+            var angleCoverage = !s.isGroupChild ? 0.5 : 0.2;
 
             var x = 0, y = 0;
 
@@ -344,7 +344,7 @@ angular.module('courses').service('MapSquares', function(Tip, $location, $timeou
             //center.x += .095;
             //center.y += .009;
 
-            var squareRect = el.select('rect')
+            var squareRect = el.select('rect.background')
                 .attr('height', width)
                 .attr('width', width)
                 .attr('x', width / -2)
