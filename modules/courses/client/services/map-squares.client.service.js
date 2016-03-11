@@ -399,14 +399,14 @@ angular.module('courses').service('MapSquares', function(Tip, $location, $timeou
 
         if(topLevelSquaresData.length)
         {
-            var squares = mainLayer.selectAll('.square').data(topLevelSquaresData, function(s) { return s.segment._id; });
+            var squares = mainLayer.selectAll('.square').data(topLevelSquaresData);
             this.squaresEnter(squares);
             this.squaresUpdate(squares);
         }
 
         if(groupSquaresData.length)
         {
-            var groupSquares = subLayer.selectAll('.square').data(groupSquaresData, function(s) { return s.segment._id; });
+            var groupSquares = subLayer.selectAll('.square').data(groupSquaresData);
             this.squaresEnter(groupSquares);
             this.squaresUpdate(groupSquares);
         }
