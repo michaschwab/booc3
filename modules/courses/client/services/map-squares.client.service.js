@@ -276,7 +276,7 @@ angular.module('courses').service('MapSquares', function(Tip, $location, $timeou
 
             var index = neighbourSquares.indexOf(s);
             var percentIndex = index / (neighbourSquares.length);
-            var angleCoverage = 1; //80 / 100;
+            var angleCoverage = !s.isGroupChild ? 0.5 : 0.3;
 
             var x = 0, y = 0;
 
@@ -285,19 +285,21 @@ angular.module('courses').service('MapSquares', function(Tip, $location, $timeou
                 // Only move out of center if this square is either directly assigned to a concept and the concept is
                 // active, or if this is a material group square and the material group was activated before.
 
-                //var conceptIndex = -1 * s.concept.parentData.children.indexOf(s.concept) / s.concept.parentData.children.length;
-                //var startAngle = Math.PI * 0.55 + 1.8 * Math.PI * conceptIndex;
-                var startAngle = Math.PI;
+                var conceptIndex = -1 * s.concept.parentData.children.indexOf(s.concept) / s.concept.parentData.children.length;
+                var startAngle = Math.PI * 0.4 + 1.8 * Math.PI * conceptIndex;
+                //var startAngle = Math.PI;
 
                 var distanceFromCenter = 1.8;
 
-                if(s.isGroup && s.segment._id == activeGroupId)
+                /*if(s.isGroup && s.segment._id == activeGroupId)
                 {
                     distanceFromCenter = 3;
                 }
-                else if(s.isGroupChild)
+                else */
+                if(s.isGroupChild)
                 {
-                    distanceFromCenter = 1.4;
+                    startAngle -= Math.PI * 0.2;
+                    distanceFromCenter = 3;
                 }
 
                 var distanceFromCenterAbs = $scope.visParams.scale(distanceFromCenter * s.concept.radius);
@@ -331,8 +333,8 @@ angular.module('courses').service('MapSquares', function(Tip, $location, $timeou
                 center = conceptTrans;
 
                 //console.log(squareMap[s.groupId]);
-                center.x += squareMap[s.groupId].x;
-                center.y += squareMap[s.groupId].y;
+                /*center.x += squareMap[s.groupId].x;
+                center.y += squareMap[s.groupId].y;*/
             }
             else
             {
