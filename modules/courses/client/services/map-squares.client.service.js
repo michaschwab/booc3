@@ -3,17 +3,21 @@ angular.module('courses').service('MapSquares', function(Tip, $location, $timeou
     var me = this;
     var $scope;
     var layer, mainLayer, subLayer, squareMap;
-    var activeGroupId = null;
-
-    var topLevelSquaresData = [];
-    var groupSquaresData = [];
-
-    var squaresPerConcept = {};
-    var squaresPerGroup = {};
+    var activeGroupId, topLevelSquaresData, groupSquaresData, squaresPerConcept, squaresPerGroup;
 
     this.init = function(scope)
     {
         $scope = scope;
+
+        layer = mainLayer = subLayer = squareMap = null;
+
+        activeGroupId = null;
+
+        topLevelSquaresData = [];
+        groupSquaresData = [];
+
+        squaresPerConcept = {};
+        squaresPerGroup = {};
     };
 
     this.createLayout = function()
@@ -49,7 +53,7 @@ angular.module('courses').service('MapSquares', function(Tip, $location, $timeou
 
     this.generateSquares = function()
     {
-        //console.count('generating squares');
+        console.count('generating squares');
         var conceptsWithContent = $scope.concepts.filter(function(concept)
         {
             return $scope.segmentAndGroupPerConceptMap[concept._id] && $scope.segmentAndGroupPerConceptMap[concept._id].length;
@@ -395,14 +399,14 @@ angular.module('courses').service('MapSquares', function(Tip, $location, $timeou
 
         if(topLevelSquaresData.length)
         {
-            var squares = mainLayer.selectAll('.square').data(topLevelSquaresData);
+            var squares = mainLayer.selectAll('.square').data(topLevelSquaresData, function(s) { return s.segment._id; });
             this.squaresEnter(squares);
             this.squaresUpdate(squares);
         }
 
         if(groupSquaresData.length)
         {
-            var groupSquares = subLayer.selectAll('.square').data(groupSquaresData);
+            var groupSquares = subLayer.selectAll('.square').data(groupSquaresData, function(s) { return s.segment._id; });
             this.squaresEnter(groupSquares);
             this.squaresUpdate(groupSquares);
         }
