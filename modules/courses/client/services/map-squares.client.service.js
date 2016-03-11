@@ -300,6 +300,17 @@ angular.module('courses').service('MapSquares', function(Tip, $location, $timeou
             var conceptTrans = $scope.getTranslateAbs(s.concept);
             var center;
 
+            if(s.isGroup)
+            {
+                var newIcon = activeGroupId == s.segment._id ? 'fa fa-folder-open' : 'fa fa-folder';
+                //square.icon = 'fa fa-folder';
+                if(s.icon !== newIcon)
+                {
+                    s.icon = newIcon;
+                    el.select('.icon-fa').text(FontAwesome.getCharacter(s.icon));
+                }
+            }
+
             if(s.isGroupChild)
             {
                 // Arrange around material group
