@@ -170,6 +170,7 @@ angular.module('courses').service('MapSquares', function(Tip, $location, $timeou
                 else if(s.isGroup)
                 {
                     activeGroupId = activeGroupId == s.segment._id ? null : s.segment._id;
+                    s.segment.collapsed = activeGroupId != s.segment._id;
 
                     me.update();
                 }
