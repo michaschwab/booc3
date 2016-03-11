@@ -272,7 +272,7 @@ angular.module('courses').service('MapSquares', function(Tip, $location, $timeou
 
             var x = 0, y = 0;
 
-            if(!s.isGroupChild && activeConcept || isActiveGroup)
+            if(activeConcept && (!s.isGroupChild || isActiveGroup))
             {
                 // Only move out of center if this square is either directly assigned to a concept and the concept is
                 // active, or if this is a material group square and the material group was activated before.
