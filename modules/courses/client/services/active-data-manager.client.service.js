@@ -213,6 +213,8 @@ angular.module('courses').service('ActiveDataManager', function(Authentication, 
     this.hoverSegment = function(segment)
     {
         $scope.active.hoverSegment = segment;
+
+        $scope.$broadcast('redrawHover');
     };
 
     this.setActiveSegments = function()

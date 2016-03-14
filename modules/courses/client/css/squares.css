@@ -31,3 +31,11 @@
 .groupChild.square rect, .group.activeGroup.square rect {
     stroke: #4c97cc;
 }
+
+.square .segment-title {
+    opacity: 0;
+}
+
+.square.selected .segment-title {
+    opacity: 1;
+}

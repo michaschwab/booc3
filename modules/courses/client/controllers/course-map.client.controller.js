@@ -349,13 +349,16 @@ angular.module('courses').controller('CourseMapController', function($scope, $st
         var lastRedrawHoverTodos = [];
         var lastGraphWidth = 0;
         var lastGraphHeight = 0;
+        var lastHoverSegment;
 
         $scope.redrawHover = function(force)
         {
             if(!force)
             {
-                if(angular.equals($scope.active.hoveringConceptIds, lastRedrawHoverHovers) && angular.equals($scope.todoIds, lastRedrawHoverTodos)
-                    && $scope.graphWidth === lastGraphWidth && $scope.graphHeight === lastGraphHeight)
+                if(angular.equals($scope.active.hoveringConceptIds, lastRedrawHoverHovers)
+                    && angular.equals($scope.todoIds, lastRedrawHoverTodos)
+                    && $scope.graphWidth === lastGraphWidth && $scope.graphHeight === lastGraphHeight
+                    && $scope.active.hoverSegment === lastHoverSegment)
                 {
                     return;
                 }
@@ -365,6 +368,7 @@ angular.module('courses').controller('CourseMapController', function($scope, $st
             lastRedrawHoverTodos = $scope.todoIds;
             lastGraphWidth = $scope.graphWidth;
             lastGraphHeight = $scope.graphHeight;
+            lastHoverSegment = $scope.active.hoverSegment;
 
             //console.log(cScope.active.hoveringConceptIds);
 
