@@ -151,6 +151,8 @@ angular.module('courses').service('MapSquares', function(Tip, $location, $timeou
         var squareEnter = squares.enter()
             .append('g')
             .classed('square', true)
+            .classed('group', function(s) { return s.isGroup; })
+            .classed('groupChild', function(s) { return s.isGroupChild; })
             .attr({
                 'transform': function(s)
                 {
@@ -264,6 +266,7 @@ angular.module('courses').service('MapSquares', function(Tip, $location, $timeou
 
             el.classed('active', isActive);
             el.classed('selected', selected);
+            el.classed('activeGroup', activeGroupId == s.segment._id);
 
             var width = $scope.visParams.scale(s.concept.radius * 1);
             var neighbourSquares;

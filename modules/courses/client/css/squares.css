@@ -16,7 +16,7 @@
 
 .square rect {
     stroke: #cccccc;
-    stroke-width: 0.1;
+    stroke-width: 0.2;
 }
 
 .square.selected rect {
@@ -26,4 +26,8 @@
 
 #subLayer.has-no-active-group .square {
     /*opacity: 0;*/
+}
+
+.groupChild.square rect, .group.activeGroup.square rect {
+    stroke: #4c97cc;
 }
