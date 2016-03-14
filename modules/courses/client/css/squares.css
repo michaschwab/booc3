@@ -1,6 +1,6 @@
 .square {
-    opacity: 0;
-    transition: opacity .5s ease-in-out;
+    /*opacity: 0;*/
+    transition: opacity .2s ease-in-out;
     pointer-events: none;
 }
 
@@ -9,7 +9,7 @@
 }
 
 .square.active {
-    opacity: 1;
+    /*opacity: 1;*/
     pointer-events: auto;
     cursor: pointer;
 }
@@ -25,5 +25,5 @@
 }
 
 #subLayer.has-no-active-group .square {
-    opacity: 0;
+    /*opacity: 0;*/
 }

@@ -158,6 +158,7 @@ angular.module('courses').service('MapSquares', function(Tip, $location, $timeou
                     return 'translate(' + conceptTrans.x + ',' + conceptTrans.y + ')';
                 }
             })
+            .style('opacity', 0)
             .on('click', function(s)
             {
                 var params;
@@ -321,7 +322,7 @@ angular.module('courses').service('MapSquares', function(Tip, $location, $timeou
             if(s.isGroup)
             {
                 var newIcon = activeGroupId == s.segment._id ? 'fa fa-folder-open' : 'fa fa-folder';
-                //square.icon = 'fa fa-folder';
+
                 if(s.icon !== newIcon)
                 {
                     s.icon = newIcon;
@@ -329,22 +330,17 @@ angular.module('courses').service('MapSquares', function(Tip, $location, $timeou
                 }
             }
 
+            // Arrange around concept
             center = conceptTrans;
 
             if(s.isGroupChild && !isActive)
             {
                 // Arrange around material group
-                //center = conceptTrans;
 
-                //console.log(squareMap[s.groupId]);
                 center.x += squareMap[s.groupId].x;
                 center.y += squareMap[s.groupId].y;
             }
-            /*else
-            {
-                // Arrange around concept
-                center = conceptTrans;
-            }*/
+
             //center.x += .095;
             //center.y += .009;
 
@@ -372,19 +368,16 @@ angular.module('courses').service('MapSquares', function(Tip, $location, $timeou
                 });*/
             }
 
+            var opacity = isActive ? 1 : 0;
+
             el.transition().delay(delay).attr({
-                'transform': 'translate(' + Math.round(center.x + x) + ',' + Math.round(center.y + y) + ')'
+                'transform': 'translate(' + Math.round(center.x + x) + ',' + Math.round(center.y + y) + ')',
             });
 
-
-            //var delay = x == 0 && y == 0 ? 0 : index * 500;
-            //todo this index should only be the index within the elements that are actually moving.
-            /*if(delay)
+            $timeout(function()
             {
-                el.transition().attr({
-                    'transform': 'translate(' + Math.round(center.x) + ',' + Math.round(center.y) + ')'
-                });
-            }*/
+                el.style('opacity', opacity);
+            }, delay);
 
             el.transition().delay(delay).attr({
                 'transform': 'translate(' + Math.round(center.x + x) + ',' + Math.round(center.y + y) + ')'
