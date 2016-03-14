@@ -258,6 +258,7 @@ angular.module('courses').service('MapSquares', function(Tip, $location, $timeou
             var el = d3.select(this);
             var activeConcept = $scope.activeConcept && $scope.activeConcept.concept._id == s.conceptId;
             var isActiveGroup = s.group ? activeGroupId == s.group._id : false;
+            var parentGroup = s.isGroupChild ? squareMap[s.groupId] : null;
             var selected = $scope.active.hoverSegment ? $scope.active.hoverSegment == s.segment : s.segment == $scope.active.segment;
 
             var size = $scope.visParams.scale(s.concept.radius);
@@ -283,6 +284,7 @@ angular.module('courses').service('MapSquares', function(Tip, $location, $timeou
             var index = neighbourSquares.indexOf(s);
             var percentIndex = index / (neighbourSquares.length);
             var angleCoverage = !s.isGroupChild ? 0.5 : 0.2;
+            var anglePerSquare = angleCoverage / neighbourSquares.length;
 
             var x = 0, y = 0;
 
@@ -293,26 +295,50 @@ angular.module('courses').service('MapSquares', function(Tip, $location, $timeou
 
                 var conceptIndex = -1 * s.concept.parentData.children.indexOf(s.concept) / s.concept.parentData.children.length;
                 var startAngle = Math.PI * 0.4 + 1.8 * Math.PI * conceptIndex;
+                var endAngle = startAngle - 2 * Math.PI * angleCoverage;
+                var centerAngle = (startAngle + endAngle) / 2;
                 //var startAngle = Math.PI;
 
                 var distanceFromCenter = 2;
 
-                /*if(s.isGroup && s.segment._id == activeGroupId)
-                {
-                    distanceFromCenter = 3;
-                }
-                else */
                 if(s.isGroupChild)
                 {
-                    startAngle -= Math.PI * 0.2;
+                    anglePerSquare = 0.07;
+                    angleCoverage = anglePerSquare * neighbourSquares.length;
+                    startAngle = parentGroup.angle;
+                    endAngle = startAngle - angleCoverage * 2 * Math.PI;
+
+                    var diff;
+
+                    if(endAngle < parentGroup.endAngle)
+                    {
+                        diff = parentGroup.endAngle - endAngle;
+                        endAngle = parentGroup.endAngle;
+                        startAngle += diff;
+                    }
+
+                    if(startAngle > parentGroup.startAngle)
+                    {
+                        diff = startAngle - parentGroup.startAngle;
+                        startAngle = parentGroup.startAngle;
+                        anglePerSquare -= diff / neighbourSquares.length;
+                    }
+
+
+                    //startAngle -= Math.PI * 0.2;
                     distanceFromCenter = 3.4;
                 }
 
                 var distanceFromCenterAbs = $scope.visParams.scale(distanceFromCenter * s.concept.radius);
-                var angle = startAngle - percentIndex * 2 * Math.PI * angleCoverage; // they should go around most of concept (90% of 360 degrees).
+                var angle = startAngle - index * 2 * Math.PI * anglePerSquare; // they should go around most of concept (90% of 360 degrees).
+                if(s.isGroupChild) console.log(angle);
 
                 x = Math.sin(angle) * distanceFromCenterAbs;
                 y = Math.cos(angle) * distanceFromCenterAbs;
+
+                s.startAngle = startAngle;
+                s.angle = angle;
+                s.endAngle = endAngle;
             }
             s.lastX = s.x;
             s.lastY = s.y;
@@ -340,8 +366,8 @@ angular.module('courses').service('MapSquares', function(Tip, $location, $timeou
             {
                 // Arrange around material group
 
-                center.x += squareMap[s.groupId].x;
-                center.y += squareMap[s.groupId].y;
+                center.x += parentGroup.x;
+                center.y += parentGroup.y;
             }
 
             //center.x += .095;
