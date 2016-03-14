@@ -259,7 +259,9 @@ angular.module('courses').service('MapSquares', function(Tip, $location, $timeou
 
             var size = $scope.visParams.scale(s.concept.radius);
 
-            el.classed('active', activeConcept);
+            var isActive = activeConcept && (!s.isGroupChild || isActiveGroup);
+
+            el.classed('active', isActive);
             el.classed('selected', selected);
 
             var width = $scope.visParams.scale(s.concept.radius * 1);
