@@ -214,6 +214,10 @@ angular.module('courses').service('MapSquares', function(Tip, $location, $timeou
             //var width = $scope.visParams.scale(square.concept.radius * 1.5);
             var size = $scope.visParams.scale(square.concept.radius);
 
+            /*el.append('text')
+                .classed('segment-title', true)
+                .text(square.title);*/
+
             var manualIcons = {
                 'lecture-icon': '/modules/learning/img/lecture.svg',
                 'customicon icon-extensionschool': '/modules/contents/img/harvardextensionschool.svg',
@@ -269,7 +273,7 @@ angular.module('courses').service('MapSquares', function(Tip, $location, $timeou
             el.classed('selected', selected);
             el.classed('activeGroup', activeGroupId == s.segment._id);
 
-            var width = $scope.visParams.scale(s.concept.radius * 1);
+            var squareSize = $scope.visParams.scale(s.concept.radius * 1);
             var neighbourSquares;
 
             if(s.isGroupChild)
@@ -373,13 +377,16 @@ angular.module('courses').service('MapSquares', function(Tip, $location, $timeou
             //center.x += .095;
             //center.y += .009;
 
-            var squareRect = el.select('rect.background')
-                .attr('height', width)
+            //var width = selected ? squareSize * 4 : squareSize;
+            var width = squareSize;
+
+            var squareRect = el.select('rect.background').transition()
+                .attr('height', squareSize)
                 .attr('width', width)
-                .attr('x', width / -2)
-                .attr('y', width / -2)
-                .attr('rx', width/4)
-                .attr('ry', width/4)
+                .attr('x', squareSize / -2)
+                .attr('y', squareSize / -2)
+                .attr('rx', squareSize/4)
+                .attr('ry', squareSize/4)
                 .attr('fill', $scope.depthColorModification(s.concept));
 
             var delay = 0;
@@ -412,7 +419,13 @@ angular.module('courses').service('MapSquares', function(Tip, $location, $timeou
                 'transform': 'translate(' + Math.round(center.x + x) + ',' + Math.round(center.y + y) + ')'
             });
 
+            var titleFontSize = size * 0.5;
             var iconSize = size * 0.6;
+
+            /*el.select('.segment-title')
+                .attr('x', iconSize)
+                .attr('y', titleFontSize * 0.4)
+                .attr('font-size', titleFontSize);*/
 
             el.select('.icon-fa-text')
                 .attr('font-size', iconSize + 'px');
