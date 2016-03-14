@@ -329,20 +329,22 @@ angular.module('courses').service('MapSquares', function(Tip, $location, $timeou
                 }
             }
 
-            if(s.isGroupChild)
+            center = conceptTrans;
+
+            if(s.isGroupChild && !isActive)
             {
                 // Arrange around material group
-                center = conceptTrans;
+                //center = conceptTrans;
 
                 //console.log(squareMap[s.groupId]);
-                /*center.x += squareMap[s.groupId].x;
-                center.y += squareMap[s.groupId].y;*/
+                center.x += squareMap[s.groupId].x;
+                center.y += squareMap[s.groupId].y;
             }
-            else
+            /*else
             {
                 // Arrange around concept
                 center = conceptTrans;
-            }
+            }*/
             //center.x += .095;
             //center.y += .009;
 
@@ -365,9 +367,9 @@ angular.module('courses').service('MapSquares', function(Tip, $location, $timeou
                 }).indexOf(s);
                 delay = animationIndex * 150;
 
-                el.transition().attr({
+                /*el.transition().attr({
                     'transform': 'translate(' + Math.round(center.x) + ',' + Math.round(center.y) + ')'
-                });
+                });*/
             }
 
             el.transition().delay(delay).attr({
