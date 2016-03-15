@@ -11,6 +11,15 @@ function($timeout, ConceptStructure, Authentication)
     var hidden = true;
     var openTip = null;
 
+    var squareTip = d3.tip()
+        .attr('class', 'd3-tip')
+        //.attr('id', function(s) { return 'd3-tip-' + s.conceptId + '-' + s.segmentId })
+        .html(function(s)
+        {
+            return s.title;
+        });
+
+
     var conceptTip = d3.tip()
         .attr('class', 'd3-tip')
         //.offset([-6, 0])
@@ -94,6 +103,35 @@ function($timeout, ConceptStructure, Authentication)
         }
         $scope.hoverConcept(d);
         $scope.safeApply();
+    };
+
+    this.forSquare = function(square)
+    {
+        if(!$scope.vis) return;
+        $scope.vis.call(squareTip);
+
+        square.on('mouseover', function(d)
+        {
+            me.showSquare(squareTip, d);
+            //fixHoverSquare(d3.event);
+            $scope.hoverSquare(d);
+        }).on('mousemove', function(d)
+        {
+            me.showSquare(squareTip, d);
+            /*eventTip.style('left', function() { return (d3.event.pageX - this.getBoundingClientRect().width/2) + 'px' });
+            eventTip.style('top', function() { return (d3.event.pageY - this.getBoundingClientRect().height - 8) + 'px' });*/
+        }).on('mouseout', function()
+        {
+            me.closeOpenTips();
+        }).on('click', function(d)
+        {
+            me.closeOpenTips();
+            squareTip.hide(d);
+            //d3.event.stopPropagation();
+            //fixClickSquare(d3.event);
+            $scope.clickSquare(d);
+            $scope.safeApply();
+        });
     };
 
     this.forEvent = function(eventGroup)
@@ -180,7 +218,7 @@ function($timeout, ConceptStructure, Authentication)
                 }
                 tip2.style('left', function() { return (d3.event.pageX - this.getBoundingClientRect().width/2) + 'px' });
                 tip2.style('top', function() { return (d3.event.pageY - this.getBoundingClientRect().height - 8) + 'px' });
-                fixHover(d3.event);
+                fixHoverConcept(d3.event);
             }).on('mousemove', function(d)
             {
                 $timeout.cancel(hideTimeout);
@@ -239,6 +277,12 @@ function($timeout, ConceptStructure, Authentication)
         {
             this.showDependency(tip, d);
         }
+    };
+
+    this.showSquare = function(tip, d)
+    {
+        var id = 'd3-tip-' + d.conceptId + '-' + d.segmentId;
+        this.showById(tip, d, id);
     };
 
     this.showDependency = function(tip, d)
@@ -368,7 +412,7 @@ function($timeout, ConceptStructure, Authentication)
                         me.show(tip, d);
                     }
                     repositionFct(d);
-                    fixHover(d3.event);
+                    fixHoverConcept(d3.event);
                 })
                 .on('mousemove', function(d)
                 {
@@ -395,8 +439,29 @@ function($timeout, ConceptStructure, Authentication)
 
     };
 
-    function fixHover(evt)
+    var lastEvt = null;
+    function fixHover(evt, layer)
     {
+        if(evt === lastEvt) return;
+        lastEvt = evt;
+
+        var list = getEventElements(evt, layer.node());
+
+        for(var i = 0; i < list.length; i++)
+        {
+            /*var conceptId = list[i].parentNode.getAttribute('data-concept-id');
+            var concept = $scope.directories.concepts[conceptId];
+
+            $scope.hoverConcept(concept);*/
+            console.log(list[i], $(list[i]));
+            //$(list[i]).trigger(evt);
+            $(list[i]).hover();
+        }
+    }
+
+    function fixHoverConcept(evt)
+    {
+        //fixHover(evt, $scope.mainLayer);
         var list = getEventElements(evt, $scope.mainLayer.node());
 
         for(var i = 0; i < list.length; i++)
@@ -408,7 +473,49 @@ function($timeout, ConceptStructure, Authentication)
         }
     }
 
-    function fixClick(evt)
+    function fixHoverSquare(evt)
+    {
+        //fixHover(evt, $scope.squareLayer);
+        var list = getEventElements(evt, $scope.squareLayer.node());
+
+        for(var i = 0; i < list.length; i++)
+        {
+            var idParts = list[i].parentNode.id.split('-');
+            var conceptId = idParts[1];
+            var segmentId = idParts[2];
+
+            //$scope.hoverSegment($scope.segmentMap[segmentId]);
+            var square = $scope.squaresPerConcept[conceptId].filter(function(s)
+            {
+                return s.segmentId == segmentId;
+            })[0];
+
+            $scope.hoverSquare(square);
+        }
+    }
+
+    function fixClickSquare(evt)
+    {
+        //fixHover(evt, $scope.squareLayer);
+        var list = getEventElements(evt, $scope.squareLayer.node());
+
+        for(var i = 0; i < list.length; i++)
+        {
+            var idParts = list[i].parentNode.id.split('-');
+            var conceptId = idParts[1];
+            var segmentId = idParts[2];
+
+            //$scope.hoverSegment($scope.segmentMap[segmentId]);
+            var square = $scope.squaresPerConcept[conceptId].filter(function(s)
+            {
+                return s.segmentId == segmentId;
+            })[0];
+
+            $scope.clickSquare(square);
+        }
+    }
+
+    function fixClick(evt, layer)
     {
         var list = getEventElements(evt, $scope.mainLayer.node());
 

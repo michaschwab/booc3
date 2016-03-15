@@ -18,11 +18,56 @@ angular.module('courses').service('MapSquares', function(Tip, $location, $timeou
 
         squaresPerConcept = {};
         squaresPerGroup = {};
+
+        setupInteractions();
+    };
+
+    var setupInteractions = function()
+    {
+        $scope.hoverSquare = function(square)
+        {
+            $scope.hoverSegment(square.segment);
+            $scope.hoverConcept(square.concept);
+        };
+
+        $scope.clickSquare = function(s)
+        {
+            var params;
+
+            if(s.title == 'Comments')
+            {
+                params = {
+                    courseId: $scope.courseId,
+                    conceptId: s.conceptId
+                };
+
+                $state.go('conceptComments', params);
+            }
+            else if(s.isGroup)
+            {
+                activeGroupId = activeGroupId == s.segment._id ? null : s.segment._id;
+                s.segment.collapsed = activeGroupId != s.segment._id;
+
+                me.update();
+            }
+            else
+            {
+                params = {
+                    courseId: $scope.courseId,
+                    learn: 'yes',
+                    active: s.conceptId,
+                    segment: s.segment._id
+                };
+
+                $state.go('courses.view', params);
+            }
+        };
     };
 
     this.createLayout = function()
     {
         layer = d3.select('#squareLayer');
+        $scope.squareLayer = layer;
 
         if(!subLayer)
         {
@@ -73,6 +118,7 @@ angular.module('courses').service('MapSquares', function(Tip, $location, $timeou
                 square.conceptId = conceptId;
                 square.title = segment.title;
                 square.segment = segment;
+                square.segmentId = segment._id;
 
                 if(!segment.isGroup)
                 {
@@ -134,6 +180,7 @@ angular.module('courses').service('MapSquares', function(Tip, $location, $timeou
             squaresPerConcept[square.conceptId].push(square);
             if(square.segment && square.segment._id) squareMap[square.segment._id] = square;
         });
+        $scope.squaresPerConcept = squaresPerConcept;
 
         groupSquaresData.forEach(function(square)
         {
@@ -158,48 +205,15 @@ angular.module('courses').service('MapSquares', function(Tip, $location, $timeou
                 {
                     var conceptTrans = $scope.getTranslateAbs(s.concept);
                     return 'translate(' + conceptTrans.x + ',' + conceptTrans.y + ')';
+                },
+                'id': function(s)
+                {
+                    return 'square-' + s.conceptId + '-' + s.segmentId;
                 }
             })
             .style('opacity', 0)
-            .on('click', function(s)
-            {
-                var params;
-
-                if(s.title == 'Comments')
-                {
-                    params = {
-                        courseId: $scope.courseId,
-                        conceptId: s.conceptId
-                    };
-
-                    $state.go('conceptComments', params);
-                }
-                else if(s.isGroup)
-                {
-                    activeGroupId = activeGroupId == s.segment._id ? null : s.segment._id;
-                    s.segment.collapsed = activeGroupId != s.segment._id;
-
-                    me.update();
-                }
-                else
-                {
-                    params = {
-                        courseId: $scope.courseId,
-                        learn: 'yes',
-                        active: s.conceptId,
-                        segment: s.segment._id
-                    };
-
-                    $state.go('courses.view', params);
-                }
-
-
-            })
-            .on('mouseover', function(s)
-            {
-                $scope.hoverSegment(s.segment);
-                $scope.hoverConcept(s.concept);
-            })
+            .on('click', $scope.clickSquare)
+            .on('mouseover', $scope.hoverSquare)
             .on('mouseleave', function()
             {
                 $scope.hoverSegment();
@@ -248,6 +262,7 @@ angular.module('courses').service('MapSquares', function(Tip, $location, $timeou
                 console.log('dont know how to embed this icon in svg:' + square.icon);
             }
         });
+        Tip.forSquare(squareEnter);
 
         return squareEnter;
     };
@@ -335,7 +350,7 @@ angular.module('courses').service('MapSquares', function(Tip, $location, $timeou
 
                 var distanceFromCenterAbs = $scope.visParams.scale(distanceFromCenter * s.concept.radius);
                 var angle = startAngle - index * 2 * Math.PI * anglePerSquare; // they should go around most of concept (90% of 360 degrees).
-                if(s.isGroupChild) console.log(angle);
+                //if(s.isGroupChild) console.log(angle);
 
                 x = Math.sin(angle) * distanceFromCenterAbs;
                 y = Math.cos(angle) * distanceFromCenterAbs;
