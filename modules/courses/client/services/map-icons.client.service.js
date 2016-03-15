@@ -289,8 +289,6 @@ angular.module('courses').service('MapIcons', function(Tip, ConceptStructure, $l
                 {
                     d.depCreateEl = el.select('.depCreate');
                 }
-                if(d.concept._id == '548234177c6e45dd1527bd81')
-                    console.log(el, d.depCreateEl, showDepCreate);
 
                 d.depCreateEl.classed('active', showDepCreate).classed('inactive', !showDepCreate)
                     .transition().attr(

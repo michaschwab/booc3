@@ -159,6 +159,7 @@ angular.module('courses').service('MapSquares', function(Tip, $location, $timeou
 
                     square.title = segment.title;
                     square.segment = segment;
+                    square.segmentId = segment._id;
 
                     setSegmentSquareProps(square, segment);
 
@@ -267,6 +268,7 @@ angular.module('courses').service('MapSquares', function(Tip, $location, $timeou
         return squareEnter;
     };
 
+    var lastSquareAttrs = {};
     this.squaresUpdate = function(squares)
     {
         subLayer.classed('has-active-group', activeGroupId);
@@ -274,19 +276,31 @@ angular.module('courses').service('MapSquares', function(Tip, $location, $timeou
 
         squares.each(function(s)
         {
+            if(!lastSquareAttrs[s.conceptId + '-' + s.segmentId]) lastSquareAttrs[s.conceptId + '-' + s.segmentId] = {};
+            var lastAttrs = lastSquareAttrs[s.conceptId + '-' + s.segmentId];
+
             var el = d3.select(this);
             var activeConcept = $scope.activeConcept && $scope.activeConcept.concept._id == s.conceptId;
-            var isActiveGroup = s.group ? activeGroupId == s.group._id : false;
+            var isActiveGroup = activeGroupId == s.segment._id;
+            var parentIsActiveGroup = s.group ? activeGroupId == s.group._id : false;
             var parentGroup = s.isGroupChild ? squareMap[s.groupId] : null;
             var selected = $scope.active.hoverSegment ? $scope.active.hoverSegment == s.segment : s.segment == $scope.active.segment;
 
             var size = $scope.visParams.scale(s.concept.radius);
 
-            var isActive = activeConcept && (!s.isGroupChild || isActiveGroup);
+            var isActive = activeConcept && (!s.isGroupChild || parentIsActiveGroup);
 
-            el.classed('active', isActive);
-            el.classed('selected', selected);
-            el.classed('activeGroup', activeGroupId == s.segment._id);
+            if(!lastAttrs || lastAttrs['active'] !== isActive)
+                el.classed('active', isActive);
+            lastAttrs['active'] = isActive;
+
+            if(!lastAttrs || lastAttrs['selected'] !== selected)
+                el.classed('selected', selected);
+            lastAttrs['selected'] = selected;
+
+            if(!lastAttrs || lastAttrs['activeGroup'] !== isActiveGroup)
+                el.classed('activeGroup', isActiveGroup);
+            lastAttrs['activeGroup'] = isActiveGroup;
 
             var squareSize = $scope.visParams.scale(s.concept.radius * 1);
             var neighbourSquares;
@@ -307,7 +321,7 @@ angular.module('courses').service('MapSquares', function(Tip, $location, $timeou
 
             var x = 0, y = 0;
 
-            if(activeConcept && (!s.isGroupChild || isActiveGroup))
+            if(activeConcept && (!s.isGroupChild || parentIsActiveGroup))
             {
                 // Only move out of center if this square is either directly assigned to a concept and the concept is
                 // active, or if this is a material group square and the material group was activated before.
@@ -395,14 +409,19 @@ angular.module('courses').service('MapSquares', function(Tip, $location, $timeou
             //var width = selected ? squareSize * 4 : squareSize;
             var width = squareSize;
 
-            var squareRect = el.select('rect.background').transition()
-                .attr('height', squareSize)
-                .attr('width', width)
-                .attr('x', squareSize / -2)
-                .attr('y', squareSize / -2)
-                .attr('rx', squareSize/4)
-                .attr('ry', squareSize/4)
-                .attr('fill', $scope.depthColorModification(s.concept));
+            if(!lastAttrs || lastAttrs['squareSize'] !== squareSize)
+            {
+                lastAttrs['squareSize'] = squareSize;
+
+                el.select('rect.background').transition()
+                    .attr('height', squareSize)
+                    .attr('width', width)
+                    .attr('x', squareSize / -2)
+                    .attr('y', squareSize / -2)
+                    .attr('rx', squareSize/4)
+                    .attr('ry', squareSize/4)
+                    .attr('fill', $scope.depthColorModification(s.concept));
+            }
 
             var delay = 0;
 
@@ -420,19 +439,26 @@ angular.module('courses').service('MapSquares', function(Tip, $location, $timeou
             }
 
             var opacity = isActive ? 1 : 0;
-
-            el.transition().delay(delay).attr({
-                'transform': 'translate(' + Math.round(center.x + x) + ',' + Math.round(center.y + y) + ')',
-            });
-
-            $timeout(function()
+            if(lastAttrs['opacity'] !== opacity)
             {
-                el.style('opacity', opacity);
-            }, delay);
+                $timeout(function()
+                {
+                    el.style('opacity', opacity);
+                }, delay);
+                lastAttrs['opacity'] = opacity;
+            }
 
-            el.transition().delay(delay).attr({
-                'transform': 'translate(' + Math.round(center.x + x) + ',' + Math.round(center.y + y) + ')'
-            });
+            var finalX = Math.round(center.x + x), finalY = Math.round(center.y + y);
+
+            if(lastAttrs['finalX'] !== finalX || lastAttrs['finalY'] !== finalY)
+            {
+                el.transition().delay(delay).attr({
+                    'transform': 'translate(' + finalX + ',' + finalY + ')'
+                });
+                lastAttrs['finalX'] = finalX;
+                lastAttrs['finalY'] = finalY;
+            }
+
 
             var titleFontSize = size * 0.5;
             var iconSize = size * 0.6;
@@ -442,14 +468,19 @@ angular.module('courses').service('MapSquares', function(Tip, $location, $timeou
                 .attr('y', titleFontSize * 0.4)
                 .attr('font-size', titleFontSize);*/
 
-            el.select('.icon-fa-text')
-                .attr('font-size', iconSize + 'px');
+            if(!lastAttrs['iconSize'] || lastAttrs['iconSize'] !== iconSize)
+            {
+                el.select('.icon-fa-text')
+                    .attr('font-size', iconSize + 'px');
 
-            el.select('.icon-image')
-                .attr('width', iconSize)
-                .attr('height', iconSize)
-                .attr('x', iconSize / -2)
-                .attr('y', iconSize / -2);
+                el.select('.icon-image')
+                    .attr('width', iconSize)
+                    .attr('height', iconSize)
+                    .attr('x', iconSize / -2)
+                    .attr('y', iconSize / -2);
+
+                lastAttrs['iconSize'] = iconSize;
+            }
         });
     };
 
