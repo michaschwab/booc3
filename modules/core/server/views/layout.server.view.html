@@ -40,7 +40,7 @@
 
 <body class="ng-cloak disable-animations">
   <header data-ng-include="'/modules/core/views/header.client.view.html'" class="navbar navbar-fixed-top navbar-inverse"></header>
-  <div class="content">
+
 
     <!--<div data-ng-include="'/modules/core/views/notloggedin.client.view.html'"></div>-->
     <div data-ng-include="'/modules/core/views/welcomeVideo.client.view.html'"></div>
@@ -48,10 +48,9 @@
 
     <ng-include src="'/modules/actions/views/undoMessage.client.view.html'"></ng-include>
 
-    <div class="fluid-container">
+    <div class="fluid-container content">
       {% block content %}{% endblock %}
     </div>
-  </div>
 
   <!--Embedding The User Object-->
   <script type="text/javascript">

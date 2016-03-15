@@ -48,7 +48,7 @@ angular.module('learning').service('YoutubePlayer', function($http, $sce, $inter
 
         resizeTimeout = $timeout(function()
         {
-            me.setSize($scope.contentWidth - 30);
+            me.setSize($scope.contentWidth - 10, $scope.contentHeight - 45);
         }, 200);
     };
 
@@ -70,7 +70,7 @@ angular.module('learning').service('YoutubePlayer', function($http, $sce, $inter
         } else if(tries < 5)
         {
             tries++;
-            $timeout(function() { me.setSize(goalWidth); }, 50);
+            $timeout(function() { me.setSize(goalWidth, goalHeight); }, 50);
         }
     };
 

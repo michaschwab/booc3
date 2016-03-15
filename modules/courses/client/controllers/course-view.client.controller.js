@@ -578,7 +578,7 @@ angular.module('courses').controller('CourseViewController',
             $scope.windowHeight = $window.innerHeight;
             $scope.windowWidth = $window.innerWidth;
             //$scope.contentWidth =
-            var contentCols = document.getElementsByClassName('contentCol');
+            var contentCols = document.getElementsByClassName('content');
             var width = 0, height = 0;
             for(var i = 0; i < contentCols.length; i++)
             {
