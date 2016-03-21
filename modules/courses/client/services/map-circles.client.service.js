@@ -126,6 +126,7 @@ angular.module('courses').service('MapCircles', function(Tip, $location, $timeou
                 if(selectedConcept.depth <= lastDepth)
                 {
                     var relativeTrans = $scope.getTranslate(selectedConcept, $scope.getConfig(selectedConcept));
+                    if(!relativeTrans) relativeTrans = {x: 0, y: 0};
                     trans = {
                         x: trans.x + relativeTrans.x,
                         y: trans.y + relativeTrans.y
