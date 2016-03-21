@@ -10,6 +10,9 @@ module.exports = function (app)
 		.get(learnedconcepts.list)
 		.post(learnedconcepts.create);
 
+	app.route('/api/progress/reset')
+		.get(learnedconcepts.reset);
+
 	app.route('/api/learnedconcepts/:learnedconceptId')
 		.get(learnedConceptPolicy.isAllowed, learnedconcepts.read)
 		.put(learnedConceptPolicy.isAllowed, learnedconcepts.update)

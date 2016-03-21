@@ -8,6 +8,8 @@ var path = require('path'),
 	errorHandler = require(path.resolve('./modules/core/server/controllers/errors.server.controller')),
 	Concept = mongoose.model('Concept'),
     LearnedConcept = mongoose.model('LearnedConcept'),
+	SeenConcept = mongoose.model('SeenConcept'),
+	User = mongoose.model('User'),
 	_ = require('lodash');
 
 var ObjectId = mongoose.Types.ObjectId;
@@ -27,6 +29,38 @@ exports.create = function(req, res)
 			});
 		} else {
 			res.jsonp(learnedconcept);
+		}
+	});
+};
+
+// Remove Seen and Understood concepts, and unset having seen the tour.
+exports.reset = function(req, res)
+{
+	var qObject = {};
+	var userId = new ObjectId(req.user._id);
+	qObject['user'] = userId;
+
+	LearnedConcept.remove(qObject).exec(function(err, learnedconcepts) {
+		if (err) {
+			return res.status(400).send({
+				message: errorHandler.getErrorMessage(err)
+			});
+		} else {
+
+			SeenConcept.remove(qObject).exec(function(err, seenconcepts) {
+				if (err) {
+					return res.status(400).send({
+						message: errorHandler.getErrorMessage(err)
+					});
+				} else {
+
+					User.update({_id: userId}, { $set: { tourChecked: null }}, function()
+					{
+						res.jsonp(seenconcepts);
+					});
+
+				}
+			});
 		}
 	});
 };
