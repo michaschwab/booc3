@@ -41,7 +41,7 @@ module.exports = {
 
         'public/lib/angular-ui-select/dist/select.js',
         'public/lib/angular-sanitize/angular-sanitize.js',
-        'public/lib/angular-ui-sortable/sortable.js',
+        'public/lib/angular-ui-sortable/src/sortable.js',
         'public/lib/n3-charts/build/LineChart.js',
 
         'public/lib/ngDialog/js/ngDialog.js',

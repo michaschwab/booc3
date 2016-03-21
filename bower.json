@@ -15,7 +15,7 @@
     "angular-socket-resource": null,
     "angular-ui-router": "~0.2",
     "angular-ui-select": null,
-    "angular-ui-sortable": null,
+    "angular-ui-sortable": "#v0.14.x-dev",
     "angular-ui-utils": "bower",
     "angular-xml": null,
     "bootstrap": "~3",
