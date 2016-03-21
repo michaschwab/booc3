@@ -112,18 +112,14 @@ angular.module('courses').service('MapCircles', function(Tip, $location, $timeou
             }
         };
 
-        $scope.getTranslateAbs = function(d, lastDepth)
+        $scope.getTranslateAbs = function(d, onlyWithChildren)
         {
             var trans = {x: 0, y: 0};
             var chain = d.parentChain ? d.parentChain.concat(d) : [d];
-            if(lastDepth === undefined)
-            {
-                lastDepth = 100;
-            }
 
             chain.forEach(function(selectedConcept)
             {
-                if(selectedConcept.depth <= lastDepth)
+                if(!onlyWithChildren || selectedConcept.children.length)
                 {
                     var relativeTrans = $scope.getTranslate(selectedConcept, $scope.getConfig(selectedConcept));
                     if(!relativeTrans) relativeTrans = {x: 0, y: 0};

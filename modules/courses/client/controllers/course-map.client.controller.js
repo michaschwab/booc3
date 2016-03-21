@@ -245,7 +245,7 @@ angular.module('courses').controller('CourseMapController', function($scope, $st
                 {
                     if ($scope.active.hierarchy.length > 0)
                     {
-                        var trans = $scope.getTranslateAbs($scope.activeConcept, 2);
+                        var trans = $scope.getTranslateAbs($scope.activeConcept, true);
 
                         var sortedHierarchy = $scope.active.hierarchy.sort(function (a, b) {
                             return a.depth - b.depth;
