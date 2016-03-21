@@ -287,7 +287,7 @@ angular.module('courses').service('MapSquares', function(Tip, $location, $timeou
             var selected = $scope.active.hoverSegment ? $scope.active.hoverSegment == s.segment : s.segment == $scope.active.segment;
 
             var size = $scope.visParams.scale(s.concept.radius);
-
+if(!size) return;
             var isActive = activeConcept && (!s.isGroupChild || parentIsActiveGroup);
 
             if(!lastAttrs || lastAttrs['active'] !== isActive)
