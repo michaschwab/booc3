@@ -33,7 +33,7 @@ angular.module('learning').controller('LearnController',
                 // Also dont load if no source type is defined yet.
                 $scope.waitLoadingPlayer = !$scope.active.sourcetype || lastPlayer != $scope.active.sourcetype.player;
 
-                lastPlayer = $scope.active.sourcetype.player;
+                lastPlayer = $scope.active.sourcetype ? $scope.active.sourcetype.player : '';
                 $timeout(doUpdate, 800);
             }
         };
