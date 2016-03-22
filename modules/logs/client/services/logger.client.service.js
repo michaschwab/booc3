@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('logs').service('Logger', function (Authentication, $location, Log, $stateParams)
+angular.module('logs').service('Logger', function (Authentication, $location, Log, $stateParams, $timeout)
 {
     var keepEventProps = ['altKey', 'ctrlKey', 'detail', 'eventPhase', 'metaKey', 'shitKey', 'which', 'clientX', 'clientY', 'offsetX', 'offsetY', 'pageX', 'pageY', 'screenX', 'screenY', 'timeStamp', 'type'];
     this.log = function(action, data, event)
@@ -19,7 +19,10 @@ angular.module('logs').service('Logger', function (Authentication, $location, Lo
             var err = new Error();
             log.callstack = err.stack;
 
-            log.$save();
+            $timeout(function()
+            {
+                log.$save();
+            }, 1000);
         }
         else
         {
