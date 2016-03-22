@@ -173,7 +173,7 @@ angular.module('courses').service('MapTour', function(Authentication, $timeout, 
         tour.addStep('concepts1', {
             title: 'Concepts',
             text: 'Each concept is a circle. <br />Concepts are arranged into zoomable hierarchies.',
-            attachTo: '#' + firstTlcId,
+            attachTo: '#' + firstTlcId + ' bottom',
             classes: 'shepherd shepherd-open shepherd-theme-arrows shepherd-transparent-text',
             buttons: [backButton, exitButton, {
                 text: 'Next',
@@ -197,7 +197,7 @@ angular.module('courses').service('MapTour', function(Authentication, $timeout, 
         tour.addStep('concepts2', {
             title: 'Sub-Concepts',
             text: 'For example, <b style="color:'+firstL2Data.concept.color+'">' + firstL2Data.concept.title + '</b> is part of <b style="color:'+firstTlcData.concept.color+'">' + firstTlcData.concept.title + '</b>. <br /><b style="color:'+firstL2Data.concept.color+'">' + firstL2Data.concept.title + '</b> contains <b>' + firstL2ChildrenData.length + ' sub-concepts.',
-            attachTo: '#' + firstL2Id,
+            attachTo: '#' + firstL2Id + ' bottom',
             classes: 'shepherd shepherd-open shepherd-theme-arrows shepherd-transparent-text',
             buttons: [backButton, exitButton, {
                 text: 'Next',
@@ -215,7 +215,7 @@ angular.module('courses').service('MapTour', function(Authentication, $timeout, 
         tour.addStep('learning-material', {
             title: 'Learning Material',
             text: 'Concepts hold learning material, accessible with <br />a click or tap of the play button, or on the left panel.',
-            attachTo: '#' + firstL3Id,
+            attachTo: '#' + firstL3Id + ' bottom',
             classes: 'shepherd shepherd-open shepherd-theme-arrows shepherd-transparent-text',
             buttons: [backButton, exitButton, {
                 text: 'Next',
@@ -233,7 +233,7 @@ angular.module('courses').service('MapTour', function(Authentication, $timeout, 
         tour.addStep('arrangement', {
             title: 'Arrangement of Concepts',
             text: 'Concepts are arranged in a circle, around a clock face. <br />The order in which material is taught in the course runs around the outside, <br />starting from the top or 12 o’clock.',
-            attachTo: '#' + firstTlcId,
+            attachTo: '#' + firstTlcId + ' bottom',
             classes: 'shepherd shepherd-open shepherd-theme-arrows shepherd-transparent-text',
             buttons: [backButton, exitButton, {
                 text: 'Next',
@@ -249,7 +249,7 @@ angular.module('courses').service('MapTour', function(Authentication, $timeout, 
         tour.addStep('arrangement2', {
             title: 'Arrangement of Concepts',
             text: 'This continues down the hierarchy. <br />We can follow the taught course by moving around the outside of the circles.',
-            attachTo: '#' + firstL2Id,
+            //attachTo: '#' + firstL2Id + ' bottom',
             classes: 'shepherd shepherd-open shepherd-theme-arrows shepherd-transparent-text',
             buttons: [backButton, exitButton, {
                 text: 'Next',
@@ -285,7 +285,7 @@ angular.module('courses').service('MapTour', function(Authentication, $timeout, 
             tour.addStep('arrangement3', {
                 title: 'Arrangement of Concepts',
                 text: 'However, some concepts don’t require you to learn every concept taught before. <br />For some concepts, we can ‘short-cut’ by moving inside the circle.',
-                attachTo: '#' + firstTlcId,
+                attachTo: '#' + firstTlcId + ' bottom',
                 classes: 'shepherd shepherd-open shepherd-theme-arrows shepherd-transparent-text',
                 buttons: [backButton, exitButton, {
                     text: 'Next',
@@ -314,7 +314,7 @@ angular.module('courses').service('MapTour', function(Authentication, $timeout, 
             tour.addStep('arrangement3', {
                 title: 'Arrangement of Concepts',
                 text: 'However, some concepts don’t require you to learn every concept taught before. <br />For some concepts, we can ‘short-cut’ by moving inside the circle. <br />Unfortunately, that is not the case for any top level concepts in this course.',
-                attachTo: '#' + firstTlcId,
+                attachTo: '#' + firstTlcId + ' bottom',
                 classes: 'shepherd shepherd-open shepherd-theme-arrows shepherd-transparent-text',
                 buttons: [backButton, exitButton, beforeUnderstoodButton]
             });
@@ -323,7 +323,7 @@ angular.module('courses').service('MapTour', function(Authentication, $timeout, 
         tour.addStep('understood', {
             title: 'Learning Progress',
             text: 'To tell us what you already know, you can hit the <b>Understood</b> button <br />so you don‘t need to look at those concepts again.<br /><br />If you took a look at the learning material of a concept, we’ll mark it as ’seen’. <br />You can also mark concepts as unseen if you want to come back to it later.',
-            attachTo: '.understood-button',
+            attachTo: '.understood-button right',
             classes: 'shepherd shepherd-open shepherd-theme-arrows shepherd-transparent-text',
             buttons: [backButton, exitButton, {
                 text: 'Next',
@@ -340,7 +340,7 @@ angular.module('courses').service('MapTour', function(Authentication, $timeout, 
         tour.addStep('setgoal', {
             title: 'Learning Goals',
             text: 'You can also use the flag to set a goal concept, <br />and then explore the learning plan in more detail. <br /><br />Let‘s look at the learning plan for this concept, step by step.',
-            attachTo: '.set-goal',
+            attachTo: '.set-goal right',
             classes: 'shepherd shepherd-open shepherd-theme-arrows shepherd-transparent-text',
             buttons: [backButton, exitButton, {
                 text: 'Next',
@@ -411,7 +411,7 @@ angular.module('courses').service('MapTour', function(Authentication, $timeout, 
         tour.addStep('lectures', {
             title: 'Lectures',
             text: 'Oh, and if you just want to quickly access the lecture videos or slides <br />in linear order, then use this tab. You can download them from here, too.',
-            attachTo: '.tab-lectures',
+            attachTo: '.tab-lectures right',
             classes: 'shepherd shepherd-open shepherd-theme-arrows shepherd-transparent-text',
             buttons: [backButton, exitButton, {
                 text: 'Next',
@@ -427,7 +427,7 @@ angular.module('courses').service('MapTour', function(Authentication, $timeout, 
         tour.addStep('feedback', {
             title: 'Feedback',
             text: 'Please try it! <br />Tell us what you like, what you don’t like, or even what’s broken<br /> using the <span class="fa fa-envelope"></span> feedback button.<br /><br />You can relaunch this tour by clicking on the <span class="glyphicon glyphicon-question-sign"></span> question mark.<br /><br />Wishing you happy non-linear learning from the booc.io team!',
-            attachTo: '.feedback-button',
+            attachTo: '.feedback-button bottom',
             classes: 'shepherd shepherd-open shepherd-theme-arrows shepherd-transparent-text',
             buttons: [{
                 text: 'Finish',
