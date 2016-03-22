@@ -26,7 +26,7 @@ angular.module('learning').service('YoutubePlayer', function($http, $sce, $inter
 
     this.setPosition = function(pos)
     {
-        if(player)
+        if(player && player.f)
         {
             try {
                 player.seekTo(pos);
@@ -96,13 +96,13 @@ angular.module('learning').service('YoutubePlayer', function($http, $sce, $inter
 
     this.stopPlay = function()
     {
-        if(player)
+        if(player && player.f)
         {
             try {
                 player.stopVideo();
             } catch (e)
             {
-                console.error('Something wrong with the youtube player', e);
+                console.error('Something wrong with the youtube player', e, player);
             }
         }
     };

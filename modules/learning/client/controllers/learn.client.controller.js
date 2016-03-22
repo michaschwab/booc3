@@ -9,6 +9,8 @@ angular.module('learning').controller('LearnController',
         var lastUpdate;
 
         var updateTimeout;
+        var lastPlayer = '';
+
         this.update = function()
         {
             $timeout.cancel(updateTimeout);
@@ -27,8 +29,11 @@ angular.module('learning').controller('LearnController',
             }
             else
             {
-                $scope.waitLoadingPlayer = true;
-                $timeout(doUpdate, 500);
+                // Don't show player if it's not the same one as the last one, eg if it has to be loaded.
+                $scope.waitLoadingPlayer = lastPlayer != $scope.active.sourcetype.player;
+
+                lastPlayer = $scope.active.sourcetype.player;
+                $timeout(doUpdate, 800);
             }
         };
 
