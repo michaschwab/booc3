@@ -30,7 +30,8 @@ angular.module('learning').controller('LearnController',
             else
             {
                 // Don't show player if it's not the same one as the last one, eg if it has to be loaded.
-                $scope.waitLoadingPlayer = lastPlayer != $scope.active.sourcetype.player;
+                // Also dont load if no source type is defined yet.
+                $scope.waitLoadingPlayer = !$scope.active.sourcetype || lastPlayer != $scope.active.sourcetype.player;
 
                 lastPlayer = $scope.active.sourcetype.player;
                 $timeout(doUpdate, 800);
