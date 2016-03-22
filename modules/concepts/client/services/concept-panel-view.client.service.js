@@ -225,9 +225,14 @@ angular.module('concepts').service('ConceptPanelView',
                 }
             };
 
+            var panelEls = {};
+
             function setPanelOffsetTop()
             {
-                d3.selectAll('.panel-content-active').forEach(function(el)
+                if(!panelEls[$scope.activeMode])
+                    panelEls[$scope.activeMode] = d3.selectAll('.panel-content-active');
+
+                panelEls[$scope.activeMode].forEach(function(el)
                 {
                     if(el[0] !== undefined)
                     {
