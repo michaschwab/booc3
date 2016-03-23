@@ -323,6 +323,8 @@ angular.module('courses').service('MapIcons', function(Tip, ConceptStructure, $l
 
             if(!adminMode)
             {
+                var currentIcon = '';
+
                 for(var i = 0; i < icons.length; i++)
                 {
                     var showThis = me.hasIcon(d, icons[i]);
@@ -335,11 +337,11 @@ angular.module('courses').service('MapIcons', function(Tip, ConceptStructure, $l
                         iconEl.classed('icon-' + icons[i], showThis);
                     }
                     if(showThis)
+                    {
+                        currentIcon = icons[i];
                         break;
-
+                    }
                 }
-
-                var currentIcon = icons[i];
 
                 // 5ms if something changed, otherwise 0.
                 if(lastData[conceptId]['icon'] !== currentIcon)
