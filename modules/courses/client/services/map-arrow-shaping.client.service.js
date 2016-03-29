@@ -31,6 +31,12 @@ angular.module('courses').service('MapArrowShaping', function(Tip, ConceptStruct
 
                 return total + newPart;
             }, '');
+            if(!$scope.options.zoomMode)
+            {
+                // In non-zoom mode, because concepts move around depending on the active concept, the plans have to be
+                // re-made for every active concept.
+                cacheId += !$scope.activeConcept ? '-home' : '-' + $scope.activeConcept.concept._id;
+            }
 
             var cacheVal = curveCache.get(cacheId);
 

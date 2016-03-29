@@ -156,7 +156,7 @@ angular.module('courses').service('MapCircles', function(Tip, $location, $timeou
         {
             var l1, l2, l3;
 
-            if($scope.zoomMode)
+            if($scope.options.zoomMode)
             {
                 l1 = {
                     scale:d3.scale.linear().domain([0,1]),
@@ -222,7 +222,7 @@ angular.module('courses').service('MapCircles', function(Tip, $location, $timeou
                     scale:d3.scale.linear().domain([0,1]),
                     radiusSelected: l2maxRadius *1.83,
                     radius: l2maxRadius *.7,
-                    radiusNonSelected:l2maxRadius *.6,
+                    radiusNonSelected:l2maxRadius *.7,
                     radiusNonSelectedButParent:l2maxRadius *.5,
                     radiusParentSelected:l2maxRadius *.8,
                     positionSelected:function() { return 0; },
@@ -240,7 +240,7 @@ angular.module('courses').service('MapCircles', function(Tip, $location, $timeou
                     scale:d3.scale.linear().domain([0,1]),
                     radiusSelected: l3maxRadius*1.8,
                     radius: l3maxRadius *.8,
-                    radiusNonSelected:l3maxRadius *.5,
+                    radiusNonSelected:l3maxRadius *.7,
                     radiusNonSelectedButParent:l3maxRadius *.5,
                     radiusParentSelected:l3maxRadius *0.8,
                     positionSelected:function() { return 0; },
@@ -260,7 +260,7 @@ angular.module('courses').service('MapCircles', function(Tip, $location, $timeou
             $scope.visParams.l2=l2;
             $scope.visParams.l3=l3;
         };
-        $scope.$watch('zoomMode', setupParams);
+        $scope.$watch('options.zoomMode', setupParams);
 
 
         var setupCircles = function(array, depth)
@@ -594,6 +594,7 @@ angular.module('courses').service('MapCircles', function(Tip, $location, $timeou
     this.setFontSize = function(d, el, lastUpdate)
     {
         var fontSize = $scope.graphHeight * d.radius / 17 + 0.3;
+        if(!$scope.options.zoomMode) fontSize += 4;
 
         if(lastUpdate['fontSize'] !== fontSize)
         {

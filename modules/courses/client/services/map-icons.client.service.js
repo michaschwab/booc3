@@ -303,10 +303,9 @@ angular.module('courses').service('MapIcons', function(Tip, ConceptStructure, $l
             /**
              * This hides concept titles for lower level concepts.
              */
-            var opacity = $scope.active.hierarchy.length + 1 >= d.depth
+            var opacity = $scope.active.hierarchy.length + 1 >= d.depth // The zoom is at least down to one level above the concept
                 && (d.parentData && $scope.active.hierarchyIds.indexOf(d.parentData.concept._id) > -1
-                || $scope.active.hierarchy.length >= d.depth
-                || !$scope.active.hierarchy.length) ? 1 : 0;
+                || d.depth < 2) ? 1 : 0;
             //if(conceptId == '5511e6ff9b4d61b66929eef3') console.log(opacity, $scope.active.hierarchy, $scope.active.hierarchyIds, d.depth);
             if(!lastData[conceptId] || lastData[conceptId]['opacity'] !== opacity)
             {

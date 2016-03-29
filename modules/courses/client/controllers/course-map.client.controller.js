@@ -56,7 +56,6 @@ angular.module('courses').controller('CourseMapController', function($scope, $st
         // Find existing Course
         $scope.findOne = function()
         {
-            $scope.zoomMode = true;
             $scope.zoomLevel = 0;
             $scope.currentZoomGoal = [0, 0];
             $scope.lastHoverRedraw = 0;
@@ -241,7 +240,7 @@ angular.module('courses').controller('CourseMapController', function($scope, $st
                 var scale = 1;
                 var translate = [w/2, h/2];
 
-                if($scope.zoomMode)
+                if($scope.options.zoomMode)
                 {
                     if ($scope.active.hierarchy.length > 0)
                     {
