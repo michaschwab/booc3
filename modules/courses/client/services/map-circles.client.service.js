@@ -585,7 +585,9 @@ angular.module('courses').service('MapCircles', function(Tip, $location, $timeou
             lastUpdateData[conceptId]['translate'] = trans;
             //console.count(conceptId);
 
-            el.attr({
+            var el2 = $scope.options.zoomMode ? el : el.transition();
+
+            el2.attr({
                 'transform': 'translate(' + trans.x + ',' + trans.y + ')'
             });
         }

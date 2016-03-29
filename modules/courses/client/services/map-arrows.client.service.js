@@ -618,6 +618,10 @@ angular.module('courses').service('MapArrows', function(Tip, ConceptStructure, M
         {
             $scope.redraw();
         });
+        $scope.$watch('options.zoomMode', function()
+        {
+            $scope.redraw();
+        });
 
         $scope.$watch('options', function()
         {
