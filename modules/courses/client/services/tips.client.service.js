@@ -237,7 +237,7 @@ function($timeout, ConceptStructure, Authentication)
 
     this.removeDependencies = function()
     {
-        d3.selectAll('.d3-tip').remove();
+        d3.selectAll('.d3-tip.dep-tip').remove();
         lastClicked = null;
         hidden = true;
         shown = '';
@@ -357,7 +357,7 @@ function($timeout, ConceptStructure, Authentication)
         {
             //console.trace();
             var tip = d3.tip()
-                .attr('class', 'd3-tip')
+                .attr('class', 'd3-tip dep-tip')
                 //.attr('id', function(d) { return 'd3-tip-' + d.from.concept._id + '-' + d.to.concept._id; })
                 .offset([-6, 0])
                 .html(function(d)
