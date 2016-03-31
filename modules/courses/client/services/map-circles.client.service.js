@@ -659,8 +659,9 @@ angular.module('courses').service('MapCircles', function(Tip, $location, $timeou
                     lastUpdate['graphWidth'] = $scope.graphWidth;
                     lastUpdate['graphHeight'] = $scope.graphHeight;
 
-                    circle.attr(
-                    //circle.transition().attr(
+                    var circle2 = $scope.options.zoomMode ? circle : circle.transition();
+
+                    circle2.attr(
                     {
                         r:  params.scale(d.radius)
                     });
