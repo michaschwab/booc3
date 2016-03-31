@@ -426,7 +426,10 @@ angular.module('courses').service('PanelAdmin', function(Concepts, $rootScope, $
                 }
                 else
                 {
-                    lastOrder = contents[contents.length-1].order[concept.concept._id];
+                    if(contents[contents.length-1].order && contents[contents.length-1].order.hasOwnProperty(concept.concept._id))
+                        lastOrder = contents[contents.length-1].order[concept.concept._id];
+                    else
+                        lastOrder = 0;
                 }
 
                 order = parseInt(lastOrder) + 100;
