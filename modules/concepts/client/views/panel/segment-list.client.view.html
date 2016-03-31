@@ -20,7 +20,8 @@
 
             </a>
 
-            <segment-list ng-if="courseScope.sortDragging||(!seg.collapsed&&courseScope.segmentPerGroupMap[seg._id].length)" segments="courseScope.segmentPerGroupMap[seg._id]" parent="seg" concept="concept"></segment-list>
+            <segment-list segments="courseScope.segmentPerGroupMap[seg._id]" parent="seg" concept="concept"></segment-list>
+            <!--<segment-list ng-if="courseScope.sortDragging||(!seg.collapsed&&courseScope.segmentPerGroupMap[seg._id].length)" segments="courseScope.segmentPerGroupMap[seg._id]" parent="seg" concept="concept"></segment-list>-->
 
         </span>
 
@@ -41,7 +42,7 @@
         </span>
     </li>
 
-    <li ng-show="parent.isGroup &&(!segments || !segments.length) && courseScope.sortDragging" ng-if="courseScope.hasAdminPanelRights&&courseScope.activeMode==='admin'" class="segment admin-action">
+    <li ng-show="parent.isGroup &&(!segments || !segments.length) && courseScope.sortDragging" ng-if="courseScope.hasAdminPanelRights&&courseScope.activeMode==='admin'" class="segment sortableSegment admin-action">
         <a class="segment-link" style="background: lightgreen"><span>Drop to group</span></a>
     </li>
 
