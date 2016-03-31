@@ -20,7 +20,7 @@
 
             </a>
 
-            <segment-list ng-if="!seg.collapsed&&courseScope.segmentPerGroupMap[seg._id].length" segments="courseScope.segmentPerGroupMap[seg._id]" parent="seg" concept="concept"></segment-list>
+            <segment-list ng-if="courseScope.sortDragging||(!seg.collapsed&&courseScope.segmentPerGroupMap[seg._id].length)" segments="courseScope.segmentPerGroupMap[seg._id]" parent="seg" concept="concept"></segment-list>
 
         </span>
 
