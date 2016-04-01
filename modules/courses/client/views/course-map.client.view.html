@@ -91,7 +91,7 @@
     </svg>
 
     <div ng-hide="learnMode||windowWidth<800" class="mapOptions" id="zoomToggleContainer">
-        <hr />
+        <!--<hr />-->
 
         <!--<div style="padding-right: 40pt;">
             Showing...
@@ -110,7 +110,7 @@
             </div>
         </div>-->
 
-        <form class="form-inline" ng-if="authentication.isAdmin()">
+        <form class="form-inline" ng-if="authentication.isTeacher()">
 
             <div class="form-group">
 

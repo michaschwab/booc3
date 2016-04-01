@@ -193,8 +193,8 @@ text.learned, text.goal {
 
 .mapOptions {
     position: absolute;
-    bottom: 20pt;
-    right: 30pt;
+    bottom: 10pt;
+    right: 20pt;
 
     width: 30%;
     text-align: right;
