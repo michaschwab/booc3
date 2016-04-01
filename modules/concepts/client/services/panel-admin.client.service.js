@@ -366,8 +366,9 @@ angular.module('courses').service('PanelAdmin', function(Concepts, $rootScope, $
         $scope.addConcept = function()
         {
             var parents = $scope.activeConcept ? [$scope.activeConcept.concept._id] : [];
-            var color = $scope.activeConcept ? $scope.activeConcept.concept.color : defaultConceptColors[$scope.activeHierarchyChildren.length % defaultConceptColors.length];
-            var order = $scope.activeHierarchyChildren.length * 100;
+            var siblings = $scope.activeConcept ? $scope.activeConcept.children : $scope.activeHierarchyChildren;
+            var color = $scope.activeConcept ? $scope.activeConcept.concept.color : defaultConceptColors[siblings.length % defaultConceptColors.length];
+            var order = siblings.length * 100;
 
             var concept = new Concepts({
                 title: NEW_CONCEPT_TITLE,
