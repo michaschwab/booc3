@@ -26,8 +26,9 @@ angular.module('logs').service('Logger', function (Authentication, $location, Lo
         }
         else
         {
-            console.log('Trying to log, but seems like you did not consent.');
-            console.log('Please consider consenting to logging your clicks anonymously, as this will help improve this software.');
+            console.log('No logs are being saved for this account, because you did not consent to being tracked.');
+            //console.log('Trying to log, but seems like you did not consent.');
+            //console.log('Please consider consenting to logging your clicks anonymously, as this will help improve this software.');
         }
     };
 
