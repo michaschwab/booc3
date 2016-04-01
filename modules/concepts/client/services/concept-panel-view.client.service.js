@@ -196,7 +196,6 @@ angular.module('concepts').service('ConceptPanelView',
                 setPanelOffsetTop();
 
                 $scope.panelContentHeightMax = $scope.windowHeight - $scope.panelOffsetTop;
-                //console.log()
                 $scope.panelWidth = $scope.getPanelWidth();
 
                 if($scope.activeMode=='plan')
@@ -237,7 +236,11 @@ angular.module('concepts').service('ConceptPanelView',
                     if(el[0] !== undefined)
                     {
                         $scope.panelOffsetTop = el[0].getBoundingClientRect().top;
-
+                        if(!$scope.panelOffsetTop)
+                        {
+                            panelEls[$scope.activeMode] = null;
+                            setPanelOffsetTop();
+                        }
                     }
                     else
                     {
@@ -256,7 +259,7 @@ angular.module('concepts').service('ConceptPanelView',
             {
                 $scope.updatePanelHeight();
                 $timeout($scope.updatePanelHeight, 100);
-                $timeout($scope.updatePanelHeight, 500);
+                //$timeout($scope.updatePanelHeight, 500);
             });
         };
 
