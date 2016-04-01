@@ -585,7 +585,7 @@ angular.module('courses').service('MapCircles', function(Tip, $location, $timeou
             lastUpdateData[conceptId]['translate'] = trans;
             //console.count(conceptId);
 
-            var el2 = $scope.options.zoomMode ? el : el.transition();
+            var el2 = me.getTransitionElement(el);
 
             el2.attr({
                 'transform': 'translate(' + trans.x + ',' + trans.y + ')'
@@ -659,7 +659,7 @@ angular.module('courses').service('MapCircles', function(Tip, $location, $timeou
                     lastUpdate['graphWidth'] = $scope.graphWidth;
                     lastUpdate['graphHeight'] = $scope.graphHeight;
 
-                    var circle2 = $scope.options.zoomMode ? circle : circle.transition();
+                    var circle2 = me.getTransitionElement(circle);
 
                     circle2.attr(
                     {
@@ -681,6 +681,12 @@ angular.module('courses').service('MapCircles', function(Tip, $location, $timeou
         });
 
         this.makeStartCircle();
+    };
+
+    this.getTransitionElement = function(el)
+    {
+        var doTransition = !$scope.options.zoomMode || $scope.activeMode == 'admin';
+        return doTransition ? el.transition() : el;
     };
 
     this.redraw = function()
