@@ -179,7 +179,32 @@ exports.delete = function(req, res)
 exports.list = function(req, res)
 {
 	var hasPrivileges = CourseTeacherPolicy.hasAnyPrivileges(req);
-	var limitation = hasPrivileges ? {} : {published: true};
+	var limitation = {};
+
+	if(!hasPrivileges)
+	{
+		limitation = {published: true};
+	}
+	else
+	{
+		var roles = req.user.roles;
+		if(roles.indexOf('admin') === -1)
+		{
+			// limit to only courses they are admin in, or public.
+			var options = [ {published: true} ];
+
+			roles.forEach(function(role)
+			{
+				if(role.substr(0, 'courseadmin'.length) == 'courseadmin')
+				{
+					var courseId = role.split(';')[2];
+					options.push({ _id: courseId });
+				}
+			});
+
+			limitation = { '$or': options };
+		}
+	}
 
 	Course.find(limitation).sort('+created').exec(function(err, courses) {
 		if (err) {
