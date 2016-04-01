@@ -24,6 +24,23 @@ angular.module('users').controller('AuthenticationController', ['$scope', '$stat
       });
     };
 
+    $scope.visSignIn = function()
+    {
+      if(!$scope.authentication.user)
+      {
+        $state.previous.state.name = 'visLogin';
+        $scope.credentials = {
+          username: 'visvis',
+          password: 'visvis'
+        };
+        $scope.signin();
+      }
+      else
+      {
+        delete $scope.authentication.user.tourChecked;
+      }
+    };
+
     $scope.signin = function () {
       $http.post('/api/auth/signin', $scope.credentials).success(function (response) {
         // If successful we assign the response to the global user model

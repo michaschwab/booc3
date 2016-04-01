@@ -9,6 +9,13 @@ angular.module('users').config(['$stateProvider',
           url: '/consent',
           templateUrl: 'modules/users/views/consent.client.view.html'
         })
+        .state('visLogin', {
+          url: '/vis2016',
+          templateUrl: 'modules/users/views/vis.client.view.html'
+        }).state('visLogin2', {
+          url: '/vis2016/',
+          templateUrl: 'modules/users/views/vis.client.view.html'
+        })
 
       .state('settings', {
         abstract: true,
