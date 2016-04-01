@@ -3,6 +3,9 @@ html, body {
 }
 body {
   padding-top: 50px;
+
+}
+body.noScroll {
   overflow: hidden;
 }
 

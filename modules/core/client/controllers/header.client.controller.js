@@ -15,16 +15,30 @@ angular.module('core').controller('HeaderController',
             $scope.isCollapsed = !$scope.isCollapsed;
         };
 
+        var location = $location.url();// eg /courses/547e663e14e4e78d17677b6b?learn=yes&active=54c179d0bea45f77edabd379
+        var search = $location.search();
+        var body = d3.select('body');
+
         var updateTourPossible = function()
         {
-            var location = $location.url(); // eg /courses/547e663e14e4e78d17677b6b?learn=yes&active=54c179d0bea45f77edabd379
-            var search = $location.search();
             $scope.tourPossible = location.indexOf('courses/') !== -1 && location.length > 20 && (!search.learn || search.learn == 'no');
         };
         updateTourPossible();
 
-        $scope.$on('$locationChangeSuccess', function () {
+        var updateScrollPossible = function()
+        {
+            var noScroll = location.indexOf('courses/') !== -1 && location.length > 20 && (!search.learn || search.learn == 'no');
+            body.classed('noScroll', noScroll);
+        };
+        updateScrollPossible();
+
+        $scope.$on('$locationChangeSuccess', function ()
+        {
+            location = $location.url();// eg /courses/547e663e14e4e78d17677b6b?learn=yes&active=54c179d0bea45f77edabd379
+            search = $location.search();
+
             updateTourPossible();
+            updateScrollPossible();
         });
 
         // Collapsing the menu after navigation
