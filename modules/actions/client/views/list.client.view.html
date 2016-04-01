@@ -1,7 +1,11 @@
 <section data-ng-controller="ActionsController" class="container">
     <h2>Action History</h2>
 
-    <table class="table table-hover">
+    <div ng-show="!actions.length" class="alert alert-warning" role="alert">
+        Nothing done yet.
+    </div>
+
+    <table class="table table-hover" ng-show="actions.length">
         <thead>
             <tr>
                 <th>User</th>

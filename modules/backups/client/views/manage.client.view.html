@@ -23,9 +23,12 @@
 
         <h2>Course Backups</h2>
 
-        <p>
+        <p ng-show="courses.length">
             Select Course: <course-select style="width: 300px" ng-model="course" ng-change="courseSelect"></course-select>
         </p>
+        <div ng-show="!courses.length" class="alert alert-warning" role="alert">
+            No Courses yet.
+        </div>
 
 
     </div>
