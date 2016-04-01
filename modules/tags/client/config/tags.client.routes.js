@@ -16,7 +16,7 @@ angular.module('tags').config(['$stateProvider', '$locationProvider',
             url: '/',
             templateUrl: 'modules/tags/views/list.client.view.html',
             data: {
-                roles: ['admin', 'courseadmin']
+                roles: ['admin', 'courseadmin', 'teacher']
             }
         }).
         state('tags.create', {
