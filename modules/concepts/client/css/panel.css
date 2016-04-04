@@ -401,7 +401,7 @@ input.concept-title.admin {
     display: block;
 }
 .concept-list-nested .concept-list-nested:after {
-    top: -2px;
+    top: -1px;
 }/*
 .concept-list-nested .concept-list-nested:before {
     left: -1px;
@@ -422,7 +422,7 @@ input.concept-title.admin {
 .concept-list > .concept:last-child > .concept-list-nested > .concept.active:last-child > a > .concept-line,
 .course-list > .concept > .concept-list > .concept.hover:last-child > a > .concept-line,
 .concept-list > .concept:last-child > .concept-list-nested > .concept.hover:last-child > a > .concept-line {
-    min-height: 30px;
+    /*min-height: 30px;*/
     height: 100%;
 }
 
@@ -472,7 +472,7 @@ input.concept-title.admin {
     margin-top: -4px;
     /* margin-bottom: 11px; */
 
-    padding-bottom: 4px;
+    padding-bottom: 5px;
     /*margin-bottom: -4px;*/
 }
 .concept-list-nested > .concept:last-child > .concept-list-nested {
