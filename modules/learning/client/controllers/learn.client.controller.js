@@ -255,6 +255,10 @@ angular.module('learning').controller('LearnController',
                     });
 
                     //interval1 = $interval(synchronizeSlide, 1000);
+
+                }
+                if(player === 'lecture' || player == 'video')
+                {
                     interval2 = $interval(checkWithinSegment, 1000);
                 }
             }
@@ -295,6 +299,8 @@ angular.module('learning').controller('LearnController',
             if(!$scope.learnMode) return;
 
             $scope.currentPosition = player.getPosition();
+            $scope.currentPositionPercent = ($scope.currentPosition - $scope.active.segment.start)
+                / ($scope.active.segment.end - $scope.active.segment.start) * 100;
 
             if(lastUpdate > Date.now() - 5000)
             {
@@ -376,12 +382,10 @@ angular.module('learning').controller('LearnController',
                 player.manageSize();
         };
 
-        $scope.$watch('contentWidth', function()
-        {
-            me.manageSize();
-        });
+        $scope.$watch('contentWidth', me.manageSize);
+        $scope.$watch('contentHeight', me.manageSize);
 
         var w = angular.element($window);
-        $scope.windowHeight = $window.innerHeight;
-        $scope.windowWidth = $window.innerWidth;
+        //$scope.windowHeight = $window.innerHeight;
+        //$scope.windowWidth = $window.innerWidth;
     });

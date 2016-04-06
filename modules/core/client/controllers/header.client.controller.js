@@ -27,7 +27,8 @@ angular.module('core').controller('HeaderController',
 
         var updateScrollPossible = function()
         {
-            var noScroll = location.indexOf('courses/') !== -1 && location.length > 20 && (!search.learn || search.learn == 'no');
+            //var noScroll = location.indexOf('courses/') !== -1 && location.length > 20 && (!search.learn || search.learn == 'no');
+            var noScroll = location.indexOf('courses/') !== -1 && location.length > 20;
             body.classed('noScroll', noScroll);
         };
         updateScrollPossible();

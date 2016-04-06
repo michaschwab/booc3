@@ -1,10 +1,14 @@
-angular.module('learning').service('PdfViewer', function($timeout, PDFViewerService)
+'use strict';
+
+angular.module('learning').directive('boocPdfViewer', function($timeout, PDFViewerService)
 {
     var me = this;
     var $scope;
 
-    this.init = function(scope)
+    var init = function(scope)
     {
+        $timeout(function(){console.log(scope);}, 2000);
+        scope.courseScope = angular.element('.course-view').scope();
         $scope = scope;
         $scope.viewer = PDFViewerService.Instance("viewer");
         $scope.desired = {};
@@ -45,7 +49,7 @@ angular.module('learning').service('PdfViewer', function($timeout, PDFViewerServ
             $scope.desired.page = curPage;
             $scope.totalPages = totalPages;
         };
-/*
+
         var hideFct = function() { $scope.pageSelectorOpen = false; $scope.zoomSelectorOpen = false; };
 
         $scope.openPageSelector = function()
@@ -99,9 +103,8 @@ angular.module('learning').service('PdfViewer', function($timeout, PDFViewerServ
 
         var setSize = function()
         {
-            $scope.pdfWidth  = $scope.contentWidth * $scope.pdfScale -  30;
-            console.log($scope.contentWidth * $scope.pdfScale -  30, $scope.contentWidth , $scope.pdfScale);
-            $scope.pdfHeight = $scope.windowHeight * $scope.pdfScale - 120;
+            $scope.pdfWidth  = $scope.width * $scope.pdfScale -  1;
+            $scope.pdfHeight = $scope.height * $scope.pdfScale - 120;
 
             lastSetSize = Date.now();
         };
@@ -124,14 +127,14 @@ angular.module('learning').service('PdfViewer', function($timeout, PDFViewerServ
             }
         };
 
-        $scope.$watch('contentWidth', resize);
-        $scope.$watch('windowHeight', resize);
-        setSize();*/
+        $scope.$watch('width', resize);
+        $scope.$watch('height', resize);
+        setSize();
 
         return this;
     };
 
-    this.getCurrentPage = function()
+    /*this.getCurrentPage = function()
     {
         return $scope.currentPage;
     };
@@ -144,7 +147,22 @@ angular.module('learning').service('PdfViewer', function($timeout, PDFViewerServ
     this.goToPage = function(page)
     {
         $scope.viewer.gotoPage(page);
-    };
+    };*/
 
-    return (this);
+    return {
+        restrict: "E",
+        scope: {
+            concept: '=',
+            segment: '=',
+            source: '=',
+            sourceData: '=sourcedata',
+            showTitle: '=showtitle',
+            width: '=',
+            height: '='
+        },
+        transclude: true,
+        templateUrl: 'modules/learning/views/players/booc-pdf-viewer.client.view.html',
+        replace: true,
+        link: init
+    };
 });

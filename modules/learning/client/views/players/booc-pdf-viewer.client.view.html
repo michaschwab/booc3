@@ -1,0 +1,74 @@
+<div class="pdfviewer" ng-class="{'panel': showTitle, 'panel-default': showTitle}" style="width: {{width-10}}px; margin: 0;">
+    <div ng-class="{'panel-heading': showTitle, 'panel-footer': !showTitle}">
+
+        <div class="pull-right btn-group">
+
+            <button class="btn btn-default" ng-click="prevPage()">
+                <span class="glyphicon glyphicon-chevron-left"></span>
+            </button>
+
+            <button class="btn btn-default page-selector" ng-click="openPageSelector()">
+                <span ng-show="!pageSelectorOpen">
+                    Page
+                    {{currentPage}} / {{totalPages}}
+                </span>
+
+                <input type="number" class="form-control" id="desiredPageInput" ng-show="pageSelectorOpen" ng-change="updateDesiredPage()" ng-model="desired.page"  min="1" max="{{totalPages}}" />
+
+            </button>
+
+            <button class="btn btn-default" ng-click="nextPage()">
+                <span class="glyphicon glyphicon-chevron-right"></span>
+            </button>
+
+
+        </div>
+
+        <div class="pull-right btn-group" style="margin-right: 20px;">
+
+            <button class="btn btn-default" ng-click="zoomOut()">
+                <span class="glyphicon glyphicon-minus"></span>
+            </button>
+
+            <button class="btn btn-default page-selector" ng-click="openZoomSelector()">
+                <span ng-show="!zoomSelectorOpen">
+                    {{pdfScale * 100 | number:0}}%
+                    Zoom
+                </span>
+
+                <input type="number" class="form-control" id="desiredZoomInput" ng-show="zoomSelectorOpen" ng-change="updateDesiredZoom()" ng-model="desired.zoom" />
+
+            </button>
+
+            <button class="btn btn-default" ng-click="zoomIn()">
+                <span class="glyphicon glyphicon-plus"></span>
+            </button>
+
+
+        </div>
+
+        <div class="pull-right btn-group" style="margin-right: 20px;">
+            <a class="btn btn-default" href="/api/sources/{{source._id}}/pdf" target="_blank">
+                <span class="fa fa-external-link"></span>
+                New Tab
+            </a>
+            <a class="btn btn-default" href="/api/sources/{{source._id}}/pdf" download="{{active.source.title}}.pdf" target="_blank">
+                <span class="glyphicon glyphicon-download-alt"></span>
+                Download
+            </a>
+        </div>
+
+        <h2 ng-show="showTitle">
+            <span class="source-title">{{source.title}}</span>
+            <i class="fa fa-angle-double-right"></i>
+            <span class="concept-title">{{concept.concept.title}}</span>
+        </h2>
+
+        <br style="clear:both" />
+
+
+    </div>
+    <div class="panel-content" style="padding:0; overflow: auto; width: {{width-10}}px; height: {{height}}px;">
+        <pdfviewer ng-src="{{sourceData.document}}" width="{{pdfWidth}}" height="{{pdfHeight}}" scale="page-fit" on-page-load='pageLoaded(page,total)' class="pdfViewer" id="viewer"></pdfviewer>
+    </div>
+</div>

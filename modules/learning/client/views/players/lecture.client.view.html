@@ -1,4 +1,4 @@
-<header class="content-bar">
+<!--<header class="content-bar">
 
     <div class="pull-left">
         <h4>
@@ -14,7 +14,77 @@
         <a href><span class="fa fa-clone"></span> Minimize & Show Map</a>
     </div>
 
-</header>
+</header>-->
+
+<div class="panel panel-default">
+    <div class="panel panel-heading" style="margin:0">
+        <h2>
+            <span class="source-title">{{active.source.title}}</span>
+            <i class="fa fa-angle-double-right"></i>
+            <span class="concept-title">{{activeConcept.concept.title}}</span>
+        </h2>
+    </div>
+
+    <booc-pdf-viewer sourcedata="sourceData" width="pdfWidth" height="pdfHeight" concept="activeConcept" source="active.source" showtitle="false"></booc-pdf-viewer>
+
+    <a href class="slides-video-divider" style="left:{{pdfWidth+7}}px">
+        .<br />.<br />.
+    </a>
+
+    <div class="navigation" ng-class="{ extended: map.extended }">
+
+
+        <div ng-if="active.sourcetype.title.toLowerCase().replace(' ','')=='lecture'" class="minivideo">
+
+            <div class="panel panel-footer" style="margin:0;">
+                <div class="btn-group">
+                    <a href class="btn btn-default" ng-class="{'btn-primary': currentPositionPercent < 1}">
+                        <span class="glyphicon glyphicon-home"></span>
+                        Beginning
+                    </a>
+
+                    <a href class="btn btn-default" style="width: {{videoWidth-205}}px">
+
+
+                        <div class="progress">
+                            <div class="progress-bar" role="progressbar" aria-valuenow="{{currentPositionPercent}}"
+                                 aria-valuemin="0" aria-valuemax="100" style="width:{{currentPositionPercent}}%">
+                                <span class="sr-only">{{currentPositionPercent}}% Complete</span>
+                            </div>
+                        </div>
+
+                    </a>
+
+                    <a href class="btn btn-default">
+                        <span class="glyphicon glyphicon-stop"></span>
+                        End
+                    </a>
+
+                </div>
+
+
+            </div>
+
+
+
+            <!--{{sourceData}}-->
+            <!--<video width="{{videoWidth}}" controls id="videoPlayer" ng-src="{{sourceData.video}}">
+                <source ng-src="{{sourceData.video}}" type="video/mp4" />
+                Your browser does not support the video tag.
+            </video>-->
+
+            <youtube-video width="{{videoWidth}}" controls id="videoPlayer" video-url="sourceData.video"></youtube-video>
+
+            <div ng-show="currentPosition<active.segment.end" class="alert alert-info notEndNotifier" role="alert">
+                This concept ends in {{(active.segment.end-currentPosition) * 1000 | date:'mm:ss':'UTC'}} minutes.
+            </div>
+
+        </div>
+    </div>
+
+</div>
+
+<!--
 
 <div class="learnContent-inner" style="width: {{pdfWidth}}px">
 
@@ -27,11 +97,11 @@
             </ul>
         </div>
 
-        <!--<div ng-show="conceptReadNotUnderstood" ng-if="conceptReadNotUnderstood && learnedConceptIds.indexOf(conceptReadNotUnderstood._id)===-1" class="alert alert-info alert-dismissible tooFarNotification">
+        &lt;!&ndash;<div ng-show="conceptReadNotUnderstood" ng-if="conceptReadNotUnderstood && learnedConceptIds.indexOf(conceptReadNotUnderstood._id)===-1" class="alert alert-info alert-dismissible tooFarNotification">
             <button type="button" class="close" data-dismiss="alert" ng-click="removeConceptReadNotUnderstood()" aria-label="Close"><span aria-hidden="true">&times;</span></button>
             Mark last concept <i>{{conceptReadNotUnderstood.title}}</i> as <strong>understood</strong>?
             <strong><a href="" ng-click="understoodLateClick(conceptReadNotUnderstood)">Yes</a></strong> <strong><a href="" ng-click="removeConceptReadNotUnderstood()">No</a></strong>
-        </div>-->
+        </div>&ndash;&gt;
 
         <pdfviewer ng-src="{{sourceData.document}}" width="{{pdfWidth}}" height="{{windowHeight-110}}" scale="page-fit" on-page-load='pageLoaded(page,total)' class="pdfViewer" id="viewer"></pdfviewer>
 
@@ -39,29 +109,5 @@
 
 
 </div>
+-->
 
-<a href class="slides-video-divider" style="left:{{pdfWidth+7}}px">
-    .<br />.<br />.
-</a>
-
-<div class="navigation" ng-class="{ extended: map.extended }">
-
-
-    <div ng-if="active.sourcetype.title.toLowerCase().replace(' ','')=='lecture'" class="minivideo">
-
-
-
-<!--{{sourceData}}-->
-        <!--<video width="{{videoWidth}}" controls id="videoPlayer" ng-src="{{sourceData.video}}">
-            <source ng-src="{{sourceData.video}}" type="video/mp4" />
-            Your browser does not support the video tag.
-        </video>-->
-
-        <youtube-video width="{{videoWidth}}" controls id="videoPlayer" video-url="sourceData.video"></youtube-video>
-
-        <div ng-show="currentPosition<active.segment.end" class="alert alert-info notEndNotifier" role="alert">
-            This concept ends in {{(active.segment.end-currentPosition) * 1000 | date:'mm:ss':'UTC'}} minutes.
-        </div>
-
-    </div>
-</div>
