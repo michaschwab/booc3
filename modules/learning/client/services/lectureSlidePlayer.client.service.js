@@ -10,7 +10,7 @@ angular.module('learning').service('LectureSlidePlayer', function(YoutubePlayer,
     this.start = function(scope)
     {
         $scope = scope;
-        interval1 = $interval(me.synchronizeSlide, 1000);
+        interval1 = $interval(me.synchronize, 1000);
 
         $scope.pdfWidth = $scope.contentWidth*2/3;
         lastSlidePdf = '';
@@ -40,6 +40,29 @@ angular.module('learning').service('LectureSlidePlayer', function(YoutubePlayer,
         PdfPlayer.setSizeQuick(goalWidth, goalHeight);
     };
 
+    this.synchronize = function()
+    {
+        // First, check if the user last did a change on the slides, or on the video.
+        // If the user eg switched slides recently, then the video should be updated, and not the pdf viewer.
+
+        var videoInteraction = YoutubePlayer.getLastUserInteractionTime();
+        var slideInteraction = $scope.lastUserChosenPdfPage;
+        //console.log(videoInteraction > slideInteraction, videoInteraction, slideInteraction);
+
+        if(videoInteraction > slideInteraction)
+        {
+            me.synchronizeSlide();
+        }
+        else
+        {
+            me.synchronizeVideo();
+        }
+    };
+
+    this.synchronizeVideo = function()
+    {
+        // TODO: Possibly: Get slide number, move video to correct position.
+    };
 
     this.synchronizeSlide = function()
     {

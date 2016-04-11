@@ -4,14 +4,56 @@ angular.module('learning').service('YoutubePlayer', function($http, $sce, $inter
     var $scope;
 
     var player;
+    var currentTime = 0;
+    var currentState = '';
+    var lastUserInteraction = 0;
+    var lastSystemChange = 0;
 
     this.start = function(scope)
     {
         $scope = scope;
         //console.log('hi');
-        this.waitForPlayerReady();
+        this.waitForPlayerReady(function()
+        {
+            $interval(me.checkStateTime, 500);
+        });
 
         return this;
+    };
+
+    var lastCurrentTime = 0;
+    var lastState = '';
+
+    this.checkStateTime = function()
+    {
+        currentTime = !player ? -1 : player.getCurrentTime();
+
+        if(lastCurrentTime == currentTime)
+            currentState = 'paused';
+        else
+            currentState = 'playing';
+
+        if(lastState != currentState)
+        {
+            var now = Date.now();
+            if(now - lastSystemChange < 500)
+            {
+                // if this change is detected very shortly after the system ordered a change, it's probably not a user interaction.
+            }
+            else
+            {
+                lastUserInteraction = Date.now();
+            }
+
+            lastState = currentState;
+        }
+
+        lastCurrentTime = currentTime;
+    };
+
+    this.getLastUserInteractionTime = function()
+    {
+        return lastUserInteraction;
     };
 
     this.stop = function()
@@ -21,11 +63,14 @@ angular.module('learning').service('YoutubePlayer', function($http, $sce, $inter
 
     this.getPosition = function()
     {
-        return !player ? -1 : player.getCurrentTime();
+        //return !player ? -1 : player.getCurrentTime();
+        return currentTime;
     };
 
     this.setPosition = function(pos)
     {
+        lastSystemChange = Date.now();
+
         if(player && player.f)
         {
             try {
@@ -74,19 +119,21 @@ angular.module('learning').service('YoutubePlayer', function($http, $sce, $inter
         }
     };
 
-    this.waitForPlayerReady = function()
+    this.waitForPlayerReady = function(cb)
     {
         $scope.$on('youtube.player.ready', function ($event, thePlayer) {
             console.log('player ready');
             player = thePlayer;
             //player.playVideo();
             $scope.player = player;
+            cb();
             //$scope.scale = 0.1;
         });
     };
 
     this.play = function()
     {
+        lastSystemChange = Date.now();
         if(player)
         {
             console.log('wtf');
@@ -96,6 +143,7 @@ angular.module('learning').service('YoutubePlayer', function($http, $sce, $inter
 
     this.stopPlay = function()
     {
+        lastSystemChange = Date.now();
         if(player && player.f)
         {
             try {
