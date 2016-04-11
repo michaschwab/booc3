@@ -14,6 +14,9 @@ module.exports = function(app) {
 	app.route('/api/sources/pdf')
 			.post(sources.uploadPdf);
 
+	app.route('/api/sources/:sourceId/pdfMerge')
+		.get(sources.mergeLectureSlides);
+
 	app.route('/api/sources/:sourceId')
 		.get(sources.read)
 		.post(sources.create)

@@ -14,6 +14,7 @@ var path = require('path'),
     cheerio = require('cheerio'),
     mkdirp = require('mkdirp'),
     request = require('request'),
+    PDFMerge = require('pdf-merge'),
     _ = require('lodash');
 
 var ObjectId = mongoose.Types.ObjectId;
@@ -78,6 +79,63 @@ exports.update = function(req, res)
             res.jsonp(source);
         }
     });
+};
+
+/*
+This function assumes a lecture slide / video combination (lecture) has been recorded in the old (until 2015) Harvard
+Extension School format.
+ */
+exports.mergeLectureSlides = function(req, res)
+{
+    var source = req.source;
+
+    if(source.data.timestamps)
+    {
+        var files = [];
+        var newTimestamps = [];
+
+        for(var i = 0; i < source.data.timestamps.length; i++)
+        {
+            var slideTimeEntry = source.data.timestamps[i];
+            var pdfPath = '/modules/contents/client/uploads/slides/' + slideTimeEntry.slidepdf;
+            files.push(pdfPath);
+
+            newTimestamps.push({ slideNumber: i+1, time: slideTimeEntry.time });
+        }
+        source.data['slideTimestamps'] = newTimestamps;
+        var newData = { slideTimestamps: newTimestamps, oldTimestamps: source.data.timestamps };
+
+        Source.update({ _id: source._id }, { $set: { data: newData } }, function(saveErr) {
+        //source.save(function(saveErr) {
+            //console.log(saveErr);
+            if (saveErr) {
+                return res.status(400).send({
+                    message: errorHandler.getErrorMessage(saveErr)
+                });
+            } else {
+                var pdfMerge = new PDFMerge(files);
+                pdfMerge.asNewFile('modules/contents/client/uploads/slides/' + source._id + '_merged.pdf').merge(function(error, filePath)
+                {
+                    if(error)
+                    {
+                        return res.status(400).send({
+                            message: 'merge failed:' + error
+                        });
+                    }
+                    else
+                    {
+                        return res.jsonp(source);
+                    }
+                });
+            }
+        });
+    }
+    else
+    {
+        return res.status(400).send({
+            message: 'not a lecture with individual slide pdfs'
+        });
+    }
 };
 
 /**
