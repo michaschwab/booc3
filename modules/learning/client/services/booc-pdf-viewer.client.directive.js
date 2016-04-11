@@ -7,7 +7,7 @@ angular.module('learning').directive('boocPdfViewer', function($timeout, PDFView
 
     var init = function(scope)
     {
-        $timeout(function(){console.log(scope);}, 2000);
+        //$timeout(function(){console.log(scope);}, 2000);
         scope.courseScope = angular.element('.course-view').scope();
         $scope = scope;
         $scope.viewer = PDFViewerService.Instance("viewer");
@@ -15,6 +15,8 @@ angular.module('learning').directive('boocPdfViewer', function($timeout, PDFView
         $scope.pageSelectorOpen = false;
         $scope.pdfScale = 1;
         $scope.desired.zoom = Math.round($scope.pdfScale * 100);
+        $scope.state = 'notloaded';
+        var onStateFinished = [];
 
         $scope.nextPage = function() {
             $scope.viewer.nextPage();
@@ -87,6 +89,35 @@ angular.module('learning').directive('boocPdfViewer', function($timeout, PDFView
 
             $timeout.cancel(hideTimeout);
             hideTimeout = $timeout(hideFct, 6000);
+        };
+
+        scope.courseScope.pdfSwitchToPage = function(page)
+        {
+            var todo = function()
+            {
+                $scope.desired.page = page;
+                $scope.viewer.gotoPage(page);
+            };
+            if($scope.state == 'finished')
+            {
+                todo();
+            }
+            else
+            {
+                onStateFinished.push(todo);
+            }
+        };
+
+        $scope.loadProgress = function(state)
+        {
+            $scope.state = state;
+            if(state == 'finished')
+            {
+                onStateFinished.forEach(function(fct)
+                {
+                    fct();
+                })
+            }
         };
 
         $scope.updateDesiredZoom = function()

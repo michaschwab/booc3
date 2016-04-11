@@ -47,7 +47,7 @@ angular.module('learning').service('LectureSlidePlayer', function(YoutubePlayer,
 
         if(time !== -1)
         {
-            var slidePdf = me.getSlideFromVidTime(time, $scope.active.source.data.timestamps);
+            var slidePdf = me.getSlidePdfFromVidTime(time, $scope.active.source);
 
             if(!slidePdf || slidePdf.substr(slidePdf.length - 3).toLowerCase() !== 'pdf')
             {
@@ -62,7 +62,12 @@ angular.module('learning').service('LectureSlidePlayer', function(YoutubePlayer,
                 me.parseDocumentSegmentSourceData(slidePdf, function(pdfData)
                 {
                     $scope.sourceData.document = pdfData;
+                    $scope.pdfSwitchToPage(me.getSlideNumberFromVidTime(time, $scope.active.source));
                 });
+            }
+            else
+            {
+                $scope.pdfSwitchToPage(me.getSlideNumberFromVidTime(time, $scope.active.source));
             }
         }
     };
@@ -72,25 +77,69 @@ angular.module('learning').service('LectureSlidePlayer', function(YoutubePlayer,
         PdfPlayer.parseDocumentSegmentSourceData(path, callback);
     };
 
-    this.getSlideFromVidTime = function(time, timestamps)
+    this.getSlidePdfFromVidTime = function(time, source)
     {
+        var data = source.data;
 
-        time = parseInt(time);
-        var slide = timestamps[0].slidepdf;
-        var bestTime = 0;
-
-        //console.log(time, timestamps);
-        for(var i = 0; i < timestamps.length; i++)
+        if(data.slideTimestamps)
         {
-            if(time > timestamps[i].time && timestamps[i].time > bestTime)
-            {
-                bestTime = timestamps[i].time;
-                slide = timestamps[i].slidepdf;
-            }
+            // In case the slides are in one single pdf
+            return './modules/contents/uploads/slides/' + source._id + '_merged.pdf';
         }
-        //console.log(slide);
+        else
+        {
+            // In case the slides are in one pdf each
 
-        return './modules/contents/uploads/slides/' + slide;
+            var timestamps = data.timestamps;
+            time = parseInt(time);
+            var slide = timestamps[0].slidepdf;
+            var bestTime = 0;
+
+            //console.log(time, timestamps);
+            for(var i = 0; i < timestamps.length; i++)
+            {
+                if(time > timestamps[i].time && timestamps[i].time > bestTime)
+                {
+                    bestTime = timestamps[i].time;
+                    slide = timestamps[i].slidepdf;
+                }
+            }
+            //console.log(slide);
+
+            return './modules/contents/uploads/slides/' + slide;
+        }
+    };
+
+    this.getSlideNumberFromVidTime = function(time, source)
+    {
+        var data = source.data;
+
+        if(data.slideTimestamps)
+        {
+            // In case the slides are in one single pdf
+            var timestamps = data.slideTimestamps;
+            time = parseInt(time);
+            var slideNumber = 0;
+            var bestTime = 0;
+
+            //console.log(time, timestamps);
+            for(var i = 0; i < timestamps.length; i++)
+            {
+                if(time > timestamps[i].time && timestamps[i].time > bestTime)
+                {
+                    bestTime = timestamps[i].time;
+                    slideNumber = timestamps[i].slideNumber;
+                }
+            }
+
+            return slideNumber;
+            //console.log(slideNumber);
+        }
+        else
+        {
+            // In case the slides are in one pdf each
+            return 1;
+        }
     };
 
 
