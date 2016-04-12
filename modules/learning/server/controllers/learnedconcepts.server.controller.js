@@ -37,6 +37,10 @@ exports.create = function(req, res)
 exports.reset = function(req, res)
 {
 	var qObject = {};
+	if(!req.user) return res.status(400).send({
+		message: 'not logged in'
+	});
+
 	var userId = new ObjectId(req.user._id);
 	qObject['user'] = userId;
 
