@@ -89,21 +89,22 @@ exports.mergeLectureSlides = function(req, res)
 {
     var source = req.source;
 
-    if(source.data.timestamps)
+    if(source.data.timestamps || source.data.oldTimestamps)
     {
         var files = [];
         var newTimestamps = [];
+        var oldtimeStamps = source.data.timestamps || source.data.oldTimestamps;
 
-        for(var i = 0; i < source.data.timestamps.length; i++)
+        for(var i = 0; i < oldtimeStamps.length; i++)
         {
-            var slideTimeEntry = source.data.timestamps[i];
+            var slideTimeEntry = oldtimeStamps[i];
             var pdfPath = '/modules/contents/client/uploads/slides/' + slideTimeEntry.slidepdf;
             files.push(pdfPath);
 
             newTimestamps.push({ slideNumber: i+1, time: slideTimeEntry.time });
         }
         source.data['slideTimestamps'] = newTimestamps;
-        var newData = { slideTimestamps: newTimestamps, oldTimestamps: source.data.timestamps };
+        var newData = { slideTimestamps: newTimestamps, oldTimestamps: oldtimeStamps };
 
         Source.update({ _id: source._id }, { $set: { data: newData } }, function(saveErr) {
         //source.save(function(saveErr) {
