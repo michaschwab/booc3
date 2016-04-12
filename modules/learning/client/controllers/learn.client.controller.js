@@ -139,6 +139,12 @@ angular.module('learning').controller('LearnController',
                 player.stopPlay();
         };
 
+        this.pausePlay = function()
+        {
+            if(player && player.pausePlay)
+                player.pausePlay();
+        };
+
         this.updatePosition = function()
         {
             if(player.getPosition)
@@ -159,7 +165,8 @@ angular.module('learning').controller('LearnController',
             if(!$scope.active.source) return;
 
             me.updateCurrentPlayers();
-            me.stopPlay();
+            //me.stopPlay();
+            me.pausePlay();
 
             if($scope.active.source._id !== $scope.lastSourceId)
             {

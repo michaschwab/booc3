@@ -15,8 +15,10 @@ angular.module('learning').service('YoutubePlayer', function($http, $sce, $inter
         //console.log('hi');
         this.waitForPlayerReady(function()
         {
-            $interval(me.checkStateTime, 500);
+            $interval(me.checkStateTime, 100);
         });
+
+        $scope.playerVars = {autoplay: 0};
 
         return this;
     };
@@ -75,7 +77,10 @@ angular.module('learning').service('YoutubePlayer', function($http, $sce, $inter
         {
             try {
                 player.seekTo(pos);
-                player.pauseVideo();
+
+                $timeout(me.pausePlay, 200);
+                //if(currentState == 'playing')
+                    //player.pauseVideo();
             } catch (e) {
                 console.error('Something wrong with the youtube player', e);
             }
@@ -141,6 +146,21 @@ angular.module('learning').service('YoutubePlayer', function($http, $sce, $inter
         }
     };
 
+    this.pausePlay = function()
+    {
+        lastSystemChange = Date.now();
+        if(player && player.f && (currentState == 'playing' ||  currentState == ''))
+        {
+            try {
+                player.pauseVideo();
+                //console.log('stopped');
+            } catch (e)
+            {
+                console.error('Something wrong with the youtube player', e, player);
+            }
+        }
+    };
+
     this.stopPlay = function()
     {
         lastSystemChange = Date.now();
@@ -148,6 +168,7 @@ angular.module('learning').service('YoutubePlayer', function($http, $sce, $inter
         {
             try {
                 player.stopVideo();
+                //console.log('stopped');
             } catch (e)
             {
                 console.error('Something wrong with the youtube player', e, player);

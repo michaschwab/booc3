@@ -110,6 +110,11 @@ angular.module('learning').service('LecturePlayer', function(YoutubePlayer, Lect
         return YoutubePlayer.stopPlay();
     };
 
+    this.pausePlay = function()
+    {
+        return YoutubePlayer.pausePlay();
+    };
+
     this.stop = function()
     {
         LectureSlidePlayer.stop();
