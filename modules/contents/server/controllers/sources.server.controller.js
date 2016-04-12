@@ -98,10 +98,15 @@ exports.mergeLectureSlides = function(req, res)
         for(var i = 0; i < oldtimeStamps.length; i++)
         {
             var slideTimeEntry = oldtimeStamps[i];
-            var pdfPath = '/modules/contents/client/uploads/slides/' + slideTimeEntry.slidepdf;
-            files.push(pdfPath);
+            var slidePdf = slideTimeEntry.slidepdf;
 
-            newTimestamps.push({ slideNumber: i+1, time: slideTimeEntry.time });
+            if(slidePdf.substr(slidePdf.length - 4).toLowerCase() === '.pdf')
+            {
+                var pdfPath = '/modules/contents/client/uploads/slides/' + slideTimeEntry.slidepdf;
+                files.push(pdfPath);
+
+                newTimestamps.push({ slideNumber: i+1, time: slideTimeEntry.time });
+            }
         }
         source.data['slideTimestamps'] = newTimestamps;
         var newData = { slideTimestamps: newTimestamps, oldTimestamps: oldtimeStamps };
