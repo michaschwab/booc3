@@ -594,6 +594,7 @@ angular.module('courses').controller('CourseViewController',
         };
 
         w.bind('resize', $scope.updateSize);
+        $scope.updateSize();
         $scope.$watch('panelWidth', function()
         {
             $scope.contentWidth = $scope.windowWidth - $scope.panelWidth;

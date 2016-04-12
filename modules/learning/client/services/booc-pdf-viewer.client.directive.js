@@ -15,16 +15,20 @@ angular.module('learning').directive('boocPdfViewer', function($timeout, PDFView
         $scope.pageSelectorOpen = false;
         $scope.pdfScale = 1;
         $scope.desired.zoom = Math.round($scope.pdfScale * 100);
-        scope.courseScope.lastUserChosenPdfPage = 0;
+        $scope.courseScope.lastUserChosenPdfPage = 0;
         $scope.state = 'notloaded';
         var onStateFinished = [];
 
         $scope.nextPage = function() {
+            $scope.currentPage++;
+            $scope.courseScope.sourceData.slideNumber = $scope.currentPage;
             $scope.viewer.nextPage();
             scope.courseScope.lastUserChosenPdfPage = Date.now();
         };
 
         $scope.prevPage = function() {
+            $scope.currentPage--;
+            $scope.courseScope.sourceData.slideNumber = $scope.currentPage;
             $scope.viewer.prevPage();
             scope.courseScope.lastUserChosenPdfPage = Date.now();
         };

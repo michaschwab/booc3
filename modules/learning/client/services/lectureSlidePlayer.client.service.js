@@ -13,11 +13,21 @@ angular.module('learning').service('LectureSlidePlayer', function(YoutubePlayer,
         interval1 = $interval(me.synchronize, 1000);
 
         $scope.pdfWidth = $scope.contentWidth*2/3;
+        updateSize();
         lastSlidePdf = '';
 
         PdfPlayer.start($scope);
 
+        $scope.$watch('contentWidth', updateSize);
+        $scope.$watch('contentHeight', updateSize);
+
         return this;
+    };
+
+    var updateSize = function()
+    {
+        //$scope.pdfWidth = $scope.contentWidth*2/3;
+        $scope.pdfHeight = $scope.contentHeight;
     };
 
     this.play = function()
@@ -62,8 +72,18 @@ angular.module('learning').service('LectureSlidePlayer', function(YoutubePlayer,
     this.synchronizeVideo = function()
     {
         // TODO: Possibly: Get slide number, move video to correct position.
+
+
+        // Then, make sure the pdf html object is reloaded to switch pages
+        /*var slidePdf = $scope.sourceData.pdfPath;
+        $scope.sourceData.pdfPath = '';
+        $timeout(function()
+        {
+            $scope.sourceData.pdfPath = slidePdf;
+        }, 1000);*/
     };
 
+    var lastSlideNumber = -1;
     this.synchronizeSlide = function()
     {
         var time = YoutubePlayer.getPosition();
@@ -76,6 +96,7 @@ angular.module('learning').service('LectureSlidePlayer', function(YoutubePlayer,
             {
                 slidePdf = '/modules/learning/img/noSlide.pdf';
             }
+            var slideNumber = me.getSlideNumberFromVidTime(time, $scope.active.source);
 
             if(lastSlidePdf !== slidePdf)
             {
@@ -85,13 +106,28 @@ angular.module('learning').service('LectureSlidePlayer', function(YoutubePlayer,
                 me.parseDocumentSegmentSourceData(slidePdf, function(pdfData)
                 {
                     $scope.sourceData.document = pdfData;
-                    $scope.pdfSwitchToPage(me.getSlideNumberFromVidTime(time, $scope.active.source));
+                    $scope.sourceData.pdfPath = slidePdf;
+                    $scope.sourceData.slideNumber = slideNumber;
+                    $scope.pdfSwitchToPage(slideNumber);
                 });
             }
             else
             {
-                $scope.pdfSwitchToPage(me.getSlideNumberFromVidTime(time, $scope.active.source));
+                //console.log(lastSlideNumber,slideNumber);
+                if(lastSlideNumber != slideNumber)
+                {
+                    $scope.pdfSwitchToPage(slideNumber);
+                    $scope.sourceData.slideNumber = slideNumber;
+
+                    // Resetting the pdf path, so the document is re-loaded because otherwise it doesnt change pages.
+                    /*$scope.sourceData.pdfPath = '';
+                    $timeout(function()
+                    {
+                        $scope.sourceData.pdfPath = slidePdf;
+                    }, 1000);*/
+                }
             }
+            lastSlideNumber = slideNumber;
         }
     };
 

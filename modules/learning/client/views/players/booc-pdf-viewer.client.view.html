@@ -58,6 +58,35 @@
             </a>
         </div>
 
+        <div class="pull-right btn-group dropdown" style="margin-right: 20px;">
+            <a type="button" href class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <span class="glyphicon glyphicon-blackboard"></span>
+                Viewer
+                <span class="caret"></span>
+                <span class="sr-only">Toggle Dropdown</span>
+            </a>
+            <!--<button type="button" class="btn btn-default " data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <span class="caret"></span>
+                <span class="sr-only">Toggle Dropdown</span>
+            </button>-->
+            <ul class="dropdown-menu" style="width: 100px;min-width:100px;">
+                <li ng-class="{active: !externalViewer}"><a href ng-click="externalViewer=false"><span class="glyphicon glyphicon-compressed"></span> Built-in</a></li>
+                <li ng-class="{active: externalViewer}"><a href ng-click="externalViewer=true"><i class="fa fa-file-pdf-o" aria-hidden="true"></i> Native</a></li>
+            </ul>
+        </div>
+
+        <!--<div class="pull-right btn-group" style="margin-right: 20px;">
+
+            <a class="btn btn-default" href ng-click="externalViewer=true">
+                <span class="fa fa-external-link"></span>
+                Ext. Viewer
+            </a>
+            <a class="btn btn-default" href ng-click="externalViewer=false">
+                <span class="glyphicon glyphicon-download-alt"></span>
+                Normal Viewer
+            </a>
+        </div>-->
+
         <h2 ng-show="showTitle">
             <span class="source-title">{{source.title}}</span>
             <i class="fa fa-angle-double-right"></i>
@@ -69,6 +98,11 @@
 
     </div>
     <div class="panel-content" style="padding:0; overflow: auto; width: {{width-10}}px; height: {{height}}px;">
-        <pdfviewer ng-src="{{sourceData.document}}" width="{{pdfWidth}}" height="{{pdfHeight}}" scale="page-fit" load-progress="loadProgress(state)" on-page-load='pageLoaded(page,total)' class="pdfViewer" id="viewer"></pdfviewer>
+
+        <pdfviewer ng-if="!externalViewer" ng-src="{{sourceData.document}}" width="{{pdfWidth}}" height="{{pdfHeight}}" scale="page-fit" load-progress="loadProgress(state)" on-page-load='pageLoaded(page,total)' class="pdfViewer" id="viewer"></pdfviewer>
+        <object ng-show="externalViewer" data="{{sourceData.pdfPath}}#page={{sourceData.slideNumber}}" type="application/pdf" width="{{pdfWidth}}" height="{{pdfHeight}}">
+            <p>PDF Viewer not found. <a href="{{sourceData.pdfPath}}">Download</a></p>
+        </object>
+        <!--<embed ng-show="externalViewer" src="{{sourceData.pdfPath}}" type="application/pdf" width="100%" height="100%">-->
     </div>
 </div>

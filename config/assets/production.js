@@ -23,6 +23,7 @@ module.exports = {
         //'public/lib/angular-animate/angular-animate.min.js',
         'public/lib/angular-ui-router/release/angular-ui-router.min.js',
         'public/lib/angular-ui-utils/ui-utils.min.js',
+          'public/lib/bootstrap/dist/js/bootstrap.min.js',
         'public/lib/angular-bootstrap/ui-bootstrap-tpls.min.js',
         'public/lib/angular-file-upload/angular-file-upload.min.js',
         'public/lib/angular-recursion/angular-recursion.js',
