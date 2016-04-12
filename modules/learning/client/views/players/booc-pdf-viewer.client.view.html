@@ -1,13 +1,20 @@
 <div class="pdfviewer" ng-class="{'panel': showTitle, 'panel-default': showTitle, 'small-pdf': pdfWidth<=800}" style="width: {{width-10}}px; margin: 0;">
-    <div ng-class="{'panel-heading': showTitle, 'panel-footer': !showTitle}">
+    <div class="panel-heading" ng-show="showTitle">
+        <h2>
+            <span class="source-title">{{source.title}}</span>
+            <i class="fa fa-angle-double-right"></i>
+            <span class="concept-title">{{concept.concept.title}}</span>
+        </h2>
+    </div>
+    <div class="panel-footer">
 
         <div class="pull-right btn-group">
 
-            <button class="btn btn-default" ng-click="prevPage()">
+            <button class="btn btn-default" ng-click="prevPage()" ng-disabled="externalViewer">
                 <span class="glyphicon glyphicon-chevron-left"></span>
             </button>
 
-            <button class="btn btn-default page-selector" ng-click="openPageSelector()">
+            <button class="btn btn-default page-selector" ng-click="openPageSelector()" ng-disabled="externalViewer">
                 <span ng-show="!pageSelectorOpen">
                     <span class="large-pdf-item">Page</span>
                     {{currentPage}} / {{totalPages}}
@@ -17,7 +24,7 @@
 
             </button>
 
-            <button class="btn btn-default" ng-click="nextPage()">
+            <button class="btn btn-default" ng-click="nextPage()" ng-disabled="externalViewer">
                 <span class="glyphicon glyphicon-chevron-right"></span>
             </button>
 
@@ -26,11 +33,11 @@
 
         <div class="pull-right btn-group" style="margin-right: 20px;">
 
-            <button class="btn btn-default" ng-click="zoomOut()">
+            <button class="btn btn-default" ng-click="zoomOut()" ng-disabled="externalViewer">
                 <span class="glyphicon glyphicon-minus"></span>
             </button>
 
-            <button class="btn btn-default page-selector" ng-click="openZoomSelector()">
+            <button class="btn btn-default page-selector" ng-click="openZoomSelector()" ng-disabled="externalViewer">
                 <span ng-show="!zoomSelectorOpen">
                     {{pdfScale * 100 | number:0}}%
                     <span class="large-pdf-item">Zoom</span>
@@ -40,7 +47,7 @@
 
             </button>
 
-            <button class="btn btn-default" ng-click="zoomIn()">
+            <button class="btn btn-default" ng-click="zoomIn()" ng-disabled="externalViewer">
                 <span class="glyphicon glyphicon-plus"></span>
             </button>
 
@@ -80,26 +87,6 @@
                 </ul>
             </div>
         </div>
-
-
-
-        <!--<div class="pull-right btn-group" style="margin-right: 20px;">
-
-            <a class="btn btn-default" href ng-click="externalViewer=true">
-                <span class="fa fa-external-link"></span>
-                Ext. Viewer
-            </a>
-            <a class="btn btn-default" href ng-click="externalViewer=false">
-                <span class="glyphicon glyphicon-download-alt"></span>
-                Normal Viewer
-            </a>
-        </div>-->
-
-        <h2 ng-show="showTitle">
-            <span class="source-title">{{source.title}}</span>
-            <i class="fa fa-angle-double-right"></i>
-            <span class="concept-title">{{concept.concept.title}}</span>
-        </h2>
 
         <br style="clear:both" />
 
