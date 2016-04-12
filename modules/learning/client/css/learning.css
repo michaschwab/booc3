@@ -189,6 +189,12 @@ a.concept:hover {
 .page-selector {
     width: 100px;
 }
+.small-pdf .page-selector {
+    width: 70px;
+}
+.small-pdf .large-pdf-item {
+    display: none;
+}
 #desiredPageInput, #desiredZoomInput {
     width: 70px;
     padding: 0 0 0 10px;
