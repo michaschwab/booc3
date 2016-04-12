@@ -97,11 +97,11 @@
 
 
     </div>
-    <div class="panel-content" style="padding:0; overflow: auto; width: {{width-10}}px; height: {{height}}px;">
+    <div class="panel-content" style="padding:0; overflow: auto; width: {{pdfWidth-8}}px; height: {{pdfHeight}}px;">
 
-        <pdfviewer ng-if="!externalViewer" ng-src="{{sourceData.document}}" width="{{pdfWidth}}" height="{{pdfHeight}}" scale="page-fit" load-progress="loadProgress(state)" on-page-load='pageLoaded(page,total)' class="pdfViewer" id="viewer"></pdfviewer>
-        <object ng-show="externalViewer" data="{{sourceData.pdfPath}}#page={{sourceData.slideNumber}}" type="application/pdf" width="{{pdfWidth}}" height="{{pdfHeight}}">
-            <p>PDF Viewer not found. <a href="{{sourceData.pdfPath}}">Download</a></p>
+        <pdfviewer ng-if="!externalViewer" ng-src="{{sourceData.document}}" width="{{pdfWidth}}" height="{{pdfHeight-8}}" scale="page-fit" load-progress="loadProgress(state)" on-page-load='pageLoaded(page,total)' class="pdfViewer" id="viewer"></pdfviewer>
+        <object ng-show="externalViewer" data="{{sourceData.pdfPath}}#page={{sourceData.slideNumber}}" type="application/pdf" width="{{pdfWidth-10}}" height="{{pdfHeight-6}}">
+            <p>PDF Viewer not found. <a href="/api/sources/{{source._id}}/pdf">Download</a></p>
         </object>
         <!--<embed ng-show="externalViewer" src="{{sourceData.pdfPath}}" type="application/pdf" width="100%" height="100%">-->
     </div>
