@@ -1,4 +1,4 @@
-angular.module('learning').service('PdfPlayer', function($interval, $timeout, $http, $sce, PdfViewer)
+angular.module('learning').service('PdfPlayer', function($interval, $timeout, $http, $sce)
 {
     var me = this;
     var $scope;
@@ -8,7 +8,6 @@ angular.module('learning').service('PdfPlayer', function($interval, $timeout, $h
     this.start = function(scope)
     {
         $scope = scope;
-        PdfViewer.init($scope);
 
         return this;
     };
@@ -44,7 +43,7 @@ angular.module('learning').service('PdfPlayer', function($interval, $timeout, $h
             {
                 $timeout(function()
                 {
-                    PdfViewer.goToPage(segment.start);
+                    $scope.switchToPdfPage(segment.start);
                     sourceData.slideNumber = segment.start;
                 }, 500);
             }

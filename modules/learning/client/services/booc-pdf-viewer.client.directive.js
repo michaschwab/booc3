@@ -9,6 +9,7 @@ angular.module('learning').directive('boocPdfViewer', function($timeout, PDFView
     {
         //$timeout(function(){console.log(scope);}, 2000);
         scope.courseScope = angular.element('.course-view').scope();
+        if(!scope.courseScope) scope.courseScope = angular.element('.contentCol').scope();
         $scope = scope;
         $scope.viewer = PDFViewerService.Instance("viewer");
         $scope.desired = {};
@@ -99,7 +100,7 @@ angular.module('learning').directive('boocPdfViewer', function($timeout, PDFView
             hideTimeout = $timeout(hideFct, 6000);
         };
 
-        scope.courseScope.pdfSwitchToPage = function(page)
+        scope.courseScope.switchToPdfPage = function(page)
         {
             var todo = function()
             {
@@ -114,6 +115,16 @@ angular.module('learning').directive('boocPdfViewer', function($timeout, PDFView
             {
                 onStateFinished.push(todo);
             }
+        };
+
+        scope.courseScope.getCurrentPdfPage = function()
+        {
+            return $scope.currentPage;
+        };
+
+        scope.courseScope.getTotalPdfPages = function()
+        {
+            return $scope.totalPages;
         };
 
         $scope.loadProgress = function(state)

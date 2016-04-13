@@ -39,39 +39,16 @@
     </div>
     <div class="col-md-7">
         <div class="panel panel-default" style="height:480px">
-            <div class="panel-heading" style="height: 50px">
 
-                <div class="pull-right btn-group">
+            <booc-pdf-viewer
+                    sourcedata="sourceData"
+                    width="620"
+                    height="475"
+                    concept="activeConcept"
+                    source="source"
+                    showtitle="false">
 
-                    <button class="btn btn-default" ng-click="prevPage()">
-                        <span class="glyphicon glyphicon-chevron-left"></span>
-                    </button>
-
-                    <button class="btn btn-default page-selector" ng-click="openPageSelector()">
-                <span ng-show="!pageSelectorOpen">
-                    Page
-                    <!--<input type="number" ng-change="updateDesiredPage()" ng-model="desired.page" />-->
-                    {{currentPage}}
-                    /
-                    {{totalPages}}
-                </span>
-
-                        <input type="number" class="form-control" id="desiredPageInput" ng-show="pageSelectorOpen" ng-change="updateDesiredPage()" ng-model="desired.page" min="1" max="{{totalPages}}" />
-
-                    </button>
-
-                    <button class="btn btn-default" ng-click="nextPage()">
-                        <span class="glyphicon glyphicon-chevron-right"></span>
-                    </button>
-
-
-                </div>
-
-
-            </div>
-            <div class="panel-content" style="padding:0; width:621px;">
-                <pdfviewer ng-src="{{sourceData.document}}" height="420" width="620" scale="page-fit" on-page-load='pageLoaded(page,total)' class="pdfViewer" id="viewer"></pdfviewer>
-            </div>
+            </booc-pdf-viewer>
         </div>
 
     </div>

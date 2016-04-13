@@ -1,4 +1,4 @@
-angular.module('contents').service('PdfCreator', function($http, FileUploader, $window, $timeout, $sce, PdfViewer)
+angular.module('contents').service('PdfCreator', function($http, FileUploader, $window, $timeout, $sce)
     {
         var me = this;
         var $scope = null;
@@ -7,7 +7,6 @@ angular.module('contents').service('PdfCreator', function($http, FileUploader, $
         {
             $scope = scope;
 
-            PdfViewer.init($scope);
             $scope.source.data = {};
             $scope.sourceData = {};
             $scope.uploading = false;
@@ -81,12 +80,12 @@ angular.module('contents').service('PdfCreator', function($http, FileUploader, $
 
         this.getCurrentPosition = function()
         {
-            return PdfViewer.getCurrentPage();
+            return $scope.getCurrentPdfPage();
         };
 
         this.getEndPosition = function()
         {
-            return PdfViewer.getTotalPages();
+            return $scope.getTotalPdfPages();
         };
 
         this.updatePdfPath = function()

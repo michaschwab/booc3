@@ -108,7 +108,7 @@ angular.module('learning').service('LectureSlidePlayer', function(YoutubePlayer,
                     $scope.sourceData.document = pdfData;
                     $scope.sourceData.pdfPath = slidePdf;
                     $scope.sourceData.slideNumber = slideNumber;
-                    $scope.pdfSwitchToPage(slideNumber);
+                    $scope.switchToPdfPage(slideNumber);
                 });
             }
             else
@@ -116,7 +116,7 @@ angular.module('learning').service('LectureSlidePlayer', function(YoutubePlayer,
                 //console.log(lastSlideNumber,slideNumber);
                 if(lastSlideNumber != slideNumber)
                 {
-                    $scope.pdfSwitchToPage(slideNumber);
+                    $scope.switchToPdfPage(slideNumber);
                     $scope.sourceData.slideNumber = slideNumber;
 
                     // Resetting the pdf path, so the document is re-loaded because otherwise it doesnt change pages.
