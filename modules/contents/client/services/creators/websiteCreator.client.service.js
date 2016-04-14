@@ -1,4 +1,4 @@
-angular.module('contents').service('WebsiteCreator', function($http, $sce)
+angular.module('contents').service('WebsiteCreator', function($http, $sce, $timeout)
 {
     var me = this;
     var $scope = null;
@@ -14,16 +14,28 @@ angular.module('contents').service('WebsiteCreator', function($http, $sce)
         $scope.xFrameProblem = false;
         $scope.isHttps = false;
 
-        $scope.$watch('source.path', function(path)
+        var pathUpdateCount = 0;
+
+        var pathUpdate = function()
         {
+            var path = $scope.source.path;
+
             if(path)
             {
-                $scope.sourceData = $sce.trustAsResourceUrl(path);
-
                 childScope = angular.element('.websiteCreateFormDiv').scope();
+                if(!childScope)
+                {
+                    // DOM not ready.
+                    return $timeout(pathUpdate, 100);
+                }
+
+                pathUpdateCount++;
+
+                $scope.sourceData = $sce.trustAsResourceUrl(path);
 
                 $scope.websiteEmbedPossible = false;
                 $scope.isHttps = path.substr(0,5) === 'https';
+                //TODO if not https, check if https available.
 
                 if($scope.isHttps)
                 {
@@ -32,7 +44,11 @@ angular.module('contents').service('WebsiteCreator', function($http, $sce)
                         if(response && response.data && response.data === 'yes')
                         {
                             $scope.websiteEmbedPossible = true;
-                            childScope.websiteEmbed = true;
+
+                            if(pathUpdateCount != 1 || !$scope.source.created) // Only set if the path has actually changed, and not just loaded from the db.
+                                childScope.websiteEmbed = true;
+                            else
+                                childScope.websiteEmbed = $scope.source.data.embed;
                         }
                         else
                         {
@@ -47,7 +63,8 @@ angular.module('contents').service('WebsiteCreator', function($http, $sce)
                     });
                 }
             }
-        }, true);
+        };
+        $scope.$watch('source.path', pathUpdate, true);
 
         $scope.$watchCollection('segments', function()
         {
@@ -61,7 +78,6 @@ angular.module('contents').service('WebsiteCreator', function($http, $sce)
                 {
                     return segment.concepts.indexOf(c._id) !== -1 && segment.conceptObjects.indexOf(c) === -1;
                 }));
-
             }
             else if($scope.segments.length === 0)
             {
