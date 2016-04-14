@@ -23,11 +23,12 @@ angular.module('contents').service('SourceIcon', function()
             {
                 icon = 'fa fa-external-link';
 
-                var extension = source.path.substr(source.path.lastIndexOf('.')+1);
+                var extension = source.path.substr(source.path.lastIndexOf('.')+1).toLowerCase();
 
                 var archives = ['zip', 'rar', 'gz'];
                 var textFiles = ['txt'];
-                var files = archives.concat(textFiles);
+                var pdfFiles = ['pdf'];
+                var files = archives.concat(textFiles, pdfFiles);
 
                 if(files.indexOf(extension) !== -1)
                 {
@@ -44,6 +45,11 @@ angular.module('contents').service('SourceIcon', function()
                 {
                     // It's a text file
                     icon = 'fa fa-file-text-o';
+                }
+                if(pdfFiles.indexOf(extension) !== -1)
+                {
+                    // It's a pdf file
+                    icon = 'fa fa-file-pdf-o';
                 }
             }
         }
