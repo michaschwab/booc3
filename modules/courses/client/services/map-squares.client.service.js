@@ -1,4 +1,4 @@
-angular.module('courses').service('MapSquares', function(Tip, $location, $timeout, Logger, FontAwesome, $state)
+angular.module('courses').service('MapSquares', function(Tip, $location, $timeout, Logger, FontAwesome, $state, SourceIcon)
 {
     var me = this;
     var $scope;
@@ -20,6 +20,7 @@ angular.module('courses').service('MapSquares', function(Tip, $location, $timeou
         squaresPerGroup = {};
 
         setupInteractions();
+        SourceIcon.init($scope);
     };
 
     var setupInteractions = function()
@@ -90,7 +91,7 @@ angular.module('courses').service('MapSquares', function(Tip, $location, $timeou
             return;
         }
         var sourcetype = $scope.sourcetypeMap[source.type];
-        square.icon = sourcetype.icon;
+        square.icon = SourceIcon.get(source);//sourcetype.icon;
 
         square.source = source;
         square.sourcetype = sourcetype;

@@ -2,30 +2,30 @@
    class="segment-link"
    id="panel-segment-{{segment._id}}"
    ng-click="courseScope.segmentClick(segment, concept, $event)"
-   title="{{::segment.title}}: {{::courseScope.sourcetypeMap[courseScope.sourceMap[segment.source].type].title}} on {{::courseScope.sourceMap[segment.source].title}}">
+   title="{{::segment.title}}: {{::sourcetype.title}} on {{::source.title}}">
 
-    <span class="{{::courseScope.sourcetypeMap[courseScope.sourceMap[segment.source].type].icon}} segment-icon"></span>
+    <span class="{{::icon}} segment-icon"></span>
 
     <span class="segment-title" id="panel-segment-title-{{segment._id}}">
         {{::segment.title}}
-        <span ng-show="courseScope.sourcetypeMap[courseScope.sourceMap[segment.source].type].player!='iframe' && courseScope.sourcetypeMap[courseScope.sourceMap[segment.source].type].player!='website' && courseScope.sourcetypeMap[courseScope.sourceMap[segment.source].type].player!='lti'">
+        <span ng-show="sourcetype.player!='iframe' && sourcetype.player!='website' && sourcetype.player!='lti'">
             in
-            <i>{{::courseScope.sourceMap[segment.source].title}}</i>
+            <i>{{::source.title}}</i>
         </span>
 
-        <span ng-show="segment.start&&(courseScope.sourcetypeMap[courseScope.sourceMap[segment.source].type].title=='Lecture'||courseScope.sourcetypeMap[courseScope.sourceMap[segment.source].type].title=='YouTube'||courseScope.sourcetypeMap[courseScope.sourceMap[segment.source].type].title=='Harvard Extension School')">
+        <span ng-show="segment.start&&(sourcetype.title=='Lecture'||sourcetype.title=='YouTube'||sourcetype.title=='Harvard Extension School')">
             (<span ng-show="segment.start>=3600">{{segment.start | secondsToDateTime | date:'HH:mm:ss'}}</span><span ng-show="segment.start<3600">{{segment.start | secondsToDateTime | date:'mm:ss'}}</span>
             -
             <span ng-show="segment.end>=3600">{{segment.end | secondsToDateTime | date:'HH:mm:ss'}}</span><span ng-show="segment.end<3600">{{segment.end | secondsToDateTime | date:'mm:ss'}}</span>)
         </span>
-        <span ng-show="segment.end&&(courseScope.sourcetypeMap[courseScope.sourceMap[segment.source].type].title=='PDF')">
+        <span ng-show="segment.end&&(sourcetype.title=='PDF')">
             (p. {{segment.start}} - {{segment.end}})
         </span>
 
-        <span ng-show="courseScope.sourceMap[segment.source].tags.length">
+        <span ng-show="source.tags.length">
             <br />
             <!--Tags:-->
-            <span ng-repeat="tag in courseScope.sourceMap[segment.source].tags" class="tag-item">
+            <span ng-repeat="tag in source.tags" class="tag-item">
                 <i class="{{courseScope.tagMap[tag].icon}}"></i>
                 {{courseScope.tagMap[tag].title}}
             </span>

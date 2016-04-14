@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('concepts').directive('segmentLink', function() {
+angular.module('concepts').directive('segmentLink', function(SourceIcon) {
     return {
         restrict: "E",
         scope: {
@@ -13,6 +13,15 @@ angular.module('concepts').directive('segmentLink', function() {
         link: function(scope)
         {
             scope.courseScope = angular.element('.course-view').scope();
+            SourceIcon.init(scope.courseScope);
+            scope.source = scope.courseScope.sourceMap[scope.segment.source];
+
+            if(scope.source)
+            {
+                scope.sourcetype = scope.courseScope.sourcetypeMap[scope.source.type];
+            }
+
+            scope.icon = SourceIcon.get(scope.source);
             // Define your normal link function here.
             // Alternative: instead of passing a function,
             // you can also pass an object with
