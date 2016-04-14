@@ -35,7 +35,19 @@ angular.module('contents').service('WebsiteCreator', function($http, $sce, $time
 
                 $scope.websiteEmbedPossible = false;
                 $scope.isHttps = path.substr(0,5) === 'https';
+
                 //TODO if not https, check if https available.
+                if(!$scope.isHttps)
+                {
+                    $http.get('/api/websiteHasHttpsVersion?url=' + path).then(function(response)
+                    {
+                        if (response && response.data && response.data === 'yes')
+                        {
+                            $scope.source.path = path.replace('http:', 'https:');
+                            $scope.isHttps = true;
+                        }
+                    });
+                }
 
                 if($scope.isHttps)
                 {

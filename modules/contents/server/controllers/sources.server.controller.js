@@ -288,6 +288,31 @@ exports.isEmbeddable = function(req, res)
     });
 };
 
+exports.hasHttpsVersion = function(req, res)
+{
+    var url = req.query.url;
+    var access = courseTeacherPolicy.hasAnyPrivileges(req);
+    if(!access) return res.send('no access');
+
+    request.get(url, function(error, response, body)
+    {
+        if(error) return res.send('no');
+
+        request.get(url.replace('http:', 'https:'), function(error2, response2, body2)
+        {
+            if(error2) return res.send('no');
+
+            if(Math.abs(body.length - body2.length) / body.length < 0.05)
+            {
+                // If http and https response have almost the same length,
+                // then I will assume they are the same.
+                return res.send('yes');
+            }
+            return res.send('no');
+        });
+    });
+};
+
 exports.uploadLectureSlides = function(req, res)
 {
     var access = courseTeacherPolicy.hasAnyPrivileges(req);

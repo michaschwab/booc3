@@ -28,6 +28,8 @@ module.exports = function(app) {
 
 	app.route('/api/websiteIsEmbeddable')
 		.get(sources.isEmbeddable);
+	app.route('/api/websiteHasHttpsVersion')
+		.get(sources.hasHttpsVersion);
 
 	// Finish by binding the Course middleware
 	app.param('sourceId', sources.sourceByID);
