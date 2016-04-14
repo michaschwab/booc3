@@ -3,8 +3,8 @@
 }
 
 .sidepanel {
-    position: absolute;
-    top: 0;
+    position: fixed;
+    /*top: 0;*/
     left: 0;
     background: #f6f6f6;
     height: 100%;
