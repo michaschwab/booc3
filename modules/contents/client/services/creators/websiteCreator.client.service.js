@@ -32,11 +32,13 @@ angular.module('contents').service('WebsiteCreator', function($http, $sce)
                         if(response && response.data && response.data === 'yes')
                         {
                             $scope.websiteEmbedPossible = true;
+                            childScope.websiteEmbed = true;
                         }
                         else
                         {
                             $scope.xFrameProblem = true;
                             childScope.websiteEmbed = false;
+                            $scope.websiteEmbedPossible = false;
                         }
                     }, function(error)
                     {
