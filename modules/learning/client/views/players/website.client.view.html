@@ -1,4 +1,4 @@
-<ng-include ng-show="active.source.data.embed" src="'/modules/learning/views/players/iframe.client.view.html'"></ng-include>
+<ng-include ng-if="active.source.data.embed" src="'/modules/learning/views/players/iframe.client.view.html'"></ng-include>
 
 <div ng-show="!active.source.data.embed" class="learnContent-inner" style="padding: 30px">
     <h1>{{active.source.title}} - External Resource</h1>

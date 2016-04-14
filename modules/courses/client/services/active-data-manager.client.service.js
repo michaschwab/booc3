@@ -293,7 +293,8 @@ angular.module('courses').service('ActiveDataManager', function(Authentication, 
             if($scope.active.source === null || newSrc._id !== $scope.active.source._id)
             {
                 //console.log('setting new source!', newSrc._id);
-                $scope.active.source = newSrc
+                $scope.active.source = newSrc;
+                $scope.sourceData = {};
             }
         }
         if($scope.active.source !== null)
