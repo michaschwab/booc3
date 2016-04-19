@@ -11,7 +11,7 @@ angular.module('contents').controller('CreatorController',
         if(!hasAccess)
         {
             console.error('no access: not content editor of any course');
-            $state.go('home');
+            return $state.go('home');
         }
 
         $scope.possibleActions = {
@@ -47,7 +47,10 @@ angular.module('contents').controller('CreatorController',
         $scope.newConcept = null;
         var segmentSameTitleAsSource = false;
 
-        $scope.$watch('activeCourseIds', function()
+        /**
+         * This function is responsible for showing the course runs of the material's course(s).
+         */
+        var updateCourseRuns = function()
         {
             if(!$scope.activeCourseIds || !$scope.activeCourseIds.length) return;
 
@@ -66,8 +69,15 @@ angular.module('contents').controller('CreatorController',
                     return run._id;
                 });
             });
-        });
+        };
 
+        $scope.$watch('activeCourseIds', updateCourseRuns);
+
+        /**
+         * This function filters the tags according to a search for tag names.
+         * @param $query Name of the desired tag in String format.
+         * @returns List of filtered tags.
+         */
         $scope.filterTags = function($query) {
             var tags = $scope.tags;
             return tags.filter(function(tag) {
@@ -75,6 +85,9 @@ angular.module('contents').controller('CreatorController',
             });
         };
 
+        /**
+         * Loads the data.
+         */
         $scope.init = function()
         {
             Courses.query(function(courses)
@@ -206,6 +219,11 @@ angular.module('contents').controller('CreatorController',
 
         };
 
+        /**
+         * Adds a Concept to a Segment.
+         * @param concept The concept to be added.
+         * @param scope The scope of the Concept selection element so it can be reset.
+         */
         $scope.addConcept = function(concept, scope)
         {
             if(!$scope.activeSegment.conceptObjects) $scope.activeSegment.conceptObjects = [];
@@ -213,6 +231,10 @@ angular.module('contents').controller('CreatorController',
             scope.$select.selected = null;
         };
 
+        /**
+         * Removes a Concept from a Segment.
+         * @param concept The Concept to be removed.
+         */
         $scope.removeConceptFromSegment = function(concept)
         {
             var index = $scope.activeSegment.conceptObjects.indexOf(concept);
@@ -232,7 +254,10 @@ angular.module('contents').controller('CreatorController',
             $scope.activeAction='add_edit';
         };
 
-        $scope.$watch('editSource', function()
+        /**
+         * If a source has been selected, redirect to the edit page of that source.
+         */
+        var redirectToSource = function()
         {
             var source = $scope.editSource;
 
@@ -277,13 +302,11 @@ angular.module('contents').controller('CreatorController',
                  url: '/courses/:courseId/concepts/:conceptId/contents/:sourceId/edit?mode&active&addTo',
                  */
 
-
                 //$location.url(address);
             }
-        });
+        };
 
-        //$scope.$watchGroup(['allConcepts', 'course'], function()
-        $scope.$watchCollection('[allConcepts, course]', function()
+        var updateConcepts = function()
         {
             if($scope.course)
             {
@@ -299,16 +322,20 @@ angular.module('contents').controller('CreatorController',
                     return $scope.allConcepts.filter(function(d) { return d.parents.indexOf(c._id) !== -1; }).length === 0;
                 });
             }
-        });
+        };
 
-        $scope.$watch('activeSegment', function()
+        var updateConceptObjects = function()
         {
             if($scope.activeSegment && $scope.addToConcept)
             {
                 if($scope.activeSegment.conceptObjects.map(function(c) { return c._id; }).indexOf($scope.addToConcept.concept._id) === -1)
                     $scope.activeSegment.conceptObjects.push($scope.addToConcept.concept);
             }
-        });
+        };
+
+        $scope.$watch('editSource', redirectToSource);
+        $scope.$watchCollection('[allConcepts, course]', updateConcepts);
+        $scope.$watch('activeSegment', updateConceptObjects);
 
         $scope.updateActive = function()
         {
@@ -375,7 +402,6 @@ angular.module('contents').controller('CreatorController',
             {
                 $scope.source.tags = [];
             }
-            //console.log($scope.source.courses);
 
             if($scope.source.courses && $scope.source.courses.length)
             {
@@ -392,88 +418,8 @@ angular.module('contents').controller('CreatorController',
 
             if(sourceHelper.beforeSave)
                 sourceHelper.beforeSave();
+
             //todo be more flexible and allow multiple courses
-            //delete $scope.course;
-
-            var cb = function(v)
-            {
-                console.log("saved:", v);
-                $scope.error = "saved  at " +new Date();
-
-                if($scope.segments.length > 0)
-                {
-                    $scope.deletedSegments.forEach(function(segment)
-                    {
-                        if(segment._id)
-                        {
-                            segment.$remove();
-                        }
-                    });
-
-                    $scope.segments.forEach(function(segment)
-                    {
-                        var conceptIds = !segment.conceptObjects ? [] : segment.conceptObjects.map(function(concept)
-                        {
-                            return concept._id;
-                        });
-
-                        delete segment.conceptObjects;
-                        segment.concepts = conceptIds;
-                        segment.source = v._id;
-
-                        if(!segment.order)
-                        {
-                            segment.order = {};
-                        }
-
-                        //todo be more flexible and allow multiple courses
-                        segment.courses = [$scope.course._id];
-
-                        var cb2 = function()
-                        {
-                            redirectBack();
-                        };
-
-                        if(segment.created)
-                        {
-                            console.log('updating segment');
-
-                            if(segmentSameTitleAsSource)
-                            {
-                                // make sure it's still the same.
-                                segment.title = $scope.source.title;
-                            }
-
-                            Segments.update({_id: segment._id}, segment, cb2,
-                                function(err){
-                                    console.log("ERROR saving:", err);
-                                    console.log(err.data);
-                                    $scope.error = "DID NOT SAVE !! (Error) ";
-                                }
-                            );
-                        }
-                        else
-                        {
-                            delete segment.justCreated;
-                            delete segment._id;
-
-                            console.log('creating new segment');
-
-                            if(!segment.title && $scope.segments.length == 1)
-                            {
-                                segment.title = $scope.source.title;
-                            }
-
-                            var seg = new Segments(segment);
-                            seg.$save(cb2);
-                        }
-                    });
-                }
-                else
-                {
-                    redirectBack();
-                }
-            };
             var source = $scope.source;
 
             if(!source.courserun)
@@ -483,7 +429,7 @@ angular.module('contents').controller('CreatorController',
             {
                 console.log('saving edited source..');
 
-                Sources.update({_id:$scope.source._id}, $scope.source, cb,
+                Sources.update({_id:$scope.source._id}, $scope.source, saveSegments,
                     function(err){
                         console.log("ERROR saving:", err);
                         console.log(err.data);
@@ -495,11 +441,99 @@ angular.module('contents').controller('CreatorController',
             {
                 console.log('saving new source..');
                 var src = new Sources($scope.source);
-                src.$save(cb, function(errorResponse) { console.error(errorResponse.data); });
+                src.$save(saveSegments, function(errorResponse) { console.error(errorResponse.data); });
             }
         };
 
-        $scope.$watch('activeReadableType', function(readable)
+        /**
+         * After successful saving of the source, the remaining data - mainly the Segments - are saved in this function.
+         * @param source
+         */
+        var saveSegments = function(source)
+        {
+            console.log("saved:", source);
+            $scope.error = "saved  at " +new Date();
+
+            if($scope.segments.length > 0)
+            {
+                $scope.deletedSegments.forEach(function(segment)
+                {
+                    if(segment._id)
+                    {
+                        segment.$remove();
+                    }
+                });
+
+                $scope.segments.forEach(function(segment)
+                {
+                    var conceptIds = !segment.conceptObjects ? [] : segment.conceptObjects.map(function(concept)
+                    {
+                        return concept._id;
+                    });
+
+                    delete segment.conceptObjects;
+                    segment.concepts = conceptIds;
+                    segment.source = source._id;
+
+                    if(!segment.order)
+                    {
+                        segment.order = {};
+                    }
+
+                    //todo be more flexible and allow multiple courses
+                    segment.courses = [$scope.course._id];
+
+                    var cb2 = function()
+                    {
+                        redirectBack();
+                    };
+
+                    if(segment.created)
+                    {
+                        console.log('updating segment');
+
+                        if(segmentSameTitleAsSource)
+                        {
+                            // make sure it's still the same.
+                            segment.title = $scope.source.title;
+                        }
+
+                        Segments.update({_id: segment._id}, segment, cb2,
+                            function(err){
+                                console.log("ERROR saving:", err);
+                                console.log(err.data);
+                                $scope.error = "DID NOT SAVE !! (Error) ";
+                            }
+                        );
+                    }
+                    else
+                    {
+                        delete segment.justCreated;
+                        delete segment._id;
+
+                        console.log('creating new segment');
+
+                        if(!segment.title && $scope.segments.length == 1)
+                        {
+                            segment.title = $scope.source.title;
+                        }
+
+                        var seg = new Segments(segment);
+                        seg.$save(cb2);
+                    }
+                });
+            }
+            else
+            {
+                redirectBack();
+            }
+        };
+
+        /**
+         * This function selects the correct source helper based on the active source type, and starts the service.
+         * @param readable Readable Active Source Type Name.
+         */
+        var startSourceHelper = function(readable)
         {
             if(readable === 'lecture')
             {
@@ -535,8 +569,13 @@ angular.module('contents').controller('CreatorController',
                 //console.log(readable);
                 sourceHelper.start($scope);
             }
-        });
+        };
 
+        $scope.$watch('activeReadableType', startSourceHelper);
+
+        /**
+         * Sets the active Segment's start time / page to the current position within the source.
+         */
         $scope.setSegmentStart = function()
         {
             if($scope.activeSegment)
@@ -544,6 +583,10 @@ angular.module('contents').controller('CreatorController',
                 $scope.activeTimes.startDuration = moment.duration(sourceHelper.getCurrentPosition() * 1000);
             }
         };
+
+        /**
+         * Sets the active Segment's end time / page to the current position within the source.
+         */
         $scope.setSegmentEnd = function()
         {
             if($scope.activeSegment)
@@ -552,23 +595,37 @@ angular.module('contents').controller('CreatorController',
             }
         };
 
-        $scope.$watch('activeType', function()
+        /**
+         * This function makes sure the active readable type is always up to date with the active source type.
+         */
+        var updateReadableType = function()
         {
             if($scope.activeType)
             {
                 $scope.activeReadableType = $scope.getReadableType($scope.activeType);
             }
-        });
+        };
 
+        $scope.$watch('activeType', updateReadableType);
+
+        /**
+         * This function takes a source type and returns a readable version of its title.
+         * @param sourcetype The source type of which the readable version is requested.
+         * @returns {string} Readable version of the source type's title.
+         */
         $scope.getReadableType = function(sourcetype)
         {
             return sourcetype.title.toLowerCase().replace(/[^a-z]/g,'');
         };
 
+        /**
+         * Sets the active source type to the source type specified, and cancels the passed event.
+         * @param type The Source Type that should be set to the active one.
+         * @param event The event do be cancelled.
+         */
         $scope.selectSourcetype = function(type, event)
         {
             event.preventDefault();
-
             $scope.setSourcetype(type);
         };
 
