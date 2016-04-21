@@ -51,10 +51,12 @@ angular.module('learning').directive('boocPdfViewer', function($timeout, PDFView
 
         $scope.onPageRendered = function(event)
         {
-            var pageNumber = event.detail.pageNumber;
-            $scope.currentPage = pageNumber-1;
-
             $scope.ensurePdfFrameWin();
+
+            //var pageNumber = event.detail.pageNumber;
+            //$scope.currentPage = pageNumber-1;
+
+            $scope.currentPage = $scope.pdfFrameWindow.PDFView.page;
             $scope.totalPages = $scope.pdfFrameWindow.PDFView.pagesCount;
 
             if($scope.state != 'finished')
@@ -68,6 +70,11 @@ angular.module('learning').directive('boocPdfViewer', function($timeout, PDFView
             }
         };
 
+        $scope.onPageChanged = function()
+        {
+            $scope.currentPage = $scope.pdfFrameWindow.PDFView.page;
+        };
+
         $scope.ensurePdfFrameWin = function()
         {
             if(!$scope.pdfFrameWindow)
@@ -79,11 +86,10 @@ angular.module('learning').directive('boocPdfViewer', function($timeout, PDFView
 
         $timeout(function()
         {
-            //$scope.jumpToPage(3);
-
             $scope.ensurePdfFrameWin();
 
             $scope.pdfFrameWindow.addEventListener('pagerendered', $scope.onPageRendered);
+            $scope.pdfFrameWindow.addEventListener('pagechange', $scope.onPageChanged);
 
         }, 1000);
 
