@@ -43,6 +43,7 @@ angular.module('learning').service('PdfPlayer', function($interval, $timeout, $h
             {
                 $timeout(function()
                 {
+                    console.log($scope, segment.start);
                     $scope.switchToPdfPage(segment.start);
                     sourceData.slideNumber = segment.start;
                 }, 500);

@@ -28,7 +28,7 @@
     "ng-pdfviewer": "michaschwab/ng-pdfviewer#develop",
     "ngDialog": "~0.5.1",
     "oauth-signature": "~1.3.0",
-    "pdfjs-dist": null,
+    "pdfjs": "mozilla/pdf.js",
     "x2js": null,
     "bootstrap-toggle": null,
     "shepherd.js": null,

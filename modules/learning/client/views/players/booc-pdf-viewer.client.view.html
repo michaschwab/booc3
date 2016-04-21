@@ -94,7 +94,13 @@
     </div>
     <div class="panel-content" style="padding:0; overflow: auto; width: {{pdfWidth-8}}px; height: {{pdfHeight}}px;">
 
-        <pdfviewer ng-if="!externalViewer" ng-src="{{sourceData.document}}" width="{{pdfWidth}}" height="{{pdfHeight-8}}" scale="page-fit" load-progress="loadProgress(state)" on-page-load='pageLoaded(page,total)' class="pdfViewer" id="viewer"></pdfviewer>
+        <!--<pdfviewer ng-if="!externalViewer" ng-src="{{sourceData.document}}" width="{{pdfWidth}}" height="{{pdfHeight-8}}" scale="page-fit" load-progress="loadProgress(state)" on-page-load='pageLoaded(page,total)' class="pdfViewer" id="viewer"></pdfviewer>-->
+
+        <!--<a href="/lib/pdfjs/web/viewer.html"></a>-->
+        <iframe ng-if="!externalViewer" width="{{pdfWidth}}" height="{{pdfHeight-8}}" src="{{viewerUrl}}" class="pdfViewer" id="pdfjsframe">
+
+        </iframe>
+
         <object ng-show="externalViewer" data="{{sourceData.pdfPath}}#page={{sourceData.slideNumber}}" type="application/pdf" width="{{pdfWidth-10}}" height="{{pdfHeight-6}}">
             <p>PDF Viewer not found. <a href="/api/sources/{{source._id}}/pdf">Download</a></p>
         </object>

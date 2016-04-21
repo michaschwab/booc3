@@ -18,7 +18,74 @@ angular.module('learning').directive('boocPdfViewer', function($timeout, PDFView
         $scope.desired.zoom = Math.round($scope.pdfScale * 100);
         $scope.courseScope.lastUserChosenPdfPage = 0;
         $scope.state = 'notloaded';
+        var pdfViewerPath = '/lib/pdfjs/web/viewer.html';
+        $scope.viewerUrl = pdfViewerPath;
+        $scope.pdfFrameWindow = null;
         var onStateFinished = [];
+
+        $scope.$watch('sourceData.pdfPath', function(pdfPath)
+        {
+            $scope.viewerUrl = !pdfPath ? pdfViewerPath : pdfViewerPath + '?file=' + $scope.sourceData.pdfPath.substr(1);
+        });
+
+        $scope.$watch('sourceData.slideNumber', function(){
+            $scope.jumpToPage($scope.sourceData.slideNumber);
+        });
+
+        $scope.jumpToPage = function(pageNumber)
+        {
+            if(pageNumber == undefined) return;
+
+            //console.log('jumping to ', pageNumber);
+
+            $scope.ensurePdfFrameWin();
+            if(!$scope.pdfFrameWindow || !$scope.pdfFrameWindow.PDFView) return;
+
+            $scope.pdfFrameWindow.PDFView.page = pageNumber;
+
+            /*var event = new Event('pagechange');
+            event.pageNumber = pageNumber;
+            f.dispatchEvent(event);
+            */
+        };
+
+        $scope.onPageRendered = function(event)
+        {
+            var pageNumber = event.detail.pageNumber;
+            $scope.currentPage = pageNumber-1;
+
+            $scope.ensurePdfFrameWin();
+            $scope.totalPages = $scope.pdfFrameWindow.PDFView.pagesCount;
+
+            if($scope.state != 'finished')
+            {
+                $scope.state = 'finished';
+
+                onStateFinished.forEach(function(fct)
+                {
+                    fct();
+                });
+            }
+        };
+
+        $scope.ensurePdfFrameWin = function()
+        {
+            if(!$scope.pdfFrameWindow)
+            {
+                var el = document.getElementById('pdfjsframe');
+                $scope.pdfFrameWindow = el.contentWindow || el.contentDocument;
+            }
+        };
+
+        $timeout(function()
+        {
+            //$scope.jumpToPage(3);
+
+            $scope.ensurePdfFrameWin();
+
+            $scope.pdfFrameWindow.addEventListener('pagerendered', $scope.onPageRendered);
+
+        }, 1000);
 
         $scope.nextPage = function() {
             $scope.currentPage++;
@@ -93,19 +160,43 @@ angular.module('learning').directive('boocPdfViewer', function($timeout, PDFView
         var hideTimeout = null;
         $scope.updateDesiredPage = function()
         {
-            $scope.viewer.gotoPage($scope.desired.page);
+            //$scope.viewer.gotoPage($scope.desired.page);
+            $scope.jumpToPage($scope.desired.page);
             scope.courseScope.lastUserChosenPdfPage = Date.now();
 
             $timeout.cancel(hideTimeout);
             hideTimeout = $timeout(hideFct, 6000);
         };
 
+        /*$scope.loadPDF = function(path) {
+            if(path !== undefined)
+            {
+                var param = path.substr(0,4) !== 'data' ? path : $scope.convertDataURIToBinary(path);
+                console.log('loadPDF ', path, param);
+                PDFJS.getDocument(param, null, null, $scope.documentProgress).then(function(_pdfDoc) {
+                    $scope.pdfDoc = _pdfDoc;
+                    $scope.renderPage($scope.pageNum, function(success) {
+                        if ($scope.loadProgress) {
+                            $scope.loadProgress({state: "finished", loaded: 0, total: 0});
+                        }
+                    });
+                }, function(message, exception) {
+                    console.log("PDF load error: " + message);
+                    if ($scope.loadProgress) {
+                        $scope.loadProgress({state: "error", loaded: 0, total: 0});
+                    }
+                });
+            }
+
+        };*/
+
         scope.courseScope.switchToPdfPage = function(page)
         {
             var todo = function()
             {
                 $scope.desired.page = page;
-                $scope.viewer.gotoPage(page);
+                $scope.jumpToPage(page);
+                //$scope.viewer.gotoPage(page);
             };
             if($scope.state == 'finished')
             {
@@ -127,7 +218,7 @@ angular.module('learning').directive('boocPdfViewer', function($timeout, PDFView
             return $scope.totalPages;
         };
 
-        $scope.loadProgress = function(state)
+        /*$scope.loadProgress = function(state)
         {
             $scope.state = state;
             if(state == 'finished')
@@ -137,7 +228,7 @@ angular.module('learning').directive('boocPdfViewer', function($timeout, PDFView
                     fct();
                 })
             }
-        };
+        };*/
 
         $scope.updateDesiredZoom = function()
         {
