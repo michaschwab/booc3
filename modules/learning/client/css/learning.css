@@ -202,3 +202,7 @@ a.concept:hover {
     margin: -1px;
     text-align: center;
 }
+
+.dragging.lectureContent{
+    pointer-events: none;
+}

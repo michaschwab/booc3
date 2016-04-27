@@ -8,6 +8,7 @@ angular.module('learning').service('LecturePlayer', function(YoutubePlayer, Lect
     this.start = function(scope)
     {
         $scope = scope;
+        $scope.dragXstart = 0;
 
         YoutubePlayer.start($scope);
         LectureSlidePlayer.start($scope);
@@ -27,22 +28,20 @@ angular.module('learning').service('LecturePlayer', function(YoutubePlayer, Lect
         return this;
     };
 
-    var dragXstart = 0;
-
     this.setupDragResizer = function()
     {
         $('.slides-video-divider').mousedown(function(e)
         {
             e.preventDefault();
 
-            dragXstart = e.pageX;
+            $scope.dragXstart = e.pageX;
         });
 
         var onDrag = function(e)
         {
             e.preventDefault();
 
-            var relX = e.pageX - dragXstart;
+            var relX = e.pageX - $scope.dragXstart;
 
 
             var relPercent = relX / $scope.contentWidth;
@@ -51,21 +50,21 @@ angular.module('learning').service('LecturePlayer', function(YoutubePlayer, Lect
 
         $(document).mousemove(function(e)
         {
-            if(dragXstart !== 0)
+            if($scope.dragXstart !== 0)
             {
                 onDrag(e);
 
-                dragXstart = e.pageX;
+                $scope.dragXstart = e.pageX;
                 me.manageSizeExecute(true);
             }
         })
         .mouseup(function(e)
         {
-            if(dragXstart !== 0)
+            if($scope.dragXstart !== 0)
             {
                 onDrag(e);
 
-                dragXstart = 0;
+                $scope.dragXstart = 0;
                 me.manageSizeExecute();
             }
         });
