@@ -78,6 +78,8 @@ angular.module('learning').service('YoutubePlayer', function($http, $sce, $inter
             try {
                 player.seekTo(pos);
 
+                // TODO This makes it look like the player is not ready because it freezes on the loading screen.
+                // TODO Gotta show a different image so it doesn't look broken.
                 player.pauseVideo();
                 //$timeout(me.pausePlay, 200);
                 //if(currentState == 'playing')
