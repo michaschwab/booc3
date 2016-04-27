@@ -177,6 +177,7 @@ a.concept:hover {
     text-decoration: none;
     top: 100px;
     cursor: col-resize;
+    z-index: 1000;
 }
 .slides-video-divider:hover {
     text-decoration: none;
