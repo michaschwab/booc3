@@ -81,16 +81,18 @@ angular.module('learning').service('LecturePlayer', function(YoutubePlayer, Lect
 
     this.manageSizeExecute = function(quick)
     {
+        //console.log('managing size', $scope.contentWidth * slideWidthPercent / 100 - 15);
         YoutubePlayer.setSize($scope.contentWidth * (1-slideWidthPercent/100) - 15);
 
-        if(quick)
+        //if(quick)
         {
             LectureSlidePlayer.setSizeQuick($scope.contentWidth * slideWidthPercent / 100 - 15);
         }
-        else
+        /*else
         {
+            // There seems to be some problem with the setSize method of the pdfPlayer.
             LectureSlidePlayer.setSize($scope.contentWidth * slideWidthPercent / 100 - 15);
-        }
+        }*/
     };
 
     this.setSize = function()

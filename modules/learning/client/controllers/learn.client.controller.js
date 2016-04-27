@@ -197,6 +197,7 @@ angular.module('learning').controller('LearnController',
                     $timeout(me.manageSize, 1000);
                     $timeout(me.manageSize, 2000);
                     $timeout(me.manageSize, 5000);
+                    $timeout(me.manageSize, 10000);
 
                     //LearnHelper.synchronizePosition($scope, $scope.player, $scope.active.sourcetype);
                 });

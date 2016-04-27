@@ -206,3 +206,12 @@ a.concept:hover {
 .dragging.lectureContent{
     pointer-events: none;
 }
+
+.youtube-player {
+    float:right;
+}
+
+.lectureContent .pdfViewer {
+    position:absolute;
+    top: 50px;
+}
