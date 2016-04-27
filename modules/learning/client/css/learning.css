@@ -129,6 +129,7 @@ a.concept:hover {
 }
 .progress {
     margin-bottom: 0;
+    pointer-events: auto;
 }
 
 
@@ -215,4 +216,8 @@ a.concept:hover {
 .lectureContent .pdfViewer {
     position:absolute;
     top: 50px;
+}
+
+.progress-bar-button {
+    pointer-events: none;
 }

@@ -43,11 +43,11 @@
                         <span ng-show="videoWidth>330">Beginning</span>
                     </a>
 
-                    <a href class="btn btn-default" style="width: {{videoWidth>330?videoWidth-205:videoWidth-110}}px">
+                    <div href class="btn btn-default progress-bar-button" style="width: {{videoWidth>330?videoWidth-205:videoWidth-110}}px">
 
                         <progress-bar progress-percent="currentPositionPercent" on-set-progress="onSetProgress"></progress-bar>
 
-                    </a>
+                    </div>
 
                     <a href class="btn btn-default">
                         <span class="glyphicon glyphicon-stop"></span>
