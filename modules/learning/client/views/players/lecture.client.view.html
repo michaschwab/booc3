@@ -18,6 +18,18 @@
 
 <div class="panel panel-default lectureContent" ng-class="{ extended: map.extended, dragging: dragXstart }">
     <div class="panel panel-heading" style="margin:0">
+
+        <a class="btn btn-default" style="width: 160px; float:right;" ng-click="synchingPdfVideo=!synchingPdfVideo" title="PDF to Video Synchronization">
+            <span ng-show="synchingPdfVideo">
+                <i class="fa fa-link"></i>
+                Synchronized
+            </span>
+            <span ng-show="!synchingPdfVideo">
+                <i class="fa fa-unlink"></i>
+                Not Synchronized
+            </span>
+        </a>
+
         <h2>
             <span class="source-title">{{active.source.title}}</span>
             <i class="fa fa-angle-double-right"></i>

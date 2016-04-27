@@ -318,7 +318,7 @@ angular.module('learning').controller('LearnController',
 
         function checkWithinSegment()
         {
-            if(!$scope.learnMode) return;
+            if(!$scope.learnMode || !$scope.active.segment) return;
 
             $scope.currentPosition = player.getPosition();
             //console.log($scope.currentPosition);

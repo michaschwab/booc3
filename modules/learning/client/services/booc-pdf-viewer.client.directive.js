@@ -41,7 +41,14 @@ angular.module('learning').directive('boocPdfViewer', function($timeout, PDFView
             $scope.ensurePdfFrameWin();
             if(!$scope.pdfFrameWindow || !$scope.pdfFrameWindow.PDFView) return;
 
-            $scope.pdfFrameWindow.PDFView.page = pageNumber;
+            try{
+                $scope.pdfFrameWindow.PDFView.page = pageNumber;
+            }
+            catch(e)
+            {
+                console.error(e);
+            }
+
 
             /*var event = new Event('pagechange');
             event.pageNumber = pageNumber;
@@ -73,6 +80,14 @@ angular.module('learning').directive('boocPdfViewer', function($timeout, PDFView
         $scope.onPageChanged = function()
         {
             $scope.currentPage = $scope.pdfFrameWindow.PDFView.page;
+
+            var now = Date.now();
+            //console.log(now, $scope.courseScope.lastForcedPageSwitch, now - $scope.courseScope.lastForcedPageSwitch);
+            if(now - $scope.courseScope.lastForcedPageSwitch > 1000)
+            {
+                // if the last forced page switch is more than a second ago, assume the user decided to switch pages.
+                $scope.courseScope.lastUserChosenPdfPage = now;
+            }
         };
 
         $scope.courseScope.getCurrentPdfPage = function()
@@ -90,14 +105,17 @@ angular.module('learning').directive('boocPdfViewer', function($timeout, PDFView
             }
         };
 
+        //todo this timeout should be worked out. it should happen once the pdf viewer is loaded.
         $timeout(function()
         {
             $scope.ensurePdfFrameWin();
 
+            //console.log('setting up pdf viewer');
+
             $scope.pdfFrameWindow.addEventListener('pagerendered', $scope.onPageRendered);
             $scope.pdfFrameWindow.addEventListener('pagechange', $scope.onPageChanged);
 
-        }, 1000);
+        }, 5000);
 
         $scope.nextPage = function() {
             $scope.currentPage++;
@@ -206,6 +224,7 @@ angular.module('learning').directive('boocPdfViewer', function($timeout, PDFView
         {
             var todo = function()
             {
+                $scope.courseScope.lastForcedPageSwitch = Date.now();
                 $scope.desired.page = page;
                 $scope.jumpToPage(page);
                 //$scope.viewer.gotoPage(page);

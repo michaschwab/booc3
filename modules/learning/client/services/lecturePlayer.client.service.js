@@ -9,6 +9,7 @@ angular.module('learning').service('LecturePlayer', function(YoutubePlayer, Lect
     {
         $scope = scope;
         $scope.dragXstart = 0;
+        $scope.synchingPdfVideo = true;
 
         YoutubePlayer.start($scope);
         LectureSlidePlayer.start($scope);

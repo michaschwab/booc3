@@ -15,7 +15,8 @@ angular.module('learning').service('YoutubePlayer', function($http, $sce, $inter
         //console.log('hi');
         this.waitForPlayerReady(function()
         {
-            $interval(me.checkStateTime, 100);
+            // Youtube seems to only provide time in a 500ms window, so it doesn't work to check more often.
+            $interval(me.checkStateTime, 500);
         });
 
         $scope.playerVars = {autoplay: 0};
@@ -38,12 +39,15 @@ angular.module('learning').service('YoutubePlayer', function($http, $sce, $inter
         if(lastState != currentState)
         {
             var now = Date.now();
-            if(now - lastSystemChange < 500)
+            //todo this 1.5 s is just assuming the video loads this quickly, so its dependant on the internet connection.
+            // there should be a better way to detect user interaction.
+            if(now - lastSystemChange < 1500)
             {
                 // if this change is detected very shortly after the system ordered a change, it's probably not a user interaction.
             }
             else
             {
+                //console.log('before', lastState, 'now', currentState, 'time since last system change', now - lastSystemChange);
                 lastUserInteraction = Date.now();
             }
 
@@ -80,7 +84,16 @@ angular.module('learning').service('YoutubePlayer', function($http, $sce, $inter
 
                 // TODO This makes it look like the player is not ready because it freezes on the loading screen.
                 // TODO Gotta show a different image so it doesn't look broken.
-                player.pauseVideo();
+
+                if(currentState != 'playing')
+                {
+                    $timeout(function()
+                    {
+                        lastSystemChange = Date.now();
+                        player.pauseVideo();
+                    }, 200);
+                }
+                //player.pauseVideo();
                 //$timeout(me.pausePlay, 200);
                 //if(currentState == 'playing')
                     //player.pauseVideo();

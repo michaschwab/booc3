@@ -50,8 +50,11 @@ angular.module('learning').service('LectureSlidePlayer', function(YoutubePlayer,
         PdfPlayer.setSizeQuick(goalWidth, goalHeight);
     };
 
+    var lastSlideInteractionSynch = 0;
     this.synchronize = function()
     {
+        if(!$scope.synchingPdfVideo) return;
+
         // First, check if the user last did a change on the slides, or on the video.
         // If the user eg switched slides recently, then the video should be updated, and not the pdf viewer.
 
@@ -61,17 +64,34 @@ angular.module('learning').service('LectureSlidePlayer', function(YoutubePlayer,
 
         if(videoInteraction > slideInteraction)
         {
+            //console.log('synching slide to vid because of last vid interaction', videoInteraction);
             me.synchronizeSlide();
         }
-        else
+        else if(lastSlideInteractionSynch != slideInteraction) // Only sync video to position of slide if that hasn't happened before. Otherwise the video can't play.
         {
+            //console.log('synching vid to slide because of last slide interaction', slideInteraction);
+            lastSlideInteractionSynch = slideInteraction;
             me.synchronizeVideo();
         }
     };
 
     this.synchronizeVideo = function()
     {
-        // TODO: Possibly: Get slide number, move video to correct position.
+
+        // Get slide number, move video to correct position.
+        var slideNumber = PdfPlayer.getPosition();
+        if(!slideNumber) {
+            console.log('couldnt find slide number', slideNumber);
+            return;
+        }
+
+        var newTime = this.getVidTimeFromSlideNumber(slideNumber, $scope.active.source);
+
+        if(newTime != -1)
+        {
+            console.log('synching vid to slide. slide nr ', slideNumber, ', vid pos:', newTime);
+            YoutubePlayer.setPosition(newTime);
+        }
 
 
         // Then, make sure the pdf html object is reloaded to switch pages
@@ -134,6 +154,34 @@ angular.module('learning').service('LectureSlidePlayer', function(YoutubePlayer,
     this.parseDocumentSegmentSourceData = function(path, callback)
     {
         PdfPlayer.parseDocumentSegmentSourceData(path, callback);
+    };
+
+    this.getVidTimeFromSlideNumber = function(slideNumber, source)
+    {
+        var data = source.data;
+
+        if(!data.slideTimestamps)
+        {
+            return -1;
+        }
+
+        //todo this seems to be one off.
+        var timestamps = data.slideTimestamps;
+        slideNumber = parseInt(slideNumber);
+        var time = 0;
+        var bestSlide = 0;
+
+        //console.log(time, timestamps);
+        for(var i = 0; i < timestamps.length; i++)
+        {
+            if(slideNumber > timestamps[i].slideNumber && timestamps[i].slideNumber > bestSlide)
+            {
+                bestSlide = timestamps[i].slideNumber;
+                time = timestamps[i].time;
+            }
+        }
+
+        return time;
     };
 
     this.getSlidePdfFromVidTime = function(time, source)
