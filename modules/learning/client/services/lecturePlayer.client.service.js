@@ -13,6 +13,15 @@ angular.module('learning').service('LecturePlayer', function(YoutubePlayer, Lect
         LectureSlidePlayer.start($scope);
         //console.log('lectureplayer start');
 
+        $scope.onSetProgress = function(progress, $event)
+        {
+            // Checking if this functionality is already provided by the learn controller
+            if($scope.setPositionPercent)
+            {
+                $scope.setPositionPercent(progress);
+            }
+        };
+
         $timeout(me.setupDragResizer, 2000);
 
         return this;

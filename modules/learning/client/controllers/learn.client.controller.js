@@ -160,6 +160,19 @@ angular.module('learning').controller('LearnController',
             }
         };
 
+        $scope.setPositionPercent = function(positionPercent)
+        {
+            if(!$scope.active.segment)
+            {
+                return console.error('no active segment - do not know where to jump to.');
+            }
+
+            var segLength = $scope.active.segment.end - $scope.active.segment.start;
+            var pos = $scope.active.segment.start + Math.round(segLength * positionPercent / 100);
+            //console.log(pos, segLength, $scope.active.segment.start, positionPercent);
+            player.setPosition(pos);
+        };
+
         $scope.setActiveLearnMaterial = function()
         {
             if(!$scope.active.source) return;

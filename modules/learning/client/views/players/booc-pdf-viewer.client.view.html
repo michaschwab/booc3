@@ -1,14 +1,20 @@
 <div class="pdfviewer" ng-class="{'panel': showTitle, 'panel-default': showTitle, 'small-pdf': pdfWidth<=800}" style="width: {{width-10}}px; margin: 0;">
     <div class="panel-heading" ng-show="showTitle">
+
+        <a class="btn btn-default pull-right" style="margin-right: 20px;" href ng-click="showPdfOptions=!showPdfOptions">
+            <span class="glyphicon glyphicon-cog"></span>
+        </a>
+
         <h2>
             <span class="source-title">{{source.title}}</span>
             <i class="fa fa-angle-double-right"></i>
             <span class="concept-title">{{concept.concept.title}}</span>
         </h2>
-    </div>
-    <div class="panel-footer">
 
-        <div class="pull-right btn-group">
+    </div>
+    <div class="panel-footer" ng-show="showPdfOptions">
+
+        <!--<div class="pull-right btn-group">
 
             <button class="btn btn-default" ng-click="prevPage()" ng-disabled="externalViewer">
                 <span class="glyphicon glyphicon-chevron-left"></span>
@@ -52,11 +58,9 @@
             </button>
 
 
-        </div>
+        </div>-->
 
-        <a class="btn btn-default pull-right" ng-show="pdfWidth<=800" style="margin-right: 20px;" href ng-click="showPdfOptions=!showPdfOptions">
-        <span class="glyphicon glyphicon-cog"></span>
-        </a>
+
 
         <div class="pdf-options" ng-show="pdfWidth>800||showPdfOptions">
             <div class="pull-right btn-group" style="margin-right: 20px;">

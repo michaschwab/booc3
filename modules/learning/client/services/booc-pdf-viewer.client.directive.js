@@ -251,7 +251,8 @@ angular.module('learning').directive('boocPdfViewer', function($timeout, PDFView
         var setSize = function()
         {
             $scope.pdfWidth  = $scope.width * $scope.pdfScale -  1;
-            $scope.pdfHeight = $scope.height * $scope.pdfScale - 120;
+            $scope.pdfHeight = $scope.height * $scope.pdfScale - 110;
+            if(!$scope.showPdfOptions) $scope.pdfHeight += 55;
 
             lastSetSize = Date.now();
         };
@@ -276,6 +277,7 @@ angular.module('learning').directive('boocPdfViewer', function($timeout, PDFView
 
         $scope.$watch('width', resize);
         $scope.$watch('height', resize);
+        $scope.$watch('showPdfOptions', resize);
         setSize();
 
         return this;

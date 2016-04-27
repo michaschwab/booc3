@@ -45,13 +45,7 @@
 
                     <a href class="btn btn-default" style="width: {{videoWidth-205}}px">
 
-
-                        <div class="progress">
-                            <div class="progress-bar" role="progressbar" aria-valuenow="{{currentPositionPercent}}"
-                                 aria-valuemin="0" aria-valuemax="100" style="width:{{currentPositionPercent}}%">
-                                <span class="sr-only">{{currentPositionPercent}}% Complete</span>
-                            </div>
-                        </div>
+                        <progress-bar progress-percent="currentPositionPercent" on-set-progress="onSetProgress"></progress-bar>
 
                     </a>
 
