@@ -150,7 +150,9 @@ angular.module('learning').controller('LearnController',
             if(player.getPosition)
             {
                 var newPosition = $scope.active.segment ? $scope.active.segment.start : 0;
-                //var position = player.getPosition();
+                var position = player.getPosition();
+
+                if(position == newPosition) return;
 
                 // Activating the next line would only make the content jump to the beginning of a Segment if the current position is not already within it.
                 // if(position < $scope.active.segment.start || position > $scope.active.segment.end)
@@ -188,7 +190,6 @@ angular.module('learning').controller('LearnController',
 
                 me.parseSegmentSourceData($scope.active.source, $scope.active.sourcetype, $scope.active.segment, function(data)
                 {
-                    //console.log(data);
                     data.sourceId = $scope.active.source._id;
                     $scope.sourceData = angular.extend($scope.sourceData, data);
 

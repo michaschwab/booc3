@@ -78,7 +78,8 @@ angular.module('learning').service('YoutubePlayer', function($http, $sce, $inter
             try {
                 player.seekTo(pos);
 
-                $timeout(me.pausePlay, 200);
+                player.pauseVideo();
+                //$timeout(me.pausePlay, 200);
                 //if(currentState == 'playing')
                     //player.pauseVideo();
             } catch (e) {
