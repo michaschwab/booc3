@@ -75,6 +75,12 @@ angular.module('learning').directive('boocPdfViewer', function($timeout, PDFView
             $scope.currentPage = $scope.pdfFrameWindow.PDFView.page;
         };
 
+        $scope.courseScope.getCurrentPdfPage = function()
+        {
+            //console.log($scope.currentPage);
+            return $scope.currentPage;
+        };
+
         $scope.ensurePdfFrameWin = function()
         {
             if(!$scope.pdfFrameWindow)

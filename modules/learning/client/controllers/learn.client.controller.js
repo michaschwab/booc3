@@ -279,7 +279,7 @@ angular.module('learning').controller('LearnController',
                     //interval1 = $interval(synchronizeSlide, 1000);
 
                 }
-                if(player === 'lecture' || player == 'video')
+                if(player === 'lecture' || player == 'video' || player == 'pdf')
                 {
                     interval2 = $interval(checkWithinSegment, 1000);
                 }
@@ -321,6 +321,7 @@ angular.module('learning').controller('LearnController',
             if(!$scope.learnMode) return;
 
             $scope.currentPosition = player.getPosition();
+            //console.log($scope.currentPosition);
             $scope.currentPositionPercent = ($scope.currentPosition - $scope.active.segment.start)
                 / ($scope.active.segment.end - $scope.active.segment.start) * 100;
 

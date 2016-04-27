@@ -9,6 +9,15 @@ angular.module('learning').service('PdfPlayer', function($interval, $timeout, $h
     {
         $scope = scope;
 
+        $scope.onSetProgress = function(progress, $event)
+        {
+            // Checking if this functionality is already provided by the learn controller
+            if($scope.setPositionPercent)
+            {
+                $scope.setPositionPercent(progress);
+            }
+        };
+
         return this;
     };
 
@@ -71,6 +80,16 @@ angular.module('learning').service('PdfPlayer', function($interval, $timeout, $h
 
             callback(result);
         });
+    };
+
+    this.getPosition = function()
+    {
+        return $scope.getCurrentPdfPage();
+    };
+
+    this.setPosition = function(page)
+    {
+        $scope.switchToPdfPage(page);
     };
 
     this.setSize = function(goalWidth, goalHeight)
