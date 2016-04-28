@@ -147,7 +147,7 @@ angular.module('learning').controller('LearnController',
 
         this.updatePosition = function()
         {
-            if(player.getPosition)
+            if(player.getPosition && $scope.active.segment)
             {
                 var newPosition = $scope.active.segment ? $scope.active.segment.start : 0;
                 var position = player.getPosition();
@@ -348,12 +348,17 @@ angular.module('learning').controller('LearnController',
 
                     var conceptId = newSegment.concepts[0];
 
-                    $scope.segmentId = newSegment;
-                    $scope.conceptId = conceptId;
+                    if(conceptId)
+                    {
+                        //console.log(newSegment);
 
-                    //$location.search('concept', conceptId);
-                    $location.search('active', conceptId);
-                    $location.search('segment', newSegment._id);
+                        $scope.segmentId = newSegment;
+                        $scope.conceptId = conceptId;
+
+                        //$location.search('concept', conceptId);
+                        $location.search('active', conceptId);
+                        $location.search('segment', newSegment._id);
+                    }
                 });
             }
         }

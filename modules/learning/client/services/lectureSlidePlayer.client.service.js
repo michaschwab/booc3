@@ -89,8 +89,8 @@ angular.module('learning').service('LectureSlidePlayer', function(YoutubePlayer,
 
         if(newTime != -1)
         {
-            console.log('synching vid to slide. slide nr ', slideNumber, ', vid pos:', newTime);
-            YoutubePlayer.setPosition(newTime);
+            //console.log('synching vid to slide. slide nr ', slideNumber, ', vid pos:', newTime);
+            YoutubePlayer.setPosition(newTime, true);
         }
 
 
@@ -174,12 +174,14 @@ angular.module('learning').service('LectureSlidePlayer', function(YoutubePlayer,
         //console.log(time, timestamps);
         for(var i = 0; i < timestamps.length; i++)
         {
-            if(slideNumber > timestamps[i].slideNumber && timestamps[i].slideNumber > bestSlide)
+            if(slideNumber >= timestamps[i].slideNumber && timestamps[i].slideNumber > bestSlide)
             {
                 bestSlide = timestamps[i].slideNumber;
                 time = timestamps[i].time;
             }
         }
+
+        //console.log(slideNumber, time, timestamps);
 
         return time;
     };

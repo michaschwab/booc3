@@ -39,9 +39,9 @@ angular.module('learning').service('YoutubePlayer', function($http, $sce, $inter
         if(lastState != currentState)
         {
             var now = Date.now();
-            //todo this 1.5 s is just assuming the video loads this quickly, so its dependant on the internet connection.
+            //todo these 2s are just assuming the video loads this quickly, so its dependant on the internet connection.
             // there should be a better way to detect user interaction.
-            if(now - lastSystemChange < 1500)
+            if(now - lastSystemChange < 2000)
             {
                 // if this change is detected very shortly after the system ordered a change, it's probably not a user interaction.
             }
@@ -64,6 +64,7 @@ angular.module('learning').service('YoutubePlayer', function($http, $sce, $inter
 
     this.stop = function()
     {
+        //console.log('stopping');
         player = null;
     };
 
@@ -73,8 +74,10 @@ angular.module('learning').service('YoutubePlayer', function($http, $sce, $inter
         return currentTime;
     };
 
-    this.setPosition = function(pos)
+    this.setPosition = function(pos, pause)
     {
+        //console.error('setting pos to ', pos, ' and pausing? :', pause);
+
         lastSystemChange = Date.now();
 
         if(player && player.f)
@@ -85,7 +88,7 @@ angular.module('learning').service('YoutubePlayer', function($http, $sce, $inter
                 // TODO This makes it look like the player is not ready because it freezes on the loading screen.
                 // TODO Gotta show a different image so it doesn't look broken.
 
-                if(currentState != 'playing')
+                if(currentState != 'playing' || pause)
                 {
                     $timeout(function()
                     {
