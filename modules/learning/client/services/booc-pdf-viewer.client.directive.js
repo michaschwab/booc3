@@ -105,17 +105,20 @@ angular.module('learning').directive('boocPdfViewer', function($timeout, PDFView
             }
         };
 
-        //todo this timeout should be worked out. it should happen once the pdf viewer is loaded.
-        $timeout(function()
+
+        function setupWatch()
         {
             $scope.ensurePdfFrameWin();
 
-            //console.log('setting up pdf viewer');
-
             $scope.pdfFrameWindow.addEventListener('pagerendered', $scope.onPageRendered);
             $scope.pdfFrameWindow.addEventListener('pagechange', $scope.onPageChanged);
-
-        }, 5000);
+        }
+        //todo this timeout should be worked out. it should happen once the pdf viewer is loaded.
+        $timeout(setupWatch, 500);
+        $timeout(setupWatch, 1000);
+        $timeout(setupWatch, 2000);
+        $timeout(setupWatch, 5000);
+        $timeout(setupWatch, 10000);
 
         $scope.nextPage = function() {
             $scope.currentPage++;
@@ -222,6 +225,7 @@ angular.module('learning').directive('boocPdfViewer', function($timeout, PDFView
 
         scope.courseScope.switchToPdfPage = function(page)
         {
+            //console.log(page, $scope.state);
             var todo = function()
             {
                 $scope.courseScope.lastForcedPageSwitch = Date.now();
