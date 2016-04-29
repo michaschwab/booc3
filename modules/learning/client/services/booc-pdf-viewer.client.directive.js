@@ -28,6 +28,13 @@ angular.module('learning').directive('boocPdfViewer', function($timeout, PDFView
             $scope.viewerUrl = !pdfPath ? pdfViewerPath : pdfViewerPath + '?file=' + $scope.sourceData.pdfPath.substr(1);
         });
 
+        $scope.$on('$destroy', function()
+        {
+            // Delete Cache of PDF viewer
+            $scope.pdfFrameWindow = null;
+            $scope.pdfViewerApp = null;
+        });
+
         $scope.$watch('sourceData.slideNumber', function(){
             $scope.jumpToPage($scope.sourceData.slideNumber);
         });
@@ -99,7 +106,7 @@ angular.module('learning').directive('boocPdfViewer', function($timeout, PDFView
 
         $scope.ensurePdfFrameWin = function()
         {
-            if(!$scope.pdfFrameWindow || $scope.pdfViewerApp)
+            if(!$scope.pdfFrameWindow || !$scope.pdfViewerApp)
             {
                 var el = document.getElementById('pdfjsframe');
                 $scope.pdfFrameWindow = el.contentWindow || el.contentDocument;
