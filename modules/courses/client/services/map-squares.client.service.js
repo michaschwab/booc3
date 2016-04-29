@@ -4,6 +4,7 @@ angular.module('courses').service('MapSquares', function(Tip, $location, $timeou
     var $scope;
     var layer, mainLayer, subLayer, squareMap;
     var activeGroupId, topLevelSquaresData, groupSquaresData, squaresPerConcept, squaresPerGroup;
+    var lastSquareAttrs = {};
 
     this.init = function(scope)
     {
@@ -21,6 +22,13 @@ angular.module('courses').service('MapSquares', function(Tip, $location, $timeou
 
         setupInteractions();
         SourceIcon.init($scope);
+
+        $scope.$on('$destroy', function()
+        {
+            // Delete Cache of svg attributes that have been set, because the svg is being removed from the dom.
+            // These attributes need to be re-set, otherwise it will lead to caching errors (eg icons too big).
+            lastSquareAttrs = {};
+        });
     };
 
     var setupInteractions = function()
@@ -269,7 +277,7 @@ angular.module('courses').service('MapSquares', function(Tip, $location, $timeou
         return squareEnter;
     };
 
-    var lastSquareAttrs = {};
+
     this.squaresUpdate = function(squares)
     {
         subLayer.classed('has-active-group', activeGroupId);
