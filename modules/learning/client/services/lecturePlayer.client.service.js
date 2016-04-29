@@ -24,6 +24,11 @@ angular.module('learning').service('LecturePlayer', function(YoutubePlayer, Lect
             }
         };
 
+        $scope.toggleSynchronization = function()
+        {
+            $scope.synchingPdfVideo = !$scope.synchingPdfVideo;
+        };
+
         $timeout(me.setupDragResizer, 2000);
 
         return this;
