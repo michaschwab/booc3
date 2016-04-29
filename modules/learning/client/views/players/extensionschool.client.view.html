@@ -1,5 +1,35 @@
-<div class="panel panel-default" style="margin:0">
+<div class="panel panel-default" style="margin: 0;">
 
-    <iframe src="{{sourceData.path}}" style="width:{{contentWidth-5}}px;" id="websiteframe" height="{{windowHeight-65}}" frameBorder="0"></iframe>
+    <div class="panel-heading">
+        <div style="float:right; width: 350px;">
+            <div class="btn-group">
+                <a href class="btn btn-default" ng-click="onSetProgress(0)"  ng-class="{'btn-primary': currentPosition - active.segment.start < 0.1}">
+                    <span class="glyphicon glyphicon-home"></span>
+                </a>
 
+                <div href class="btn btn-default progress-bar-button" style="width: 250px">
+
+                    <progress-bar progress-percent="currentPositionPercent" on-set-progress="onSetProgress"></progress-bar>
+
+                </div>
+
+                <a href class="btn btn-default" ng-click="onSetProgress(100)"  ng-class="{'btn-primary': currentPosition - active.segment.end > -0.1}">
+                    <span class="glyphicon glyphicon-stop"></span>
+                </a>
+
+            </div>
+        </div>
+
+        <h2>
+            <span class="source-title">{{active.source.title}}</span>
+            <i class="fa fa-angle-double-right"></i>
+            <span class="concept-title">{{activeConcept.concept.title}}</span>
+        </h2>
+    </div>
+
+    <div class="panel-content" style="padding:0;">
+
+        <iframe src="{{sourceData.path}}" style="width:{{contentWidth-5}}px;" id="websiteframe" height="{{windowHeight-105}}" frameBorder="0"></iframe>
+
+    </div>
 </div>
