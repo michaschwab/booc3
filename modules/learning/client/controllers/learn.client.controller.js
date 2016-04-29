@@ -279,7 +279,7 @@ angular.module('learning').controller('LearnController',
                     //interval1 = $interval(synchronizeSlide, 1000);
 
                 }
-                if(player === 'lecture' || player == 'video' || player == 'pdf')
+                if(player === 'lecture' || player == 'video' || player == 'pdf' || player == 'extensionschool')
                 {
                     interval2 = $interval(checkWithinSegment, 1000);
                 }

@@ -1,4 +1,4 @@
-angular.module('learning').service('ExtensionSchoolPlayer', function($http, $sce, $interval, $timeout)
+angular.module('learning').service('ExtensionSchoolPlayer', function($http, $sce, $window)
 {
     var me = this;
     var $scope;
@@ -9,8 +9,31 @@ angular.module('learning').service('ExtensionSchoolPlayer', function($http, $sce
     this.start = function(scope)
     {
         $scope = scope;
+        $scope.currentTime = 0;
+
+        $scope.onSetProgress = function(progress, $event)
+        {
+            // Checking if this functionality is already provided by the learn controller
+            if($scope.setPositionPercent)
+            {
+                $scope.setPositionPercent(progress);
+            }
+        };
+
+        $window.addEventListener('message', this.receiveMessage, false);
 
         return this;
+    };
+
+    this.receiveMessage = function(event)
+    {
+        if(event.data.sender == 'dce-player')
+        {
+            if(event.data.name == 'timeupdate')
+            {
+                $scope.currentTime = event.data.value;
+            }
+        }
     };
 
     this.stop = function()
@@ -20,10 +43,10 @@ angular.module('learning').service('ExtensionSchoolPlayer', function($http, $sce
 
     this.getPosition = function()
     {
-        return -1;
+        return $scope.currentTime;
     };
 
-    this.setPosition = function(pos)
+    this.setPosition = function(pos, pause)
     {
         $scope.sourceData.path = $sce.trustAsResourceUrl(vidPath + '#t=' + pos);
     };
