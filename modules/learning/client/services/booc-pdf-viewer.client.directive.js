@@ -39,10 +39,10 @@ angular.module('learning').directive('boocPdfViewer', function($timeout, PDFView
             //console.log('jumping to ', pageNumber);
 
             $scope.ensurePdfFrameWin();
-            if(!$scope.pdfFrameWindow || !$scope.pdfFrameWindow.PDFView) return;
+            if(!$scope.pdfFrameWindow || !$scope.pdfViewerApp) return;
 
             try{
-                $scope.pdfFrameWindow.PDFView.page = pageNumber;
+                $scope.pdfViewerApp.page = pageNumber;
             }
             catch(e)
             {
@@ -63,8 +63,8 @@ angular.module('learning').directive('boocPdfViewer', function($timeout, PDFView
             //var pageNumber = event.detail.pageNumber;
             //$scope.currentPage = pageNumber-1;
 
-            $scope.currentPage = $scope.pdfFrameWindow.PDFView.page;
-            $scope.totalPages = $scope.pdfFrameWindow.PDFView.pagesCount;
+            $scope.currentPage = $scope.pdfViewerApp.page;
+            $scope.totalPages = $scope.pdfViewerApp.pagesCount;
 
             if($scope.state != 'finished')
             {
@@ -79,7 +79,7 @@ angular.module('learning').directive('boocPdfViewer', function($timeout, PDFView
 
         $scope.onPageChanged = function()
         {
-            $scope.currentPage = $scope.pdfFrameWindow.PDFView.page;
+            $scope.currentPage = $scope.pdfViewerApp.page;
 
             var now = Date.now();
             //console.log(now, $scope.courseScope.lastForcedPageSwitch, now - $scope.courseScope.lastForcedPageSwitch);
@@ -102,6 +102,7 @@ angular.module('learning').directive('boocPdfViewer', function($timeout, PDFView
             {
                 var el = document.getElementById('pdfjsframe');
                 $scope.pdfFrameWindow = el.contentWindow || el.contentDocument;
+                $scope.pdfViewerApp = $scope.pdfFrameWindow.PDFView || $scope.pdfFrameWindow.PDFViewerApplication;
             }
         };
 
