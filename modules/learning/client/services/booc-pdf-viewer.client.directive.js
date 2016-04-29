@@ -106,7 +106,7 @@ angular.module('learning').directive('boocPdfViewer', function($timeout, PDFView
 
         $scope.ensurePdfFrameWin = function()
         {
-            if(!$scope.pdfFrameWindow || !$scope.pdfViewerApp)
+//            if(!$scope.pdfFrameWindow || !$scope.pdfViewerApp)
             {
                 var el = document.getElementById('pdfjsframe');
                 $scope.pdfFrameWindow = el.contentWindow || el.contentDocument;
