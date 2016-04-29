@@ -79,6 +79,7 @@ angular.module('learning').directive('boocPdfViewer', function($timeout, PDFView
 
         $scope.onPageChanged = function()
         {
+            $scope.ensurePdfFrameWin();
             $scope.currentPage = $scope.pdfViewerApp.page;
 
             var now = Date.now();
@@ -98,7 +99,7 @@ angular.module('learning').directive('boocPdfViewer', function($timeout, PDFView
 
         $scope.ensurePdfFrameWin = function()
         {
-            if(!$scope.pdfFrameWindow)
+            if(!$scope.pdfFrameWindow || $scope.pdfViewerApp)
             {
                 var el = document.getElementById('pdfjsframe');
                 $scope.pdfFrameWindow = el.contentWindow || el.contentDocument;
