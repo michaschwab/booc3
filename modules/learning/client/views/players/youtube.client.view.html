@@ -1,5 +1,19 @@
 <header class="content-bar">
 
+    <div style="float:right; width: 420px; margin-top:-7px">
+
+        <progress-buttons
+                width="455"
+                segment="active.segment"
+                source="active.source"
+                sourcetype="active.sourcetype"
+                current-position="currentPosition"
+                current-position-percent="currentPositionPercent"
+                on-set-progress="onSetProgress">
+        </progress-buttons>
+
+    </div>
+
     <div class="pull-left">
         <h4>
             <span class="source-title">{{active.source.title}}</span>
@@ -7,6 +21,8 @@
             <span class="concept-title">{{activeConcept.concept.title}}</span>
         </h4>
     </div>
+
+
 
     <div class="pull-right actions ng-hide">
         <a href><span class="fa fa-download"></span> Save as PDF</a>
@@ -33,7 +49,7 @@
             <strong><a href="" ng-click="understoodLateClick(conceptReadNotUnderstood)">Yes</a></strong> <strong><a href="" ng-click="removeConceptReadNotUnderstood()">No</a></strong>
         </div>-->
 
-        <youtube-video width="{{videoWidth}}" height="{{videoHeight}}" player-vars="playerVars" class="pull-right" autoplay="false" controls id="videoPlayer" video-url="sourceData.video"></youtube-video>
+        <youtube-video width="{{videoWidth}}" height="{{videoHeight}}" player-vars="playerVars" class="youtube-player" autoplay="false" controls id="videoPlayer" video-url="sourceData.video"></youtube-video>
 
         <div ng-show="currentPosition<active.segment.end" class="alert alert-info notEndNotifier" role="alert">
             This concept ends in {{(active.segment.end-currentPosition) * 1000 | date:'mm:ss':'UTC'}} minutes.

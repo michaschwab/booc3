@@ -49,7 +49,8 @@
         <div ng-if="active.sourcetype.title.toLowerCase().replace(' ','')=='lecture'" class="minivideo">
 
             <div class="panel panel-footer" style="margin:0;">
-                <div class="btn-group">
+
+                <!--<div class="btn-group">
                     <a href class="btn btn-default" ng-click="onSetProgress(0)" ng-class="{'btn-primary': currentPosition - active.segment.start < 0.1}">
                         <span class="glyphicon glyphicon-home"></span>
                         <span ng-show="videoWidth>330">Beginning</span>
@@ -67,7 +68,17 @@
                         <span ng-show="videoWidth>330">End</span>
                     </a>
 
-                </div>
+                </div>-->
+
+                <progress-buttons
+                        width="videoWidth"
+                        segment="active.segment"
+                        source="active.source"
+                        sourcetype="active.sourcetype"
+                        current-position="currentPosition"
+                        current-position-percent="currentPositionPercent"
+                        on-set-progress="onSetProgress">
+                </progress-buttons>
 
 
             </div>
@@ -83,9 +94,9 @@
             <youtube-video width="{{videoWidth}}" controls id="videoPlayer" class="youtube-player" video-url="sourceData.video"></youtube-video>
             <br style="clear:both" />
 
-            <div ng-show="currentPosition<active.segment.end" class="alert alert-info notEndNotifier" style="width:{{videoWidth}}px" role="alert">
+            <!--<div ng-show="currentPosition<active.segment.end" class="alert alert-info notEndNotifier" style="width:{{videoWidth}}px" role="alert">
                 This concept ends in {{(active.segment.end-currentPosition) * 1000 | date:'mm:ss':'UTC'}} minutes.
-            </div>
+            </div>-->
 
         </div>
     </div>

@@ -1,0 +1,27 @@
+<div class="btn-group">
+    <a href class="btn btn-default" ng-click="onSetProgress(0)" ng-class="{'btn-primary': currentPosition - segment.start < 0.1}">
+        <span class="fa fa-hourglass-start"></span>
+        <span ng-show="width>330">Beginning</span>
+    </a>
+
+    <div href class="btn btn-default progress-bar-button" style="width: {{width>330?width-205:width-110}}px">
+
+        <progress-bar
+                width="width"
+                segment="segment"
+                sourcetype="sourcetype"
+                current-position="currentPosition"
+                progress-percent="currentPositionPercent"
+                on-set-progress="onSetProgress">
+
+        </progress-bar>
+
+    </div>
+
+    <a href class="btn btn-default" ng-click="onSetProgress(100)" ng-class="{'btn-primary': currentPosition - segment.end > -0.1}">
+        <span class="fa fa-hourglass-end"></span>
+
+        <span ng-show="width>330">End</span>
+    </a>
+
+</div>

@@ -21,6 +21,15 @@ angular.module('learning').service('YoutubePlayer', function($http, $sce, $inter
 
         $scope.playerVars = {autoplay: 0};
 
+        $scope.onSetProgress = function(progress, $event)
+        {
+            // Checking if this functionality is already provided by the learn controller
+            if($scope.setPositionPercent)
+            {
+                $scope.setPositionPercent(progress);
+            }
+        };
+
         return this;
     };
 

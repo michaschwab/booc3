@@ -1,6 +1,20 @@
-<div class="progress" ng-click="progressClick($event)">
+<div class="progress" ng-click="progressClick($event)" ng-class="{ below50: progressPercent < 50, above50: progressPercent >= 50 }">
     <div class="progress-bar" role="progressbar" aria-valuenow="{{progressPercent}}"
          aria-valuemin="0" aria-valuemax="100" style="width:{{progressPercent}}%; pointer-events:none">
-        <span class="sr-only">{{progressPercent}}% Complete</span>
+        <span class="progress-text"
+              ng-show="sourcetype.player=='lecture'||sourcetype.player=='extensionschool'||sourcetype.player=='youtube'">
+            <span ng-show="width>400">Seen</span>
+            {{currentPosition - segment.start | secondsToDateTime | date:'mm:ss'}}
+            /
+            {{segment.end - segment.start | secondsToDateTime | date:'mm:ss'}}
+        </span>
+        <span class="progress-text"
+              ng-show="sourcetype.player=='pdf'">
+            <span ng-show="width>400">Seen</span>
+            {{currentPosition - segment.start + 1}}
+            /
+            {{segment.end - segment.start+1}}
+            Pages
+        </span>
     </div>
 </div>

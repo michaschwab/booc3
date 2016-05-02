@@ -211,6 +211,7 @@ a.concept:hover {
 
 .youtube-player {
     float:right;
+    position: absolute;
 }
 
 .lectureContent .pdfViewer {
@@ -220,4 +221,22 @@ a.concept:hover {
 
 .progress-bar-button {
     pointer-events: none;
+    position: relative;
+}
+
+.progress-bar-button .progress-text {
+    position: absolute;
+}
+
+
+.below50 .progress-text {
+    right: 15px;
+    color: #333;
+}
+
+
+.above50 .progress-text {
+    left: 15px;
+    color: #fff;
+    text-shadow: none;
 }

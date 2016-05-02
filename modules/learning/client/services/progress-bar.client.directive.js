@@ -25,8 +25,12 @@ angular.module('learning').directive('progressBar', function()
     return {
         restrict: "E",
         scope: {
+            width: '=',
             progressPercent: '=',
-            onSetProgress: '='
+            currentPosition: '=',
+            sourcetype: '=',
+            onSetProgress: '=',
+            segment: '='
         },
         transclude: true,
         templateUrl: 'modules/learning/views/progress-bar.client.view.html',

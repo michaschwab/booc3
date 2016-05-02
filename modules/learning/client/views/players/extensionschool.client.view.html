@@ -1,23 +1,18 @@
 <div class="panel panel-default" style="margin: 0;">
 
     <div class="panel-heading">
-        <div style="float:right; width: 350px;">
-            <div class="btn-group">
-                <a href class="btn btn-default" ng-click="onSetProgress(0)"  ng-class="{'btn-primary': currentPosition - active.segment.start < 0.1}">
-                    <span class="glyphicon glyphicon-home"></span>
-                </a>
+        <div style="float:right; width: 400px;">
 
-                <div href class="btn btn-default progress-bar-button" style="width: 250px">
+            <progress-buttons
+                    width="430"
+                    segment="active.segment"
+                    source="active.source"
+                    sourcetype="active.sourcetype"
+                    current-position="currentPosition"
+                    current-position-percent="currentPositionPercent"
+                    on-set-progress="onSetProgress">
+            </progress-buttons>
 
-                    <progress-bar progress-percent="currentPositionPercent" on-set-progress="onSetProgress"></progress-bar>
-
-                </div>
-
-                <a href class="btn btn-default" ng-click="onSetProgress(100)"  ng-class="{'btn-primary': currentPosition - active.segment.end > -0.1}">
-                    <span class="glyphicon glyphicon-stop"></span>
-                </a>
-
-            </div>
         </div>
 
         <h2>
