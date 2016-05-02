@@ -234,7 +234,7 @@ angular.module('learning').service('LectureSlidePlayer', function(YoutubePlayer,
             //console.log(time, timestamps);
             for(var i = 0; i < timestamps.length; i++)
             {
-                if(time > timestamps[i].time && timestamps[i].time > bestTime)
+                if(time >= timestamps[i].time && timestamps[i].time > bestTime)
                 {
                     bestTime = timestamps[i].time;
                     slideNumber = timestamps[i].slideNumber;
