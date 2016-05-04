@@ -15,6 +15,11 @@ angular.module('contents').service('SourceIcon', function()
         }
 
         var sourcetype = $scope.sourcetypeMap[source.type];
+
+        if(!sourcetype)
+        {
+            return console.error('couldnt find source type for source type id ' + source.type, ' given by source ', source);
+        }
         var icon = sourcetype.icon;
 
         if(sourcetype.player == 'website')

@@ -20,3 +20,22 @@
     height: 18px;
     padding-left: 5px;
 }
+
+.search-concept-circle {
+    width:20px;
+    height:20px;
+
+    margin-right: 15pt;
+    border-radius: 10px;
+}
+
+.search-icon {
+    float: left;
+}
+.search-separator {
+    background: #fff !important;
+    padding: 5px;
+    margin: -3px -20px 5px;
+    border-top: none;
+    border-bottom: 1px solid #666;
+}

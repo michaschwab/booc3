@@ -1,14 +1,24 @@
-<div data-ng-controller="ConceptSearchController" class="search-container" ng-hide="windowWidth<800">
+
+<div class="search-container" ng-hide="windowWidth<800">
+    <!--<div data-ng-controller="ConceptSearchController" class="search-container" ng-hide="windowWidth<800">-->
     <ui-select class="concept-select" theme="bootstrap" ng-model="$parent.searchConcept" on-select="searchSelect($item, $event)"
                ng-required name="conceptSelect" id="conceptSelect">
         <ui-select-match placeholder="Search Learning Concept...">
-            <div style="width:20px; height:20px; background: {{$select.selected.color}}; float: left; margin-right: 15pt; border-radius: 10px"></div>
+            <div class="search-concept-circle search-icon" style="background: {{$select.selected.color}};" ng-show="concept.type=='concept'"></div>
+            <span class="{{$select.selected.icon}} segment-icon search-icon" ng-show="$select.selected.type=='segment'"></span>
             {{$select.selected.title}}
             <div class="selectResetter" class="pull-right" ng-click="searchUnselect(this)">&times;</div>
         </ui-select-match>
-        <ui-select-choices repeat="concept in searchConcepts | filter: $select.search">
-            <div style="width:20px; height:20px; background: {{concept.color}}; float: left; margin-right: 15pt; border-radius: 10px"></div>
+        <ui-select-choices repeat="concept in searchObjects | orderBy: 'title' | orderBy: 'type' | filter: $select.search">
+
+            <hr ng-if="$index==numberConcepts" class="search-separator" />
+
+            <div class="search-concept-circle search-icon" style="background: {{concept.color}};" ng-show="concept.type=='concept'"></div>
+
+            <span class="{{concept.icon}} segment-icon search-icon" ng-show="concept.type=='segment'"></span>
+
             <div ng-bind-html="concept.title | highlight: $select.search"></div>
+
         </ui-select-choices>
 
     </ui-select>

@@ -13,7 +13,10 @@
 
     <ng-include ng-hide="(learnMode&&activeMode!='minimap')||editSourceMode" style="position:absolute;{{learnMode?'left: -20':'right: 0'}}px; top: {{learnMode?panelOffsetTop-35:0}}px; width: {{learnMode?windowWidth/12*3:windowWidth/12*9}}px; z-index:{{learnMode?5:1}}; background:{{learnMode?'#ffffff':'inherit'}}" src="'/modules/courses/views/course-map.client.view.html'"></ng-include>
 
-    <ng-include ng-if="!learnMode&&!editSourceMode" src="'/modules/concepts/views/search.client.view.html'"></ng-include>
+    <div ng-if="!learnMode&&!editSourceMode">
+        <booc-search concepts="concepts" segments="segments"></booc-search>
+    </div>
+    <!--<ng-include ng-if="!learnMode&&!editSourceMode" src="'/modules/concepts/views/search.client.view.html'"></ng-include>-->
 
     <ng-include ng-show="learnMode" src="'/modules/learning/views/learn.client.view.html'"></ng-include>
 
