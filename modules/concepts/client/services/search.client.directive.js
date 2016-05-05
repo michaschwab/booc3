@@ -46,25 +46,12 @@ angular.module('concepts').directive('boocSearch', function(SourceIcon, Logger, 
                 scope.numberConcepts = concepts.length;
             };
 
-
             updateData();
             scope.$watch('concepts', updateData);
             scope.$watch('segments', updateData);
 
             scope.searchSelect = function(data, event)
             {
-                /*var learnScope = angular.element('.learning').scope();
-                 if(learnScope !== undefined)
-                 {
-                 learnScope.expandGraph();
-                 }*/
-                /*
-                 var appNode = d3.select('.concept-map-full').node();
-                 appScope = angular.element(appNode).scope();
-                 return appScope.activateConcept.apply(appScope,arguments);*/
-                //$location.search('active', )
-                //console.log(arguments);
-
                 if(data.type == 'concept')
                 {
                     var concept = data;
@@ -111,30 +98,18 @@ angular.module('concepts').directive('boocSearch', function(SourceIcon, Logger, 
 
                 $location.search('active', '');
                 $scope.$select.selected = null;
-
-                /*var learnScope = angular.element('.learning').scope();
-                 if(learnScope !== undefined)
-                 {
-                 learnScope.expandGraph();
-                 }
-
-                 appScope = angular.element('.concept-map-full').scope();
-                 return appScope.searchUnselect.apply(appScope,arguments);*/
-                /*var appNode = d3.select('.concept-map-full').node();
-                 appScope = angular.element(appNode).scope();
-                 return appScope.activateConcept();*/
             };
 
-            scope.courseScope.$watch('activeConcept', function()
+            scope.setSearchConcept = function(concept)
             {
                 var el = d3.select('.concept-select');
                 el = angular.element(el[0]);
                 var select = el.scope().$select ? el.scope().$select : {};
 
-                if(scope.courseScope.activeConcept)
+                if(concept)
                 {
                     //select.selected = scope.courseScope.activeConcept.concept;
-                    var conceptId = scope.courseScope.activeConcept.concept._id;
+                    var conceptId = concept.concept._id;
                     var concepts = scope.searchObjects.filter(function(obj)
                     {
                         return obj._id == conceptId;
@@ -148,6 +123,11 @@ angular.module('concepts').directive('boocSearch', function(SourceIcon, Logger, 
                 {
                     select.selected = null;
                 }
+            };
+
+            scope.courseScope.$watch('activeConcept', function()
+            {
+                scope.setSearchConcept(scope.courseScope.activeConcept);
             });
 
 

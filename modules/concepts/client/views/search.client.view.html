@@ -4,7 +4,7 @@
     <ui-select class="concept-select" theme="bootstrap" ng-model="$parent.searchConcept" on-select="searchSelect($item, $event)"
                ng-required name="conceptSelect" id="conceptSelect">
         <ui-select-match placeholder="Search Learning Concept...">
-            <div class="search-concept-circle search-icon" style="background: {{$select.selected.color}};" ng-show="concept.type=='concept'"></div>
+            <div class="search-concept-circle search-icon" style="background: {{$select.selected.color}};" ng-show="$select.selected.type=='concept'"></div>
             <span class="{{$select.selected.icon}} segment-icon search-icon" ng-show="$select.selected.type=='segment'"></span>
             {{$select.selected.title}}
             <div class="selectResetter" class="pull-right" ng-click="searchUnselect(this)">&times;</div>
