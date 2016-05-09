@@ -1,1 +1,0 @@
-{ "indexes" : [ { "v" : 1, "key" : { "_id" : 1 }, "ns" : "boocV2.sourcetypes", "name" : "_id_" }, { "v" : 1, "key" : { "title" : 1 }, "unique" : true, "ns" : "boocV2.sourcetypes", "name" : "title_1", "background" : true, "safe" : null } ] }
