@@ -26,8 +26,6 @@ var CourseSchema = new Schema({
         default: '',
         trim: true
     },
-    segments: [{ type: Schema.ObjectId, ref: 'Segment' }],
-    concepts: [{ type: Schema.ObjectId, ref: 'Concept' }],
     created: {
         type: Date,
         default: Date.now
