@@ -477,7 +477,21 @@ angular.module('courses').service('ActiveDataManager', function(Authentication, 
 
     this.isOnPlan = function(d)
     {
-        return !$scope.activeDependencyProviderIds ? false : $scope.activeDependencyProviderIds.indexOf(d.concept._id) !== -1;
+        if(!$scope.search.active)
+        {
+            return !$scope.activeDependencyProviderIds ? false : $scope.activeDependencyProviderIds.indexOf(d.concept._id) !== -1;
+        }
+        else
+        {
+            var titleMatch = function(d)
+            {
+                return d.concept.title.toLowerCase().indexOf($scope.search.text.toLowerCase()) !== -1;
+            };
+            var selfMatch = titleMatch(d);
+            var childMatch = d.children.filter(titleMatch).length > 0;
+            return selfMatch || childMatch;
+        }
+
     };
 
     this.updateAttributes = function()
@@ -493,11 +507,15 @@ angular.module('courses').service('ActiveDataManager', function(Authentication, 
     {
         me.updateDepProviders();
 
-        if(!$scope.activeDependencyProviderIds) return;
+        //if(!$scope.activeDependencyProviderIds) return;
 
         var checkDependencyProvider = function(d)
         {
             return $scope.activeDependencyProviderIds.indexOf(d.concept._id) !== -1;
+        };
+        var checkSearchTerm = function(d)
+        {
+            return d.concept.title.toLowerCase().indexOf($scope.search.text.toLowerCase()) !== -1;
         };
 
         $scope.planConcepts = $scope.active.topLevelConcepts.filter(function(d)
@@ -505,33 +523,21 @@ angular.module('courses').service('ActiveDataManager', function(Authentication, 
             return !$scope.activeDependencyProviderIds || $scope.activeDependencyProviderIds.indexOf(d.concept._id) !== -1;
         });
 
-        $scope.planConcepts.forEach(function(d)
+        var setPlanConcept = function(d)
         {
             me.setAttributes(d);
 
-            if(($scope.active.hierarchyIds.indexOf(d.concept._id) !== -1 || $scope.active.goalHierarchyIds.indexOf(d.concept._id) !== -1 || $scope.active.hoverHierarchyIds.indexOf(d.concept._id) !== -1) && d.children)
+            if(($scope.active.hierarchyIds.indexOf(d.concept._id) !== -1 || $scope.active.goalHierarchyIds.indexOf(d.concept._id) !== -1 || $scope.active.hoverHierarchyIds.indexOf(d.concept._id) !== -1 || $scope.search.active) && d.children)
             {
-                d.planChildren = d.children.filter(checkDependencyProvider);
-
-                d.planChildren.forEach(function(e)
+                var filter = $scope.search.active ? checkSearchTerm : checkDependencyProvider;
+                if($scope.search.active && checkSearchTerm(d))
                 {
-                    me.setAttributes(e);
+                    // If parent concept matches, simply show all children.
+                    filter = function() { return true; };
+                }
 
-                    if(($scope.active.hierarchyIds.indexOf(e.concept._id) !== -1 || $scope.active.goalHierarchyIds.indexOf(e.concept._id) !== -1 || $scope.active.hoverHierarchyIds.indexOf(e.concept._id) !== -1) && e.children)
-                    {
-                        e.planChildren = e.children.filter(checkDependencyProvider);
-
-                        e.planChildren.forEach(function(f)
-                        {
-                            me.setAttributes(f);
-                        });
-                    }
-                    else
-                    {
-                        e.planChildren = [];
-                    }
-
-                });
+                d.planChildren = d.children.filter(filter);
+                d.planChildren.forEach(setPlanConcept);
                 //console.log($scope.activeDependencyProviderIds);
                 //console.log(d.planChildren);
             }
@@ -539,7 +545,9 @@ angular.module('courses').service('ActiveDataManager', function(Authentication, 
             {
                 d.planChildren = [];
             }
-        });
+        };
+
+        $scope.planConcepts.forEach(setPlanConcept);
 
         me.updateAttributes();
 

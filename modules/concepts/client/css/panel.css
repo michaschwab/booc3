@@ -981,3 +981,9 @@ input[type=color] {
 .minimized .learning-buttons .btn .btn-label {
     display:none;
 }
+
+/** Search **/
+.sidepanel .ng-valid.ng-dirty
+{
+    border-color: inherit;
+}

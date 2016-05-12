@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('concepts').controller('ConceptPanelController',
-    function($scope, $rootScope, $stateParams, $location, Authentication, Concepts, Conceptdependencies, Courses, Sourcetypes, Segments, Sources, ConceptStructure, $timeout, LearnedConcepts, SeenConcepts, $window, PanelAdmin, ConceptPanelView, ConceptActions, $interval)
+    function($scope, $rootScope, $stateParams, $location, Authentication, Concepts, Conceptdependencies, Courses, Sourcetypes, Segments, Sources, ConceptStructure, $timeout, LearnedConcepts, SeenConcepts, $window, PanelAdmin, ConceptPanelView, ConceptActions, $interval, ActiveDataManager)
     {
         $scope.courseScope = angular.element('.course-view').scope();
         $scope = $scope.courseScope;
@@ -14,6 +14,67 @@ angular.module('concepts').controller('ConceptPanelController',
         PanelAdmin.init($scope);
         ConceptPanelView.init($scope);
         ConceptActions.init($scope);
+
+        $scope.search = {};
+
+        var planUpdateTimeout;
+        var lastPlanUpdate = 0;
+        $scope.onSearchChange = function()
+        {
+            $scope.search.active = true;
+
+            var executeUpdate = function()
+            {
+                lastPlanUpdate = Date.now();
+                console.log('executing plan update with search term ', $scope.search.text);
+                ActiveDataManager.updatePlan();
+            };
+
+            var issueUpdate = function()
+            {
+                $timeout.cancel(planUpdateTimeout);
+
+                var now = Date.now();
+                if(now - lastPlanUpdate > 200)
+                {
+                    executeUpdate();
+                }
+                else
+                {
+                    planUpdateTimeout = $timeout(issueUpdate, 200);
+                }
+            };
+
+            planUpdateTimeout = $timeout(issueUpdate, 200);
+
+            //ActiveDataManager.updatePlan();
+
+            /*var lowerCaseSearch = $scope.search.text.toLowerCase();
+            Object.keys($scope.directories.concepts).forEach(function(conceptId)
+            {
+                var concept = $scope.directories.concepts[conceptId];
+                concept.notOnPlan = (!concept.planChildren || !concept.planChildren.length) && concept.concept.title.toLowerCase().indexOf(lowerCaseSearch) == -1;
+            });*/
+        };
+
+        $scope.$watch('currentGoal', function()
+        {
+            if(!$scope.search.active)
+            {
+                $scope.search.text = $scope.course.short;
+
+                if($scope.currentGoal)
+                {
+                    $scope.search.text = $scope.currentGoal.concept.title;
+                }
+            }
+
+        });
+        $scope.$watch('activeConcept', function()
+        {
+            $scope.search.active = false;
+            ActiveDataManager.updatePlan();
+        });
 
 
 

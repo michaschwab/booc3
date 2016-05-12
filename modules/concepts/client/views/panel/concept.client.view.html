@@ -23,7 +23,7 @@
 
     </a>
 
-    <segment-list ng-if="courseScope.activeConcept.concept._id == concept.concept._id"
+    <segment-list ng-if="courseScope.activeConcept.concept._id == concept.concept._id || (!concept.notOnPlan && courseScope.search.active)"
                   segments="courseScope.segmentAndGroupPerConceptMap[concept.concept._id]" concept="concept"></segment-list>
 
 

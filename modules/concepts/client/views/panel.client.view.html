@@ -204,12 +204,22 @@
 
                 <div ng-show="activeMode=='plan'" class="panel-content plan-panel" ng-class="{'panel-content-active': activeMode=='plan'}" style="height: {{panelContentHeight}}px;">
 
-                    <p class="plan-intro"><i>How do I learn
+                    <p class="plan-intro">
+                        <i>
+                            How do I learn
 
-                        <span ng-if="currentGoal">{{currentGoal.concept.title}}?</span>
-                        <span ng-if="!currentGoal">{{::course.short}}?</span>
+                            <input type="text"
+                                   class="input"
+                                   ng-model="search.text"
+                                   onfocus="this.select()"
+                                   ng-change="onSearchChange($event)"
+                                   style="width:{{courseScope.panelWidth-170}}px"
+                            />
 
-                    </i></p>
+                            ?
+
+                        </i>
+                    </p>
 
                     <ul class="course-list" style="border-color: {{getPathColor(currentGoal.concept.color)}}">
 
