@@ -987,3 +987,20 @@ input[type=color] {
 {
     border-color: inherit;
 }
+.sidepanel .plan-intro {
+    position: relative;
+}
+.sidepanel .search-clear {
+    position: absolute;
+    top:5px;
+    right: 40px;
+    width: 18px;
+    height: 18px;
+    background: #ddd;
+    border-radius: 8px;
+    text-align: center;
+    color: #333;
+}
+.sidepanel .search-clear:hover, .sidepanel .search-clear:visited {
+    text-decoration: none;
+}

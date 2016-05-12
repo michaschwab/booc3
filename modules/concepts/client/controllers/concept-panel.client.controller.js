@@ -19,6 +19,14 @@ angular.module('concepts').controller('ConceptPanelController',
 
         var planUpdateTimeout;
         var lastPlanUpdate = 0;
+
+        $scope.clearSearch = function()
+        {
+            $scope.search.active = false;
+            resetSearch();
+            ActiveDataManager.updatePlan();
+        };
+
         $scope.onSearchChange = function()
         {
             $scope.search.active = true;
@@ -57,7 +65,7 @@ angular.module('concepts').controller('ConceptPanelController',
             });*/
         };
 
-        $scope.$watch('currentGoal', function()
+        var resetSearch = function()
         {
             if(!$scope.search.active)
             {
@@ -68,8 +76,9 @@ angular.module('concepts').controller('ConceptPanelController',
                     $scope.search.text = $scope.currentGoal.concept.title;
                 }
             }
+        };
 
-        });
+        $scope.$watch('currentGoal', resetSearch);
         $scope.$watch('activeConcept', function()
         {
             $scope.search.active = false;
