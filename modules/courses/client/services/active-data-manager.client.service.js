@@ -475,6 +475,28 @@ angular.module('courses').service('ActiveDataManager', function(Authentication, 
         d.notOnPlan = !this.isOnPlan(d);
     };
 
+    this.hasTextMatch = function(d, text)
+    {
+        if(d.concept.title.toLowerCase().indexOf(text.toLowerCase()) !== -1)
+        {
+            return true;
+        }
+
+        if($scope.segmentPerConceptMap && $scope.segmentPerConceptMap[d.concept._id])
+        {
+            var segs = $scope.segmentPerConceptMap[d.concept._id];
+            for(var i = 0; i < segs.length; i++)
+            {
+                if(segs[i].title.toLowerCase().indexOf(text.toLowerCase()) !== -1)
+                {
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    };
+
     this.isOnPlan = function(d)
     {
         // If the children are important, the parent is important, too.
@@ -486,15 +508,7 @@ angular.module('courses').service('ActiveDataManager', function(Authentication, 
         }
         else
         {
-            var titleMatch = function(d)
-            {
-                return d.concept.title.toLowerCase().indexOf($scope.search.text.toLowerCase()) !== -1;
-            };
-            var selfMatch = titleMatch(d);
-            var childMatch = false;// d.children.filter(titleMatch).length > 0;
-            // i think child matches should be covered by the beginning of this function at this point.
-
-            return selfMatch || childMatch;
+            return me.hasTextMatch(d, $scope.search.text);
         }
 
     };
@@ -523,7 +537,7 @@ angular.module('courses').service('ActiveDataManager', function(Authentication, 
                 return prev + curr.planChildren.length;
             }, 0);
             return (childrenPlanChildrenNumber > 0)
-                || d.concept.title.toLowerCase().indexOf($scope.search.text.toLowerCase()) !== -1;
+                || me.hasTextMatch(d, $scope.search.text);
         };
 
         $scope.planConcepts = $scope.active.topLevelConcepts.filter(function(d)
