@@ -209,13 +209,15 @@
                             How do I learn
 
                             <input type="text"
-                                   class="input"
+                                   class="input search-input"
                                    ng-model="search.text"
+                                   onclick="this.select()"
                                    onfocus="this.select()"
                                    ng-change="onSearchChange($event)"
                                    style="width:{{courseScope.panelWidth-170}}px"
                             />
 
+                            <span class="search-icon fa fa-search"></span>
                             <a class="search-clear" href ng-click="clearSearch()">&times;</a>
 
                             ?

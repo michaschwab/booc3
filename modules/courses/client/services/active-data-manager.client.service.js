@@ -477,6 +477,9 @@ angular.module('courses').service('ActiveDataManager', function(Authentication, 
 
     this.isOnPlan = function(d)
     {
+        // If the children are important, the parent is important, too.
+        if(d.planChildren && d.planChildren.length > 0) return true;
+
         if(!$scope.search.active)
         {
             return !$scope.activeDependencyProviderIds ? false : $scope.activeDependencyProviderIds.indexOf(d.concept._id) !== -1;
@@ -488,7 +491,9 @@ angular.module('courses').service('ActiveDataManager', function(Authentication, 
                 return d.concept.title.toLowerCase().indexOf($scope.search.text.toLowerCase()) !== -1;
             };
             var selfMatch = titleMatch(d);
-            var childMatch = d.children.filter(titleMatch).length > 0;
+            var childMatch = false;// d.children.filter(titleMatch).length > 0;
+            // i think child matches should be covered by the beginning of this function at this point.
+
             return selfMatch || childMatch;
         }
 
@@ -507,26 +512,28 @@ angular.module('courses').service('ActiveDataManager', function(Authentication, 
     {
         me.updateDepProviders();
 
-        //if(!$scope.activeDependencyProviderIds) return;
-
         var checkDependencyProvider = function(d)
         {
-            return $scope.activeDependencyProviderIds.indexOf(d.concept._id) !== -1;
+            return !$scope.activeDependencyProviderIds || $scope.activeDependencyProviderIds.indexOf(d.concept._id) !== -1;
         };
         var checkSearchTerm = function(d)
         {
-            return d.concept.title.toLowerCase().indexOf($scope.search.text.toLowerCase()) !== -1;
+            var childrenPlanChildrenNumber = d.children.reduce(function(prev, curr)
+            {
+                return prev + curr.planChildren.length;
+            }, 0);
+            return (childrenPlanChildrenNumber > 0)
+                || d.concept.title.toLowerCase().indexOf($scope.search.text.toLowerCase()) !== -1;
         };
 
         $scope.planConcepts = $scope.active.topLevelConcepts.filter(function(d)
         {
-            return !$scope.activeDependencyProviderIds || $scope.activeDependencyProviderIds.indexOf(d.concept._id) !== -1;
+            var filter = $scope.search.active ? checkSearchTerm : checkDependencyProvider;
+            return filter(d);
         });
 
         var setPlanConcept = function(d)
         {
-            me.setAttributes(d);
-
             if(($scope.active.hierarchyIds.indexOf(d.concept._id) !== -1 || $scope.active.goalHierarchyIds.indexOf(d.concept._id) !== -1 || $scope.active.hoverHierarchyIds.indexOf(d.concept._id) !== -1 || $scope.search.active) && d.children)
             {
                 var filter = $scope.search.active ? checkSearchTerm : checkDependencyProvider;
@@ -537,23 +544,19 @@ angular.module('courses').service('ActiveDataManager', function(Authentication, 
                 }
 
                 d.planChildren = d.children.filter(filter);
-                d.planChildren.forEach(setPlanConcept);
-                //console.log($scope.activeDependencyProviderIds);
-                //console.log(d.planChildren);
             }
             else
             {
                 d.planChildren = [];
             }
+
+            d.children.forEach(setPlanConcept);
+            me.setAttributes(d);
         };
 
-        $scope.planConcepts.forEach(setPlanConcept);
+        $scope.active.topLevelConcepts.forEach(setPlanConcept);
 
         me.updateAttributes();
-
-        //console.log($scope.planConcepts);
-
-        //console.log(todo);
     };
 
     this.updateWatchable = function()

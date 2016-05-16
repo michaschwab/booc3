@@ -34,7 +34,7 @@ angular.module('concepts').controller('ConceptPanelController',
             var executeUpdate = function()
             {
                 lastPlanUpdate = Date.now();
-                console.log('executing plan update with search term ', $scope.search.text);
+                //console.log('executing plan update with search term ', $scope.search.text);
                 ActiveDataManager.updatePlan();
             };
 
