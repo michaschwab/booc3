@@ -19,6 +19,7 @@ angular.module('concepts').directive('segmentLink', function(SourceIcon) {
             if(scope.source)
             {
                 scope.sourcetype = scope.courseScope.sourcetypeMap[scope.source.type];
+                scope.fullTitle = scope.segment.title + ': ' + scope.sourcetype.title + ' on ' + scope.source.title;
             }
 
             scope.icon = SourceIcon.get(scope.source);

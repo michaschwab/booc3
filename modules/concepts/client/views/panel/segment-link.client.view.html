@@ -2,7 +2,7 @@
    class="segment-link"
    id="panel-segment-{{segment._id}}"
    ng-click="courseScope.segmentClick(segment, concept, $event)"
-   title="{{::segment.title}}: {{::sourcetype.title}} on {{::source.title}}">
+   title="{{courseScope.minimized?fullTitle:''}}">
 
     <span class="{{::icon}} segment-icon"></span>
 
@@ -14,12 +14,14 @@
         </span>
 
         <span ng-show="segment.start&&(sourcetype.title=='Lecture'||sourcetype.title=='YouTube'||sourcetype.title=='Harvard Extension School')">
-            (<span ng-show="segment.start>=3600">{{segment.start | secondsToDateTime | date:'HH:mm:ss'}}</span><span ng-show="segment.start<3600">{{segment.start | secondsToDateTime | date:'mm:ss'}}</span>
-            -
-            <span ng-show="segment.end>=3600">{{segment.end | secondsToDateTime | date:'HH:mm:ss'}}</span><span ng-show="segment.end<3600">{{segment.end | secondsToDateTime | date:'mm:ss'}}</span>)
+            (<span class="sr-only">Time in Video</span><time ng-show="segment.start>=3600">{{segment.start | secondsToDateTime | date:'HH:mm:ss'}}</time><time ng-show="segment.start<3600">{{segment.start | secondsToDateTime | date:'mm:ss'}}</time>
+            - <span class="sr-only">to</span>
+            <time ng-show="segment.end>=3600">{{segment.end | secondsToDateTime | date:'HH:mm:ss'}}</time><time ng-show="segment.end<3600">{{segment.end | secondsToDateTime | date:'mm:ss'}}</time>)
         </span>
         <span ng-show="segment.end&&(sourcetype.title=='PDF')">
-            (p. {{segment.start}} - {{segment.end}})
+            (<span aria-hidden="true">p.</span><span class="sr-only">Page</span>{{segment.start}}
+            - <span class="sr-only">to</span>
+            {{segment.end}})
         </span>
 
         <span ng-show="source.tags.length">
