@@ -533,6 +533,8 @@ input.concept-title.admin {
     padding: 5px 15px;
     text-decoration: none;
     min-height: 30px;
+    position: relative;
+    z-index: 100;
 }
 
 .segment.active a, .segment a:hover, .segment.hover a {
