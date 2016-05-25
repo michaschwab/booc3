@@ -27,7 +27,7 @@
                   segments="courseScope.segmentAndGroupPerConceptMap[concept.concept._id]" concept="concept"></segment-list>
 
 
-    <ul class="concept-list concept-list-nested" ng-if="!concept.notOnPlan && concept.planChildren.length" aria-label="Concept List">
+    <ul class="concept-list concept-list-nested" ng-if="!concept.notOnPlan && concept.planChildren.length" aria-label="Concepts">
 
         <concept concept="concept" ng-repeat="concept in concept.children track by concept.concept._id"></concept>
     </ul>

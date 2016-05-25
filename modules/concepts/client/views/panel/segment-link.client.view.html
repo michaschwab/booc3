@@ -9,7 +9,7 @@
     <span class="segment-title" id="panel-segment-title-{{segment._id}}">
         {{::segment.title}}
         <span ng-show="sourcetype.player!='iframe' && sourcetype.player!='website' && sourcetype.player!='lti'">
-            in
+            in <span class="sr-only">{{::sourcetype.title}}</span>
             <i>{{::source.title}}</i>
         </span>
 
