@@ -1,6 +1,6 @@
 <li class="concept concept-{{::concept.concept._id}}"
     ng-class="{ 'active': concept.active, 'inactive': !concept.active && concept.inGoalHierarchy && concept.inHoverHierarchy, 'notOnPlan': concept.notOnPlan, 'hover': concept.hover, 'goal': concept.goal }"
-    aria-label="{{::concept.concept.title}}">
+    tabindex="-1">
 
     <span ng-show="concept.isSeen&&!concept.learned&&!concept.goal" class="concept-seen glyphicon glyphicon-eye-open"></span>
     <span ng-show="concept.learned&&!concept.goal" class="concept-tick glyphicon glyphicon-ok"></span>
@@ -8,10 +8,10 @@
 
     <a data-ui-sref="{active: concept.concept._id, learn: courseScope.segmentPerConceptMap[concept.concept._id].length>0 ? courseScope.learnModeYesNo : 'no', segment: '' }"
        ng-mouseover="courseScope.hoverConceptPanel(concept)" ng-mouseleave="courseScope.leaveConceptPanel(concept)"
+       ng-focus="courseScope.activeConcept.concept._id == concept.concept._id"
        tabindex="0"
        id="panel-concept-{{concept.concept._id}}"
-       ng-click="courseScope.conceptClick(concept, $event)"
-       title="{{::concept.concept.title}}">
+       ng-click="courseScope.conceptClick(concept, $event)">
 
         <span class="concept-circle" ng-click="courseScope.conceptCircleClick(concept, $event)" style="background: {{::concept.concept.color}}"></span>
         <span class="concept-line">

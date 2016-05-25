@@ -1,3 +1,5 @@
+#content:focus { outline: none; }
+
 header.navbar {
     background: #68647f;
     /*border: none;*/

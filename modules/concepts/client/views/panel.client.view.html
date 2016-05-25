@@ -5,11 +5,11 @@
     <div class="fadein">
 
         <div ng-show="!minimized" class="sidepanelOptions" aria-hidden="true" role="presentation">
-            <a aria-hidden="true" class="minimizerToggle minimizer fa fa-times-circle" href="" id="hidePanelButton" ng-click="minimize($event)" title="Hide Panel"></a>
+            <a aria-hidden="true" class="minimizerToggle minimizer fa fa-times-circle" href="" id="hidePanelButton" ng-click="minimize($event)" title="Hide Panel" tabindex="-1"></a>
         </div>
 
         <div ng-if="minimized" class="sidepanelOptions" aria-hidden="true" role="presentation">
-            <a aria-hidden="true" class="minimizerToggle maximizer panel-button" href="" id="maximizePanelButton" ng-click="maximize($event)" title="Show Panel">
+            <a aria-hidden="true" class="minimizerToggle maximizer panel-button" href="" id="maximizePanelButton" ng-click="maximize($event)" title="Show Panel" tabindex="-1">
                 <span class="fa fa-bars"></span>
             </a>
         </div>
@@ -213,14 +213,17 @@
                                    ng-model="search.text"
                                    onclick="this.select()"
                                    onfocus="this.select()"
+                                   aria-label="Search"
                                    ng-change="onSearchChange($event)"
                                    style="width:{{courseScope.panelWidth-170}}px"
                             />
 
                             <span class="search-icon fa fa-search"></span>
-                            <a class="search-clear" href ng-click="clearSearch()">&times;</a>
+                            <a class="search-clear" href ng-click="clearSearch()"><span class="sr-only">Clear Search</span><span aria-hidden="true">&times;</span></a>
 
                             ?
+
+                            <span class="sr-only">Use this to search learning concepts and materials.</span>
 
                         </i>
                     </p>
