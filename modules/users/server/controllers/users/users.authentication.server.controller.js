@@ -107,7 +107,14 @@ exports.oauthCallback = function (strategy) {
     var sessionRedirectURL = req.session.redirect_to;
     delete req.session.redirect_to;
 
+
     passport.authenticate(strategy, function (err, user, redirectURL) {
+
+      if(typeof redirectURL == 'object' && Object.keys(redirectURL).length === 0)
+      {
+        redirectURL = undefined;
+      }
+
       if (err) {
         return res.redirect('/authentication/signin?err=' + encodeURIComponent(errorHandler.getErrorMessage(err)));
       }
