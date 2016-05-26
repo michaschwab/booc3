@@ -6,7 +6,7 @@ angular.module('concepts').directive('lecture', function() {
         scope: {
             lecture: '='
         },
-        templateUrl: 'modules/concepts/views/panel/lecture.client.view.html',
+        templateUrl: 'modules/panel/views/lecture.client.view.html',
         replace: true
     };
 });

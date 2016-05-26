@@ -8,7 +8,7 @@ angular.module('concepts').directive('segmentList', function(RecursionHelper, $t
             parent: '=',
             concept: '='
         },
-        templateUrl: 'modules/concepts/views/panel/segment-list.client.view.html',
+        templateUrl: 'modules/panel/views/segment-list.client.view.html',
         replace: true,
         compile: function(element) {
             return RecursionHelper.compile(element, function(scope, el){

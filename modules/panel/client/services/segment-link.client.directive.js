@@ -8,7 +8,7 @@ angular.module('concepts').directive('segmentLink', function(SourceIcon) {
             segment: '='
         },
         transclude: true,
-        templateUrl: 'modules/concepts/views/panel/segment-link.client.view.html',
+        templateUrl: 'modules/panel/views/segment-link.client.view.html',
         replace: true,
         link: function(scope)
         {

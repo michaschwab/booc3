@@ -6,7 +6,7 @@ angular.module('concepts').directive('concept', function(RecursionHelper) {
         scope: {
             concept: '='
         },
-        templateUrl: 'modules/concepts/views/panel/concept.client.view.html',
+        templateUrl: 'modules/panel/views/concept.client.view.html',
         replace: true,
         compile: function(element) {
             return RecursionHelper.compile(element, function(scope, iElement, iAttrs, controller, transcludeFn){
