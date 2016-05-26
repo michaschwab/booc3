@@ -1,7 +1,7 @@
 'use strict';
 
 //Concepts service used to communicate Concepts REST endpoints
-angular.module('contents').service('Tip',
+angular.module('map').service('Tip',
 function($timeout, ConceptStructure, Authentication)
 {
     var me = this;

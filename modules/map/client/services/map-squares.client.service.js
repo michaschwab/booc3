@@ -1,4 +1,4 @@
-angular.module('courses').service('MapSquares', function(Tip, $location, $timeout, Logger, FontAwesome, $state, SourceIcon)
+angular.module('map').service('MapSquares', function(Tip, $location, $timeout, Logger, FontAwesome, $state, SourceIcon)
 {
     var me = this;
     var $scope;

@@ -1,4 +1,4 @@
-angular.module('courses').service('MapArrows', function(Tip, ConceptStructure, MapArrowShaping, $location, $timeout, Logger)
+angular.module('map').service('MapArrows', function(Tip, ConceptStructure, MapArrowShaping, $location, $timeout, Logger)
 {
     var me = this;
     var $scope;

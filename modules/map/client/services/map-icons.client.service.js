@@ -1,4 +1,4 @@
-angular.module('courses').service('MapIcons', function(Tip, ConceptStructure, $location, Authentication)
+angular.module('map').service('MapIcons', function(Tip, ConceptStructure, $location, Authentication)
 {
     var me = this;
     var $scope;

@@ -1,4 +1,4 @@
-angular.module('courses').service('MapCircles', function(Tip, $location, $timeout, Logger)
+angular.module('map').service('MapCircles', function(Tip, $location, $timeout, Logger)
 {
     var me = this;
     var lxCircle;

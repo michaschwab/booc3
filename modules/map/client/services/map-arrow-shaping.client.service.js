@@ -1,4 +1,4 @@
-angular.module('courses').service('MapArrowShaping', function(Tip, ConceptStructure, $cacheFactory)
+angular.module('map').service('MapArrowShaping', function(Tip, ConceptStructure, $cacheFactory)
 {
     var me = this;
     var curveCache;

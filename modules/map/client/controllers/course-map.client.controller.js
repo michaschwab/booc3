@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('courses').controller('CourseMapController', function($scope, $stateParams, Courses, Concepts, Conceptdependencies, Authentication, $window, $location, ConceptStructure, $timeout, Tip, MapArrows, MapCircles, MapSquares, MapActions, MapIcons, $rootScope, MapEvents, MapTour, Logger)
+angular.module('map').controller('CourseMapController', function($scope, $stateParams, Courses, Concepts, Conceptdependencies, Authentication, $window, $location, ConceptStructure, $timeout, Tip, MapArrows, MapCircles, MapSquares, MapActions, MapIcons, $rootScope, MapEvents, MapTour, Logger)
     {
         $scope.authentication = Authentication;
 

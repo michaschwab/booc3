@@ -1,4 +1,4 @@
-angular.module('courses').service('MapTour', function(Authentication, $timeout, $location, Users, MapArrows, ConceptStructure, Logger)
+angular.module('map').service('MapTour', function(Authentication, $timeout, $location, Users, MapArrows, ConceptStructure, Logger)
 {
     var me = this;
     var $scope;

@@ -1,4 +1,4 @@
-angular.module('courses').service('MapEvents', function(Tip, $location, Courseevents)
+angular.module('map').service('MapEvents', function(Tip, $location, Courseevents)
 {
     var me = this;
     var $scope;
