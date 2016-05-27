@@ -349,6 +349,7 @@ angular.module('map').controller('CourseMapController', function($scope, $stateP
         var lastGraphWidth = 0;
         var lastGraphHeight = 0;
         var lastHoverSegment;
+        var lastSearchText = '';
 
         $scope.redrawHover = function(force)
         {
@@ -357,7 +358,8 @@ angular.module('map').controller('CourseMapController', function($scope, $stateP
                 if(angular.equals($scope.active.hoveringConceptIds, lastRedrawHoverHovers)
                     && angular.equals($scope.todoIds, lastRedrawHoverTodos)
                     && $scope.graphWidth === lastGraphWidth && $scope.graphHeight === lastGraphHeight
-                    && $scope.active.hoverSegment === lastHoverSegment)
+                    && $scope.active.hoverSegment === lastHoverSegment
+                    && lastSearchText == $scope.search.text)
                 {
                     return;
                 }
@@ -368,6 +370,7 @@ angular.module('map').controller('CourseMapController', function($scope, $stateP
             lastGraphWidth = $scope.graphWidth;
             lastGraphHeight = $scope.graphHeight;
             lastHoverSegment = $scope.active.hoverSegment;
+            lastSearchText = $scope.search.text;
 
             //console.log(cScope.active.hoveringConceptIds);
 

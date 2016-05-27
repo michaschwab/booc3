@@ -359,7 +359,8 @@ angular.module('courses').controller('CourseViewController',
         $scope.depthColorModification = function (concept, grayout)
         {
             var cacheKeyGrayPart = grayout ? '1' + ($scope.todoIds.length > 0 && $scope.todoIds.indexOf(concept.concept._id)) : '';
-            var cacheKey = concept.concept._id + '-' + cacheKeyGrayPart + '-' + concept.concept.color;
+            var cacheSearchPart = $scope.search.active ? 'search-' + $scope.search.text : 'nosearch';
+            var cacheKey = concept.concept._id + '-' + cacheKeyGrayPart + cacheSearchPart + '-' + concept.concept.color;
             var cacheVal = colorCache.get(cacheKey);
 
             if(cacheVal)
@@ -374,7 +375,9 @@ angular.module('courses').controller('CourseViewController',
                     orig = orig.darker()
                 }
 
-                var result = grayout && $scope.todoIds.length > 0 && $scope.todoIds.indexOf(concept.concept._id) === -1 ?
+                var result = grayout
+                    && ((!$scope.search.active && $scope.todoIds.length > 0 && $scope.todoIds.indexOf(concept.concept._id) === -1)
+                     || ($scope.search.active && concept.notOnPlan)) ?
                     d3.hsl(orig.hsl().h, 0, orig.hsl().l).toString() : orig.toString();
                 $scope.addColor(result);
 

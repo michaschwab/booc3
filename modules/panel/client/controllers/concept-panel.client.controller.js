@@ -25,6 +25,7 @@ angular.module('concepts').controller('ConceptPanelController',
             $scope.search.active = false;
             resetSearch();
             ActiveDataManager.updatePlan();
+            $scope.$broadcast('redrawHover');
         };
 
         $scope.onSearchChange = function()
@@ -36,6 +37,7 @@ angular.module('concepts').controller('ConceptPanelController',
                 lastPlanUpdate = Date.now();
                 //console.log('executing plan update with search term ', $scope.search.text);
                 ActiveDataManager.updatePlan();
+                $scope.$broadcast('redrawHover');
             };
 
             var issueUpdate = function()
@@ -82,7 +84,7 @@ angular.module('concepts').controller('ConceptPanelController',
         $scope.$watch('activeConcept', function()
         {
             $scope.search.active = false;
-            ActiveDataManager.updatePlan();
+            //ActiveDataManager.updatePlan();
         });
 
 
