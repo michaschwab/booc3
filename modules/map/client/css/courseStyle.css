@@ -191,20 +191,6 @@ text.learned, text.goal {
 }
 
 
-.mapOptions {
-    position: absolute;
-    bottom: 10pt;
-    right: 20pt;
-
-    width: 30%;
-    text-align: right;
-    color: #bbbbbb;
-}
-
-
-.mapOptions div {
-    display: inline;
-}
 #depLayer {
     pointer-events: auto;
 }
@@ -306,7 +292,7 @@ text.learned, text.goal {
 
 .prereqToggle {
     position: absolute;
-    top: 110px;
+    top: 30px;
     right: 50px;
     color: #555;
 }

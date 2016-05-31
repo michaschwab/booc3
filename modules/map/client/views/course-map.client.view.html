@@ -7,17 +7,6 @@
 
     <!--<button id="prereqButton" class="btn btn-default prereqButton" ng-click="preReqButtonClick()" ng-hide="graphWidth<800">{{prereqButtonText}}</button>
 -->
-    <div class="futurePlansToggle" ng-hide="graphWidth<800">
-
-        <a href ng-click="futurePlansToggleClick($event)">
-
-            Show where I can go next
-
-            <span ng-show="options.showCurrentPathFutureHierarchy" class="fa fa-check-square-o"></span>
-            <span ng-show="!options.showCurrentPathFutureHierarchy" class="fa fa-square-o" style="padding-right: 2px"></span>
-        </a>
-
-    </div>
 
     <div ng-if="authentication.isAdmin()" class="prereqToggle" ng-hide="graphWidth<800">
 
@@ -90,7 +79,7 @@
 
     </svg>
 
-    <div ng-hide="learnMode||windowWidth<800" class="mapOptions" id="zoomToggleContainer">
+    <div ng-hide="learnMode||windowWidth<800" class="mapOptions" ng-class="{ 'options-hidden': !showOptions, 'options-shown': showOptions, 'is-teacher': authentication.isTeacher() }" id="zoomToggleContainer">
         <!--<hr />-->
 
         <!--<div style="padding-right: 40pt;">
@@ -110,85 +99,96 @@
             </div>
         </div>-->
 
-        <form class="form-inline" ng-if="authentication.isTeacher()">
+        <form class="form-inline">
 
             <div class="form-group">
 
-                <a href ng-click="showOptions==true?showOptions=false:showOptions=true">Options...</a>
-
                 <div ng-show="showOptions">
-                    <div class="checkbox">
-                        <label>
-                            <input type="checkbox" ng-model="options.showAllDeps"> All dependencies
-                        </label>
-                    </div>
-                    <div class="checkbox">
-                        <label>
-                            <input type="checkbox" ng-model="options.showCurrentDeps"> Current dependencies
-                        </label>
-                    </div>
-                    <div class="checkbox">
-                        <label>
-                            <input type="checkbox" ng-model="options.showCurrentProvidings"> Current outgoing deps
-                        </label>
-                    </div>
-                    <div class="checkbox">
-                        <label>
-                            <input type="checkbox" ng-model="options.showCurrentProvidingsImplicit"> Current outgoing implicit deps
-                        </label>
-                    </div>
-                    <div class="checkbox">
-                        <label>
-                            <input type="checkbox" ng-model="options.showAllProvidingsImplicit"> All outgoing implicit deps
-                        </label>
-                    </div>
-                    <div class="checkbox">
-                        <label>
-                            <input type="checkbox" ng-model="options.showCurrentPath"> Learning Plan in Detail
-                        </label>
-                    </div>
-                    <div class="checkbox">
-                        <label>
-                            <input type="checkbox" ng-model="options.showCurrentPathHierarchy"> Learning Plan
-                        </label>
-                    </div>
-                    <div class="checkbox">
-                        <label>
-                            <input type="checkbox" ng-model="options.showAllShortestPathsHierarchy"> Learning Plans to all TLCs
-                        </label>
-                    </div>
-                    <div class="checkbox">
-                        <label>
-                            <input type="checkbox" ng-model="options.showCurrentPathFutureHierarchy"> Plans to TLCs learnable after current goal
-                        </label>
-                    </div>
-                    <div class="checkbox">
-                        <label>
-                            <input type="checkbox" ng-model="options.grayInactiveConcepts"> Gray inactive concepts
-                        </label>
-                    </div>
-                    <div class="checkbox">
-                        <label>
-                            <input type="checkbox" ng-model="options.grayInactiveDependencies"> Gray inactive deps
-                        </label>
-                    </div>
-                    <div class="checkbox">
-                        <label>
-                            <input type="checkbox" ng-model="options.hideInactiveDependencies"> Hide inactive deps
-                        </label>
-                    </div>
-                    <div class="checkbox">
-                        <label>
-                            <input type="checkbox" ng-model="options.depsColorOfConcept"> Deps in color of prov concept
-                        </label>
+
+                    <a href ng-click="futurePlansToggleClick($event)">
+
+                        Show where I can go next
+
+                        <span ng-show="options.showCurrentPathFutureHierarchy" class="fa fa-check-square-o"></span>
+                        <span ng-show="!options.showCurrentPathFutureHierarchy" class="fa fa-square-o" style="padding-right: 2px"></span>
+                    </a><br />
+
+                    <div ng-if="authentication.isTeacher()">
+                        <div class="checkbox">
+                            <label>
+                                <input type="checkbox" ng-model="options.showAllDeps"> All dependencies
+                            </label>
+                        </div>
+                        <div class="checkbox">
+                            <label>
+                                <input type="checkbox" ng-model="options.showCurrentDeps"> Current dependencies
+                            </label>
+                        </div>
+                        <div class="checkbox">
+                            <label>
+                                <input type="checkbox" ng-model="options.showCurrentProvidings"> Current outgoing deps
+                            </label>
+                        </div>
+                        <div class="checkbox">
+                            <label>
+                                <input type="checkbox" ng-model="options.showCurrentProvidingsImplicit"> Current outgoing implicit deps
+                            </label>
+                        </div>
+                        <div class="checkbox">
+                            <label>
+                                <input type="checkbox" ng-model="options.showAllProvidingsImplicit"> All outgoing implicit deps
+                            </label>
+                        </div>
+                        <div class="checkbox">
+                            <label>
+                                <input type="checkbox" ng-model="options.showCurrentPath"> Learning Plan in Detail
+                            </label>
+                        </div>
+                        <div class="checkbox">
+                            <label>
+                                <input type="checkbox" ng-model="options.showCurrentPathHierarchy"> Learning Plan
+                            </label>
+                        </div>
+                        <div class="checkbox">
+                            <label>
+                                <input type="checkbox" ng-model="options.showAllShortestPathsHierarchy"> Learning Plans to all TLCs
+                            </label>
+                        </div>
+                        <div class="checkbox">
+                            <label>
+                                <input type="checkbox" ng-model="options.showCurrentPathFutureHierarchy"> Plans to TLCs learnable after current goal
+                            </label>
+                        </div>
+                        <div class="checkbox">
+                            <label>
+                                <input type="checkbox" ng-model="options.grayInactiveConcepts"> Gray inactive concepts
+                            </label>
+                        </div>
+                        <div class="checkbox">
+                            <label>
+                                <input type="checkbox" ng-model="options.grayInactiveDependencies"> Gray inactive deps
+                            </label>
+                        </div>
+                        <div class="checkbox">
+                            <label>
+                                <input type="checkbox" ng-model="options.hideInactiveDependencies"> Hide inactive deps
+                            </label>
+                        </div>
+                        <div class="checkbox">
+                            <label>
+                                <input type="checkbox" ng-model="options.depsColorOfConcept"> Deps in color of prov concept
+                            </label>
+                        </div>
+
+                        <br />
+                        <div>
+                            Zooming is
+                            <button ng-hide="options.zoomMode" ng-click="options.zoomMode=true" class="btn btn-info">Off</button>
+                            <button ng-show="options.zoomMode" ng-click="options.zoomMode=false" class="btn btn-success">On</button>
+                        </div>
                     </div>
 
                     <br />
-                    <div>
-                        Zooming is
-                        <button ng-hide="options.zoomMode" ng-click="options.zoomMode=true" class="btn btn-info">Off</button>
-                        <button ng-show="options.zoomMode" ng-click="options.zoomMode=false" class="btn btn-success">On</button>
-                    </div>
 
                     <!--
                     <select class="form-control btn btn-info" ng-model="viewModeChoice">
@@ -201,6 +201,8 @@
                     </select>
                     -->
                 </div>
+
+                <a class="options-toggle" href ng-click="showOptions==true?showOptions=false:showOptions=true" title="Options"><span class="glyphicon glyphicon-cog"></span></a>
             </div>
 
         </form>
