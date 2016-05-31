@@ -36,8 +36,23 @@ angular.module('learning').service('ExtensionSchoolPlayer', function($http, $sce
         }
     };
 
+    this.sendMessage = function(messageName)
+    {
+        var message = {
+            sender: 'gov2001',
+            name: messageName
+        };
+
+        var iframe = document.querySelector('#extensionSchoolFrame');
+        if(iframe)
+            iframe.contentWindow.postMessage(message, '*');
+        else
+            console.log('could not send message ', messageName, ' because iframe not found.');
+    };
+
     this.stop = function()
     {
+        this.sendMessage('pause');
         player = null;
     };
 
@@ -62,12 +77,17 @@ angular.module('learning').service('ExtensionSchoolPlayer', function($http, $sce
 
     this.play = function()
     {
-
+        return this.sendMessage('play');
     };
 
     this.stopPlay = function()
     {
+        return this.sendMessage('pause');
+    };
 
+    this.pausePlay = function()
+    {
+        return this.sendMessage('pause');
     };
 
     this.parseSegmentSourceData = function(source, sourcetype, segment, callback)
