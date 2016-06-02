@@ -190,6 +190,7 @@ a, a:focus {
     padding-left: 0;
     list-style-type: none;
     position: relative;
+    margin-top: 50px;
 }
 .course-list *, .course-list .concept {
     border-color: inherit;
@@ -990,11 +991,17 @@ input[type=color] {
     border-color: inherit;
 }
 .sidepanel .plan-intro {
-    position: relative;
+    position: fixed;
+    z-index: 100;
+    background: #f6f6f6;
+    margin: 0px;
+    padding: 10px 0;
+    /*top: 0;
+    transform: translateY(100%);*/
 }
 .sidepanel .search-clear {
     position: absolute;
-    top:5px;
+    top:15px;
     right: 40px;
     width: 18px;
     height: 18px;
@@ -1010,7 +1017,7 @@ input[type=color] {
 
 .search-icon {
     position: absolute;
-    top:5px;
+    top:15px;
     left: 100px;
 }
 
