@@ -56,15 +56,6 @@ angular.module('concepts').controller('ConceptPanelController',
             };
 
             planUpdateTimeout = $timeout(issueUpdate, 200);
-
-            //ActiveDataManager.updatePlan();
-
-            /*var lowerCaseSearch = $scope.search.text.toLowerCase();
-            Object.keys($scope.directories.concepts).forEach(function(conceptId)
-            {
-                var concept = $scope.directories.concepts[conceptId];
-                concept.notOnPlan = (!concept.planChildren || !concept.planChildren.length) && concept.concept.title.toLowerCase().indexOf(lowerCaseSearch) == -1;
-            });*/
         };
 
         var resetSearch = function()
@@ -86,54 +77,6 @@ angular.module('concepts').controller('ConceptPanelController',
             $scope.search.active = false;
             //ActiveDataManager.updatePlan();
         });
-
-
-
-
-        /*! $scope.$watch('activeConcept', function() { updateLectures(); updateNext(); });
-        $scope.$watch('active.segment', updateNext);
-        $scope.$watchCollection('segments', updateLectures);
-        $scope.$watch('lectureduoType', updateLectures);*/
-
-
-
-        /*! $scope.$watch('goalConcept', $scope.updateDepProviders);
-        $scope.$watch('todoIds', $scope.updateDepProviders);*/
-
-        //$scope.$watchCollection('learned', $scope.updateDepProviders);
-        //$scope.$watchCollection('seenMapByConcept', $scope.updateDepProviders);
-
-
-
-        //! $scope.$watch('todo', updateWatchable);
-
-
-
-        //$interval(updateHierarchy, 200);
-        //! $scope.$watch('activeConcept', updateHierarchy);
-
-        /*$scope.$watchCollection('activeDependencyProviderIds', updateHierarchy);
-        $scope.$watchCollection('active.hierarchyIds', updateHierarchy);
-        $scope.$watchCollection('active.hoverHierarchyIds', updateHierarchy);
-
-        $rootScope.$on('conceptStructureLoaded', updateHierarchy);
-        $scope.$watch('active.topLevelConcepts', updateHierarchy);*/
-
-        /*$scope.$watch('activeSegment', function()
-        {
-            if($scope.activeSegment !== undefined)
-            {
-                $scope.sources.filter(function(source) { return source._id === $scope.activeSegment.source }).forEach(function(activeLecture)
-                {
-                    $scope.activeLecture = activeLecture;
-                });
-            }
-        });*/
-
-        /*$scope.$on('dataReady', function()
-        {
-            updateHierarchy();
-        });*/
 
         $scope.$watch('activeConcept.concept.color', function()
         {

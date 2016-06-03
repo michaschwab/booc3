@@ -132,17 +132,16 @@ angular.module('courses').service('PanelAdmin', function(Concepts, $rootScope, $
                 group.$update();
         };
 
-        /*
-         This is so  the segment group collapsed state in admin mode
+        /**
+         This following function is here so the segment group collapsed state in admin mode
          is independent of the state in the plan mode.
 
          if an admin changes the state in the plan mode,
          then that's a local and temporary change that will be reverted
          when switching to the admin tab, where state changes will be saved permanently.
          */
-
         var originalGroupCollapsedStates = {};
-        $scope.$watch('activeMode', function()
+        var separatingCollapsedStates = function()
         {
             var inAdminMode = $scope.activeMode=='admin';
             var keys = Object.keys(originalGroupCollapsedStates);
@@ -168,7 +167,8 @@ angular.module('courses').service('PanelAdmin', function(Concepts, $rootScope, $
                     }
                 });
             }
-        });
+        };
+        $scope.$watch('activeMode', separatingCollapsedStates);
 
         $scope.sortableSegmentOptions = {
             handle: '.seg-handle',
