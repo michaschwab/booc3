@@ -45,7 +45,7 @@ angular.module('map').controller('CourseMapController', function($scope, $stateP
                 $scope.initTime = new Date().getTime();
                 //console.log('initializing map');
 
-                $scope.initDraw();
+                initDraw();
                 $scope.updateServices();
 
 
@@ -143,7 +143,7 @@ angular.module('map').controller('CourseMapController', function($scope, $stateP
 
         var initDrawn = false;
 
-        $scope.initDraw = function()
+        var initDraw = function()
         {
             if(initDrawn) return;
             initDrawn = true;
