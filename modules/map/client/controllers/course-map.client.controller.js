@@ -10,30 +10,27 @@ angular.module('map').controller('CourseMapController', function($scope, $stateP
 
         $scope.initTime = 0;
         $scope.options = {};
-        
+
         var REDRAW_WAITTIME = 20;
         var redraw_timeout = null;
 
-        $scope.$on('$locationChangeSuccess', function()
+        $scope.$on('$locationChangeSuccess', $scope.redraw);
+        $scope.$on('redrawHover', $scope.redrawHover);
+        $scope.$on('dataReady', function()
         {
-            $scope.redraw();
-        });
-        $scope.$on('redrawHover', function()
-        {
-            $scope.redrawHover();
-        });
-        $scope.$on('dataReady', function() {
             dataReady = true;
             $scope.redraw();
         });
-
         $scope.$on('dataUpdated', function()
         {
             $scope.initMap();
-            $scope.initServices();
+            $scope.initDrawServices(); // Is this necessary?!
             $scope.redraw();
         });
 
+        /**
+         * This function is called to initialize the map. It initiates the drawing of essential elements for the vis.
+         */
         $scope.initMap = function()
         {
             var n = $scope.concepts;
@@ -43,16 +40,17 @@ angular.module('map').controller('CourseMapController', function($scope, $stateP
                 console.log('initiating map..');
                 init = true;
                 $scope.initTime = new Date().getTime();
-                //console.log('initializing map');
 
                 initDraw();
-                $scope.initServices();
-
-
+                $scope.initDrawServices();
                 $scope.resizeFunction();
             }
         };
 
+        /**
+         * This function initializes this file and is called by the course map template when loaded.
+         * It initializes the services necessary for the visualization.
+         */
         $scope.initController = function()
         {
             $scope.zoomLevel = 0;
@@ -70,9 +68,12 @@ angular.module('map').controller('CourseMapController', function($scope, $stateP
             $scope.vis = null;
             $scope.canvas = null;
 
-            //ConceptStructure.init($scope, $stateParams.courseId);
             MapEvents.init($scope, $stateParams.courseId);
             MapTour.init($scope);
+            MapCircles.init($scope);
+            MapSquares.init($scope);
+            MapActions.init($scope);
+            MapIcons.init($scope);
         };
 
         $scope.$on('conceptsReordered', function(event, concepts)
@@ -134,15 +135,10 @@ angular.module('map').controller('CourseMapController', function($scope, $stateP
             });*/
         };
 
-        MapCircles.init($scope);
-        MapSquares.init($scope);
-        MapActions.init($scope);
-        MapIcons.init($scope);
-
         /**
          * This function calls the Map's Circle and Square Services to do their initial drawing.
          */
-        $scope.initServices = function()
+        $scope.initDrawServices = function()
         {
             /*var tlc = [];
 
