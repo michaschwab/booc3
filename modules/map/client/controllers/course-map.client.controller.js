@@ -10,7 +10,7 @@ angular.module('map').controller('CourseMapController', function($scope, $stateP
 
         $scope.initTime = 0;
         $scope.options = {};
-        var REDRAW_MINTIME = 80;
+        
         var REDRAW_WAITTIME = 20;
         var redraw_timeout = null;
 
@@ -30,7 +30,7 @@ angular.module('map').controller('CourseMapController', function($scope, $stateP
         $scope.$on('dataUpdated', function()
         {
             $scope.initMap();
-            $scope.updateServices();
+            $scope.initServices();
             $scope.redraw();
         });
 
@@ -46,15 +46,14 @@ angular.module('map').controller('CourseMapController', function($scope, $stateP
                 //console.log('initializing map');
 
                 initDraw();
-                $scope.updateServices();
+                $scope.initServices();
 
 
                 $scope.resizeFunction();
             }
         };
 
-        // Find existing Course
-        $scope.findOne = function()
+        $scope.initController = function()
         {
             $scope.zoomLevel = 0;
             $scope.currentZoomGoal = [0, 0];
@@ -91,19 +90,30 @@ angular.module('map').controller('CourseMapController', function($scope, $stateP
             MapActions.removeConcept(conceptId, hierarchyConcepts);
         });
 
-        var timeout;
+        /**
+         * This function defines what happens if the graph is resized.
+         * It re-sets the svg element's size, and redraws the map.
+         */
         var onGraphResize = function()
         {
             $scope.resizeFunction();
             $scope.redraw();
         };
 
+        /**
+         * This function defines what happens when the map's background is clicked.
+         * Currently, this means that it de-selects the current concept.
+         * @param e The Click event.
+         */
         var onBackgroundClick = function(e)
         {
             $scope.activateConcept(undefined, e);
             //Tip.closeOpenTips();
         };
 
+        /**
+         * This function sets the svg element's width and height attributes.
+         */
         $scope.resizeFunction = function()
         {
             var svgWidth = $scope.graphWidth;
@@ -129,7 +139,10 @@ angular.module('map').controller('CourseMapController', function($scope, $stateP
         MapActions.init($scope);
         MapIcons.init($scope);
 
-        $scope.updateServices = function()
+        /**
+         * This function calls the Map's Circle and Square Services to do their initial drawing.
+         */
+        $scope.initServices = function()
         {
             /*var tlc = [];
 
@@ -143,6 +156,10 @@ angular.module('map').controller('CourseMapController', function($scope, $stateP
 
         var initDrawn = false;
 
+        /**
+         * This function creates the map's layers, sets mousemove and click event listeners,
+         * and defines a linear scale for the visualization.
+         */
         var initDraw = function()
         {
             if(initDrawn) return;
