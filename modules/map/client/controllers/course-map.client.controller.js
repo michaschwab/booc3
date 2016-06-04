@@ -14,19 +14,47 @@ angular.module('map').controller('CourseMapController', function($scope, $stateP
         var REDRAW_WAITTIME = 20;
         var redraw_timeout = null;
 
-        $scope.$on('$locationChangeSuccess', $scope.redraw);
-        $scope.$on('redrawHover', $scope.redrawHover);
-        $scope.$on('dataReady', function()
+        /**
+         * This function defines how the map reacts to changes outside of the map.
+         */
+        var setupWatchers = function()
         {
-            dataReady = true;
-            $scope.redraw();
-        });
-        $scope.$on('dataUpdated', function()
-        {
-            $scope.initMap();
-            $scope.initDrawServices(); // Is this necessary?!
-            $scope.redraw();
-        });
+            // When the URL is changed, eg. the active concept changed, redraw the map.
+            $scope.$on('$locationChangeSuccess', $scope.redraw);
+
+            // When some other service or controller requests to redraw the colors and such things, do so.
+            $scope.$on('redrawHover', $scope.redrawHover);
+
+            // When the data is ready, save that state, and draw the map.
+            $scope.$on('dataReady', function()
+            {
+                dataReady = true;
+                $scope.redraw();
+            });
+
+            // When the data is updated, re-initialize the map and redraw the map.
+            $scope.$on('dataUpdated', function()
+            {
+                $scope.initMap();
+                $scope.initDrawServices(); // Is this necessary?!
+                $scope.redraw();
+            });
+
+            // When the concepts are re-ordered, re-configure them.
+            $scope.$on('conceptsReordered', function(event, concepts)
+            {
+                for(var i = 0; i < concepts.length; i++)
+                {
+                    $scope.configCircle(concepts, concepts[i].depth, concepts[i], i);
+                }
+
+                $scope.redraw();
+            });
+            $scope.$on('conceptRemove', function(event, conceptId, hierarchyConcepts)
+            {
+                MapActions.removeConcept(conceptId, hierarchyConcepts);
+            });
+        };
 
         /**
          * This function is called to initialize the map. It initiates the drawing of essential elements for the vis.
@@ -74,22 +102,9 @@ angular.module('map').controller('CourseMapController', function($scope, $stateP
             MapSquares.init($scope);
             MapActions.init($scope);
             MapIcons.init($scope);
+
+            setupWatchers();
         };
-
-        $scope.$on('conceptsReordered', function(event, concepts)
-        {
-            for(var i = 0; i < concepts.length; i++)
-            {
-                $scope.configCircle(concepts, concepts[i].depth, concepts[i], i);
-            }
-
-            $scope.redraw();
-        });
-
-        $scope.$on('conceptRemove', function(event, conceptId, hierarchyConcepts)
-        {
-            MapActions.removeConcept(conceptId, hierarchyConcepts);
-        });
 
         /**
          * This function defines what happens if the graph is resized.
@@ -124,15 +139,6 @@ angular.module('map').controller('CourseMapController', function($scope, $stateP
                 width:svgWidth,
                 height:svgHeight
             });
-
-            //TODO find a way to fix the flickering
-            /*$scope.canvas.attr({
-                "transform":function() {
-                    return "translate("
-                    +(svgWidth/2)+","
-                    +(svgHeight/2)+")";
-                }
-            });*/
         };
 
         /**
@@ -140,12 +146,6 @@ angular.module('map').controller('CourseMapController', function($scope, $stateP
          */
         $scope.initDrawServices = function()
         {
-            /*var tlc = [];
-
-            ConceptStructure.getConceptChildren(tlc, null, null, 1, $scope.configCircle);
-
-            $scope.active.topLevelConcepts = tlc;
-            $rootScope.$broadcast('conceptStructureLoaded');*/
             MapCircles.createLayout($scope.active.topLevelConcepts);
             MapSquares.createLayout();
         };
