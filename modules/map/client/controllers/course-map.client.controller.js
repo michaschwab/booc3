@@ -30,7 +30,7 @@ angular.module('map').controller('CourseMapController', function($scope, $stateP
         $scope.$on('dataUpdated', function()
         {
             $scope.initMap();
-            $scope.createLayout();
+            $scope.updateServices();
             $scope.redraw();
         });
 
@@ -46,7 +46,7 @@ angular.module('map').controller('CourseMapController', function($scope, $stateP
                 //console.log('initializing map');
 
                 $scope.initDraw();
-                $scope.createLayout();
+                $scope.updateServices();
 
 
                 $scope.resizeFunction();
@@ -129,7 +129,7 @@ angular.module('map').controller('CourseMapController', function($scope, $stateP
         MapActions.init($scope);
         MapIcons.init($scope);
 
-        $scope.createLayout = function()
+        $scope.updateServices = function()
         {
             /*var tlc = [];
 
