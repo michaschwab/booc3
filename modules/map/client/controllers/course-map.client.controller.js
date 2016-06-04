@@ -204,6 +204,107 @@ angular.module('map').controller('CourseMapController', function($scope, $stateP
 
         var firstZoomDone = false;
 
+        /**
+         * This function figures out which concept to zoom to, and zooms to it.
+         */
+        var doZooming = function()
+        {
+            var w = $scope.graphWidth;
+            var h = $scope.graphHeight;
+            var smallerDim = w > h ? h : w;
+            var canvas = $scope.canvas;
+            var scale = 1;
+            var translate = [w/2, h/2];
+
+            if($scope.options.zoomMode)
+            {
+                if ($scope.active.hierarchy.length > 0)
+                {
+                    var trans = $scope.getTranslateAbs($scope.activeConcept, true);
+
+                    var sortedHierarchy = $scope.active.hierarchy.sort(function (a, b) {
+                        return a.depth - b.depth;
+                    });
+
+                    // The following line makes it so it does not zoom in further if a concept has no children.
+                    var index = !sortedHierarchy[sortedHierarchy.length - 1].children.length ? sortedHierarchy.length - 2 : sortedHierarchy.length - 1;
+                    var selectedConcept = sortedHierarchy[index];
+
+                    if(selectedConcept)
+                    {
+                        var radius = $scope.visParams.scale(selectedConcept.radius);
+
+                        var scaleRelative = 0.75; // If 1, then the element fills out the full screen.
+                        scale = smallerDim / radius / 2 * scaleRelative;
+                        var topLeft = {x: trans.x - radius, y: trans.y - radius};
+
+
+                        var relativeMove = radius * (1 - scaleRelative) * scale;
+                        // Dunno why 25, but seems to work well
+                        var fixingAmount = 25 * $scope.graphMinDim / 800;
+
+                        var proportionsFix = w > h ? (w - h) / 2 : 0;
+
+                        translate = [topLeft.x * scale * -1 + relativeMove + fixingAmount + proportionsFix, topLeft.y * scale * -1 + relativeMove + fixingAmount];
+                    }
+                }
+            }
+
+            // Make sure it's zoomed out, in case zoomMode was on before.
+
+            var zoom = d3.behavior.zoom()
+                .translate([0, 0])
+                //.translate([w/2, h/2])
+                .scale(1)
+                //.scaleExtent([1, 8])
+                .on('zoom', function()
+                {
+                    canvas.attr('transform', 'translate(' + d3.event.translate + ')scale(' + d3.event.scale + ')');
+                });
+
+            if(translate[0] != $scope.currentZoomGoal[0] || translate[1] != $scope.currentZoomGoal[1])
+            {
+                //console.log(translate, $scope.currentZoomGoal);
+                $scope.zoomLevel = selectedConcept ? selectedConcept.depth : 0;
+
+                var duration = firstZoomDone && (!$scope.lastGraphResize || Date.now() - $scope.lastGraphResize > 500) ? 750 : 0;
+                firstZoomDone = true;
+
+                if(!duration)
+                {
+                    $scope.currentZoomGoal = translate;
+
+                    canvas
+                        .call(zoom.translate(translate).scale(scale).event);
+                }
+                else
+                {
+                    canvas.transition()
+                        .duration(duration)
+                        .call(zoom.translate(translate).scale(scale).event)
+                        .each('start', function()
+                        {
+                            //console.log('zooming with duration 750');
+                            $scope.zoomLevel = selectedConcept ? selectedConcept.depth : 0;
+                            //console.log($scope.zoomLevel);
+                            $scope.currentZoomGoal = translate;
+                            $scope.zooming = true;
+                            $scope.$apply();
+                        }).each('end', function()
+                    {
+                        $scope.currentZoomGoal = translate;
+                        $scope.zooming = false;
+                        //$scope.redrawHover();
+                        $scope.$apply();
+                    });
+                }
+
+            }
+        };
+
+        /**
+         * This function does a full redraw of the visualization, including zooming
+         */
         $scope.redraw = function()
         {
             if(!dataReady) return;
@@ -213,9 +314,6 @@ angular.module('map').controller('CourseMapController', function($scope, $stateP
 
             var doRedraw = function()
             {
-                var vis = $scope.canvas;
-                var params = $scope.visParams;
-
                 MapCircles.setRadius();
                 MapCircles.setup();
                 MapSquares.setup();
@@ -233,110 +331,16 @@ angular.module('map').controller('CourseMapController', function($scope, $stateP
 
                 var w = $scope.graphWidth;
                 var h = $scope.graphHeight;
-                var smallerDim = w > h ? h : w;
-                //var l1Scale = Math.min(Math.PI/($scope.active.topLevelConcepts.length),1);
                 var l1Radius = $scope.active.topLevelConcepts[0].radius;
                 var size = ((w>h)?h:w)/(1+l1Radius)-10;
 
-                params.scale.range([0,(size/2)]);
-
-                /*lxCircleEnters.forEach(function(lxCircleEnter)
-                {
-                    MapIcons.addToCircleEnter(lxCircleEnter);
-                });*/
+                $scope.visParams.scale.range([0,(size/2)]);
 
                 MapCircles.update();
                 MapSquares.update();
                 MapEvents.update();
 
-                var canvas = $scope.canvas;
-                var scale = 1;
-                var translate = [w/2, h/2];
-
-                if($scope.options.zoomMode)
-                {
-                    if ($scope.active.hierarchy.length > 0)
-                    {
-                        var trans = $scope.getTranslateAbs($scope.activeConcept, true);
-
-                        var sortedHierarchy = $scope.active.hierarchy.sort(function (a, b) {
-                            return a.depth - b.depth;
-                        });
-
-                        // The following line makes it so it does not zoom in further if a concept has no children.
-                        var index = !sortedHierarchy[sortedHierarchy.length - 1].children.length ? sortedHierarchy.length - 2 : sortedHierarchy.length - 1;
-                        var selectedConcept = sortedHierarchy[index];
-
-                        if(selectedConcept)
-                        {
-                            var radius = $scope.visParams.scale(selectedConcept.radius);
-
-                            var scaleRelative = 0.75; // If 1, then the element fills out the full screen.
-                            scale = smallerDim / radius / 2 * scaleRelative;
-                            var topLeft = {x: trans.x - radius, y: trans.y - radius};
-
-
-                            var relativeMove = radius * (1 - scaleRelative) * scale;
-                            // Dunno why 25, but seems to work well
-                            var fixingAmount = 25 * $scope.graphMinDim / 800;
-
-                            var proportionsFix = w > h ? (w - h) / 2 : 0;
-
-                            translate = [topLeft.x * scale * -1 + relativeMove + fixingAmount + proportionsFix, topLeft.y * scale * -1 + relativeMove + fixingAmount];
-                        }
-                    }
-                }
-
-                // Make sure it's zoomed out, in case zoomMode was on before.
-
-                var zoom = d3.behavior.zoom()
-                    .translate([0, 0])
-                    //.translate([w/2, h/2])
-                    .scale(1)
-                    //.scaleExtent([1, 8])
-                    .on('zoom', function()
-                    {
-                        canvas.attr('transform', 'translate(' + d3.event.translate + ')scale(' + d3.event.scale + ')');
-                    });
-
-                if(translate[0] != $scope.currentZoomGoal[0] || translate[1] != $scope.currentZoomGoal[1])
-                {
-                    //console.log(translate, $scope.currentZoomGoal);
-                    $scope.zoomLevel = selectedConcept ? selectedConcept.depth : 0;
-
-                    var duration = firstZoomDone && (!$scope.lastGraphResize || Date.now() - $scope.lastGraphResize > 500) ? 750 : 0;
-                    firstZoomDone = true;
-
-                    if(!duration)
-                    {
-                        $scope.currentZoomGoal = translate;
-
-                        canvas
-                            .call(zoom.translate(translate).scale(scale).event);
-                    }
-                    else
-                    {
-                        canvas.transition()
-                            .duration(duration)
-                            .call(zoom.translate(translate).scale(scale).event)
-                            .each('start', function()
-                            {
-                                //console.log('zooming with duration 750');
-                                $scope.zoomLevel = selectedConcept ? selectedConcept.depth : 0;
-                                //console.log($scope.zoomLevel);
-                                $scope.currentZoomGoal = translate;
-                                $scope.zooming = true;
-                                $scope.$apply();
-                            }).each('end', function()
-                            {
-                                $scope.currentZoomGoal = translate;
-                                $scope.zooming = false;
-                                //$scope.redrawHover();
-                                $scope.$apply();
-                            });
-                    }
-
-                }
+                doZooming();
 
                 MapArrows.drawDeps();
                 MapArrows.drawPlans();
@@ -353,8 +357,6 @@ angular.module('map').controller('CourseMapController', function($scope, $stateP
             {
                 requestAnimFrame(doRedraw);
             }, REDRAW_WAITTIME);
-
-            //doRedraw();
         };
 
         var lastRedrawHoverHovers = [];
@@ -364,10 +366,17 @@ angular.module('map').controller('CourseMapController', function($scope, $stateP
         var lastHoverSegment;
         var lastSearchText = '';
 
+        /**
+         * This function updates the active Concepts on the map, updates the Segments on the Map,
+         * and redraws the plans.
+         * @param force Force redrawing, in case no significant variable has changed.
+         */
         $scope.redrawHover = function(force)
         {
             if(!force)
             {
+                // This avoids unnecessary redrawing.
+
                 if(angular.equals($scope.active.hoveringConceptIds, lastRedrawHoverHovers)
                     && angular.equals($scope.todoIds, lastRedrawHoverTodos)
                     && $scope.graphWidth === lastGraphWidth && $scope.graphHeight === lastGraphHeight
@@ -408,6 +417,11 @@ angular.module('map').controller('CourseMapController', function($scope, $stateP
         };
 
         var lastSize = '';
+
+        /**
+         * Computes the size the visualization should take up. Depends on the content width,
+         * whether the map is currently minimized, and other things.
+         */
         $scope.setGraphSize = function()
         {
             $scope.lastGraphResize = Date.now();
@@ -426,38 +440,42 @@ angular.module('map').controller('CourseMapController', function($scope, $stateP
             }
         };
 
-        //$scope.$watch('activeMode', $scope.setGraphSize);
-
         $scope.courseViewScope = $scope.$parent.$parent;
-        /*$scope.courseViewScope.$watch('contentWidth', function()
-        {
-            $scope.contentWidth = $scope.courseViewScope.contentWidth;
-            $scope.setGraphSize();
-        });*/
 
         $scope.safeApply = function(fn) {
             $timeout(fn);
         };
 
-        var w = angular.element($window);
-        $scope.windowHeight = $window.innerHeight;
-        $scope.windowWidth = $window.innerWidth;
-        $scope.setGraphSize();
-
-        w.bind('resize', function ()
+        /**
+         * This makes sure the visualization gets updated if the window or panel are resized.
+         */
+        var setResizeListeners = function()
         {
-            $scope.$apply();
-
+            var w = angular.element($window);
             $scope.windowHeight = $window.innerHeight;
             $scope.windowWidth = $window.innerWidth;
-
             $scope.setGraphSize();
-        });
-        $scope.$watch('panelWidth', $scope.setGraphSize);
 
-        $scope.$on("$destroy", function() {
-            w.unbind('resize');
-        });
+            w.bind('resize', function ()
+            {
+                $scope.$apply();
+
+                $scope.windowHeight = $window.innerHeight;
+                $scope.windowWidth = $window.innerWidth;
+
+                $scope.setGraphSize();
+            });
+            $scope.$watch('panelWidth', $scope.setGraphSize);
+
+            // Without the following line, closing and re-opening the vis
+            // multiple times by navigating to different parts of the website and coming back
+            // will cause the resize function to be executed many times too much.
+            $scope.$on("$destroy", function() {
+                w.unbind('resize');
+            });
+        };
+
+        setResizeListeners();
 	}
 )/*.directive('ngRightClick', function($parse) {
     return function(scope, element, attrs) {
