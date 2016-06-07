@@ -16,6 +16,12 @@ angular.module('map').service('MapCircles', function(Tip, $location, $timeout, L
             lastUpdateData = {};
         });
 
+        /**
+         * Splits a string into multiple parts of the string if the string is too long, as defined in characterMax.
+         * @param title The string to split.
+         * @param depth Concept level used to determine max string length.
+         * @returns {Array} The string split up into several parts.
+         */
         $scope.splitTitle = function(title, depth)
         {
             var titleSnippets = title.split(/\s+/);
@@ -302,164 +308,166 @@ angular.module('map').service('MapCircles', function(Tip, $location, $timeout, L
         }
     };
 
+    /**
+     * This function sets up the concepts on the visualization.
+     * @returns {Array} Array of the Objects returned by the d3 enter() function, concept level by level.
+     */
     this.setup = function()
     {
-        // this function takes about 2ms, including 1ms from setupL.
-
-        var vis = $scope.canvas;
-
-        var l1Circle, l1CircleEnter;
-
-        var setupL1 = function()
+        var tlcReverse = $scope.active.topLevelConcepts.slice(0).sort(function(a,b) { return b.concept.order - a.concept.order; });
+        var l2PlusData = function(level)
         {
-            var tlcReverse = $scope.active.topLevelConcepts.slice(0).sort(function(a,b) { return b.concept.order - a.concept.order; });
-            l1Circle = $scope.mainLayer.selectAll('.l1Circle').data(tlcReverse, function(d) { return d.concept._id; });
-            lxCircles[1] = l1Circle;
-            l1Circle.exit().remove();
-
-            l1CircleEnter = l1Circle.enter().append('g').attr({
-                'class': 'l1Circle lxCircle',
-                'data-concept-id': function(d) { return d.concept._id; },
-                'id': function(d) { return 'concept-' + d.concept._id; }
-            });
-            lxUpdate(l1CircleEnter, l1Circle);
-
-            return l1CircleEnter;
-        };
-
-        var setupL = function(level)
-        {
-            var className = 'l' + level + 'Circle';
-            var parentClassName = 'l' + (level - 1) + 'Circle';
-            var parentCircle = vis.selectAll('.' + parentClassName);
-
-            var lxCircle = parentCircle.selectAll('.' + className)
-                .data(function(d)
+            return function(d)
+            {
+                return d.children.slice(0).sort(function(a,b)
                 {
-                    return d.children.slice(0).sort(function(a,b)
-                    {
-                        return b.concept.order - a.concept.order;
-                    }).map(function(dd){
+                    return b.concept.order - a.concept.order;
+                }).map(function(dd){
 
-                        dd.parentData = d;
-                        dd.parentChain = [];
-                        dd.conceptDepth = level;
+                    dd.parentData = d;
+                    dd.parentChain = [];
+                    dd.conceptDepth = level;
 
-                        var currentD = d;
-                        for (var i = 1; i< level; i++){
-                            dd.parentChain.push(currentD);
-                            currentD = currentD.parentData;
-                        }
-
-                        return dd;
-                    });
-                }, function(d) { return d.concept._id; });
-            lxCircles[level] = lxCircle;
-
-            var lxCircleEnter = lxCircle.enter().append('g').attr({
-                'class': className + ' lxCircle l23Circle',
-                'data-concept-id': function(d) { return d.concept._id; },
-                'id': function(d) { return 'concept-' + d.concept._id; }
-            });
-
-            lxUpdate(lxCircleEnter, lxCircle);
-            lxCircle.exit().remove();
-
-            return lxCircleEnter;
-        };
-        var mouseDownTime = 0;
-
-        var lxUpdate = function(lxCircleEnter, lxCircle)
-        {
-            lxCircleEnter.append('circle').attr({
-                r: 5,//function(d) { return d.depth == 1 ? 50 : params.scale(getConfig(d).radius); }
-                id: function(d) { return 'concept-circle-' + d.concept._id; }
-            }).on({
-                'click': function (d)
-                {
-                    var now = Date.now();
-
-
-                    if(mouseDownTime && now - mouseDownTime > 800)
-                    {
-                        // dragging?
-                        //console.log('dragging');
-                    }
-                    else
-                    {
-                        var segments = $scope.segmentPerConceptMap[d.concept._id];
-
-                        // Disable the current hover, as things might be moving around and the currently hovered concept
-                        // might not be hovered after that any more.
-                        $scope.leaveConcept(d, true);
-
-                        // If it's already selected and it has viewable contents, show them.
-                        if($scope.activeConcept !== null && $scope.activeConcept.concept._id === d.concept._id && segments && segments.length > 0)
-                        {
-                            var conceptData = { conceptId: d.concept._id, conceptTitle: d.concept.title, conceptDepth: d.depth };
-                            Logger.log('MapConceptPlay', conceptData, d3.event);
-                            $location.search('learn', 'yes');
-                            $scope.safeApply();
-                        }
-                        else
-                        {
-                            $scope.activateConcept(d, d3.event);
-                        }
-
+                    var currentD = d;
+                    for (var i = 1; i< level; i++){
+                        dd.parentChain.push(currentD);
+                        currentD = currentD.parentData;
                     }
 
-                    mouseDownTime = 0;
-                    // Close tooltips that would otherwise be overlapping with possible animations following this.
-                    Tip.closeOpenTips();
-
-                    d3.event.preventDefault();
-                    d3.event.stopPropagation();
-                },
-                // Need to catch touchstart event for touch devices because the mousemove and mouseover events are
-                // triggered for them (for some reason) and is done so before the click event, causing wrong hover effects.
-                // Calling stopPropagation here causes the mousemove event to not trigger.
-                'touchstart': function(d)
-                {
-                    $scope.activateConcept(d);
-
-                    d3.event.preventDefault();
-                    d3.event.stopPropagation();
-                },
-                'mousedown': function(d)
-                {
-                    mouseDownTime = Date.now();
-                },
-                'mouseover': function(d) { $scope.safeApply(function() { $scope.hoverConcept(d);}); }//,
-                //'mouseleave': function(d) { $scope.safeApply(function() { $scope.leaveConcept(d); }); }
-            });
-
-            lxCircleEnter.each(function(d){
-                //console.log('enter:',d, this, d3.select(this));
-                var el = d3.select(this);
-
-                el.append('g').attr('class', 'icons');
-
-                d.titleEl = el.append('text').attr({
-                    class: 'concept-title'
+                    return dd;
                 });
-
-                d.splitTexts = $scope.splitTitle(d.concept.title, d.depth);
-
-                me.makeTitle(d, el);
-            });
-
-            Tip.forConcept(lxCircleEnter);
+            };
         };
 
         var enters = [];
-        enters.push(setupL1());
-        enters.push(setupL(2));
-        enters.push(setupL(3));
+        enters.push(me.lxSetup(1, tlcReverse));
+        enters.push(me.lxSetup(2, l2PlusData(2)));
+        enters.push(me.lxSetup(3, l2PlusData(3)));
 
         return enters;
     };
 
+    /**
+     * This function sets up the visualization elements for all concepts of a specified level.
+     * @param level The concepts' level or depth.
+     * @param data The concept data to be bound to the elements using the d3 data function.
+     * @returns Object The result of calling the d3 enter method.
+     */
+    this.lxSetup = function(level, data)
+    {
+        var className = 'l' + level + 'Circle';
+        var parentClassName = 'l' + (level - 1) + 'Circle';
+        var parentCircle = level == 1 ? $scope.mainLayer : $scope.canvas.selectAll('.' + parentClassName);
+
+        var lxCircle = parentCircle.selectAll('.' + className)
+            .data(data, function(d) { return d.concept._id; });
+        lxCircles[level] = lxCircle;
+
+        var lxCircleEnter = lxCircle.enter().append('g').attr({
+            'class': className + ' lxCircle',
+            'data-concept-id': function(d) { return d.concept._id; },
+            'id': function(d) { return 'concept-' + d.concept._id; }
+        });
+
+        me.lxCircleSetup(lxCircleEnter, lxCircle);
+        lxCircle.exit().remove();
+
+        return lxCircleEnter;
+    };
+
+    /**
+     * This function is a crucial part of lxSetup and creates the circle elements for each concept.
+     * @param lxCircleEnter
+     * @param lxCircle
+     */
+    this.lxCircleSetup = function(lxCircleEnter, lxCircle)
+    {
+        var mouseDownTime = 0;
+
+        lxCircleEnter.append('circle').attr({
+            r: 5,//function(d) { return d.depth == 1 ? 50 : params.scale(getConfig(d).radius); }
+            id: function(d) { return 'concept-circle-' + d.concept._id; }
+        }).on({
+            'click': function (d)
+            {
+                var now = Date.now();
+
+                if(mouseDownTime && now - mouseDownTime > 800)
+                {
+                    // dragging?
+                    //console.log('dragging');
+                }
+                else
+                {
+                    var segments = $scope.segmentPerConceptMap[d.concept._id];
+
+                    // Disable the current hover, as things might be moving around and the currently hovered concept
+                    // might not be hovered after that any more.
+                    $scope.leaveConcept(d, true);
+
+                    // If it's already selected and it has viewable contents, show them.
+                    if($scope.activeConcept !== null && $scope.activeConcept.concept._id === d.concept._id && segments && segments.length > 0)
+                    {
+                        var conceptData = { conceptId: d.concept._id, conceptTitle: d.concept.title, conceptDepth: d.depth };
+                        Logger.log('MapConceptPlay', conceptData, d3.event);
+                        $location.search('learn', 'yes');
+                        $scope.safeApply();
+                    }
+                    else
+                    {
+                        $scope.activateConcept(d, d3.event);
+                    }
+
+                }
+
+                mouseDownTime = 0;
+                // Close tooltips that would otherwise be overlapping with possible animations following this.
+                Tip.closeOpenTips();
+
+                d3.event.preventDefault();
+                d3.event.stopPropagation();
+            },
+            // Need to catch touchstart event for touch devices because the mousemove and mouseover events are
+            // triggered for them (for some reason) and is done so before the click event, causing wrong hover effects.
+            // Calling stopPropagation here causes the mousemove event to not trigger.
+            'touchstart': function(d)
+            {
+                $scope.activateConcept(d);
+
+                d3.event.preventDefault();
+                d3.event.stopPropagation();
+            },
+            'mousedown': function(d)
+            {
+                mouseDownTime = Date.now();
+            },
+            'mouseover': function(d) { $scope.safeApply(function() { $scope.hoverConcept(d);}); }//,
+            //'mouseleave': function(d) { $scope.safeApply(function() { $scope.leaveConcept(d); }); }
+        });
+
+        lxCircleEnter.each(function(d){
+            //console.log('enter:',d, this, d3.select(this));
+            var el = d3.select(this);
+
+            el.append('g').attr('class', 'icons');
+
+            d.titleEl = el.append('text').attr({
+                class: 'concept-title'
+            });
+
+            d.splitTexts = $scope.splitTitle(d.concept.title, d.depth);
+
+            me.makeTitle(d, el);
+        });
+
+        Tip.forConcept(lxCircleEnter);
+    };
+
     var mainCanvas;
+
+    /**
+     * This function draws the "Start" circle that starts all learning plans.
+     */
     this.makeStartCircle = function()
     {
         //if(!mainCanvas) // this needs to have some kind of course-specific caching.
@@ -492,22 +500,7 @@ angular.module('map').service('MapCircles', function(Tip, $location, $timeout, L
                 //.attr('transform', 'translate(' + circleStart.x +', ' + circleStart.y + ')');
         }
 
-        function makeTriangle()
-        {
-            var lineData = [ { "x": 0,   "y": 0},  { "x": 0,  "y": 40 * scale},
-                { "x": 34.64 * scale,  "y": 20 * scale}, { "x": 0,   "y": 0}];
-
-            var lineFunction = d3.svg.line()
-                .x(function(d) { return d.x; })
-                .y(function(d) { return d.y; })
-                .interpolate("linear");
-
-            start.append("path")
-                .attr("d", lineFunction(lineData));
-        }
-
         var startCircle = makeCircle();
-        //makeTriangle();
 
         start.append('text').attr({
             class: 'concept-title start-title'
@@ -532,6 +525,11 @@ angular.module('map').service('MapCircles', function(Tip, $location, $timeout, L
 
     var titlesDone = {};
 
+    /**
+     * Sets the title of a concept by adding multiple tspans and filling them with the concept's title.
+     * @param d The concept
+     * @param el The element bound to the concept.
+     */
     this.makeTitle = function(d, el)
     {
         var index = d.radius + '-' + d.concept.title + '-' + $scope.graphMinDim;
