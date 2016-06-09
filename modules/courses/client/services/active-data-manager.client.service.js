@@ -532,6 +532,8 @@ angular.module('courses').service('ActiveDataManager', function(Authentication, 
         };
         var checkSearchTerm = function(d)
         {
+            // This returns true for a concept with planChildren.
+
             var childrenPlanChildrenNumber = d.children.reduce(function(prev, curr)
             {
                 return prev + curr.planChildren.length;
@@ -568,6 +570,9 @@ angular.module('courses').service('ActiveDataManager', function(Authentication, 
             me.setAttributes(d);
         };
 
+        // This has to run twice because the function has to traverse the tree before it works.
+        // This should be done differently.
+        $scope.active.topLevelConcepts.forEach(setPlanConcept);
         $scope.active.topLevelConcepts.forEach(setPlanConcept);
 
         me.updateAttributes();
