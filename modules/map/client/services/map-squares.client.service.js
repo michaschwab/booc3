@@ -143,13 +143,13 @@ angular.module('map').service('MapSquares', function(Tip, $location, $timeout, L
                 topLevelSquaresData.push(square);
             });
 
-            /*var commentsSquare = {};
+            var commentsSquare = {};
              commentsSquare.concept = $scope.directories.concepts[conceptId];
              commentsSquare.conceptId = conceptId;
              commentsSquare.title = 'Comments';
              commentsSquare.icon = 'fa fa-comments';
 
-             data.push(commentsSquare);*/
+            topLevelSquaresData.push(commentsSquare);
         });
 
         for(var groupId in $scope.segmentPerGroupMap)
@@ -290,7 +290,7 @@ angular.module('map').service('MapSquares', function(Tip, $location, $timeout, L
 
             var el = d3.select(this);
             var activeConcept = $scope.activeConcept && $scope.activeConcept.concept._id == s.conceptId;
-            var isActiveGroup = activeGroupId == s.segment._id;
+            var isActiveGroup = s.segment && activeGroupId == s.segment._id;
             var parentIsActiveGroup = s.group ? activeGroupId == s.group._id : false;
             var parentGroup = s.isGroupChild ? squareMap[s.groupId] : null;
             var selected = $scope.active.hoverSegment ? $scope.active.hoverSegment == s.segment : s.segment == $scope.active.segment;
