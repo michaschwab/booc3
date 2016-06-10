@@ -1,5 +1,5 @@
 <div class="sidepanel col-md-3 sidepanel conceptmap-sideinfo learnmode-{{learnModeYesNo}}" ng-controller="ConceptPanelController" id="sidepanel"
-     style="{{activeMode!='minimap'?'z-index:10; position:relative;':''}}height:{{windowHeight-55}}px; width:{{courseScope.panelWidth}}px" ng-class="{minimized: minimized, maximized: !minimized}"
+     style="{{activeMode!='minimap'?'z-index:10; position:relative;':''}}height:{{windowHeight-55}}px; width:{{courseScope.panelWidth}}px" ng-class="{minimized: minimized, maximized: !minimized}" tabindex="0" title="Panel"
      >
 
     <div class="fadein">
@@ -372,5 +372,7 @@
         </div>
 
     </div>
+
+    <a href class="sr-only" onclick="$('#sidepanel').focus();">Jump back to beginning of Navigation</a>
 
 </div>

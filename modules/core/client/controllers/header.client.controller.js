@@ -1,10 +1,11 @@
 'use strict';
 
 angular.module('core').controller('HeaderController',
-    function ($scope, $state, Authentication, Menus, MapTour, $modal, $location, Logger, $timeout) {
+    function ($scope, $state, Authentication, Menus, MapTour, $modal, $location, Logger, $timeout, FocusManager) {
         // Expose view variables
         $scope.$state = $state;
         $scope.authentication = Authentication;
+        FocusManager.init();
 
         // Get the topbar menu
         $scope.menu = Menus.getMenu('topbar');

@@ -2,7 +2,7 @@
 
     <!--<ng-include src="'/modules/concepts/views/panel.client.view.html'"></ng-include>-->
 
-    <div class="learnContent"  style="width: {{contentWidth}}px">
+    <div class="learnContent"  style="width: {{contentWidth}}px" tabindex="0">
 
         <ng-include ng-if="active.sourcetype.title&&!waitLoadingPlayer" src="'modules/learning/views/players/' + active.sourcetype.player + '.client.view.html'"></ng-include>
 
