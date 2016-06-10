@@ -24,7 +24,7 @@
               {{user._id}}
             </a>
           </td>
-          <td>{{user.roles.indexOf('admin')!==-1||user.roles.indexOf('teacher')!==-1}}</td>
+          <td><span ng-show="user.roles.length>1">Yes</span><span ng-show="user.roles.length==1">No</span></td>
           <td>{{user.created}}</td>
           <td>{{user.trackingConsent}}</td>
         </tr>
