@@ -96,6 +96,11 @@ module.exports.initMiddleware = function (app) {
     inMemory: true
   }));
 
+  /*app.all(function(req, res, next) {
+    res.header('Access-Control-Allow-Origin', '*');
+    res.header('Access-Control-Allow-Headers', 'X-Requested-With');
+  });*/
+
   /*app.use(function(req, res, next) {
     var user = auth(req);
 
@@ -151,7 +156,7 @@ module.exports.initModulesConfiguration = function (app, db) {
  */
 module.exports.initHelmetHeaders = function (app) {
   // Use helmet to secure Express headers
-  app.use(helmet.xframe());
+  //app.use(helmet.xframe());
   app.use(helmet.xssFilter());
   app.use(helmet.nosniff());
   app.use(helmet.ienoopen());
