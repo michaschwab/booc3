@@ -487,7 +487,28 @@ angular.module('courses').service('ActiveDataManager', function(Authentication, 
             var segs = $scope.segmentPerConceptMap[d.concept._id];
             for(var i = 0; i < segs.length; i++)
             {
+                // Check for Segment Title Match
                 if(segs[i].title.toLowerCase().indexOf(text.toLowerCase()) !== -1)
+                {
+                    return true;
+                }
+
+                var source = $scope.sourceMap[segs[i].source];
+
+                // Check for Tag Match
+                for(var j = 0; j < source.tags.length; j++)
+                {
+                    var tag = $scope.tagMap[source.tags[j]];
+                    if(tag.title.toLowerCase().indexOf(text.toLowerCase()) !== -1)
+                    {
+                        return true;
+                    }
+                }
+
+                // Check for Source Type Title Match
+                var type = $scope.sourcetypeMap[source.type];
+
+                if(type.title.toLowerCase().indexOf(text.toLowerCase()) !== -1)
                 {
                     return true;
                 }
