@@ -57,7 +57,7 @@ function($timeout, ConceptStructure, Authentication)
         })
         .html(function(d) {
             //return d.tip;
-            return d.depth >= $scope.zoomLevel + 2 ? d.concept.title : '';
+            return d.depth >= $scope.zoomLevel + 2 ? Math.round(d.angle*100)/100 + ',' + d.concept.title : '';
         });
 
     var eventTip = d3.tip()
@@ -161,10 +161,28 @@ function($timeout, ConceptStructure, Authentication)
         });
     };
 
+
+    this.conceptMouseOut = function()
+    {
+        me.closeOpenTips();
+    };
+    this.conceptMouseMove = function(d)
+    {
+        if(d.depth >= $scope.zoomLevel + 2)
+        {
+            me.show(conceptTip, d);
+        }
+        $scope.safeApply();
+    };
+    this.conceptMouseOver = function(d)
+    {
+        me.mouseOverConcept(d);
+    };
+
     this.forConcept = function(l2Circle)
     {
         $scope.vis.call(conceptTip);
-
+/*
         l2Circle.select('circle').on('mouseover', function(d)
         {
             me.mouseOverConcept(d);
@@ -178,7 +196,9 @@ function($timeout, ConceptStructure, Authentication)
         }).on('mouseout', function()
         {
             me.closeOpenTips();
-        })
+        })*/
+
+
         /*.on('click', function(d)
         {
             console.log('zz');

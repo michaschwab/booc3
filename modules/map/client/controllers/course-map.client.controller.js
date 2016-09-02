@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('map').controller('CourseMapController', function($scope, $stateParams, Courses, Concepts, Conceptdependencies, Authentication, $window, $location, ConceptStructure, $timeout, Tip, MapArrows, MapCircles, MapSquares, MapActions, MapIcons, $rootScope, MapEvents, MapTour, Logger)
+angular.module('map').controller('CourseMapController', function($scope, $stateParams, Courses, Concepts, Conceptdependencies, Authentication, $window, $location, ConceptStructure, $timeout, Tip, MapArrows, MapCircles, MapSquares, MapActions, MapIcons, $rootScope, MapEvents, MapTour, Logger, MapRearranger)
     {
         $scope.authentication = Authentication;
 
@@ -102,6 +102,7 @@ angular.module('map').controller('CourseMapController', function($scope, $stateP
             MapSquares.init($scope);
             MapActions.init($scope);
             MapIcons.init($scope);
+            MapRearranger.init($scope, $scope.vis);
 
             setupWatchers();
         };
@@ -317,6 +318,7 @@ angular.module('map').controller('CourseMapController', function($scope, $stateP
                 MapCircles.setRadius();
                 MapCircles.setup();
                 MapSquares.setup();
+                MapRearranger.setup();
 
                 // For first run the radius won't be set yet, or a new concept has been added
                 var concepts = Object.keys($scope.directories.concepts).map(function (key) {
@@ -392,7 +394,7 @@ angular.module('map').controller('CourseMapController', function($scope, $stateP
             lastGraphWidth = $scope.graphWidth;
             lastGraphHeight = $scope.graphHeight;
             lastHoverSegment = $scope.active.hoverSegment;
-            lastSearchText = $scope.search.text;
+            lastSearchText = $scope.search ? $scope.search.text : '';
 
             //console.log(cScope.active.hoveringConceptIds);
 

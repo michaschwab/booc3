@@ -382,45 +382,32 @@ angular.module('map').service('MapCircles', function(Tip, $location, $timeout, L
      */
     this.lxCircleSetup = function(lxCircleEnter, lxCircle)
     {
-        var mouseDownTime = 0;
-
         lxCircleEnter.append('circle').attr({
             r: 5,//function(d) { return d.depth == 1 ? 50 : params.scale(getConfig(d).radius); }
             id: function(d) { return 'concept-circle-' + d.concept._id; }
         }).on({
             'click': function (d)
             {
-                var now = Date.now();
+                var segments = $scope.segmentPerConceptMap[d.concept._id];
 
-                if(mouseDownTime && now - mouseDownTime > 800)
+                // Disable the current hover, as things might be moving around and the currently hovered concept
+                // might not be hovered after that any more.
+                $scope.leaveConcept(d, true);
+
+                // If it's already selected and it has viewable contents, show them.
+                if($scope.activeConcept !== null && $scope.activeConcept.concept._id === d.concept._id && segments && segments.length > 0)
                 {
-                    // dragging?
-                    //console.log('dragging');
+                    var conceptData = { conceptId: d.concept._id, conceptTitle: d.concept.title, conceptDepth: d.depth };
+                    Logger.log('MapConceptPlay', conceptData, d3.event);
+                    $location.search('learn', 'yes');
+                    $scope.safeApply();
                 }
                 else
                 {
-                    var segments = $scope.segmentPerConceptMap[d.concept._id];
-
-                    // Disable the current hover, as things might be moving around and the currently hovered concept
-                    // might not be hovered after that any more.
-                    $scope.leaveConcept(d, true);
-
-                    // If it's already selected and it has viewable contents, show them.
-                    if($scope.activeConcept !== null && $scope.activeConcept.concept._id === d.concept._id && segments && segments.length > 0)
-                    {
-                        var conceptData = { conceptId: d.concept._id, conceptTitle: d.concept.title, conceptDepth: d.depth };
-                        Logger.log('MapConceptPlay', conceptData, d3.event);
-                        $location.search('learn', 'yes');
-                        $scope.safeApply();
-                    }
-                    else
-                    {
-                        $scope.activateConcept(d, d3.event);
-                    }
-
+                    $scope.activateConcept(d, d3.event);
                 }
 
-                mouseDownTime = 0;
+                //mouseDownTime = 0;
                 // Close tooltips that would otherwise be overlapping with possible animations following this.
                 Tip.closeOpenTips();
 
@@ -437,11 +424,35 @@ angular.module('map').service('MapCircles', function(Tip, $location, $timeout, L
                 d3.event.preventDefault();
                 d3.event.stopPropagation();
             },
-            'mousedown': function(d)
+            /*'mousedown': function(d)
             {
                 mouseDownTime = Date.now();
+                mouseDownConcept = d;
+            },*/
+            'mouseover': function(d)
+            {
+                /*$scope.safeApply(function()
+                {
+                    $scope.hoverConcept(d);
+
+                    if(mouseDownTime)
+                    {
+                        console.log(mouseDownTime);
+                    }
+
+                });*/
+
+                Tip.conceptMouseOver(d);
             },
-            'mouseover': function(d) { $scope.safeApply(function() { $scope.hoverConcept(d);}); }//,
+            'mouseout': function(d)
+            {
+                Tip.conceptMouseOut(d);
+            },
+            'mousemove': function(d)
+            {
+                Tip.conceptMouseMove(d);
+            }
+            //,
             //'mouseleave': function(d) { $scope.safeApply(function() { $scope.leaveConcept(d); }); }
         });
 
@@ -585,7 +596,7 @@ angular.module('map').service('MapCircles', function(Tip, $location, $timeout, L
 
             var el2 = me.getTransitionElement(el);
 
-            el2.attr({
+            el2.transition().duration(300).attr({
                 'transform': 'translate(' + trans.x + ',' + trans.y + ')'
             });
         }

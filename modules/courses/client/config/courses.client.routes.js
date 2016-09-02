@@ -12,13 +12,13 @@ angular.module('courses').config(['$stateProvider', '$locationProvider',
 			template: '<ui-view/>'
 		}).
 
-		state('courses.list', {
-			url: '/',
-			templateUrl: 'modules/courses/views/list-courses.client.view.html',
-			data: {
-				roles: ['admin', 'courseadmin']
-			}
-		}).
+			state('courses.list', {
+				url: '/',
+				templateUrl: 'modules/courses/views/list-courses.client.view.html',
+				data: {
+					roles: ['admin', 'courseadmin']
+				}
+			}).
 		state('courses.create', {
 			url: '/create',
 			templateUrl: 'modules/courses/views/edit-course.client.view.html',
