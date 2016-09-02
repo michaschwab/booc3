@@ -64,7 +64,9 @@ angular.module('map').service('MapCircles', function(Tip, $location, $timeout, L
         $scope.characterMax={
             1:12,
             2:13,
-            3:13
+            3:13,
+            4:13,
+            5:13
         };
 
         $scope.configCircle = function(array, depth, concept, i)
@@ -160,7 +162,7 @@ angular.module('map').service('MapCircles', function(Tip, $location, $timeout, L
 
         var setupParams = function()
         {
-            var l1, l2, l3;
+            var l1, l2, l3, l4, l5;
 
             if($scope.options.zoomMode)
             {
@@ -211,7 +213,40 @@ angular.module('map').service('MapCircles', function(Tip, $location, $timeout, L
                     textColor:'#ccc'
 
                 };
-                //console.log(l3.textYOffset);
+                l4 = {
+                    scale:d3.scale.linear().domain([0,1]),
+                    radiusSelected: l3maxRadius*.8,
+                    radius: l3maxRadius *.8,
+                    radiusNonSelected:l3maxRadius *.8,
+                    radiusNonSelectedButParent:l3maxRadius *.8,
+                    radiusParentSelected:l3maxRadius *.8,
+                    positionSelected:function(pos){return pos*1;},
+                    position:function(pos){return pos *1;},
+                    positionParentInSelection: function(pos) { return pos * 1; },
+                    textYOffset: 0.004,
+                    textPos:function(d){
+                        if (d.splitTexts.length>0) return -((d.splitTexts.length-1)*3/2); // depends on textYOffset
+                        else return 0;
+                    },
+                    textColor:'#ccc'
+                };
+                l5 = {
+                    scale:d3.scale.linear().domain([0,1]),
+                    radiusSelected: l3maxRadius*.8,
+                    radius: l3maxRadius *.8,
+                    radiusNonSelected:l3maxRadius *.8,
+                    radiusNonSelectedButParent:l3maxRadius *.8,
+                    radiusParentSelected:l3maxRadius *.8,
+                    positionSelected:function(pos){return pos*1;},
+                    position:function(pos){return pos *1;},
+                    positionParentInSelection: function(pos) { return pos * 1; },
+                    textYOffset: 0.004,
+                    textPos:function(d){
+                        if (d.splitTexts.length>0) return -((d.splitTexts.length-1)*3/2); // depends on textYOffset
+                        else return 0;
+                    },
+                    textColor:'#ccc'
+                };
             }
             else
             {
@@ -265,6 +300,8 @@ angular.module('map').service('MapCircles', function(Tip, $location, $timeout, L
             $scope.visParams.l1=l1;
             $scope.visParams.l2=l2;
             $scope.visParams.l3=l3;
+            $scope.visParams.l4=l4;
+            $scope.visParams.l5=l5;
         };
         $scope.$watch('options.zoomMode', setupParams);
 
@@ -343,6 +380,8 @@ angular.module('map').service('MapCircles', function(Tip, $location, $timeout, L
         enters.push(me.lxSetup(1, tlcReverse));
         enters.push(me.lxSetup(2, l2PlusData(2)));
         enters.push(me.lxSetup(3, l2PlusData(3)));
+        enters.push(me.lxSetup(4, l2PlusData(4)));
+        enters.push(me.lxSetup(5, l2PlusData(5)));
 
         return enters;
     };
@@ -706,7 +745,7 @@ angular.module('map').service('MapCircles', function(Tip, $location, $timeout, L
 
     this.reSelect = function()
     {
-        for(var level = 1; level < 4; level++)
+        for(var level = 1; level < 6; level++)
         {
             var className = 'l' + level + 'Circle';
             lxCircles[level] = $scope.canvas.selectAll('.' + className);
