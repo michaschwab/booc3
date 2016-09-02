@@ -43,6 +43,7 @@ angular.module('map').service('MapRearranger', function()
             phi += Math.PI / 2;
             phi = phi % (2 * Math.PI);
             phi = phi < 0 ? Math.PI * 2 + phi : phi;
+            if(phi > 5.8) phi = 0; // In order to be able to drag to the first one, you can drag before the first one.
             //console.log(phi);
             var order = 100;
             var added = false;
@@ -54,7 +55,7 @@ angular.module('map').service('MapRearranger', function()
                     return;
                 }
 
-                if(!added && child.angle > phi)
+                if(!added && child.angle >= phi)
                 {
                     // Add the concept at this spot.
                     mouseDownConcept.concept.order = order;
@@ -62,12 +63,6 @@ angular.module('map').service('MapRearranger', function()
                     {
                         return concept._id == mouseDownConcept.concept._id;
                     })[0].order = order;
-
-                    /*var thisChild = d.children.filter(function(concept)
-                    {
-                        return concept.concept._id == mouseDownConcept.concept._id;
-                    });
-                    if(thisChild.length) thisChild[0].concept.order = order;*/
 
                     order += 100;
                     added = true;
