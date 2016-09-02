@@ -49,7 +49,7 @@ angular.module('map').service('MapRearranger', function()
 
             d.children.forEach(function(child)
             {
-                if(child.concept._id == mouseDownConcept._id) {
+                if(child.concept._id == mouseDownConcept.concept._id) {
                     child = mouseDownConcept;
                     return;
                 }

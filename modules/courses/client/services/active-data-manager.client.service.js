@@ -565,7 +565,7 @@ angular.module('courses').service('ActiveDataManager', function(Authentication, 
 
         $scope.planConcepts = $scope.active.topLevelConcepts.filter(function(d)
         {
-            var filter = $scope.search.active ? checkSearchTerm : checkDependencyProvider;
+            var filter = $scope.search && $scope.search.active ? checkSearchTerm : checkDependencyProvider;
             return filter(d);
         });
 
