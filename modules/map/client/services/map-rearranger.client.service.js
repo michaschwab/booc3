@@ -54,7 +54,6 @@ angular.module('map').service('MapRearranger', function()
                     return;
                 }
 
-                //console.log((child.angle % Math.PI), phi);
                 if(!added && child.angle > phi)
                 {
                     // Add the concept at this spot.
@@ -64,14 +63,11 @@ angular.module('map').service('MapRearranger', function()
                         return concept._id == mouseDownConcept.concept._id;
                     })[0].order = order;
 
-                    var thisChild = d.children.filter(function(concept)
+                    /*var thisChild = d.children.filter(function(concept)
                     {
                         return concept.concept._id == mouseDownConcept.concept._id;
                     });
-                    if(thisChild.length) thisChild[0].concept.order = order;
-                    if(thisChild.length) console.log(thisChild, thisChild[0].concept.order, order);
-
-                    //console.log(order, phi);
+                    if(thisChild.length) thisChild[0].concept.order = order;*/
 
                     order += 100;
                     added = true;
@@ -89,10 +85,10 @@ angular.module('map').service('MapRearranger', function()
                 })[0].order = order;
             }
 
-            console.log(d.children.map(function(child)
+            /*console.log(d.children.map(function(child)
             {
                 return child.concept.order + ',' + child.angle + ',' + child.concept.title;
-            }), phi);
+            }), phi);*/
 
             mouseDownConcept.concept.parents = [d.concept._id];
             $scope.concepts.downloadedUpdates.push({});
