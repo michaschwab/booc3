@@ -57,7 +57,7 @@ function($timeout, ConceptStructure, Authentication)
         })
         .html(function(d) {
             //return d.tip;
-            return d.depth >= $scope.zoomLevel + 2 ? Math.round(d.angle*100)/100 + ',' + d.concept.title : '';
+            return d.depth >= $scope.zoomLevel + 2 ? d.concept.title : '';
         });
 
     var eventTip = d3.tip()
