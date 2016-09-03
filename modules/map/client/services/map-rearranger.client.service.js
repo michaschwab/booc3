@@ -1,4 +1,4 @@
-angular.module('map').service('MapRearranger', function()
+angular.module('map').service('MapRearranger', function($timeout)
 {
     var me = this;
     var $scope;
@@ -62,12 +62,17 @@ angular.module('map').service('MapRearranger', function()
 
     function getCursor(evt)
     {
+        return getTransformCoordinates(evt.clientX, evt.clientY);
+    }
+
+    function getTransformCoordinates(x, y)
+    {
         var svg = document.getElementById('vis');
         var vis = document.getElementById('mainCanvas');
         var pt=svg.createSVGPoint();
 
-        pt.x = evt.clientX;
-        pt.y = evt.clientY;
+        pt.x = x;
+        pt.y = y;
         return pt.matrixTransform(vis.getScreenCTM().inverse());
     }
 
@@ -178,18 +183,50 @@ angular.module('map').service('MapRearranger', function()
     this.onDragSuccess = function()
     {
         // Animate dragging concept to suggested drop concept
-        mouseDownConcept.concept.color = mouseDownConceptColor;
 
-        $scope.vis.select('.dragConcept').remove();
-        $scope.concepts.downloadedUpdates.push({});
 
-        dragConceptSuggestionElement
-            .attr('stroke', 'none');
-        dragConceptSuggestionElement = null;
+        $timeout(function()
+        {
+            dragConceptSuggestionElement = $scope.vis.select('.lxCircle#concept-' + mouseDownConcept.concept._id + ' > circle');
+            dragConceptSuggestionElement
+                .attr('stroke', 'none');
+            var targetTopLeft = dragConceptSuggestionElement.node().getBoundingClientRect();
+            var targetPosition = { x: targetTopLeft.left + targetTopLeft.width / 2, y: targetTopLeft.top + targetTopLeft.height / 2};
+            var targetRelative = getTransformCoordinates(targetPosition.x, targetPosition.y);
+            //console.log()
 
-        // Finish Drag Activities
-        mouseDownTime = 0;
-        mouseDownConcept = null;
+            //$scope.vis.select('.dragConcept').remove();
+            var dragConcept = $scope.vis.select('.dragConcept');
+
+            var transitionDuration = 300;
+            dragConcept
+                .transition().duration(transitionDuration)
+                .attr('transform', 'translate(' + targetRelative.x + ',' + targetRelative.y + ')');
+
+            dragConcept.select('circle')
+                .transition().duration(transitionDuration)
+                .attr('r', dragConceptSuggestionElement.attr('r'));
+
+            $timeout(function()
+            {
+
+                mouseDownConcept.concept.color = mouseDownConceptColor;
+                $scope.concepts.downloadedUpdates.push({});
+
+
+                // Finish Drag Activities
+                dragConceptSuggestionElement = null;
+                mouseDownTime = 0;
+                mouseDownConcept = null;
+
+                $timeout(function()
+                {
+                    $scope.vis.select('.dragConcept').remove();
+                }, 100);
+
+            }, transitionDuration);
+
+        }, 100);
     };
 
     this.onVisMouseUp = function(d)
@@ -199,8 +236,8 @@ angular.module('map').service('MapRearranger', function()
 
     this.onDocumentMouseUp = function(d)
     {
-        mouseDownTime = 0;
-        mouseDownConcept = null;
+        // mouseDownTime = 0;
+        // mouseDownConcept = null;
     };
 
 
