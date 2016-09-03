@@ -154,6 +154,18 @@ angular.module('map').service('MapRearranger', function()
             }
 
             mouseDownConcept.concept.parents = newParents;
+            updateVisIfChanged();
+        }
+    }
+
+    var lastParent, lastOrder;
+    function updateVisIfChanged()
+    {
+        if(!lastParent || !lastOrder || lastParent !== mouseDownConcept.concept.parents || lastOrder !== mouseDownConcept.concept.order)
+        {
+            lastParent = mouseDownConcept.concept.parents;
+            lastOrder = mouseDownConcept.concept.order;
+
             $scope.concepts.downloadedUpdates.push({});
         }
     }
