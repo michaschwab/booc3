@@ -4,7 +4,9 @@ angular.module('map').service('MapRearranger', function()
     var $scope;
 
     var mouseDownTime = 0;
+    var mouseDownConceptColor = '';
     var mouseDownConcept = null;
+    var dragConceptSuggestionElement = null;
 
     this.init = function(scope)
     {
@@ -20,20 +22,24 @@ angular.module('map').service('MapRearranger', function()
     {
         mouseDownTime = Date.now();
         mouseDownConcept = d;
+        mouseDownConceptColor = mouseDownConcept.concept.color;
+        mouseDownConcept.concept.color = '#999999';
 
         setupDrag();
-
         //console.log('mouse over', d);
     };
 
     function setupDrag()
     {
         var dragLayer = $scope.vis.select('#dragLayer');
+        var cursor = getCursor(d3.event);
 
         dragLayer.append('g')
             .attr('class', 'dragConcept')
+            .attr('transform', 'translate(' + cursor.x + ',' + cursor.y + ')')
             .append('circle')
-            .attr('r', 10);
+            .attr('r', 10)
+            .style('fill', mouseDownConceptColor);
     }
 
     this.onConceptMouseOver = function(d)
@@ -70,7 +76,17 @@ angular.module('map').service('MapRearranger', function()
         var cursor = getCursor(d3.event);
         $scope.vis.select('.dragConcept')
             .attr('transform', 'translate(' + cursor.x + ',' + cursor.y + ')');
+
+        dragConceptSuggestionElement = $scope.vis.select('.lxCircle#concept-' + mouseDownConcept.concept._id + ' > circle');
+        dragConceptSuggestionElement
+            .attr('stroke', 'orange')
+            .attr('stroke-width', 4)
+            .attr('stroke-dasharray', '5,5');
+
+
     }
+
+    var lastElement, lastElementBoundingRect;
 
     function showDropOption(children, element, newParents)
     {
@@ -78,7 +94,18 @@ angular.module('map').service('MapRearranger', function()
 
         if(mouseDownConcept && mouseDownTime && now - mouseDownTime > 500)
         {
-            var translateAbs = element.getBoundingClientRect();
+            var translateAbs;
+
+            if(element == lastElement)
+            {
+                translateAbs = lastElementBoundingRect;
+            }
+            else
+            {
+                lastElement = element;
+                translateAbs = element.getBoundingClientRect();
+                lastElementBoundingRect = translateAbs;
+            }
 
             var center = {};
             center.x = translateAbs.left + translateAbs.width/2;
@@ -133,13 +160,29 @@ angular.module('map').service('MapRearranger', function()
 
     this.onConceptMouseUp = function(d)
     {
+        me.onDragSuccess();
+    };
+
+    this.onDragSuccess = function()
+    {
+        // Animate dragging concept to suggested drop concept
+        mouseDownConcept.concept.color = mouseDownConceptColor;
+
+        $scope.vis.select('.dragConcept').remove();
+        $scope.concepts.downloadedUpdates.push({});
+
+        dragConceptSuggestionElement
+            .attr('stroke', 'none');
+        dragConceptSuggestionElement = null;
+
+        // Finish Drag Activities
         mouseDownTime = 0;
         mouseDownConcept = null;
     };
 
     this.onVisMouseUp = function(d)
     {
-
+        me.onDragSuccess();
     };
 
     this.onDocumentMouseUp = function(d)
