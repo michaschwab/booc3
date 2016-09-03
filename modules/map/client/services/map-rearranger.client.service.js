@@ -26,14 +26,28 @@ angular.module('map').service('MapRearranger', function()
 
     this.onConceptMouseOver = function(d)
     {
-        //console.log(d, arguments);
-        var now = Date.now();
-        if(mouseDownConcept && mouseDownTime && now - mouseDownTime > 500 && d.concept._id !== mouseDownConcept.concept._id)
+        if(mouseDownConcept && d.concept._id !== mouseDownConcept.concept._id)
         {
-            //console.log('dragging ', mouseDownConcept.concept.title, ' over ', d.concept.title);
-            //console.log(d.children);
+            insertInto(d.children, this, [d.concept._id]);
+        }
+    };
 
-            var translateAbs = this.getBoundingClientRect();
+    this.onVisMouseOver = function()
+    {
+        if(d3.event.target.id == 'vis' && mouseDownConcept)
+        {
+            insertInto($scope.active.topLevelConcepts, this, []);
+        }
+    };
+
+    function insertInto(children, element, newParents)
+    {
+        var now = Date.now();
+
+        if(mouseDownConcept && mouseDownTime && now - mouseDownTime > 500)
+        {
+            var translateAbs = element.getBoundingClientRect();
+
             var center = {};
             center.x = translateAbs.left + translateAbs.width/2;
             center.y = translateAbs.top + translateAbs.height/2;
@@ -43,12 +57,12 @@ angular.module('map').service('MapRearranger', function()
             phi += Math.PI / 2;
             phi = phi % (2 * Math.PI);
             phi = phi < 0 ? Math.PI * 2 + phi : phi;
-            if(phi > 5.8) phi = 0; // In order to be able to drag to the first one, you can drag before the first one.
-            //console.log(phi);
+            if(phi > 5.8) phi = 0;
+
             var order = 100;
             var added = false;
 
-            d.children.forEach(function(child)
+            children.forEach(function(child)
             {
                 if(child.concept._id == mouseDownConcept.concept._id) {
                     child = mouseDownConcept;
@@ -80,17 +94,10 @@ angular.module('map').service('MapRearranger', function()
                 })[0].order = order;
             }
 
-            /*console.log(d.children.map(function(child)
-            {
-                return child.concept.order + ',' + child.angle + ',' + child.concept.title;
-            }), phi);*/
-
-            mouseDownConcept.concept.parents = [d.concept._id];
+            mouseDownConcept.concept.parents = newParents;
             $scope.concepts.downloadedUpdates.push({});
-            //$scope.$broadcast('dataUpdated');
         }
-        //console.log('dragging ', mouseDownConcept.concept.title, ' over ', d.concept.title);
-    };
+    }
 
     this.onConceptMouseUp = function(d)
     {
@@ -98,9 +105,15 @@ angular.module('map').service('MapRearranger', function()
         mouseDownConcept = null;
     };
 
-    this.onDocumentMouseUp = function(d)
+    this.onVisMouseUp = function(d)
     {
 
+    };
+
+    this.onDocumentMouseUp = function(d)
+    {
+        mouseDownTime = 0;
+        mouseDownConcept = null;
     };
 
 
@@ -115,6 +128,9 @@ angular.module('map').service('MapRearranger', function()
         circles.on('mouseover.rearranger', this.onConceptMouseOver);
         circles.on('mousemove.rearranger', this.onConceptMouseOver);
         circles.on('mouseup.rearranger', this.onConceptMouseUp);
+
+        $scope.vis.on('mouseup.rearranger', this.onVisMouseUp);
+        $scope.vis.on('mousemove.rearranger', this.onVisMouseOver);
 
         document.addEventListener('mouseup', this.onDocumentMouseUp);
     };
