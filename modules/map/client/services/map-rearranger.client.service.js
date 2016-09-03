@@ -21,14 +21,27 @@ angular.module('map').service('MapRearranger', function()
         mouseDownTime = Date.now();
         mouseDownConcept = d;
 
+        setupDrag();
+
         //console.log('mouse over', d);
     };
+
+    function setupDrag()
+    {
+        var dragLayer = $scope.vis.select('#dragLayer');
+
+        dragLayer.append('g')
+            .attr('class', 'dragConcept')
+            .append('circle')
+            .attr('r', 10);
+    }
 
     this.onConceptMouseOver = function(d)
     {
         if(mouseDownConcept && d.concept._id !== mouseDownConcept.concept._id)
         {
-            insertInto(d.children, this, [d.concept._id]);
+            showDragConcept();
+            showDropOption(d.children, this, [d.concept._id]);
         }
     };
 
@@ -36,11 +49,30 @@ angular.module('map').service('MapRearranger', function()
     {
         if(d3.event.target.id == 'vis' && mouseDownConcept)
         {
-            insertInto($scope.active.topLevelConcepts, this, []);
+            showDragConcept();
+            showDropOption($scope.active.topLevelConcepts, this, []);
         }
     };
 
-    function insertInto(children, element, newParents)
+    function getCursor(evt)
+    {
+        var svg = document.getElementById('vis');
+        var vis = document.getElementById('mainCanvas');
+        var pt=svg.createSVGPoint();
+
+        pt.x = evt.clientX;
+        pt.y = evt.clientY;
+        return pt.matrixTransform(vis.getScreenCTM().inverse());
+    }
+
+    function showDragConcept()
+    {
+        var cursor = getCursor(d3.event);
+        $scope.vis.select('.dragConcept')
+            .attr('transform', 'translate(' + cursor.x + ',' + cursor.y + ')');
+    }
+
+    function showDropOption(children, element, newParents)
     {
         var now = Date.now();
 

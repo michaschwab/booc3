@@ -196,6 +196,7 @@ angular.module('map').controller('CourseMapController', function($scope, $stateP
             $scope.canvas.append("g").attr("id", "pathLayer");
             $scope.canvas.append("g").attr("id", "eventLayer");
             $scope.canvas.append("g").attr("id", "squareLayer");
+            $scope.canvas.append("g").attr("id", "dragLayer");
 
             $scope.visParams = {
                 scale:d3.scale.linear(),
