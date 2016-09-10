@@ -1,6 +1,7 @@
-angular.module('map').service('MapRearranger', function($timeout)
+angular.module('map').service('MapRearranger', function($timeout, Authentication, $stateParams)
 {
     var me = this;
+    var isCourseTa;
     var $scope;
 
     var mouseDownTime = 0;
@@ -11,6 +12,7 @@ angular.module('map').service('MapRearranger', function($timeout)
     this.init = function(scope)
     {
         $scope = scope;
+        $scope.authentication = Authentication;
     };
 
     this.setup = function()
@@ -20,6 +22,8 @@ angular.module('map').service('MapRearranger', function($timeout)
 
     this.onConceptMouseDown = function(d)
     {
+        if(!canRearrange()) return;
+
         mouseDownTime = Date.now();
         mouseDownConcept = d;
         mouseDownConceptColor = mouseDownConcept.concept.color;
@@ -44,6 +48,8 @@ angular.module('map').service('MapRearranger', function($timeout)
 
     this.onConceptMouseOver = function(d)
     {
+        if(!canRearrange()) return;
+
         if(mouseDownConcept && d.concept._id !== mouseDownConcept.concept._id)
         {
             showDragConcept();
@@ -53,6 +59,8 @@ angular.module('map').service('MapRearranger', function($timeout)
 
     this.onVisMouseOver = function()
     {
+        if(!canRearrange()) return;
+
         if(d3.event.target.id == 'vis' && mouseDownConcept)
         {
             showDragConcept();
@@ -177,11 +185,14 @@ angular.module('map').service('MapRearranger', function($timeout)
 
     this.onConceptMouseUp = function(d)
     {
+        if(!canRearrange()) return;
+
         me.onDragSuccess();
     };
 
     this.onDragSuccess = function()
     {
+        if(!canRearrange()) return;
         // Animate dragging concept to suggested drop concept
 
 
@@ -231,18 +242,29 @@ angular.module('map').service('MapRearranger', function($timeout)
 
     this.onVisMouseUp = function(d)
     {
+        if(!canRearrange()) return;
+
         me.onDragSuccess();
     };
 
     this.onDocumentMouseUp = function(d)
     {
+        if(!canRearrange()) return;
         // mouseDownTime = 0;
         // mouseDownConcept = null;
     };
 
+    function canRearrange()
+    {
+        return isCourseTa && $stateParams.mode == 'admin';
+    }
 
     this.setupEventListeners = function()
     {
+        var courseId = $scope.courseId;
+        isCourseTa = $scope.authentication.isCourseTeachingAssistant(courseId);
+        if(!isCourseTa) return;
+
         var circles = $scope.vis.selectAll('.lxCircle circle');
         /*circles.call(d3.drag().on('start', function()
         {
