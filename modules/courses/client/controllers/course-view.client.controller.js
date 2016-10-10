@@ -504,6 +504,7 @@ angular.module('courses').controller('CourseViewController',
             {
                 $scope.active.topLevelConcepts = [];
                 ConceptStructure.getConceptChildren($scope.active.topLevelConcepts, null, null, 1, function() {});
+                //console.log($scope.active.topLevelConcepts);
 
                 ActiveDataManager.updateActive();
 

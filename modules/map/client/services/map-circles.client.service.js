@@ -64,7 +64,9 @@ angular.module('map').service('MapCircles', function(Tip, $location, $timeout, L
         $scope.characterMax={
             1:12,
             2:13,
-            3:13
+            3:13,
+            4:13,
+            5:13
         };
 
         $scope.configCircle = function(array, depth, concept, i)
@@ -160,7 +162,7 @@ angular.module('map').service('MapCircles', function(Tip, $location, $timeout, L
 
         var setupParams = function()
         {
-            var l1, l2, l3;
+            var l1, l2, l3, l4, l5;
 
             if($scope.options.zoomMode)
             {
@@ -211,7 +213,40 @@ angular.module('map').service('MapCircles', function(Tip, $location, $timeout, L
                     textColor:'#ccc'
 
                 };
-                //console.log(l3.textYOffset);
+                l4 = {
+                    scale:d3.scale.linear().domain([0,1]),
+                    radiusSelected: l3maxRadius*.8,
+                    radius: l3maxRadius *.8,
+                    radiusNonSelected:l3maxRadius *.8,
+                    radiusNonSelectedButParent:l3maxRadius *.8,
+                    radiusParentSelected:l3maxRadius *.8,
+                    positionSelected:function(pos){return pos*1;},
+                    position:function(pos){return pos *1;},
+                    positionParentInSelection: function(pos) { return pos * 1; },
+                    textYOffset: 0.004,
+                    textPos:function(d){
+                        if (d.splitTexts.length>0) return -((d.splitTexts.length-1)*3/2); // depends on textYOffset
+                        else return 0;
+                    },
+                    textColor:'#ccc'
+                };
+                l5 = {
+                    scale:d3.scale.linear().domain([0,1]),
+                    radiusSelected: l3maxRadius*.8,
+                    radius: l3maxRadius *.8,
+                    radiusNonSelected:l3maxRadius *.8,
+                    radiusNonSelectedButParent:l3maxRadius *.8,
+                    radiusParentSelected:l3maxRadius *.8,
+                    positionSelected:function(pos){return pos*1;},
+                    position:function(pos){return pos *1;},
+                    positionParentInSelection: function(pos) { return pos * 1; },
+                    textYOffset: 0.004,
+                    textPos:function(d){
+                        if (d.splitTexts.length>0) return -((d.splitTexts.length-1)*3/2); // depends on textYOffset
+                        else return 0;
+                    },
+                    textColor:'#ccc'
+                };
             }
             else
             {
@@ -265,6 +300,8 @@ angular.module('map').service('MapCircles', function(Tip, $location, $timeout, L
             $scope.visParams.l1=l1;
             $scope.visParams.l2=l2;
             $scope.visParams.l3=l3;
+            $scope.visParams.l4=l4;
+            $scope.visParams.l5=l5;
         };
         $scope.$watch('options.zoomMode', setupParams);
 
@@ -343,6 +380,8 @@ angular.module('map').service('MapCircles', function(Tip, $location, $timeout, L
         enters.push(me.lxSetup(1, tlcReverse));
         enters.push(me.lxSetup(2, l2PlusData(2)));
         enters.push(me.lxSetup(3, l2PlusData(3)));
+        enters.push(me.lxSetup(4, l2PlusData(4)));
+        enters.push(me.lxSetup(5, l2PlusData(5)));
 
         return enters;
     };
@@ -382,45 +421,32 @@ angular.module('map').service('MapCircles', function(Tip, $location, $timeout, L
      */
     this.lxCircleSetup = function(lxCircleEnter, lxCircle)
     {
-        var mouseDownTime = 0;
-
         lxCircleEnter.append('circle').attr({
             r: 5,//function(d) { return d.depth == 1 ? 50 : params.scale(getConfig(d).radius); }
             id: function(d) { return 'concept-circle-' + d.concept._id; }
         }).on({
             'click': function (d)
             {
-                var now = Date.now();
+                var segments = $scope.segmentPerConceptMap[d.concept._id];
 
-                if(mouseDownTime && now - mouseDownTime > 800)
+                // Disable the current hover, as things might be moving around and the currently hovered concept
+                // might not be hovered after that any more.
+                $scope.leaveConcept(d, true);
+
+                // If it's already selected and it has viewable contents, show them.
+                if($scope.activeConcept !== null && $scope.activeConcept.concept._id === d.concept._id && segments && segments.length > 0)
                 {
-                    // dragging?
-                    //console.log('dragging');
+                    var conceptData = { conceptId: d.concept._id, conceptTitle: d.concept.title, conceptDepth: d.depth };
+                    Logger.log('MapConceptPlay', conceptData, d3.event);
+                    $location.search('learn', 'yes');
+                    $scope.safeApply();
                 }
                 else
                 {
-                    var segments = $scope.segmentPerConceptMap[d.concept._id];
-
-                    // Disable the current hover, as things might be moving around and the currently hovered concept
-                    // might not be hovered after that any more.
-                    $scope.leaveConcept(d, true);
-
-                    // If it's already selected and it has viewable contents, show them.
-                    if($scope.activeConcept !== null && $scope.activeConcept.concept._id === d.concept._id && segments && segments.length > 0)
-                    {
-                        var conceptData = { conceptId: d.concept._id, conceptTitle: d.concept.title, conceptDepth: d.depth };
-                        Logger.log('MapConceptPlay', conceptData, d3.event);
-                        $location.search('learn', 'yes');
-                        $scope.safeApply();
-                    }
-                    else
-                    {
-                        $scope.activateConcept(d, d3.event);
-                    }
-
+                    $scope.activateConcept(d, d3.event);
                 }
 
-                mouseDownTime = 0;
+                //mouseDownTime = 0;
                 // Close tooltips that would otherwise be overlapping with possible animations following this.
                 Tip.closeOpenTips();
 
@@ -437,11 +463,35 @@ angular.module('map').service('MapCircles', function(Tip, $location, $timeout, L
                 d3.event.preventDefault();
                 d3.event.stopPropagation();
             },
-            'mousedown': function(d)
+            /*'mousedown': function(d)
             {
                 mouseDownTime = Date.now();
+                mouseDownConcept = d;
+            },*/
+            'mouseover': function(d)
+            {
+                /*$scope.safeApply(function()
+                {
+                    $scope.hoverConcept(d);
+
+                    if(mouseDownTime)
+                    {
+                        console.log(mouseDownTime);
+                    }
+
+                });*/
+
+                Tip.conceptMouseOver(d);
             },
-            'mouseover': function(d) { $scope.safeApply(function() { $scope.hoverConcept(d);}); }//,
+            'mouseout': function(d)
+            {
+                Tip.conceptMouseOut(d);
+            },
+            'mousemove': function(d)
+            {
+                Tip.conceptMouseMove(d);
+            }
+            //,
             //'mouseleave': function(d) { $scope.safeApply(function() { $scope.leaveConcept(d); }); }
         });
 
@@ -585,7 +635,7 @@ angular.module('map').service('MapCircles', function(Tip, $location, $timeout, L
 
             var el2 = me.getTransitionElement(el);
 
-            el2.attr({
+            el2.transition().duration(300).attr({
                 'transform': 'translate(' + trans.x + ',' + trans.y + ')'
             });
         }
@@ -695,7 +745,7 @@ angular.module('map').service('MapCircles', function(Tip, $location, $timeout, L
 
     this.reSelect = function()
     {
-        for(var level = 1; level < 4; level++)
+        for(var level = 1; level < 6; level++)
         {
             var className = 'l' + level + 'Circle';
             lxCircles[level] = $scope.canvas.selectAll('.' + className);

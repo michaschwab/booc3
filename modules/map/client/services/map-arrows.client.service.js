@@ -91,6 +91,7 @@ angular.module('map').service('MapArrows', function(Tip, ConceptStructure, MapAr
 
     this.addLines = function(lines, layer, groupClassName, pathClassName, markerNormal, markerColored, each)
     {
+        if(!lines) return;
         var provLine = layer.selectAll('.'+groupClassName).data(lines);
         //var provLine = layer.selectAll('.groupClassName').data(lines);
         var provLineEnter = provLine.enter().append('g').attr({
@@ -522,7 +523,7 @@ angular.module('map').service('MapArrows', function(Tip, ConceptStructure, MapAr
             var pathNode = path.node();
             var lines = MapArrowShaping.curvePath(pathNode, pos, coveredConcepts, $scope.visParams.scale, $scope.getTranslateAbs, 0, 0, offsetEach, color, null, $scope.graphWidth, $scope.graphHeight);
 
-            if(lines.length > 0)
+            if(lines && lines.length > 0)
             {
                 var i = lines.length - 1;
 
