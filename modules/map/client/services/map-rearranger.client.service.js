@@ -5,6 +5,7 @@ angular.module('map').service('MapRearranger', function($timeout, Authentication
     var $scope;
 
     var mouseDownTime = 0;
+    var mouseUpTime = 0;
     var mouseDownConceptColor = '';
     var mouseDownConcept = null;
     var dragConceptSuggestionElement = null;
@@ -25,18 +26,30 @@ angular.module('map').service('MapRearranger', function($timeout, Authentication
         if(!canRearrange()) return;
 
         mouseDownTime = Date.now();
-        mouseDownConcept = d;
-        mouseDownConceptColor = mouseDownConcept.concept.color;
-        mouseDownConcept.concept.color = '#999999';
+        var e = d3.event;
 
-        setupDrag();
+        $timeout(function()
+        {
+            //console.log(mouseUpTime - mouseDownTime, mouseUpTime);
+            if(mouseUpTime < mouseDownTime) // if not stopped holding down for half a sec
+            {
+                console.log('setting up');
+                mouseDownConcept = d;
+                mouseDownConceptColor = mouseDownConcept.concept.color;
+                mouseDownConcept.concept.color = '#999999';
+
+                setupDrag(e);
+            }
+        }, 500);
+
         //console.log('mouse over', d);
     };
 
-    function setupDrag()
+    function setupDrag(e)
     {
+        var event = e || d3.event;
         var dragLayer = $scope.vis.select('#dragLayer');
-        var cursor = getCursor(d3.event);
+        var cursor = getCursor(event);
 
         dragLayer.append('g')
             .attr('class', 'dragConcept')
@@ -186,6 +199,7 @@ angular.module('map').service('MapRearranger', function($timeout, Authentication
     this.onConceptMouseUp = function(d)
     {
         if(!canRearrange()) return;
+        mouseUpTime = Date.now();
 
         me.onDragSuccess();
     };
@@ -198,6 +212,8 @@ angular.module('map').service('MapRearranger', function($timeout, Authentication
 
         $timeout(function()
         {
+            if(!mouseDownConcept) return;
+
             dragConceptSuggestionElement = $scope.vis.select('.lxCircle#concept-' + mouseDownConcept.concept._id + ' > circle');
             dragConceptSuggestionElement
                 .attr('stroke', 'none');
