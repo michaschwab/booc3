@@ -13,6 +13,10 @@ angular.module('messages').config(['$stateProvider',
 			.state('paper', {
 				url: '/paper',
 				templateUrl: 'modules/pages/views/paper.client.view.html'
+			})
+			.state('paper2', {
+				url: '/paper/',
+				templateUrl: 'modules/pages/views/paper.client.view.html'
 			});
 	}
 ]);
