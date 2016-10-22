@@ -9,7 +9,7 @@ module.exports = function(app) {
 
     // Courses Routes
     app.route('/api/tags')
-        .get(courseTeacherPolicy.hasAnyPrivileges, tags.list)
+        .get(tags.list)
         .post(courseTeacherPolicy.hasAnyPrivileges, tags.create); // Teachers can create courses
 
     app.route('/api/tags/:tagId')

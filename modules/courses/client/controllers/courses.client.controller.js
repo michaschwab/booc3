@@ -133,7 +133,7 @@ angular.module('courses').controller('CoursesController',
 				$scope.courses.forEach(function(course)
 				{
 					course.conceptObjects = Concepts.query({courses: course._id });
-					course.learnedConceptObjects = LearnedConcepts.query({course: course._id, user: $scope.authentication.user._id });
+					course.learnedConceptObjects = $scope.authentication.user ? LearnedConcepts.query({course: course._id, user: $scope.authentication.user._id }) : [];
 				});
 			});
 		};

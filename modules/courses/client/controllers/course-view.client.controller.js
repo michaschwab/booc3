@@ -95,7 +95,7 @@ angular.module('courses').controller('CourseViewController',
                         segment.sourcetypeObject = $scope.sourcetypeMap[segment.sourceObject.type];
                     });*/
 
-                    $scope.learned = LearnedConcepts.query({user: $scope.authentication.user._id});
+                    $scope.learned = $scope.authentication.user ? LearnedConcepts.query({user: $scope.authentication.user._id}) : [];
 
                     Segmentgroup.query({courses:$stateParams.courseId}, function(groups)
                     {
@@ -108,13 +108,25 @@ angular.module('courses').controller('CourseViewController',
                             $scope.$watchCollection('segments.downloadedUpdates', $scope.parseSegments);
                             $scope.$watchCollection('segmentgroups.downloadedUpdates', $scope.parseSegments);
 
-                            $scope.seen = SeenConcepts.query({user: $scope.authentication.user._id}, function()
+                            if($scope.authentication.user)
                             {
+                                $scope.seen = SeenConcepts.query({user: $scope.authentication.user._id}, function()
+                                {
+                                    SeenDataManager.updateSeenMap();
+
+                                    $scope.$broadcast('dataReady');
+                                    dataReady = true;
+                                });
+                            }
+                            else
+                            {
+                                $scope.seen = [];
                                 SeenDataManager.updateSeenMap();
 
                                 $scope.$broadcast('dataReady');
                                 dataReady = true;
-                            });
+                            }
+
                         });
                     });
                 });

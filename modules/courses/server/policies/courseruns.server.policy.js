@@ -43,7 +43,7 @@ exports.invokeRolesPolicies = function () {
             permissions: ['get']
         }]
     }, {
-        roles: ['user'],
+        roles: ['user', 'guest'],
         allows: [{
             resources: '/api/courseruns',
             permissions: ['get']

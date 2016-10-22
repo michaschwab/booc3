@@ -32,7 +32,7 @@ angular.module('users').factory('Authentication', function ($window, $location, 
       {
         var role = roles[i];
 
-        if(auth.user.roles.indexOf(role) !== -1)
+        if(auth.user.roles && auth.user.roles.indexOf(role) !== -1)
           return true;
       }
 
