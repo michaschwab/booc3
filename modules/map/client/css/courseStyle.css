@@ -334,6 +334,12 @@ text.learned, text.goal {
     float: right;
     color: #fff;
 }
+.depCreate {
+    opacity: 0;
+}
+.lxCircle:hover .depCreate {
+    opacity: 1;
+}
 .depCreate.active .dep-create-label {
     fill: #333;
     fill-opacity: 1;
