@@ -58,7 +58,13 @@
         <a data-ui-sref="authentication.signin" class="sign-in-link">Sign In</a>
       </li>
     </ul>-->
-    <ul class="nav navbar-nav navbar-right logged-in-nav" data-ng-show="authentication.user">
+    <ul class="nav navbar-nav navbar-right logged-in-nav">
+      <li data-ng-show="!authentication.user">
+        <a href="/login" target="_self" class="login-link">
+          <span class="glyphicon glyphicon-user"></span>
+          <span class="nav-link">Log In / Sign Up</span>
+        </a>
+      </li>
       <li ng-if="tourPossible">
         <a href title="Launch Tour" ng-click="launchTour($event)" class="tour-launcher">
           <span style="font-size:1.5em;" class="glyphicon glyphicon-question-sign"></span>
@@ -74,7 +80,7 @@
           <span class="nav-link">Feedback</span>
         </a>
       </li>
-      <li>
+      <li data-ng-show="authentication.user">
         <a href="/api/auth/signout" target="_self" ng-click="headerSignoutClick($event)" class="signout-link">
           <span class="glyphicon glyphicon-log-out"></span>
           <span class="nav-link">Log Out</span>

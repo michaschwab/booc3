@@ -60,3 +60,6 @@ header.navbar .navbar-nav .dropdown-menu {
     top: 17px;
     left: 40px;
 }
+.logged-in-nav a.login-link {
+    width: 160px;
+}
