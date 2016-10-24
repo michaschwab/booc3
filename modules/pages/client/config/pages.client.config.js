@@ -4,10 +4,11 @@
 angular.module('pages').run(['Menus',
 	function(Menus) {
 		Menus.addMenuItem('topbar', {
-			title: 'Paper',
+			title: 'IEEE Vis 2016 Paper',
 			state: 'paper',
-			type: 'item'/*,
-			roles: ['admin', 'teacher']*/
+			type: 'item',
+			roles: ['user', 'guest'],
+			isPublic: true
 		});
 
 		/*Menus.addMenuItem('topbar', {
