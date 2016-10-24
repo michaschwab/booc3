@@ -5,10 +5,10 @@ angular.module('logs').service('Logger', function (Authentication, $location, Lo
     var keepEventProps = ['altKey', 'ctrlKey', 'detail', 'eventPhase', 'metaKey', 'shitKey', 'which', 'clientX', 'clientY', 'offsetX', 'offsetY', 'pageX', 'pageY', 'screenX', 'screenY', 'timeStamp', 'type'];
     this.log = function(action, data, event)
     {
-        if (Authentication.user !== undefined && Authentication.user.hasOwnProperty('trackingConsent') && Authentication.user.trackingConsent)
+        //if (Authentication.user !== undefined && Authentication.user.hasOwnProperty('trackingConsent') && Authentication.user.trackingConsent)
         {
             var log = new Log();
-            log.user = Authentication.user._id;
+            log.user = Authentication && Authentication.user ? Authentication.user._id : '';
             log.address = $location.url();
             log.action = action;
             log.data = data;
@@ -24,12 +24,12 @@ angular.module('logs').service('Logger', function (Authentication, $location, Lo
                 log.$save();
             }, 1000);
         }
-        else
+        /*else
         {
             console.log('No logs are being saved for this account, because you did not consent to being tracked.');
             //console.log('Trying to log, but seems like you did not consent.');
             //console.log('Please consider consenting to logging your clicks anonymously, as this will help improve this software.');
-        }
+        }*/
     };
 
     function getEvent(log, event)

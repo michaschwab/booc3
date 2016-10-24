@@ -7,6 +7,7 @@ angular.module('users').factory('Authentication', function ($window, $location, 
     };
 
     var user = auth.user;
+/*
 
     $rootScope.$on('$locationChangeSuccess', function()
     {
@@ -25,6 +26,7 @@ angular.module('users').factory('Authentication', function ($window, $location, 
     }
 
     checkConsent();
+*/
 
     auth.hasOneRole = function(roles)
     {
