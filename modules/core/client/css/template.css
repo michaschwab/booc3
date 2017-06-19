@@ -18,7 +18,7 @@ header.navbar .navbar-brand, header.navbar .navbar-nav a {
     box-shadow: none !important;
 }
 header.navbar .navbar-nav .active a, header.navbar .navbar-nav .open a {
-    background: #83809b !important;
+    background: #fff;
 }
 header.navbar .navbar-nav a:hover, header.navbar .navbar-nav .active a:hover, header.navbar .navbar-nav .open a:hover {
     background: #8c8aa1;

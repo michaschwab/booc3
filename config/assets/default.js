@@ -13,7 +13,7 @@ module.exports = {
         'public/lib/n3-charts/build/LineChart.css',
         'public/lib/shepherd.js/dist/css/shepherd-theme-arrows.css',
         'https://afeld.github.io/emoji-css/emoji.css',
-          'public/lib/ng-tags-input/ng-tags-input.css'
+        'public/lib/ng-tags-input/ng-tags-input.css'
       ],
       js: [
         'public/lib/jquery/dist/jquery.js',

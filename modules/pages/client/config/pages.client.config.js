@@ -3,13 +3,13 @@
 // Configuring the Articles module
 angular.module('pages').run(['Menus',
 	function(Menus) {
-		Menus.addMenuItem('topbar', {
-			title: 'IEEE Vis 2016 Paper',
-			state: 'paper',
-			type: 'item',
-			roles: ['user', 'guest'],
-			isPublic: true
-		});
+		// Menus.addMenuItem('topbar', {
+		// 	title: 'IEEE Vis 2016 Paper',
+		// 	state: 'paper',
+		// 	type: 'item',
+		// 	roles: ['user', 'guest'],
+		// 	isPublic: true
+		// });
 
 		/*Menus.addMenuItem('topbar', {
 			title: 'Courses',

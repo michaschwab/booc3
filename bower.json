@@ -19,7 +19,7 @@
     "angular-ui-utils": "bower",
     "angular-xml": null,
     "bootstrap": "~3",
-    "d3": null,
+    "d3": "~3.5.5",
     "d3-tip": null,
     "font-awesome": null,
     "jquery": null,
@@ -37,6 +37,7 @@
     "ng-tags-input": "~3.0.0"
   },
   "resolutions": {
-    "angular": "~1.4"
+    "angular": "~1.4",
+    "d3": "~3.5.5"
   }
 }
