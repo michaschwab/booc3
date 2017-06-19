@@ -8,7 +8,6 @@ header.navbar {
 }
 header.navbar .navbar-brand {
     text-transform: uppercase;
-
 }
 header.navbar .user-header-dropdown-toggle {
     text-transform: none;

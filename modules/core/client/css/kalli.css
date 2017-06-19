@@ -47,6 +47,7 @@ body {
 .kalli-inline-header {
 	text-align: center;
 	font-size: 24px;
+	margin: 120px 0;
 }
 
 .kalli-steps-list {
@@ -70,21 +71,32 @@ body {
 
 /********************* LEARN MORE ********************* */
 /********************* VIDEO ********************* */
+.kalli-video{
+	display: block;
+	left: 33%;
+	position: relative;
+}
 /********************* TEAM ********************* */
+.kalli-team-list {
+	display: block;
+	position: relative;
+}
 .kalli-team-list > ul > li {
 	width: 150px;
-	margin: 0 10px;
+	margin: 0 10px 0 0;
 	display: inline-block;
 	border: 1px solid #00f;
 	text-align: center;	
 }
 /********************* FOOTER ********************* */
 .kalli-footer-list {
-	margin-top: 200px;
+	margin: 150px 0 20px 0;
+	display: block;
+	position: relative;	
 }
 .kalli-footer-list > ul > li {
-	width: 150px;
-	margin: 0 100px;
+	width: 100px;
+	margin: 0 100px 0 0;
 	display: inline-block;
 	border: 1px solid #00f;
 	text-align: left;	

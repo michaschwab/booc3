@@ -5,12 +5,11 @@
             Create New
         </a>
     <div>
-        <div class="list-group">
-            <div data-ng-repeat="course in courses" class="list-group-item courserow row">
-
-                <div class="col-md-9">
+        <div>
+            <div data-ng-repeat="course in courses">
+                <div class="kalli-course-card">
                     <!-- ********************* INSTRUCTOR ********************* -->
-                    <div class="pull-right course-actions" data-ng-show="(authentication.isCourseTeacher(course._id))">
+                    <div data-ng-show="(authentication.isCourseTeacher(course._id))">
                         <a class="btn btn-default" title="Course Backups" data-ui-sref="backups.manageByCourse({courseId: course._id})">
                             <i class="glyphicon glyphicon-floppy-save"></i>
                         </a>
@@ -22,37 +21,27 @@
                         </a>
                     </div>
                     <!-- ********************* COURSE CARD ********************* -->
-                    <div class="kalli-course-card" id="enterCourseEntry-{{course._id}}" href ng-click="enterCourse(course, $event)" data-ui-sref="courses.view({courseId: course._id})">
+                    <div id="enterCourseEntry-{{course._id}}" href ng-click="enterCourse(course, $event)" data-ui-sref="courses.view({courseId: course._id})">
                         <!-- ********************* COURSE TITLE ********************* -->
-                        <h4 class="list-group-item-heading course-title" data-ng-bind="course.title" id="course-list-title-{{course._id}}"></h4>
+                        <div class="kalli-course-title" data-ng-bind="course.title" id="course-list-title-{{course._id}}"></div>
                         <!-- ********************* COURSE DESCRIPTION ********************* -->
-                        <p data-ng-bind="course.description" id="course-list-description-{{course._id}}">
+                        <p class="kalli-course-description" data-ng-bind="course.description" id="course-list-description-{{course._id}}">
                         </p>
                         <!-- ********************* START BUTTON ********************* -->
-                        <button class="btn btn-primary pull-right" id="course-list-enter-button-{{course._id}}">Start Course</button>
+                        <button class="kalli-course-button" id="course-list-enter-button-{{course._id}}">Start Course</button>
                     </div>
-                </div>
-                <!-- ********************* LEARNED THIS MANY CONCEPTS ********************* -->
-                <div class="col-md-3 text-center progress-info" style="" data-ui-sref="courses.view({courseId: course._id})" >
-                    <p>
-                        Learned<br aria-hidden="true" />
-                        <!--<span style="font-size: 36pt">
-                          <mark>{{course.learnedConceptObjects.length}}</mark> / {{course.conceptObjects.length}}
-                        </span>-->
-                        <span style="font-size: 36pt">
-                          {{course.learnedConceptObjects.length}}
-                        </span>
-                        <span style="font-size: 26pt">
-                          of
-                        </span>
-                        <span style="font-size: 36pt">
-                          {{course.conceptObjects.length}}
-                        </span>
-                        <br aria-hidden="true" />
-                        Concepts
-                         <br>
-                        <b>do we need that???</b>
-                    </p>
+                    <!-- ********************* LEARNED THIS MANY CONCEPTS ********************* -->
+                    <div class="kalli-course-concepts" data-ui-sref="courses.view({courseId: course._id})" >
+                        <p>
+                            Learned
+                            {{course.learnedConceptObjects.length}} 
+                                of 
+                            {{course.conceptObjects.length}}
+                            Concepts
+                            <br>
+                            <b>do we need that???</b>
+                        </p>
+                    </div>
                 </div>
             </div>
         </div>
