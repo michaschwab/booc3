@@ -1,9 +1,5 @@
 <section data-ng-controller="CoursesController" data-ng-init="find()" class="container">
-
-    <h3>
-        Courses
-    </h3>
-
+        <!-- ********************* CREATE NEW COURSE ********************* -->
         <a data-ng-show="authentication.canCreateCourses()" data-ui-sref="courses.create" class="btn btn-default pull-right">
             <span class="glyphicon glyphicon-plus"></span>
             Create New
@@ -12,8 +8,8 @@
         <div class="list-group">
             <div data-ng-repeat="course in courses" class="list-group-item courserow row">
 
-                <div class="col-md-9 course-description">
-
+                <div class="col-md-9">
+                    <!-- ********************* INSTRUCTOR ********************* -->
                     <div class="pull-right course-actions" data-ng-show="(authentication.isCourseTeacher(course._id))">
                         <a class="btn btn-default" title="Course Backups" data-ui-sref="backups.manageByCourse({courseId: course._id})">
                             <i class="glyphicon glyphicon-floppy-save"></i>
@@ -25,29 +21,24 @@
                             <i class="glyphicon glyphicon-trash"></i>
                         </a>
                     </div>
-
-                    <a class="course-contents" id="enterCourseEntry-{{course._id}}" href ng-click="enterCourse(course, $event)" data-ui-sref="courses.view({courseId: course._id})">
+                    <!-- ********************* COURSE CARD ********************* -->
+                    <div class="kalli-course-card" id="enterCourseEntry-{{course._id}}" href ng-click="enterCourse(course, $event)" data-ui-sref="courses.view({courseId: course._id})">
+                        <!-- ********************* COURSE TITLE ********************* -->
                         <h4 class="list-group-item-heading course-title" data-ng-bind="course.title" id="course-list-title-{{course._id}}"></h4>
+                        <!-- ********************* COURSE DESCRIPTION ********************* -->
                         <p data-ng-bind="course.description" id="course-list-description-{{course._id}}">
-
                         </p>
-
-                        <button class="btn btn-primary pull-right" id="course-list-enter-button-{{course._id}}">Enter Course</button>
-
-                    </a>
+                        <!-- ********************* START BUTTON ********************* -->
+                        <button class="btn btn-primary pull-right" id="course-list-enter-button-{{course._id}}">Start Course</button>
+                    </div>
                 </div>
-                <a class="col-md-3 text-center progress-info" style="" data-ui-sref="courses.view({courseId: course._id})" >
-
-
-
+                <!-- ********************* LEARNED THIS MANY CONCEPTS ********************* -->
+                <div class="col-md-3 text-center progress-info" style="" data-ui-sref="courses.view({courseId: course._id})" >
                     <p>
-
                         Learned<br aria-hidden="true" />
-
                         <!--<span style="font-size: 36pt">
                           <mark>{{course.learnedConceptObjects.length}}</mark> / {{course.conceptObjects.length}}
                         </span>-->
-
                         <span style="font-size: 36pt">
                           {{course.learnedConceptObjects.length}}
                         </span>
@@ -57,21 +48,14 @@
                         <span style="font-size: 36pt">
                           {{course.conceptObjects.length}}
                         </span>
-
                         <br aria-hidden="true" />
-
                         Concepts
-
+                         <br>
+                        <b>do we need that???</b>
                     </p>
-
-
-
-
-                </a>
-
+                </div>
             </div>
         </div>
-
     </div>
     <div class="alert alert-warning text-center" data-ng-hide="!courses.$resolved || courses.length">
     	No Courses yet

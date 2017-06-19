@@ -1,5 +1,9 @@
 
+/********************* TYPOGRAPHY ********************* */
 @import url('https://fonts.googleapis.com/css?family=Roboto:300,400,500');
+
+
+/********************* BODY ********************* */
 body {
   padding-top: 50px;
   font-family: 'Roboto', sans-serif;
@@ -9,6 +13,7 @@ body {
   font-size: 14px;
 }
 
+/********************* HEADER ********************* */
 .kalli-header {
 	position: relative;
 }
@@ -38,3 +43,52 @@ body {
 	display: inline-block;
 	position: relative;
 }
+/********************* STEPS ********************* */
+.kalli-inline-header {
+	text-align: center;
+	font-size: 24px;
+}
+
+.kalli-steps-list {
+
+}
+/********************* FEATURES ********************* */
+.kalli-features-list > ul > li {
+	width: 200px;
+	margin: 0 75px;
+	display: inline-block;
+	border: 1px solid #00f;
+	text-align: center;
+}
+/********************* COURSES ********************* */
+.kalli-course-card {
+	width: 300px;
+	height: 500px;
+	min-height: 140px;
+	border: 1px solid #00f;
+}
+
+/********************* LEARN MORE ********************* */
+/********************* VIDEO ********************* */
+/********************* TEAM ********************* */
+.kalli-team-list > ul > li {
+	width: 150px;
+	margin: 0 10px;
+	display: inline-block;
+	border: 1px solid #00f;
+	text-align: center;	
+}
+/********************* FOOTER ********************* */
+.kalli-footer-list {
+	margin-top: 200px;
+}
+.kalli-footer-list > ul > li {
+	width: 150px;
+	margin: 0 100px;
+	display: inline-block;
+	border: 1px solid #00f;
+	text-align: left;	
+}
+
+
+
