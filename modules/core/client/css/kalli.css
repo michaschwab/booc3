@@ -8,3 +8,33 @@ body {
   letter-spacing: -0.02em;
   font-size: 14px;
 }
+
+.kalli-header {
+	position: relative;
+}
+
+.kalli-header-title {
+	width: 300px;
+	height: 200px;
+	display: inline-block;
+	border: 1px solid #00f;
+	position: relative;
+}
+
+.kalli-header-subtitle {
+	width: 200px;
+	height: 200px;
+	display: inline-block;
+	border: 1px solid #00f;
+	position: absolute;
+	left: 0;
+	top: 200px;
+}
+
+.kalli-header-image {
+	border: 1px solid #00f;
+	width: 800px;
+	height: 400px;
+	display: inline-block;
+	position: relative;
+}
