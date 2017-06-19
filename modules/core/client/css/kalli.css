@@ -16,6 +16,7 @@ body {
 /********************* HEADER ********************* */
 .kalli-header {
 	position: relative;
+	margin: 120px 0;	
 }
 
 .kalli-header-title {
