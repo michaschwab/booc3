@@ -69,10 +69,11 @@ ul {
 }
 
 .kalli-steps-list > ul > li {
-	width: 400px;
+	width: 700px;
 	margin: 20px 0;
 	display: block;
 	padding: 0px;
+	font-size: 24px;
 	/*border: 1px solid #00f;*/
 }
 /********************* FEATURES ********************* */
@@ -167,9 +168,9 @@ ul {
 }
 /********************* LEARN MORE ********************* */
 /********************* VIDEO ********************* */
-.kalli-video{
+.kalli-video > iframe{
 	display: block;
-	left: 33%;
+	margin: 0 auto;
 	position: relative;
 }
 /********************* TEAM ********************* */
