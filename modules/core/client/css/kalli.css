@@ -211,12 +211,35 @@ ul {
 	margin: 0 18px;
 	display: inline-block;
 	text-align: center;	
+    background: #fff;
+    border-radius: 3px;
+    box-sizing: border-box;
+    box-shadow: 0 2px 2px 0 rgba(0,0,0,.14), 0 3px 1px -2px rgba(0,0,0,.2), 0 1px 5px 0 rgba(0,0,0,.12);
 }
 
 .kalli-team-list > ul > li > .profile-photo {
 	width: 150px;
 	height: 100px;
 	background: url(../img/profile-photo.png);
+}
+
+.kalli-team-list > ul > li > .profile-name {
+	letter-spacing: 0;
+	text-align: center;
+	line-height: 36px;	
+}
+
+.kalli-team-list > ul > li > .profile-email {
+	color: #3f51b5;
+	font-weight: 400;
+	letter-spacing: 0;
+	cursor: pointer;    
+	text-align: center;
+	line-height: 36px;
+}
+
+.kalli-team-list > ul > li > .profile-email:hover {
+	font-weight: 500;
 }
 
 /********************* FOOTER ********************* */
