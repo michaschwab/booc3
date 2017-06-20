@@ -11,6 +11,7 @@ body {
 	background-color: #fff;
 	letter-spacing: -0.02em;
 	font-size: 14px;
+	overflow-x: hidden;
 }
 
 ul {
@@ -58,10 +59,12 @@ ul {
 /********************* STEPS ********************* */
 .kalli-inline-header {
 	text-align: center;
-	font-size: 24px;
+	font-size: 28px;
 	margin: 100px 0;
 	position: relative;
 	display: block;
+	font-family: 'PT Serif';
+	font-weight: 500;
 	/*border: 1px solid #00f;*/
 }
 
@@ -70,7 +73,7 @@ ul {
 	margin: 20px 0;
 	display: block;
 	padding: 0px;
-	border: 1px solid #00f;
+	/*border: 1px solid #00f;*/
 }
 /********************* FEATURES ********************* */
 .kalli-features-list > ul > li {
@@ -108,7 +111,16 @@ ul {
 	width: 300px;
 	height: auto;
 	min-height: 140px;
-	/*border: 1px solid #00f;*/
+	border: 0.5px solid rgba(0,0,0,0.40);
+	background: #FFFFFF;
+	box-shadow: 5px 5px 10px 0 rgba(0,0,0,0.40);
+	border-radius: 6px;
+	cursor: pointer;
+}
+
+.kalli-course-card:hover {
+	box-shadow: 5px 5px 10px 0 rgba(0,0,0,0.5);
+
 }
 
 .kalli-course-title {
@@ -116,7 +128,15 @@ ul {
 	margin: 0 auto;
 	display: block;
 	position: relative;
-	text-align: center;
+	text-align: left;
+	padding: 20px;
+}
+
+.kalli-course-description-title {
+	margin: 0px 20px;
+	display: block;
+	position: relative;	
+	font-weight: 500;
 }
 
 .kalli-course-description {
@@ -134,11 +154,16 @@ ul {
 	position: relative;
 }
 
+.kalli-course-button:hover {
+	background: rgba(0,0,0,0.3);
+}
+
 
 .kalli-course-concepts {
 	margin: 20px 20px 0 20px;
 	display: block;
 	position: relative;
+	opacity: 0.6;
 }
 /********************* LEARN MORE ********************* */
 /********************* VIDEO ********************* */
