@@ -208,7 +208,7 @@ ul {
 }
 .kalli-team-list > ul > li {
 	width: 150px;
-	margin: 0 18px;
+	margin-right: 75px;
 	display: inline-block;
 	text-align: center;	
     background: #fff;
@@ -217,10 +217,34 @@ ul {
     box-shadow: 0 2px 2px 0 rgba(0,0,0,.14), 0 3px 1px -2px rgba(0,0,0,.2), 0 1px 5px 0 rgba(0,0,0,.12);
 }
 
-.kalli-team-list > ul > li > .profile-photo {
+.kalli-team-list > ul > li > .profile-photo-Micha {
 	width: 150px;
 	height: 100px;
-	background: url(../img/profile-photo.png);
+	background: url(../img/profile-photo.png) center;
+}
+
+.kalli-team-list > ul > li > .profile-photo-Hendrik {
+	width: 150px;
+	height: 100px;
+	background: url(../img/team/Hendrik.png) center;
+}
+
+.kalli-team-list > ul > li > .profile-photo-James {
+	width: 150px;
+	height: 100px;
+	background: url(../img/team/James.png) center;
+}
+
+.kalli-team-list > ul > li > .profile-photo-Gary {
+	width: 150px;
+	height: 100px;
+	background: url(../img/team/GaryKing.jpeg) center;
+}
+
+.kalli-team-list > ul > li > .profile-photo-HP {
+	width: 150px;
+	height: 100px;
+	background: url(../img/team/HP.jpeg) center;
 }
 
 .kalli-team-list > ul > li > .profile-name {
