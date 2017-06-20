@@ -68,14 +68,22 @@ ul {
 	/*border: 1px solid #00f;*/
 }
 
+
 .kalli-steps-list > ul > li {
-	width: 700px;
+	/*width: 700px;*/
 	margin: 20px 0;
 	display: block;
 	padding: 0px;
 	font-size: 18px;
+	line-height: 36px;
 	/*border: 1px solid #00f;*/
 }
+
+.kalli-steps-list > ul > li  .kalli-steps-list-number {
+	font-size: 28px;
+	line-height: 36px;
+}
+
 /********************* FEATURES ********************* */
 .kalli-features-list > ul > li {
 	width: 25%;
