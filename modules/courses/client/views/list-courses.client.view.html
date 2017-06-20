@@ -7,6 +7,7 @@
     <div>
         <div>
             <div data-ng-repeat="course in courses">
+                <!-- ********************* COURSE CARD ********************* -->
                 <div class="kalli-course-card">
                     <!-- ********************* INSTRUCTOR ********************* -->
                     <div data-ng-show="(authentication.isCourseTeacher(course._id))">
@@ -20,7 +21,7 @@
                             <i class="glyphicon glyphicon-trash"></i>
                         </a>
                     </div>
-                    <!-- ********************* COURSE CARD ********************* -->
+                    <!-- ********************* COURSE CARD CONTENT ********************* -->
                     <div id="enterCourseEntry-{{course._id}}" href ng-click="enterCourse(course, $event)" data-ui-sref="courses.view({courseId: course._id})">
                         <!-- ********************* COURSE TITLE ********************* -->
                         <div class="kalli-course-title" data-ng-bind="course.title" id="course-list-title-{{course._id}}"></div>
@@ -38,7 +39,6 @@
                                 of 
                             {{course.conceptObjects.length}}
                             Concepts
-                            <br>
                             <b>do we need that???</b>
                         </p>
                     </div>

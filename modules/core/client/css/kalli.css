@@ -5,12 +5,18 @@
 
 /********************* BODY ********************* */
 body {
-  padding-top: 50px;
-  font-family: 'Roboto', sans-serif;
-  font-weight: 300;
-  background-color: #fff;
-  letter-spacing: -0.02em;
-  font-size: 14px;
+	padding-top: 50px;
+	font-family: 'Roboto', sans-serif;
+	font-weight: 300;
+	background-color: #fff;
+	letter-spacing: -0.02em;
+	font-size: 14px;
+}
+
+ul {
+	-webkit-padding-start: 0px !important;
+	-webkit-margin-before: 0px !important;
+	-webkit-margin-after: 0px !important;
 }
 
 /********************* HEADER ********************* */
@@ -24,16 +30,16 @@ body {
 	width: 300px;
 	height: 200px;
 	display: inline-block;
-	border: 1px solid #00f;
+	/*border: 1px solid #00f;*/
 	position: relative;
 	font-family: 'PT Serif';
 	font-size: 64px;
 }
 
 .kalli-header-subtitle {
-	width: 300px;
+	width: 280px;
 	display: inline-block;
-	border: 1px solid #00f;
+	/*border: 1px solid #00f;*/
 	position: absolute;
 	left: 0;
 	top: 200px;
@@ -41,42 +47,99 @@ body {
 }
 
 .kalli-header-image {
-	border: 1px solid #00f;
-	width: 830px;
-	height: 450px;
+	/*border: 1px solid #00f;*/
+	width: 820px;
+	height: 440px;
 	display: inline-block;
 	position: absolute;
+	margin: 0 auto;
 	background-image: url(../img/header.png);
 }
 /********************* STEPS ********************* */
 .kalli-inline-header {
 	text-align: center;
 	font-size: 24px;
-	margin: 120px 0;
+	margin: 100px 0;
 	position: relative;
 	display: block;
-	border: 1px solid #00f;
+	/*border: 1px solid #00f;*/
 }
 
-.kalli-steps-list {
-
+.kalli-steps-list > ul > li {
+	width: 400px;
+	margin: 20px 0;
+	display: block;
+	padding: 0px;
+	border: 1px solid #00f;
 }
 /********************* FEATURES ********************* */
 .kalli-features-list > ul > li {
-	width: 200px;
-	margin: 0 75px;
+	width: 25%;
+	margin: 0 40px;
 	display: inline-block;
-	border: 1px solid #00f;
+	/*border: 1px solid #00f;*/
+	padding: 0;
 	text-align: center;
+	font-size: 24px;
+}
+
+.kalli-features-list > ul > li > .feature1 {
+	margin: 0 auto;
+	width: 150px;
+	height: 130px;
+	background-image: url(../img/feature1.png);
+}
+
+.kalli-features-list > ul > li > .feature2 {
+	margin: 0 auto;
+	width: 150px;
+	height: 150px;
+	background-image: url(../img/feature2.png);
+}
+
+.kalli-features-list > ul > li > .feature3 {
+	margin: 0 auto;
+	width: 180px;
+	height: 130px;
+	background-image: url(../img/feature3.png);
 }
 /********************* COURSES ********************* */
 .kalli-course-card {
 	width: 300px;
-	height: 500px;
+	height: auto;
 	min-height: 140px;
-	border: 1px solid #00f;
+	/*border: 1px solid #00f;*/
 }
 
+.kalli-course-title {
+	font-size: 24px;
+	margin: 0 auto;
+	display: block;
+	position: relative;
+	text-align: center;
+}
+
+.kalli-course-description {
+	margin: 20px;
+	display: block;
+	position: relative;
+}
+
+.kalli-course-button {
+	margin: 0 auto;
+	background: rgba(0,0,0,0.1);
+	/*border: 1px solid #979797;*/
+	border-radius: 7px;
+	display: block;
+	position: relative;
+}
+
+
+.kalli-course-concepts {
+	margin: 20px 20px 0 20px;
+	display: block;
+	position: relative;
+}
 /********************* LEARN MORE ********************* */
 /********************* VIDEO ********************* */
 .kalli-video{
@@ -91,11 +154,17 @@ body {
 }
 .kalli-team-list > ul > li {
 	width: 150px;
-	margin: 0 10px 0 0;
+	margin: 0 18px;
 	display: inline-block;
-	border: 1px solid #00f;
 	text-align: center;	
 }
+
+.kalli-team-list > ul > li > .profile-photo {
+	width: 150px;
+	height: 100px;
+	background: url(../img/profile-photo.png);
+}
+
 /********************* FOOTER ********************* */
 .kalli-footer-list {
 	margin: 150px 0 20px 0;
@@ -103,12 +172,27 @@ body {
 	position: relative;	
 }
 .kalli-footer-list > ul > li {
-	width: 100px;
 	margin: 0 100px 0 0;
 	display: inline-block;
-	border: 1px solid #00f;
+	/*border: 1px solid #00f;*/
 	text-align: left;	
 }
 
+.kalli-footer-list > ul > li > .logo1 {
+	width: 180px;
+	height: 37px;
+	background: url(../img/logo1.png);
+}
 
+.kalli-footer-list > ul > li > .logo2 {
+	width: 117px;
+	height: 45px;
+	background: url(../img/logo2.png);
+}
+
+.kalli-footer-list > ul > li > .logo3 {
+	width: 117px;
+	height: 45px;
+	background: url(../img/logo3.png);
+}
 
