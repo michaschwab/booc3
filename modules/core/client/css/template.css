@@ -24,7 +24,12 @@ header.navbar .navbar-brand, header.navbar .navbar-nav a {
     box-shadow: none !important;
 }
 
-header.navbar .navbar-nav a:hover {
+header.navbar .navbar-nav a:hover{
+    color: #000;
+}
+
+
+header.navbar .navbar-nav a:visited {
     color: #000;
 }
 
