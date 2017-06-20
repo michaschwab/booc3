@@ -25,10 +25,11 @@
                     <div id="enterCourseEntry-{{course._id}}" href ng-click="enterCourse(course, $event)" data-ui-sref="courses.view({courseId: course._id})">
                         <!-- ********************* COURSE TITLE ********************* -->
                         <div class="kalli-course-title" data-ng-bind="course.title" id="course-list-title-{{course._id}}"></div>
+                         <!-- ********************* COURSE IMAGE ********************* -->
+                         <div class="kalli-course-description-image"> &nbsp</div>
                         <!-- ********************* COURSE DESCRIPTION ********************* -->
-                        
                         <div class="kalli-course-description-title" >Description</div>
-                        <p class="kalli-course-description" data-ng-bind="course.description" id="course-list-description-{{course._id}}">
+                            <p class="kalli-course-description" data-ng-bind="course.description" id="course-list-description-{{course._id}}">
                         </p>
                         <!-- ********************* START BUTTON ********************* -->
                         <button class="kalli-course-button" id="course-list-enter-button-{{course._id}}">Start Course</button>
