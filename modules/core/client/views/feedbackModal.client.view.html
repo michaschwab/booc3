@@ -6,7 +6,7 @@
     <p>If you have any thoughts  - good or bad - about booc.io or the course you are taking, please let us know!</p>
 
     <ul class="nav nav-tabs">
-        <li role="presentation" class="panel-tab"><span style="padding: 10px 15px; position: relative; display: block;">Send Feedback about...</span></li>
+        <li role="presentation" class="panel-tab"><span style="padding: 10px 15px; position: relative; display: block;">Send Feedback about..</li>
         <li role="presentation" class="panel-tab" ng-class="{ 'active': feedbackMode=='course'}"><a href ng-click="feedbackMode='course'">A Course</a></li>
         <li role="presentation" class="panel-tab" ng-class="{ 'active': feedbackMode=='website'}"><a href ng-click="feedbackMode='website'">The Website</a></li>
     </ul>
@@ -34,7 +34,7 @@
 
             <p>Is there a technical problem?</p>
 
-            <a class="btn btn-default" href ng-click="technicalProblemOn=!technicalProblemOn">
+            <a class="kalli-button-problem" href ng-click="technicalProblemOn=!technicalProblemOn">
                 <span ng-show="technicalProblemOn">Yes</span>
                 <span ng-show="!technicalProblemOn">No</span>
             </a>
@@ -47,7 +47,7 @@
         <div style="position: relative">
             <p style="padding-top: 15px">Would you like to send this feedback anonymously, or would you like us to know who you are?</p>
 
-            <a class="btn btn-default" href style="width: 160px" ng-click="anonymousOn=!anonymousOn">
+            <a class="kalli-button-anonymous" href style="width: 160px" ng-click="anonymousOn=!anonymousOn">
                 <span ng-show="anonymousOn">
                     <span class="glyphicon glyphicon-sunglasses"></span>
                     Anonymous
@@ -58,7 +58,7 @@
                 </span>
             </a>
 
-            <span ng-show="!anonymousOn" style="margin-left: 10px">You will send your User ID:
+            <span ng-show="!anonymousOn">You will send your User ID:
                 <code>{{authentication.user._id}}</code>
             </span>
         </div>
@@ -67,6 +67,6 @@
 
 </div>
 <div class="modal-footer">
-    <button class="btn btn-primary" ng-click="ok($event)">Send</button>
-    <button class="btn btn-warning pull-left" ng-click="cancel($event)">Cancel</button>
+    <button class="kalli-feedback-button-send" ng-click="ok($event)">Send</button>
+    <button class="kalli-feedback-button-cancel" ng-click="cancel($event)">Cancel</button>
 </div>
