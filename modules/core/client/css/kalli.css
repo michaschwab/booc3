@@ -205,10 +205,11 @@ ul {
 .kalli-team-list {
 	display: block;
 	position: relative;
+	margin: 0 auto;
 }
 .kalli-team-list > ul > li {
 	width: 150px;
-	margin-right: 75px;
+	margin: 0px 40px 0px 30px;
 	display: inline-block;
 	text-align: center;	
     background: #fff;
@@ -226,7 +227,7 @@ ul {
 .kalli-team-list > ul > li > .profile-photo-Hendrik {
 	width: 150px;
 	height: 100px;
-	background: url(../img/team/Hendrik.png) center;
+	background: url(../img/team/Hendrik.png) top;
 }
 
 .kalli-team-list > ul > li > .profile-photo-James {
@@ -244,16 +245,17 @@ ul {
 .kalli-team-list > ul > li > .profile-photo-HP {
 	width: 150px;
 	height: 100px;
-	background: url(../img/team/HP.jpeg) center;
+	background: url(../img/team/HP.jpeg) top;
 }
 
 .kalli-team-list > ul > li > .profile-name {
 	letter-spacing: 0;
 	text-align: center;
 	line-height: 36px;	
+	margin-top: 10px;
 }
 
-.kalli-team-list > ul > li > .profile-email {
+.kalli-team-list > ul > li > .profile-personal-website {
 	color: #3f51b5;
 	font-weight: 400;
 	letter-spacing: 0;
@@ -262,7 +264,7 @@ ul {
 	line-height: 36px;
 }
 
-.kalli-team-list > ul > li > .profile-email:hover {
+.kalli-team-list > ul > li > .profile-personal-website:hover {
 	font-weight: 500;
 }
 
