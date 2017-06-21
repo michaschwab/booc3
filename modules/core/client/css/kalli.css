@@ -226,7 +226,10 @@ ul {
 	left: 0;
 	text-align: center;
 	font-size: 18px;
+}
 
+.kalli-video >iframe:hover {
+	box-shadow: 3px 3px 20px 2px rgba(0,0,0,0.30);
 }
 
 .kalli-paper {
@@ -238,8 +241,8 @@ ul {
 }
 
 .kalli-paper-container {
-	width: 400px;
-	height: 240px;
+	width: 500px;
+	height: 280px;
     border-radius: 5px;
 	background: url(../img/paper.png) center no-repeat;
 }
