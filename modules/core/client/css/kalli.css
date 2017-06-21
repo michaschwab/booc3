@@ -323,37 +323,37 @@ ul {
 	margin: 150px 0 20px 0;
 	display: block;
 	position: relative;	
+	height: 40px;
 }
 .kalli-footer-list {
 	display: block;
 	position: relative;	
-	border: 1px solid;
+	/*border: 1px solid;*/
 }
 
 .kalli-footer-list > ul > li {
 	display: inline-block;
-	border: 1px solid #00f;
+	/*border: 1px solid #00f;*/
 }
 
 .kalli-footer-list > ul > li > .logo1 {
-	top: 0;
-	width: 180px;	
-	height: 37px;
-	background: url(../img/logo1.png);
+	width: 170px;	
+	height: 30px;
+	background: url(../img/logo1.png) top left no-repeat;
 }
 
 .kalli-footer-list > ul > li > .logo2 {
 	top: 0;
 	width: 117px;
-	height: 45px;
-	background: url(../img/logo2.png);
+	height: 30px;
+	background: url(../img/logo2.png) top left no-repeat;
 }
 
 .kalli-footer-list > ul > li > .logo3 {
 	top: 0;
-	width: 117px;
-	height: 45px;
-	background: url(../img/logo3.png);
+	width: 150px;
+	height: 30px;
+	background: url(../img/logo3.png) top left no-repeat;
 }
 
 .kalli-footer-text { 
@@ -361,6 +361,15 @@ ul {
 	position: absolute;
 	right: 0;
 	top: 0;
-	border: 1px solid;
+	/*border: 1px solid;*/
+	font-size: 12px;
+	text-align: right;
+	height: 30px;
+	line-height: 18px;
+}
+
+.kalli-footer-text > a {
+	color: #000;
+	font-weight: 400;
 }
 
