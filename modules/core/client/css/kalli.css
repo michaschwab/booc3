@@ -228,8 +228,19 @@ ul {
 	right: 0;
 	text-align: center;
 	font-size: 18px;
-
 }
+
+.kalli-paper-container {
+	width: 400px;
+	height: 240px;
+    border-radius: 5px;
+	background: url(../img/paper.png) center no-repeat;
+}
+
+.kalli-paper-container:hover {
+	box-shadow: 3px 3px 20px 2px rgba(0,0,0,0.30);
+}
+
 /********************* TEAM ********************* */
 .kalli-team-list {
 	display: block;
@@ -316,7 +327,7 @@ ul {
 
 .kalli-footer-list > ul > li > .logo1 {
 	top: 0;
-	width: 180px;
+	width: 180px;	
 	height: 37px;
 	background: url(../img/logo1.png);
 }
