@@ -93,6 +93,7 @@ ul {
 	padding: 0;
 	text-align: center;
 	font-size: 18px;
+	vertical-align: middle;
 }
 
 .kalli-features-list > ul > li > .feature1 {
@@ -123,12 +124,14 @@ ul {
 	border: 0.5px solid rgba(0,0,0,0.20);
 	background: #FFFFFF;
 	box-shadow: 3px 3px 20px 2px rgba(0,0,0,0.30);
-	border-radius: 3px;
+	border-radius: 5px;
 	cursor: pointer;
+	margin: 0 auto;
+	position: relative;
 }
 
 .kalli-course-card:hover {
-	box-shadow: 5px 5px 10px 0 rgba(0,0,0,0.5);
+	box-shadow: 3px 3px 20px 2px  rgba(0,0,0,0.2);
 
 }
 
@@ -204,10 +207,28 @@ ul {
 }
 /********************* LEARN MORE ********************* */
 /********************* VIDEO ********************* */
-.kalli-video > iframe{
+.kalli-learn-more {
 	display: block;
 	margin: 0 auto;
 	position: relative;
+}
+
+.kalli-video  {
+	display: inline-block;
+	position: relative;
+	left: 0;
+	text-align: center;
+	font-size: 18px;
+
+}
+
+.kalli-paper {
+	display: inline-block;
+	position: absolute;
+	right: 0;
+	text-align: center;
+	font-size: 18px;
+
 }
 /********************* TEAM ********************* */
 .kalli-team-list {
@@ -221,7 +242,7 @@ ul {
 	display: inline-block;
 	text-align: center;	
     background: #fff;
-    border-radius: 3px;
+    border-radius: 5px;
     box-sizing: border-box;
     box-shadow: 0 2px 2px 0 rgba(0,0,0,.14), 0 3px 1px -2px rgba(0,0,0,.2), 0 1px 5px 0 rgba(0,0,0,.12);
 }
@@ -277,33 +298,48 @@ ul {
 }
 
 /********************* FOOTER ********************* */
-.kalli-footer-list {
+.kalli-footer {
 	margin: 150px 0 20px 0;
 	display: block;
 	position: relative;	
 }
+.kalli-footer-list {
+	display: block;
+	position: relative;	
+	border: 1px solid;
+}
+
 .kalli-footer-list > ul > li {
-	margin: 0 100px 0 0;
 	display: inline-block;
-	/*border: 1px solid #00f;*/
-	text-align: left;	
+	border: 1px solid #00f;
 }
 
 .kalli-footer-list > ul > li > .logo1 {
+	top: 0;
 	width: 180px;
 	height: 37px;
 	background: url(../img/logo1.png);
 }
 
 .kalli-footer-list > ul > li > .logo2 {
+	top: 0;
 	width: 117px;
 	height: 45px;
 	background: url(../img/logo2.png);
 }
 
 .kalli-footer-list > ul > li > .logo3 {
+	top: 0;
 	width: 117px;
 	height: 45px;
 	background: url(../img/logo3.png);
+}
+
+.kalli-footer-text { 
+	display: block;
+	position: absolute;
+	right: 0;
+	top: 0;
+	border: 1px solid;
 }
 
