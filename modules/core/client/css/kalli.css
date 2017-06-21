@@ -85,37 +85,44 @@ ul {
 }
 
 /********************* FEATURES ********************* */
+
 .kalli-features-list > ul > li {
 	width: 25%;
 	margin: 0 40px;
 	display: inline-block;
 	/*border: 1px solid #00f;*/
-	padding: 0;
 	text-align: center;
 	font-size: 18px;
-	vertical-align: middle;
+	vertical-align: top;
 }
 
 .kalli-features-list > ul > li > .feature1 {
 	margin: 0 auto;
+	height: 150px;
 	width: 150px;
-	height: 130px;
 	background-image: url(../img/feature1.png);
 }
 
 .kalli-features-list > ul > li > .feature2 {
 	margin: 0 auto;
-	width: 150px;
 	height: 150px;
+	width: 170px;
 	background-image: url(../img/feature2.png);
 }
 
 .kalli-features-list > ul > li > .feature3 {
 	margin: 0 auto;
-	width: 180px;
-	height: 130px;
+	height: 150px;
+	width: 210px;
 	background-image: url(../img/feature3.png);
 }
+
+.kalli-features-list > ul > li > p {
+	margin-top: 20px;
+	display: block;
+	position: relative;
+}
+
 /********************* COURSES ********************* */
 .kalli-course-card {
 	width: 300px;
@@ -140,7 +147,7 @@ ul {
 	margin: 0 auto;
 	display: block;
 	position: relative;
-	text-align: left;
+	text-align: center;
 	padding: 20px;
 }
 
