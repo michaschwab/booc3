@@ -341,20 +341,20 @@ ul {
 	/*border: 1px solid #00f;*/
 }
 
-.kalli-footer-list > ul > li > .logo1 {
+.kalli-footer-list > ul > li > a > .logo1 {
 	width: 170px;	
 	height: 30px;
 	background: url(../img/logo1.png) top left no-repeat;
 }
 
-.kalli-footer-list > ul > li > .logo2 {
+.kalli-footer-list > ul > li > a > .logo2 {
 	top: 0;
 	width: 117px;
 	height: 30px;
 	background: url(../img/logo2.png) top left no-repeat;
 }
 
-.kalli-footer-list > ul > li > .logo3 {
+.kalli-footer-list > ul > li > a > .logo3 {
 	top: 0;
 	width: 150px;
 	height: 30px;
