@@ -1,9 +1,11 @@
 #content:focus { outline: none; }
 
 header.navbar {
-    background: #E2EBE8;
+    background: rgba(226,235,232, 0.6);
     border: none;
     border-bottom-width: 1px;
+    box-shadow:  1px 1px 5px 0 rgba(0,0,0,.2);
+
 }
 header.navbar .navbar-brand {
     /*text-transform: uppercase;*/
