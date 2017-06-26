@@ -670,7 +670,8 @@ input.concept-title.admin {
 #kalli-button-not-seen,
 #kalli-button-seen,
 #kalli-button-understood, 
-#kalli-button-goal, 
+#kalli-button-set-goal, 
+#kalli-button-unset-goal, 
 #kalli-button-map, 
 #kalli-button-previous, 
 #kalli-button-next {

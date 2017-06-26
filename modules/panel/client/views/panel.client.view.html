@@ -252,7 +252,7 @@
                             Show Map
                         </a>
 
-                        <a id="kalli-button-goal" ng-if="!goalConcept&&activeMode=='plan'&&activeConcept"
+                        <a id="kalli-button-set-goal" ng-if="!goalConcept&&activeMode=='plan'&&activeConcept"
                            class="panel-button goal set-goal learnmode-{{learnMode}}"
                            title="Set {{activeConcept.concept.title}} as goal"
                            ng-click="goalButtonClick($event)"
@@ -261,12 +261,12 @@
                             Set as Goal
                         </a>
 
-                        <a ng-if="goalConcept&&activeMode=='plan'"
+                        <a id="kalli-button-unset-goal" ng-if="goalConcept&&activeMode=='plan'"
                            class="panel-button goal unset-goal learnmode-{{learnMode}}"
                            title="Unset goal"
                            ng-click="unsetGoalButtonClick($event)"
                            data-ui-sref="{goal: ''}">
-                            <span class="glyphicon glyphicon-flag unsetgoal">/</span>
+                            <span class="glyphicon glyphicon-flag unsetgoal"></span>
                             <span class="unset-goal-text">Unset Goal</span>
                         </a>
                     </div>
