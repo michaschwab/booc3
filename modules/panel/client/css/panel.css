@@ -1,3 +1,8 @@
+@import url('https://fonts.googleapis.com/css?family=Roboto:300,400,500');
+
+
+/** -------------------------------- SIDEPANEL -------------------------------- **/
+
 .inline-block {
     display: inline-block;
 }
@@ -6,9 +11,11 @@
     position: fixed;
     /*top: 0;*/
     left: 0;
-    background: #f6f6f6;
     height: 100%;
-    border-right: 1px solid #f0f0f0;
+    background: #FFFFFF;
+    border: 1px solid #D8D8D8;
+    box-shadow: 0 1px 2px 1px rgba(0,0,0,0.21);
+    border-radius: 5px;    
 }
 .sidepanel.maximized {
     padding: 0;
@@ -17,10 +24,9 @@
     padding: 0;
 }
 
-.sidepanel header.row {
-    background: #aba6c0;
-}
 
+
+/** -------------------------------- HEADER -------------------------------- **/
 .sidepanel.maximized header {
     margin: 0;
     padding: 7px 15px 2px 15px;
@@ -45,10 +51,16 @@
 .sidepanel header ol li a {
     color: #f8f7fb;
 }
-.sidepanel header h2 {
+.sidepanel header .kalli-course-title {
     margin-top: 0;
-    color: #f8f7fb;
+    font-family: 'Roboto';
+    font-size: 24px;
+    color: #000000;
+    line-height: 30px;
+    font-weight: 300;
+    text-align: left;
 }
+
 @media screen and (max-width: 1300px) {
     .sidepanel header h2 {
         font-size: 16pt;
@@ -96,8 +108,6 @@
         color: #555;
     }
 }
-
-
 
 .lectureList {
     padding-left: 0;
@@ -177,6 +187,9 @@ a, a:focus {
 .maximized .play.learnmode-false {
     padding-top: 7px;
 }
+
+/** -------------------------------- CONCEPT -------------------------------- **/
+
 
 .concept-panel .admin-action {
     display: none;
@@ -505,7 +518,7 @@ input.concept-title.admin {
     background: #bbb;
 }
 
-/** Segments **/
+/** --------------------------------Segments -------------------------------- **/
 
 /*
 .minimized .segment {
@@ -730,6 +743,10 @@ input.concept-title.admin {
     font-size: 14px;
 }
 
+
+/** -------------------------------- Icons -------------------------------- **/
+
+
 .lecture-icon, .wiki-icon, .map-icon {
     display:inline-block;
     position:relative;
@@ -775,7 +792,7 @@ input.concept-title.admin {
 }
 
 
-/**** ADMIN STUFF ***/
+/**** -------------------------------- ADMIN STUFF -------------------------------- ***/
 
 .action-icon {
     padding: 0 0 0 8px;
@@ -843,7 +860,7 @@ input[type=color] {
 }
 
 
-/** FADING **/
+/** -------------------------------- FADING -------------------------------- **/
 .fadein,
 .fadeout {
     -webkit-transition:all cubic-bezier(0.250, 0.460, 0.450, 0.940) .8s;
@@ -867,7 +884,7 @@ input[type=color] {
 }
 
 
-/** MINIMIZED **/
+/** -------------------------------- MINIMIZED -------------------------------- **/
 .panel-minimized {
     /*margin-left: -8pt;*/
     font-size: 0;
@@ -943,11 +960,8 @@ input[type=color] {
 
 .maximizer {
     position: absolute;
-
-
-    /*
-    top: 5px;*/
 }
+
 .minimized .maximizer span {
     font-size: 12pt;
     margin: 6px 6px;

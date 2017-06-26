@@ -38,28 +38,28 @@
                     </div>
                     <div ng-show="!activeConcept" class="panel-header-content">
 
-                        <h2 class="course-title">{{::course.title}}</h2>
+                        <h2 class="kalli-course-title">{{::course.title}}</h2>
 
                     </div>
                 </div>
 
                 <div class="panel-header-buttons">
 
-                    <a ng-show="active.watchableConcept&&!learnMode&&activeMode!='lecture'"
+<!--                     <a ng-show="active.watchableConcept&&!learnMode&&activeMode!='lecture'"
                        title="Show Material on {{active.watchableConcept.concept.title}}" class="panel-button play learnmode-{{learnMode}}"
                        ng-click="learnButtonClick($event)"
                        data-ui-sref="{active: active.watchableConcept.concept._id, learn: 'yes'}">
                         <span ng-hide="learnMode" class="glyphicon glyphicon-play"></span>
                         Learn
-                    </a>
+                    </a> -->
 
-                    <a ng-show="activeLectures.length&&!learnMode&&activeMode=='lecture'"
+<!--                     <a ng-show="activeLectures.length&&!learnMode&&activeMode=='lecture'"
                        title="Watch {{activeLectures[0].lecture.title}}" class="panel-button play learnmode-{{learnMode}}"
                        ng-click="learnButtonClick($event)"
                        data-ui-sref="{source: activeLectures[0].lecture._id, learn: 'yes'}">
                         <span ng-hide="learnMode" class="glyphicon glyphicon-play"></span>
                         Learn
-                    </a>
+                    </a> -->
 
                     <a ng-show="learnMode||editSourceMode" class="panel-button play learnmode-{{learnMode}}"
                        title="Show Course Map"
