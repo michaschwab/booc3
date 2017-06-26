@@ -10,12 +10,12 @@
 .sidepanel {
     position: fixed;
     font-family: 'Roboto';
-    /*top: 0;*/
+    top: 2px;
     left: 0;
     height: 100%;
     background: #FFFFFF;
     border: 1px solid #D8D8D8;
-    box-shadow: 0 1px 2px 1px rgba(0,0,0,0.21);
+    box-shadow: 0px 13px 20px rgba(0,0,0,.2);
     border-radius: 5px;    
 }
 .sidepanel.maximized {
@@ -189,7 +189,7 @@ a, a:focus {
     padding-top: 7px;
 }
 
-/** -------------------------------- CONCEPT -------------------------------- **/
+/** -------------------------------- CONCEPT TAB -------------------------------- **/
 
 
 .concept-panel .admin-action {
@@ -205,7 +205,7 @@ a, a:focus {
     list-style-type: none;
     position: relative;
     margin-top: 50px;
-    height: 85%;
+    height: 100%;
     overflow-x: hide;
     overflow-y: scroll;
 }
@@ -226,8 +226,6 @@ a, a:focus {
     position: relative;
     list-style-type: none;
     top: 12px;
-    padding-left: 11px;
-    padding-top: 8px;
     left: 14px;
     width: 90%;
     overflow-x: hide;
@@ -235,7 +233,10 @@ a, a:focus {
 
 .concept-list > .concept {
     /*height: 29pt;*/
-    margin-bottom: 15px;
+    font-size: 14px;
+    line-height: 18px;
+    margin-bottom: 10px;
+    color: #000;
 }
 
 
@@ -305,6 +306,7 @@ a[disabled] .map-icon {
     /*padding-left: 30pt;*/
     z-index: 2;
     text-decoration: none;
+    color: #000;
 }
 
 
@@ -313,21 +315,21 @@ a[disabled] .map-icon {
     height: 20pt;
     display: block;
     border-radius: 10pt;
-    /* border: 1px solid #999; */
+    border: 1px solid #999; 
     z-index: 2;
     position: absolute;
     top: 0;
-    box-shadow: 1px 1px 3px #aaa;
+    /*box-shadow: 1px 1px 3px #aaa;*/
 }
 
 .active > a > .concept-circle, .concept-list .concept:hover > a > .concept-circle, .hover > a > .concept-circle, .concept-list .concept:hover > a > .concept-circle  {
-
     border: 2px solid #444466;
 }
 
 .flag {
     display: none;
 }
+
 .goal > a > .flag {
     display: block;
     z-index:3;
@@ -340,7 +342,6 @@ a[disabled] .map-icon {
 
 .concept-line {
     /*background: #4C4B86;*/
-
     width: 2px;
     z-index: 0 !important;
     /*min-height: 37px;*/
@@ -349,10 +350,12 @@ a[disabled] .map-icon {
     left: 14px;
     top: -7px;
     height: 100%;
+    display: none;
 
 }
 
 .concept-line span {
+    display: none;
     border-left-width: 2px;
     border-left-style: solid;
     display: block;
@@ -367,14 +370,17 @@ a[disabled] .map-icon {
 }
 
 .concept-list .concept-line span {
+    display: none;
     margin-bottom: -19px;
 }
 
 .concept-list-nested .concept-list-nested .concept-line span {
+    display: none;
     margin-bottom: -18px;
 }
 
 .concept-list-nested .segment .concept-line span {
+    display: none;
     margin-bottom: -2px;
 }
 
@@ -405,7 +411,7 @@ input.concept-title.admin {
     position: absolute;
     left: 0px;
     top: 0px;
-    display: block;
+    display: none;
 }
 .concept-list-nested:after {
     /*border-top: 2px solid #4C4B86;*/
@@ -418,10 +424,11 @@ input.concept-title.admin {
     position: relative;
     left: -10px;
     top: 0px;
-    display: block;
+    display: none;
 }
 .concept-list-nested .concept-list-nested:after {
     top: -1px;
+    display: none;
 }/*
 .concept-list-nested .concept-list-nested:before {
     left: -1px;
@@ -506,10 +513,10 @@ input.concept-title.admin {
 }
 
 .concept-panel ::-webkit-scrollbar {
-    width: 6px;
+    width: 0px;
 }
 .panel-minimized .concept-panel ::-webkit-scrollbar {
-    width: 4px;
+    width: 0px;
 }
 
 .concept-panel ::-webkit-scrollbar-track {
@@ -524,7 +531,7 @@ input.concept-title.admin {
     background: #bbb;
 }
 
-/** --------------------------------Segments -------------------------------- **/
+/** -------------------------------- SEGMENTS -------------------------------- **/
 
 /*
 .minimized .segment {
@@ -622,8 +629,9 @@ input.concept-title.admin {
     color: #e5c100;
 }
 
+/** -------------------------------- BUTTONS -------------------------------- **/
 
-/*** LEARNING BUTTONS ***/
+
 .maximized .learning-buttons {
     position: fixed;
     left: 0;
@@ -667,6 +675,8 @@ input.concept-title.admin {
     pointer-events: none;
 }
 
+
+
 #kalli-button-not-seen,
 #kalli-button-seen,
 #kalli-button-understood, 
@@ -684,13 +694,14 @@ input.concept-title.admin {
     width: 120px;
     height: 20px;
     box-sizing: border-box;
-    border: 1px solid gray;
+    border: none;
     padding: 0;
     vertical-align: middle;
+    text-align: left;
 }
 
 
-/** lecture **/
+/** -------------------------------- LECTURE TAB -------------------------------- **/
 .lectureList {
     list-style-type: none;
 }
@@ -975,20 +986,21 @@ input[type=color] {
     display:none;
 }
 
-/** Search **/
-.sidepanel .ng-valid.ng-dirty
-{
-    border-color: inherit;
-}
+/** -------------------------------- SEARCH BAR -------------------------------- **/
+
 .sidepanel .plan-intro {
-    position: relative;
-    margin: 10px 0;
-    /*top: 0;
-    transform: translateY(100%);*/
+    position: absolute;
+    bottom: 50px;
+    font-size: 10px;
+    width: 300px;
+    background: #fff;
+    z-index: 2;
+    /*transform: translateY(100%);*/
 }
 .sidepanel .search-clear {
+    display: none;
     position: absolute;
-    right: 80px;
+    right: 0px;
     width: 18px;
     height: 18px;
     background: #ddd;
@@ -1008,7 +1020,7 @@ input[type=color] {
 
 .search-icon {
     position: absolute;
-    right: 100px;
+    right: 20px;
     top: 5px;
 }
 

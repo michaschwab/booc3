@@ -156,31 +156,11 @@
                     </div>
                 </div>
 
-                <div ng-show="activeMode=='plan'" class="panel-content plan-panel" ng-class="{'panel-content-active': activeMode=='plan'}" style="height: {{panelContentHeight}}px;">
 
-                    <p class="plan-intro">
-                        <i>
-                            <!-- How do I learn -->
-
-                            <input type="text"
-                                   class="input search-input"
-                                   ng-model="search.text"
-                                   onclick="this.select()"
-                                   onfocus="this.select()"
-                                   aria-label="Search"
-                                   ng-change="onSearchChange($event)"
-                                   style="width:{{courseScope.panelWidth-100}}px"
-                            />
-
-                            <span class="search-icon fa fa-search"></span>
-                            <a class="search-clear" href ng-click="clearSearch()"><span class="sr-only">Clear Search</span><span aria-hidden="true">&times;</span></a>
-
-                            <!-- ? -->
-
-                            <span class="sr-only">Use this to search learning concepts and materials.</span>
-
-                        </i>
-                    </p>
+                <!-- ********************* CONTENT MAP  ********************* -->
+                <div ng-show="activeMode=='plan'" class="panel-content plan-panel" 
+                    ng-class="{'panel-content-active': activeMode=='plan'}" 
+                    style="height: {{panelContentHeight}}px;">
 
                     <ul class="course-list" style="border-color: {{getPathColor(currentGoal.concept.color)}}">
 
@@ -204,25 +184,29 @@
                 </div>
 
                 <div ng-if="activeMode=='minimap'" class="panel-content"  ng-class="{'panel-content-active': activeMode=='minimap'}" style="height: {{panelContentHeightMax-115}}px; ">
-
-
-
                 </div>
 
-                <!--<footer class="learning-buttons" ng-if="activeMode=='admin'">
+                <!-- ********************* SEARCH BAR ********************* -->
+                <div class="plan-intro">
+                        <!-- How do I learn -->
+                        <input type="text"
+                               class="input search-input"
+                               ng-model="search.text"
+                               onclick="this.select()"
+                               onfocus="this.select()"
+                               aria-label="Search"
+                               ng-change="onSearchChange($event)"
+                               style="width:{{courseScope.panelWidth-100}}px"
+                        />
 
-                    <hr />
+                        <span class="search-icon fa fa-search"></span>
+                        <a class="search-clear" href ng-click="clearSearch()"><span class="sr-only">Clear Search</span><span aria-hidden="true">&times;</span></a>
+                        <!-- ? -->
+                        <span class="sr-only">Use this to search learning concepts and materials.</span>
+                </div>
 
-                    <div class="row">
 
-                    </div>
-
-                    <div class="row">
-
-                    </div>
-
-                </footer>-->
-
+                <!-- *********************  FOOTER ********************* -->
                 <footer class="learning-buttons" ng-show="activeConcept&&activeMode!='admin'">
 
                     <!-- ********************* SHOW MAP | SET AS GOAL ********************* -->
