@@ -20,7 +20,7 @@
 
                 <div>
                     <div ng-show="activeConcept" class="panel-header-content">
-                        <ol ng-if="panelWidth>300" class="breadcrumbs">
+<!--                         <ol ng-if="panelWidth>300" class="breadcrumbs">
                             <li>
                                 <a data-ui-sref="{active: '', learn: 'no', source: '', segment: ''}" ng-click="breadcrumbsCourseClick($event)" tabindex="0"><span class="sr-only">Course: </span> {{::course.short}}</a>
                             </li>
@@ -30,7 +30,7 @@
                             <li ng-if="activeConcept.parentData&&(activeMode=='plan'||activeMode=='admin'||activeMode=='lecture')" ng-repeat="selected in active.hierarchy" ng-show="selected.concept._id!==activeConcept.concept._id">
                                 <a data-ui-sref="{active: selected.concept._id, learn: 'no', source: '', segment: ''}" ng-click="breadcrumbsConceptClick($event)" id="breadcrumbs-plan-concept-{{selected.concept._id}}">{{selected.concept.title}}</a>
                             </li>
-                        </ol>
+                        </ol> -->
 
                         <h2 ng-if="activeMode=='hierarchy'" ng-if="panelWidth>300" tabindex="0">{{activeHierarchyConcept.concept.title}}</h2>
                         <h2 ng-if="activeMode=='plan'||activeMode=='lecture'||activeMode=='minimap'||activeMode=='admin'" ng-if="panelWidth>300" tabindex="0">{{activeConcept.concept.title}}</h2>
