@@ -1015,24 +1015,27 @@ input[type=color] {
 }
 .sidepanel .search-clear {
     position: absolute;
-    top:15px;
-    right: 17px;
+    right: 10px;
     width: 18px;
     height: 18px;
     background: #ddd;
     border-radius: 8px;
     text-align: center;
     color: #333;
+    top: 315px;
 }
 
 .sidepanel .search-input {
     padding-left: 20px;
+    position: relative;
+    display: block;
+    top: 300px;
 }
 
 .search-icon {
     position: absolute;
-    top:15px;
-    left: 100px;
+    right: 35px;
+    top: 315px;
 }
 
 .sidepanel .search-clear:hover, .sidepanel .search-clear:visited {
