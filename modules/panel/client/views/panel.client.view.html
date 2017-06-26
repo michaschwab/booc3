@@ -179,8 +179,8 @@
                 <div ng-if="activeMode=='lecture'" class="panel-content lectures-panel" ng-class="{'panel-content-active': activeMode=='lecture'}" style="height: {{panelContentHeight}}px;">
 
                     <!--<h3>Concepts in {{activeLecture.title}}</h3>-->
-                    <p ng-show="activeConcept"><i>Which Lectures cover parts of {{activeConcept.concept.title}}?</i></p>
-                    <p ng-hide="activeConcept"><i>Which Lectures cover {{course.short}}?</i></p>
+                    <!-- <p ng-show="activeConcept"><i>Which Lectures cover parts of {{activeConcept.concept.title}}?</i></p>
+                    <p ng-hide="activeConcept"><i>Which Lectures cover {{course.short}}?</i></p> -->
 
                     <ul class="lectureList" ng-show="!courseruns">
                         <lecture lecture="lecture" ng-repeat="lecture in activeLectures | orderBy: 'lecture.title'"></lecture>
@@ -235,7 +235,7 @@
                             <a data-ui-sref="{active: '', learn: 'no', source: '', segment: ''}" ng-click="courseClick($event)" tabindex="-1" title="{{::course.title}}">
 
                                 <span class="concept-circle" style="background: #fff"></span>
-                                <span class="concept-line"><span></span></span>
+                                <!-- <span class="concept-line"><span></span></span> -->
                                 <span  class="concept-title">{{::course.short}}</span>
 
                             </a>
