@@ -1005,11 +1005,8 @@ input[type=color] {
     border-color: inherit;
 }
 .sidepanel .plan-intro {
-    position: fixed;
-    z-index: 200;
-    background: #f6f6f6;
+    position: absolute;
     margin: 0px;
-    padding: 10px 0;
     /*top: 0;
     transform: translateY(100%);*/
 }
@@ -1022,7 +1019,7 @@ input[type=color] {
     border-radius: 8px;
     text-align: center;
     color: #333;
-    top: 315px;
+    top: 305px;
 }
 
 .sidepanel .search-input {
@@ -1035,7 +1032,7 @@ input[type=color] {
 .search-icon {
     position: absolute;
     right: 35px;
-    top: 315px;
+    top: 305px;
 }
 
 .sidepanel .search-clear:hover, .sidepanel .search-clear:visited {
