@@ -134,9 +134,7 @@ a, a:focus {
     /*box-shadow: 2px 2px 4px #999;*/
     border-radius: 5pt;
     border: 1px solid #ddd;
-    background: #8b87a2;
     display: block;
-    color: #edecf1;
     top: 5px;
     padding: 0px 2px 0 0px;
     text-align: center;
@@ -624,19 +622,20 @@ input.concept-title.admin {
 .maximized .learning-buttons {
     position: fixed;
     left: 0;
-    width: 24%;
+    width: 300px;
     background: #f6f6f6;
     bottom: 20px;
     padding: 0 10px;
+    font-size: 10px;
 }
 .buttonRow {
-    padding-top: 10px;
+    /*padding-top: 10px;*/
     width: 105%;
     display: table;
 }
 
 .maximized .sidepanel .learning-buttons .row {
-    padding: 10pt 20pt 0 20pt;
+    /*padding: 10pt 20pt 0 20pt;*/
     background: transparent;
 }
 
@@ -664,6 +663,19 @@ input.concept-title.admin {
     pointer-events: none;
 }
 
+#kalli-button-not-seen,
+#kalli-button-seen,
+#kalli-button-understood, 
+#kalli-button-goal, 
+#kalli-button-map, 
+#kalli-button-previous, 
+#kalli-button-next {
+    font-size: 12px;
+    font-family: 'Roboto';
+    font-weight: 300;
+    border-radius: 45px;
+    /*padding: 8px 16px;*/
+}
 
 
 /** lecture **/
