@@ -205,6 +205,9 @@ a, a:focus {
     list-style-type: none;
     position: relative;
     margin-top: 50px;
+    height: 85%;
+    overflow-x: hide;
+    overflow-y: scroll;
 }
 .course-list *, .course-list .concept {
     border-color: inherit;
@@ -226,6 +229,8 @@ a, a:focus {
     padding-left: 11px;
     padding-top: 8px;
     left: 14px;
+    width: 90%;
+    overflow-x: hide;
 }
 
 .concept-list > .concept {
