@@ -339,6 +339,7 @@ a[disabled] .map-icon {
     display: block;
 }*/
 
+/** -------------------------------- CONCEPT LINES -------------------------------- **/
 
 .concept-line {
     /*background: #4C4B86;*/
@@ -400,6 +401,8 @@ input.concept-title.admin {
 }
 
 
+/** -------------------------------- CONCEPT LIST NESTED -------------------------------- **/
+
 .concept-list-nested:before, .concept-list:before {
     /*border-top: 2px solid #4C4B86;*/
     border-top-color: inherit;
@@ -455,26 +458,26 @@ input.concept-title.admin {
 
 .concept-list-nested {
     position: relative;
-    margin-top: -4px;
+    /*margin-top: -4px;*/
     /*margin-left: 14px;*/
-    margin-bottom: 3px;
+    /*margin-bottom: 3px;*/
     margin-right: 20px;
     padding-left: 8pt;
-    padding-top: 6pt;
+    /*padding-top: 6pt;*/
 }
 
 .concept-list-nested .concept-line {
     left: 14px;
     /*min-height: 35px;*/
-    margin-bottom: -5px;
+    /*margin-bottom: -5px;*/
 
 }
 .concept-list-nested .concept-circle {
-    width: 16pt;
-    height: 16pt;
+    width: 14pt;
+    height: 14pt;
     border-radius: 8pt;
     left: 4px;
-    top: 2px;
+    top: 1px;
 }
 
 .concept-list-nested .concept-list-nested .concept-circle {
@@ -482,12 +485,9 @@ input.concept-title.admin {
     height: 10pt;
     border-radius: 5pt;
     left: 7px;
-    top: 6px;
+    top: 3px;
 }
 
-.concept-list-nested .concept {
-
-}
 
 .concept-list-nested .flag {
     left: -7px;
@@ -496,18 +496,17 @@ input.concept-title.admin {
 }
 
 .concept-list-nested .concept-list-nested {
-    margin-top: -4px;
+    /*margin-top: -4px;*/
     /* margin-bottom: 11px; */
-
-    padding-bottom: 5px;
+    /*padding-bottom: 5px;*/
     /*margin-bottom: -4px;*/
 }
 .concept-list-nested > .concept:last-child > .concept-list-nested {
-    margin-bottom: -4px;
+    /*margin-bottom: -4px;*/
 }
 
 .panel-content {
-    padding: 0 5% 0 4%;
+    padding: 0 5% 0 5%;
     overflow-y: auto;
     overflow-x: hidden;
 }
