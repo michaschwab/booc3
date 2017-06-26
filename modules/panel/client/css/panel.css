@@ -1005,34 +1005,35 @@ input[type=color] {
     border-color: inherit;
 }
 .sidepanel .plan-intro {
-    position: absolute;
-    margin: 0px;
+    position: relative;
+    margin: 10px 0;
     /*top: 0;
     transform: translateY(100%);*/
 }
 .sidepanel .search-clear {
     position: absolute;
-    right: 10px;
+    right: 80px;
     width: 18px;
     height: 18px;
     background: #ddd;
     border-radius: 8px;
     text-align: center;
     color: #333;
-    top: 305px;
+    top: 5px;
 }
 
 .sidepanel .search-input {
     padding-left: 20px;
     position: relative;
     display: block;
-    top: 300px;
+    top: 0px;
+    color: #999;
 }
 
 .search-icon {
     position: absolute;
-    right: 35px;
-    top: 305px;
+    right: 100px;
+    top: 5px;
 }
 
 .sidepanel .search-clear:hover, .sidepanel .search-clear:visited {
