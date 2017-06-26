@@ -628,7 +628,6 @@ input.concept-title.admin {
     position: fixed;
     left: 0;
     width: 300px;
-    background: #f6f6f6;
     bottom: 20px;
     padding: 0 10px;
     font-size: 10px;
@@ -675,11 +674,18 @@ input.concept-title.admin {
 #kalli-button-map, 
 #kalli-button-previous, 
 #kalli-button-next {
-    font-size: 12px;
+    font-size: 10px;
     font-family: 'Roboto';
     font-weight: 300;
     border-radius: 45px;
-    /*padding: 8px 16px;*/
+    background: none;
+    color: #000;
+    width: 120px;
+    height: 20px;
+    box-sizing: border-box;
+    border: 1px solid gray;
+    padding: 0;
+    vertical-align: middle;
 }
 
 
@@ -711,57 +717,6 @@ input.concept-title.admin {
     height: 18px;
 }
 
-.minimized .unsetgoal:before {
-    font-size:11pt;
-    left: 10px;
-}
-.minimized .unsetgoal {
-    font-size:16pt;
-    left: -3px;
-    top: -2px;
-}
-
-.unsetgoal:before {
-    /*color: #edecf1;*/
-    position: relative;
-    left: 10px;
-    z-index:4;
-    font-size:12pt;
-}
-.maximized .panel-button.unset-goal {
-    /*position: relative;
-    padding-left: 30px;
-    top: 0px;
-    padding-top:7px;*/
-    /*vertical-align: text-top;
-    padding-bottom: 10px;*/
-    /*position: relative;
-    top: 0px;*/
-    padding-top: 2px;
-}
-.unset-goal-text {
-    /*position: relative;
-    top: -9px;*/
-}
-.unsetgoal {
-    /*color: #333;*/
-    /*position: relative;
-    left: -6px;
-    top: 5px;*/
-    z-index:5;
-
-    font-size:16pt;
-}
-/*.maximized .unsetgoal {
-    font-size:30pt;
-}*/
-.maximized .setgoal {
-    padding: 8px 0 0 11px;
-}
-.minimized .setgoal {
-    padding: 4px 0 0 6px;
-    font-size: 14px;
-}
 
 
 /** -------------------------------- Icons -------------------------------- **/
