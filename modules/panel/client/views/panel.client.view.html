@@ -1,5 +1,5 @@
 <div class="sidepanel col-md-3 sidepanel conceptmap-sideinfo learnmode-{{learnModeYesNo}}" ng-controller="ConceptPanelController" id="sidepanel"
-     style="{{activeMode!='minimap'?'z-index:10; position:relative;':''}}height:{{windowHeight-55}}px; width:{{courseScope.panelWidth}}px" ng-class="{minimized: minimized, maximized: !minimized}" tabindex="0" title="Panel"
+     style="{{activeMode!='minimap'?'z-index:10; position:relative;':''}} height:{{windowHeight-100}}px; left: 10px; top: 10px; width:{{courseScope.panelWidth}}px" ng-class="{minimized: minimized, maximized: !minimized}" tabindex="0" title="Panel"
      >
 
     <div class="fadein">
@@ -47,7 +47,26 @@
 
             </header>
 
+            <!-- ********************* SEARCH BAR ********************* -->
+            <div class="plan-intro">
+                    <!-- How do I learn -->
+                    <input type="text"
+                           class="input search-input"
+                           ng-model="search.text"
+                           onclick="this.select()"
+                           onfocus="this.select()"
+                           aria-label="Search"
+                           ng-change="onSearchChange($event)"
+                    />
 
+                    <span class="search-icon fa fa-search"></span>
+                    <a class="search-clear" href ng-click="clearSearch()"><span class="sr-only">Clear Search</span><span aria-hidden="true">&times;</span></a>
+                    <!-- ? -->
+                    <span class="sr-only">Use this to search learning concepts and materials.</span>
+            </div>
+
+
+            <!-- ********************* TABS ********************* -->
 
             <div class="tab-selection">
                 <ul class="nav nav-tabs nav-justified">
@@ -186,78 +205,38 @@
                 <div ng-if="activeMode=='minimap'" class="panel-content"  ng-class="{'panel-content-active': activeMode=='minimap'}" style="height: {{panelContentHeightMax-115}}px; ">
                 </div>
 
-                <!-- ********************* SEARCH BAR ********************* -->
-                <div class="plan-intro">
-                        <!-- How do I learn -->
-                        <input type="text"
-                               class="input search-input"
-                               ng-model="search.text"
-                               onclick="this.select()"
-                               onfocus="this.select()"
-                               aria-label="Search"
-                               ng-change="onSearchChange($event)"
-                               style="width:{{courseScope.panelWidth-100}}px"
-                        />
-
-                        <span class="search-icon fa fa-search"></span>
-                        <a class="search-clear" href ng-click="clearSearch()"><span class="sr-only">Clear Search</span><span aria-hidden="true">&times;</span></a>
-                        <!-- ? -->
-                        <span class="sr-only">Use this to search learning concepts and materials.</span>
-                </div>
-
 
                 <!-- *********************  FOOTER ********************* -->
                 <footer class="learning-buttons" ng-show="activeConcept&&activeMode!='admin'">
 
-                    <!-- ********************* SHOW MAP | SET AS GOAL ********************* -->
-                    <div class="buttonRow">
-                        <!--                     <a ng-show="active.watchableConcept&&!learnMode&&activeMode!='lecture'"
-                                               title="Show Material on {{active.watchableConcept.concept.title}}" class="panel-button play learnmode-{{learnMode}}"
-                                               ng-click="learnButtonClick($event)"
-                                               data-ui-sref="{active: active.watchableConcept.concept._id, learn: 'yes'}">
-                                                <span ng-hide="learnMode" class="glyphicon glyphicon-play"></span>
-                                                Learn
-                                            </a> -->
+                    <!-- ********************* PREVIOUS | NEXT ********************* -->
 
-                        <!--                     <a ng-show="activeLectures.length&&!learnMode&&activeMode=='lecture'"
-                                               title="Watch {{activeLectures[0].lecture.title}}" class="panel-button play learnmode-{{learnMode}}"
-                                               ng-click="learnButtonClick($event)"
-                                               data-ui-sref="{source: activeLectures[0].lecture._id, learn: 'yes'}">
-                                                <span ng-hide="learnMode" class="glyphicon glyphicon-play"></span>
-                                                Learn
-                                            </a> -->
+                    <div ng-class="{'btn-group-vertical': minimized}" role="group" aria-label="...">
+                            <a id="kalli-button-previous" type="button" ng-click="previousClick($event)" ng-disabled="!previousConcept"
+                               data-ui-sref="{active: previousConcept.concept._id}"
+                               class="btn btn-primary dropdown-toggle halfWidthBtn" aria-expanded="false"
+                               title="Previous Concept: {{previousConcept.concept.title}}">
+                                <span class="glyphicon glyphicon-arrow-up"> </span>
+                                <span class="btn-label">Previous
+                                    <span ng-show="panelWidth>330">Concept</span>
+                                </span>
+                            </a>
 
-                        <a id="kalli-button-map" ng-show="learnMode||editSourceMode" class="panel-button play learnmode-{{learnMode}}"
-                           title="Show Course Map"
-                           ng-click="mapButtonClick($event)"
-                           data-ui-sref="courses.view({courseId: course._id, mode: activeMode=='minimap'?'plan':activeMode, learn: 'no', source: ''})">
-                            <!--<span class="glyphicon glyphicon-map-marker"></span>-->
-                            <span class="map-icon"></span>
-                            Show Map
-                        </a>
-
-                        <a id="kalli-button-set-goal" ng-if="!goalConcept&&activeMode=='plan'&&activeConcept"
-                           class="panel-button goal set-goal learnmode-{{learnMode}}"
-                           title="Set {{activeConcept.concept.title}} as goal"
-                           ng-click="goalButtonClick($event)"
-                           data-ui-sref="{goal: activeConcept.concept._id }">
-                            <span class="glyphicon glyphicon-flag setgoal"></span>
-                            Set as Goal
-                        </a>
-
-                        <a id="kalli-button-unset-goal" ng-if="goalConcept&&activeMode=='plan'"
-                           class="panel-button goal unset-goal learnmode-{{learnMode}}"
-                           title="Unset goal"
-                           ng-click="unsetGoalButtonClick($event)"
-                           data-ui-sref="{goal: ''}">
-                            <span class="glyphicon glyphicon-flag unsetgoal"></span>
-                            <span class="unset-goal-text">Unset Goal</span>
-                        </a>
+                            <a id="kalli-button-next" type="button" ng-click="nextClick($event)" ng-show="nextConcept"
+                               data-ui-sref="{active: nextConcept.concept._id}"
+                               class="btn btn-primary dropdown-toggle halfWidthBtn" aria-expanded="false"
+                               title="Next Concept: {{nextConcept.concept.title}}">
+                                <span class="glyphicon glyphicon-arrow-down"> </span>
+                                <span class="btn-label">Next
+                                    <span ng-show="panelWidth>330">Concept</span>
+                                </span>
+                            </a>
                     </div>
 
+                    <hr>
 
-                    <!-- ********************* SEEN | NOT SEEN | UNDERSTOOD ********************* -->
-                    <div class="buttonRow learned-state">
+                    <!-- ********************* SEEN | NOT SEEN ********************* -->
+                    <div class="learned-state">
                         <div ng-class="{'btn-group': !minimized, 'btn-group-vertical': minimized}" role="group" aria-label="...">
                             <button id="kalli-button-not-seen" type="button" class="btn btn-default notseen-button"
                                     ng-class="{'btn-primary': !activeConcept.isSeen && !activeConcept.learned }"
@@ -273,6 +252,7 @@
                                 <span class="glyphicon glyphicon-eye-open"></span>
                                 <span class="btn-label">Seen</span>
                             </button>
+                            <!-- ********************* UNDERSTOOD ********************* -->
                             <button id="kalli-button-understood" type="button" class="btn btn-default understood-button"
                                     ng-class="{'btn-primary': activeConcept.learned }"
                                     ng-click="understoodClick()"
@@ -280,11 +260,58 @@
                                 <span class="glyphicon glyphicon-ok"></span>
                                 <span class="btn-label">Understood</span>
                             </button>
+
+                            <!-- ********************* SHOW MAP | SET AS GOAL ********************* -->
+                            <!--                     <a ng-show="active.watchableConcept&&!learnMode&&activeMode!='lecture'"
+                                                   title="Show Material on {{active.watchableConcept.concept.title}}" class="panel-button play learnmode-{{learnMode}}"
+                                                   ng-click="learnButtonClick($event)"
+                                                   data-ui-sref="{active: active.watchableConcept.concept._id, learn: 'yes'}">
+                                                    <span ng-hide="learnMode" class="glyphicon glyphicon-play"></span>
+                                                    Learn
+                                                </a> -->
+
+                            <!--                     <a ng-show="activeLectures.length&&!learnMode&&activeMode=='lecture'"
+                                                   title="Watch {{activeLectures[0].lecture.title}}" class="panel-button play learnmode-{{learnMode}}"
+                                                   ng-click="learnButtonClick($event)"
+                                                   data-ui-sref="{source: activeLectures[0].lecture._id, learn: 'yes'}">
+                                                    <span ng-hide="learnMode" class="glyphicon glyphicon-play"></span>
+                                                    Learn
+                                                </a> -->
+
+
+                            <a id="kalli-button-set-goal" ng-if="!goalConcept&&activeMode=='plan'&&activeConcept"
+                               class="panel-button goal set-goal learnmode-{{learnMode}}"
+                               title="Set {{activeConcept.concept.title}} as goal"
+                               ng-click="goalButtonClick($event)"
+                               data-ui-sref="{goal: activeConcept.concept._id }">
+                                <span class="glyphicon glyphicon-flag setgoal"></span>
+                                Set as Goal
+                            </a>
+
+                            <a id="kalli-button-unset-goal" ng-if="goalConcept&&activeMode=='plan'"
+                               class="panel-button goal unset-goal learnmode-{{learnMode}}"
+                               title="Unset goal"
+                               ng-click="unsetGoalButtonClick($event)"
+                               data-ui-sref="{goal: ''}">
+
+                                <span class="unset-goal-text">Unset Goal</span>
+                            </a>
+
+                            <a id="kalli-button-map" ng-show="learnMode||editSourceMode" class="panel-button play learnmode-{{learnMode}}"
+                               title="Show Course Map"
+                               ng-click="mapButtonClick($event)"
+                               data-ui-sref="courses.view({courseId: course._id, mode: activeMode=='minimap'?'plan':activeMode, learn: 'no', source: ''})">
+                                <!--<span class="glyphicon glyphicon-map-marker"></span>-->
+                                <span class="map-icon"></span>
+                                Show Map
+                            </a>
+
                         </div>
                     </div>
+                    
 
                     <!-- *********************  ??????  ********************* -->
-                    <div class="buttonRow ng-hide">
+                    <div class="ng-hide">
                         <!--<a ng-show="seenMapByConcept[activeConcept.concept._id] && active.learnedConceptIds.indexOf(activeConcept.concept._id)===-1" type="button" ng-click="unseeConcept(activeConcept.concept._id)"
                            class="btn btn-warning dropdown-toggle pull-right halfWidthBtn" aria-expanded="false"
                            title="Mark {{activeConcept.concept.title}} as not seen"
@@ -319,33 +346,6 @@
                             <span class="glyphicon glyphicon-arrow-right"> </span>
                             <span class="btn-label">More on this!</span>
                         </a>
-                    </div>
-
-
-                    <!-- ********************* PREVIOUS | NEXT ********************* -->
-                    <div class="buttonRow">
-
-                        <div ng-class="{'btn-group-vertical': minimized}" role="group" aria-label="...">
-                            <a id="kalli-button-previous" type="button" ng-click="previousClick($event)" ng-disabled="!previousConcept"
-                               data-ui-sref="{active: previousConcept.concept._id}"
-                               class="btn btn-primary dropdown-toggle halfWidthBtn" aria-expanded="false"
-                               title="Previous Concept: {{previousConcept.concept.title}}">
-                                <span class="glyphicon glyphicon-arrow-up"> </span>
-                                <span class="btn-label">Previous
-                                    <span ng-show="panelWidth>330">Concept</span>
-                                </span>
-                            </a>
-
-                            <a id="kalli-button-next" type="button" ng-click="nextClick($event)" ng-show="nextConcept"
-                               data-ui-sref="{active: nextConcept.concept._id}"
-                               class="btn btn-primary dropdown-toggle halfWidthBtn" aria-expanded="false"
-                               title="Next Concept: {{nextConcept.concept.title}}">
-                                <span class="glyphicon glyphicon-arrow-down"> </span>
-                                <span class="btn-label">Next
-                                    <span ng-show="panelWidth>330">Concept</span>
-                                </span>
-                            </a>
-                        </div>
                     </div>
 
                 </footer>
