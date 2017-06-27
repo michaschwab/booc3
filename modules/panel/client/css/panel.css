@@ -335,7 +335,7 @@ a[disabled] .map-icon {
     border: 1px solid #999; 
     z-index: 2;
     position: absolute;
-    top: 0;
+    top: 1px;
     /*box-shadow: 1px 1px 3px #aaa;*/
 }
 
