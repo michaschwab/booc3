@@ -60,6 +60,10 @@
     line-height: 30px;
     font-weight: 400;
     text-align: left;
+    width: 300px;
+    padding: 10px 0;
+    left: 0;
+    margin: 0;
 }
 
 @media screen and (max-width: 1300px) {
@@ -86,7 +90,7 @@
 
 .sidepanel .row {
     /*margin: 0 -15pt;*/
-    background: #f7f7f7;
+    /*background: #f7f7f7;*/
 }
 
 
