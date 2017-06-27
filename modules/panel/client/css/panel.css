@@ -29,7 +29,7 @@
 /** -------------------------------- HEADER -------------------------------- **/
 .sidepanel.maximized header {
     margin: 0;
-    padding: 7px 15px 2px 15px;
+    padding: 10px;
 }
 .sidepanel.minimized header {
     width: 100%;
@@ -60,9 +60,15 @@
     font-weight: 400;
     text-align: left;
     width: 300px;
-    padding: 10px;
+    padding: 0 10px 10px 10px;
     left: 0;
     margin: 0;
+}
+
+.panel-header-content {
+    padding: 0 10px;
+    left: 0;
+    margin-bottom: 10px;
 }
 
 @media screen and (max-width: 1300px) {
@@ -474,7 +480,7 @@ input.concept-title.admin {
     /*margin-bottom: 3px;*/
     margin-right: 20px;
     padding-left: 8pt;
-    /*padding-top: 6pt;*/
+    padding-top: 6pt;
 }
 
 .concept-list-nested .concept-line {
@@ -745,7 +751,7 @@ input.concept-title.admin {
 
 #kalli-button-set-goal, 
 #kalli-button-unset-goal {
-    left: 22%;
+    left: 14%;
     margin-top: 5px;
 }
 
@@ -1056,6 +1062,7 @@ input[type=color] {
 /** -------------------------------- SEARCH BAR -------------------------------- **/
 
 .sidepanel .plan-intro {
+    margin-top: 20px;
     position: relative;
     font-size: 12px;
     left: 20px;
