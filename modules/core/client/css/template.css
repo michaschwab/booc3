@@ -1,7 +1,7 @@
 #content:focus { outline: none; }
 
 header.navbar {
-    background: rgba(63,81,181, 0.4);
+    background: rgba(54,144,192, 0.1);
     border: none;
     border-bottom-width: 1px;
     box-shadow:  1px 1px 5px 0 rgba(0,0,0,.2);
