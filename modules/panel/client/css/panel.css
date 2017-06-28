@@ -656,7 +656,7 @@ input.concept-title.admin {
 .maximized .learning-buttons {
     position: relative;
     left: 0;
-    bottom: -15px;
+    bottom: 0px;
     padding: 0 10px;
     font-size: 10px;
     /*border: 1px solid;*/
