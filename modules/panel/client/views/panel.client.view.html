@@ -1,5 +1,5 @@
 <div class="sidepanel col-md-3 sidepanel conceptmap-sideinfo learnmode-{{learnModeYesNo}}" ng-controller="ConceptPanelController" id="sidepanel"
-     style="{{activeMode!='minimap'?'z-index:10; position:relative;':''}} height:{{windowHeight-100}}px; left: 10px; top: 10px; width:{{courseScope.panelWidth}}px" ng-class="{minimized: minimized, maximized: !minimized}" tabindex="0" title="Panel"
+     style="{{activeMode!='minimap'?'z-index:10; position:relative;':''}} height:{{windowHeight-100}}px; left: 10px; top: 10px; width:{{courseScope.panelWidth}}px; overflow-y: scroll" ng-class="{minimized: minimized, maximized: !minimized}" tabindex="0" title="Panel"
      >
 
     <div class="fadein">
