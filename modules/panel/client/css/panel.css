@@ -397,6 +397,7 @@ a[disabled] .map-icon {
     margin-bottom: -19px;
 }
 
+
 .concept-list-nested .concept-list-nested .concept-line span {
     display: none;
     margin-bottom: -18px;
@@ -424,6 +425,16 @@ input.concept-title.admin {
 
 
 /** -------------------------------- CONCEPT LIST NESTED -------------------------------- **/
+
+
+.concept-list.concept-list-nested > .concept {
+    /*height: 29pt;*/
+    /*margin-bottom: 9px;*/
+    line-height: 0.8;
+    /*border: 1px solid;*/
+    width: 300px;
+}
+
 
 .concept-list-nested:before, .concept-list:before {
     /*border-top: 2px solid #4C4B86;*/
@@ -478,6 +489,7 @@ input.concept-title.admin {
     height: 100%;
 }
 
+
 .concept-list-nested {
     position: relative;
     /*margin-top: -4px;*/
@@ -494,6 +506,7 @@ input.concept-title.admin {
     /*margin-bottom: -5px;*/
 
 }
+
 .concept-list-nested .concept-circle {
     width: 14pt;
     height: 14pt;
@@ -619,6 +632,7 @@ input.concept-title.admin {
 .concept-list-nested .concept-list-nested .segment .concept-line {
     left: -11px;
 }
+
 
 .segment-title {
     display: block;
@@ -955,6 +969,7 @@ input[type=color] {
 }
 
 
+
 /** -------------------------------- MINIMIZED -------------------------------- **/
 .panel-minimized {
     /*margin-left: -8pt;*/
@@ -990,10 +1005,7 @@ input[type=color] {
     border-top: none;
     border-bottom: none;
 }
-.concept-list.concept-list-nested > .concept {
-    /*height: 29pt;*/
-    margin-bottom: 9px;
-}
+
 .panel-minimized .concept-list.concept-list-nested > .concept {
     /*height: 29pt;*/
     margin-bottom: -5px;
