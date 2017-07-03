@@ -775,6 +775,12 @@ input.concept-title.admin {
     margin-top: 5px;
 }
 
+#kalli-button-map {
+    top: -55px;
+    left: 0px;
+    text-decoration: none;
+}
+
 #kalli-button-set-goal > a:hover, 
 #kalli-button-unset-goal > a:hover {
     text-decoration: none;
