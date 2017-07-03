@@ -300,8 +300,8 @@ a[disabled] .map-icon {
     font-size: 70%;
 }
 
-.concept-list-nested .concept-list-nested .concept-tick, .concept-list-nested .concept-list-nested .concept-seen {
-    top: 6px;
+.concept-list-nested .concept-list-nested .concept-tick, .concept-list-nested .concept-list-nested .concept-seen {  
+    /*top: 6px;*/
     left: 9px;
 }
 .concept-list-nested .concept-list-nested .flag {
@@ -315,9 +315,9 @@ a[disabled] .map-icon {
 
 .concept > a {
     position: relative;
-    top: 0;
+    top: 5px;
     /*left: 30pt;*/
-    padding-top: 3px;
+    padding-top: 5px;
     /*padding-left: 30pt;*/
     z-index: 2;
     text-decoration: none;
