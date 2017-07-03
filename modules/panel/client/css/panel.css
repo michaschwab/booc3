@@ -628,8 +628,11 @@ input.concept-title.admin {
 
 
 .segment-title {
+    line-height: 1.5;
+    font-size: 10px;
     display: block;
-    margin: -20px 0 0 20px;
+    margin: -10px 0 0 20px;
+    width: 200px;
 }
 
 /* this is to mark the 'recommended' segment */
