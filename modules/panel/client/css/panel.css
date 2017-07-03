@@ -104,13 +104,6 @@
 }
 
 
-#zoomToggleContainer hr {
-    /*background: #0f0;
-    border-top: 1px solid #ccc;
-*/
-}
-
-
 @media (min-width: 768px) {
     .sidepanel .nav-tabs.nav-justified  > li  {
         padding: 10px 0px 10px 20px;
@@ -1130,3 +1123,21 @@ input[type=color] {
 .sidepanel .search-clear:hover, .sidepanel .search-clear:visited {
     text-decoration: none;
 }
+
+
+/** -------------------------------- ZOOM TOGGLE CONTAINER -------------------------------- **/
+
+#zoomToggleContainer hr {
+    /*background: #0f0;
+    border-top: 1px solid #ccc;
+*/
+}
+
+
+#zoomToggleContainer {
+    background: none;
+    border: none;
+}
+
+
+
