@@ -780,10 +780,24 @@ input.concept-title.admin {
 }
 
 #kalli-button-map {
-    top: -55px;
-    left: 0px;
+    top: -30px;
+    left: -300px;
     text-decoration: none;
+    /*border: 1px solid;*/
+    width: 30px;
 }
+
+#kalli-button-map > span.map-text {
+    float: left;
+    line-height: 1;
+}
+#kalli-button-map > span.map-icon {
+    display: block;
+    position: relative;
+    left: 25px;
+    top: 5px;
+}
+
 
 #kalli-button-set-goal > a:hover, 
 #kalli-button-unset-goal > a:hover {
@@ -1129,6 +1143,17 @@ input[type=color] {
 .minimized .learning-buttons .learned-state .btn-group-vertical > a#kalli-button-unset-goal > span {
     float: left;
     /*border: 1px solid;*/
+}
+
+
+.minimized .learning-buttons .learned-state .btn-group-vertical > a#kalli-button-map {
+    left: 15px;
+    width: 15px;
+    top: -600px;  
+}
+
+.minimized .learning-buttons .learned-state .btn-group-vertical > a#kalli-button-map > span {
+    float: left;
 }
 
 /*.minimized .learning-buttons .btn {
