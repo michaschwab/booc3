@@ -997,7 +997,7 @@ input[type=color] {
 /** -------------------------------- MINIMIZED -------------------------------- **/
 .panel-minimized {
     /*margin-left: -8pt;*/
-    font-size: 0;
+    width: 35px;
 }
 .panel-minimized .panel-header h2, .panel-minimized .tab-selection, .panel-minimized .plan-intro {
     display: none;
@@ -1045,6 +1045,11 @@ input[type=color] {
     top: -3px;
     margin-top: 0;
     margin-left: 0;
+    overflow-x: hidden;
+}
+
+.panel-minimized .concept-list > li {
+    display: block;
 }
 .panel-minimized .concept {
     min-height: 25pt;
