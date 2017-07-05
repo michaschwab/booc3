@@ -944,15 +944,18 @@ input.concept-title.admin {
     float: right;
     margin-right: 8px;
     margin-top:7px;
+    z-index: 20;
 }
 
 .maximized .sidepanelOptions  > a {
     padding: 10px;
+    z-index: 20;
 }
 
 .minimizer {
     font-size: 18px;
     color: #555;
+    z-index: 20;
 }
 .minimizer:hover {
     text-decoration: none;
