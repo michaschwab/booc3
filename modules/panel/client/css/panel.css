@@ -1147,15 +1147,26 @@ input[type=color] {
 
 
 .minimized .learning-buttons .learned-state .btn-group-vertical > a#kalli-button-map {
-    left: 15px;
-    width: 15px;
-    top: -600px;  
+    left: 10px;
+    /*width: 15px;*/
+    height: 30px;
+    top: -510px;  
+    position: relative;
+    display: block;
 }
 
-.minimized .learning-buttons .learned-state .btn-group-vertical > a#kalli-button-map > span {
-    float: left;
+.minimized .learning-buttons .learned-state .btn-group-vertical > a#kalli-button-map > .map-text {
+    font-size: 10px;
+    position: relative;
+    display: block;
+    top: -90px;
+    left: 5px;
 }
 
+
+.minimized .learning-buttons .learned-state .btn-group-vertical > a#kalli-button-map > .map-icon  {
+    left: 5px;
+}
 /*.minimized .learning-buttons .btn {
     width: 88%;
     margin-bottom: 2px;
