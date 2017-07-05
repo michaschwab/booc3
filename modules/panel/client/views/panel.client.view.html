@@ -284,8 +284,9 @@
                                title="Set {{activeConcept.concept.title}} as goal"
                                ng-click="goalButtonClick($event)"
                                data-ui-sref="{goal: activeConcept.concept._id }">
-                                <span class="glyphicon glyphicon-flag setgoal"></span>
+                                <span class="glyphicon glyphicon-flag setgoal">
                                 Set as Goal
+                                </span>
                             </a>
 
                             <a id="kalli-button-unset-goal" ng-if="goalConcept&&activeMode=='plan'"
