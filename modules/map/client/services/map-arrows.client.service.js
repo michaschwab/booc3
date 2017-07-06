@@ -548,7 +548,7 @@ angular.module('map').service('MapArrows', function(Tip, ConceptStructure, MapAr
             path.remove();
         }
 
-        var strokeWidthMax = getStrokeWidthMax() * 3 / 4;
+        var strokeWidthMax = getStrokeWidthMax() * 3 / 6;
         var strokeWidth = strokeWidthMax / Math.pow(3, $scope.zoomLevel) * width;
         //console.log($scope.zoomLevel, strokeWidth);
         d3.selectAll('.'+className).attr({
