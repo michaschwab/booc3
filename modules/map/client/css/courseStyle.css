@@ -1,6 +1,8 @@
+@import url('https://fonts.googleapis.com/css?family=Roboto:300,400,500');
+
+
 svg.zoom-1, svg.zoom-2, svg.zoom-3  {
     cursor: zoom-out;
-
 }
 svg.noactive {
     cursor: default;
@@ -24,13 +26,14 @@ svg.zooming {
 }
 
 svg #mainLayer text, svg .startIconGroup text, svg .startIconGroup {
-    font-family: 'Open Sans', sans-serif;
+    font-family: 'Roboto', sans-serif;
     font-weight: 300;
     text-anchor: middle;
-    font-size: 11pt;
+    font-size: 10px;
     transition-property: font-size;
     transition-duration: 500ms;
     alignment-baseline: middle;
+    letter-spacing: 0.05em;
 }
 svg #mainLayer text, svg .startIconGroup text {
     pointer-events: none;
@@ -226,11 +229,12 @@ text.learned, text.goal {
 /*** TOOLTIPS ***/
 .d3-tip {
     line-height: 1;
-    font-weight: bold;
-    padding: 12px;
+    font-weight: 300;
+    padding: 10px;
     background: rgba(50, 50, 50, 0.8);
-    color: #fff;
-    border-radius: 2px;
+    font-family: 'Roboto';
+    color: rgba(255, 255, 255, 0.9);
+    border-radius: 5px;
     z-index: 100;
     margin-bottom: -5px;
     pointer-events: none;
