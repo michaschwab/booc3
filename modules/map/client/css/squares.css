@@ -16,12 +16,17 @@
 
 .square rect {
     stroke: #cccccc;
+    stroke-width: 0;
+}
+
+.square rect:hover , .square.selected rect:hover {
+    stroke: #cccccc;
     stroke-width: 0.2;
 }
 
 .square.selected rect {
     /*stroke: #cccccc;*/
-    stroke-width: 0.5;
+    stroke-width: 0;
 }
 
 #subLayer.has-no-active-group .square {
