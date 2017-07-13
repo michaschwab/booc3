@@ -9,6 +9,9 @@ var passport = require('passport'),
 
 module.exports = function (config) {
   // Use google strategy
+  console.log(config.google);
+  console.log('look here');
+  
   passport.use(new GoogleStrategy({
       clientID: config.google.clientID,
       clientSecret: config.google.clientSecret,

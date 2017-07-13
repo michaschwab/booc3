@@ -1,49 +1,51 @@
 <section data-ng-controller="CoursesController" data-ng-init="find()" class="container">
-        <!-- ********************* CREATE NEW COURSE ********************* -->
-        <a data-ng-show="authentication.canCreateCourses()" data-ui-sref="courses.create" class="btn btn-default pull-right">
+    <!-- ********************* CREATE NEW COURSE ********************* -->
+    <div class='kalli-course-create'>
+        <a data-ng-show="authentication.canCreateCourses()" data-ui-sref="courses.create" class="btn btn-default kalli-course-button">
             <span class="glyphicon glyphicon-plus"></span>
             Create New
         </a>
-    <div>
-        <div>
-            <div data-ng-repeat="course in courses">
-                <!-- ********************* COURSE CARD ********************* -->
-                <div class="kalli-course-card">
-                    <!-- ********************* INSTRUCTOR ********************* -->
-                    <div data-ng-show="(authentication.isCourseTeacher(course._id))">
-                        <a class="btn btn-default" title="Course Backups" data-ui-sref="backups.manageByCourse({courseId: course._id})">
-                            <i class="glyphicon glyphicon-floppy-save"></i>
-                        </a>
-                        <a class="btn btn-default" title="Edit Course" data-ui-sref="courses.edit({courseId: course._id})">
-                            <i class="glyphicon glyphicon-edit"></i>
-                        </a>
-                        <a class="btn btn-default remove-button" title="Remove Course" data-ng-click="remove(course);">
-                            <i class="glyphicon glyphicon-trash"></i>
-                        </a>
-                    </div>
-                    <!-- ********************* COURSE CARD CONTENT ********************* -->
-                    <div id="enterCourseEntry-{{course._id}}" href ng-click="enterCourse(course, $event)" data-ui-sref="courses.view({courseId: course._id})">
-                        <!-- ********************* COURSE TITLE ********************* -->
-                        <div class="kalli-course-title" data-ng-bind="course.title" id="course-list-title-{{course._id}}"></div>
-                         <!-- ********************* COURSE IMAGE ********************* -->
-                         <div class="kalli-course-description-image"> &nbsp</div>
-                        <!-- ********************* COURSE DESCRIPTION ********************* -->
-                        <div class="kalli-course-description-title" >Description</div>
-                            <p class="kalli-course-description" data-ng-bind="course.description" id="course-list-description-{{course._id}}">
-                        </p>
-                        <!-- ********************* START BUTTON ********************* -->
-                        <button class="kalli-course-button" id="course-list-enter-button-{{course._id}}">Start Course</button>
-                    </div>
-                    <!-- ********************* LEARNED THIS MANY CONCEPTS ********************* -->
-                    <div class="kalli-course-concepts" data-ui-sref="courses.view({courseId: course._id})" >
-                        <p>
-                            {{course.learnedConceptObjects.length}} 
-                                of 
-                            {{course.conceptObjects.length}}
-                            concepts have been covered
-                        </p>
-                    </div>
+    </div>
+    <div class="kalli-course-container">
+        <div  data-ng-repeat="course in courses">
+            <!-- ********************* COURSE CARD ********************* -->
+            <div class="kalli-course-card">
+                <!-- ********************* COURSE CARD CONTENT ********************* -->
+                <div id="enterCourseEntry-{{course._id}}" href ng-click="enterCourse(course, $event)" data-ui-sref="courses.view({courseId: course._id})">
+                    <!-- ********************* COURSE TITLE ********************* -->
+                    <div class="kalli-course-title" data-ng-bind="course.title" id="course-list-title-{{course._id}}"></div>
+                     <!-- ********************* COURSE IMAGE ********************* -->
+                     <div class="kalli-course-description-image"> &nbsp
+                        <img ng-src={{course.imagePath}} />
+                     </div>
+                    <!-- ********************* COURSE DESCRIPTION ********************* -->
+                    <div class="kalli-course-description-title" >Description</div>
+                        <p class="kalli-course-description" data-ng-bind="course.description" id="course-list-description-{{course._id}}">
+                    </p>
+                    <!-- ********************* START BUTTON ********************* -->
+                    <button class="kalli-course-button" id="course-list-enter-button-{{course._id}}">Start Course</button>
                 </div>
+                <!-- ********************* LEARNED THIS MANY CONCEPTS ********************* -->
+                <div class="kalli-course-concepts" data-ui-sref="courses.view({courseId: course._id})" >
+                    <p>
+                        {{course.learnedConceptObjects.length}} 
+                            of 
+                        {{course.conceptObjects.length}}
+                        concepts have been covered
+                    </p>
+                </div>
+                <!-- ********************* INSTRUCTOR ********************* -->
+                <div data-ng-show="(authentication.isCourseTeacher(course._id))" class="kalli-course-actions">
+                    <a class="btn btn-default" title="Course Backups" data-ui-sref="backups.manageByCourse({courseId: course._id})">
+                        <i class="glyphicon glyphicon-floppy-save"></i>
+                    </a>
+                    <a class="btn btn-default" title="Edit Course" data-ui-sref="courses.edit({courseId: course._id})">
+                        <i class="glyphicon glyphicon-edit"></i>
+                    </a>
+                    <a class="btn btn-default remove-button" title="Remove Course" data-ng-click="remove(course);">
+                        <i class="glyphicon glyphicon-trash"></i>
+                    </a>
+                </div>                    
             </div>
         </div>
     </div>

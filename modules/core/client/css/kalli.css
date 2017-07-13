@@ -55,6 +55,12 @@ ul {
 	margin: 0 auto;
 	background-image: url(../img/header.png);
 }
+
+h1, h2, h3, h4 {
+	font-family: 'Roboto' !important;
+	font-weight: 300;
+}
+
 /********************* STEPS ********************* */
 .kalli-inline-header {
 	text-align: center;
@@ -67,6 +73,21 @@ ul {
 	/*border: 1px solid #00f;*/
 }
 
+.kalli-steps-list {
+	width: 500px;
+	display: inline-block;
+	vertical-align: top;
+}
+
+.teaser-video {
+	display: inline-block;
+	position: relative;
+	margin-left: 40px;
+}
+
+.teaser-video:hover {
+	box-shadow: 3px 3px 20px 2px rgba(0,0,0,0.30);
+}
 
 .kalli-steps-list > ul > li {
 	/*width: 700px;*/
@@ -79,8 +100,9 @@ ul {
 }
 
 .kalli-steps-list > ul > li  .kalli-steps-list-number {
-	font-size: 28px;
+	/*font-size: 28px;*/
 	line-height: 36px;
+	font-weight: 400;
 }
 
 /********************* FEATURES ********************* */
@@ -123,17 +145,48 @@ ul {
 }
 
 /********************* COURSES ********************* */
+
+/*Create new*/
+.kalli-course-create {
+	position: relative;
+	top: -60px;
+	width: 140px;
+	left: 80%;
+}
+
+
+.kalli-course-actions {
+	/*border:1px solid;*/
+	position: relative;
+	display: block;
+	top: 0px;
+	padding-left: 20px;
+}
+
+.kalli-course-container {
+	border: 1px solid;
+	margin: 0 auto;
+	width: 100%;
+	position: relative;
+	display: flex;
+	flex-direction: row;
+	flex-wrap: wrap;
+	align-items: flex-start;
+	justify-content: space-around;
+}
+
 .kalli-course-card {
 	width: 300px;
-	height: auto;
+	height: 770px;
 	min-height: 140px;
 	border: 0.5px solid rgba(0,0,0,0.20);
 	background: #FFFFFF;
 	box-shadow: 3px 3px 20px 2px rgba(0,0,0,0.2);
 	border-radius: 5px;
 	cursor: pointer;
-	margin: 0 auto;
+	margin: auto; 
 	position: relative;
+	/*float: left;*/
 }
 
 .kalli-course-card:hover {
@@ -148,6 +201,9 @@ ul {
 	position: relative;
 	text-align: center;
 	padding: 20px;
+	font-family: 'PT Serif';
+	/*border: 1px solid;*/
+	height: 100px;
 }
 
 .kalli-course-description-title {
@@ -157,11 +213,14 @@ ul {
 	font-weight: 500;
 }
 
-.kalli-course-description-image {
+.kalli-course-description-image  > img {
 	margin-bottom: 20px;
-	width: 290px;
+	margin-left: 20px;
+	padding-left: 20px;
+	text-align: center;
+	position:relative;
+	display: inline-block;
 	height: 200px;
-	background: url(../img/course-image.png);
 	/*border: 1px solid;*/
 }
 
@@ -170,6 +229,7 @@ ul {
 	display: block;
 	position: relative;
 	font-size: 12px;
+	height: 260px;
 }
 
 .kalli-course-button {
@@ -227,7 +287,7 @@ ul {
 	font-size: 18px;
 }
 
-.kalli-video >iframe:hover {
+.kalli-video >video:hover {
 	box-shadow: 3px 3px 20px 2px rgba(0,0,0,0.30);
 }
 

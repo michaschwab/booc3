@@ -1,12 +1,16 @@
 #content:focus { outline: none; }
 
 header.navbar {
-    background: rgba(54,144,192, 0.1);
+    background: rgba(0,0,0, 0.1);
     border: none;
     border-bottom-width: 1px;
-    box-shadow:  1px 1px 5px 0 rgba(0,0,0,.2);
+    box-shadow:  1px 1px 5px 0 rgba(0,0,0,0.1);
 
 }
+ul.nav.navbar-nav > li.active {
+    background: inherit !important;
+}
+
 header.navbar .navbar-brand {
     /*text-transform: uppercase;*/
     font-size: 24px;
@@ -15,10 +19,16 @@ header.navbar .navbar-brand {
 header.navbar a.navbar-brand:hover {
     color: #000;   
     font-weight: 600;
+    background-color: inherit;
+}
+header.navbar a.navbar-brand:active {
+    color: #000;   
+    background-color: inherit;
 }
 
 header.navbar a.navbar-brand:visited {
     color: #000;   
+    background-color: inherit;
 }
 
 header.navbar .user-header-dropdown-toggle {
@@ -28,26 +38,47 @@ header.navbar .navbar-brand, header.navbar .navbar-nav a {
     font-weight: 400;
     color: #000;
     box-shadow: none !important;
+    background: inheirt;
 }
 
-header.navbar .navbar-nav a:hover{
+header.navbar .navbar-nav a:hover {
     color: #000;
+    background: inherit;
+}
+
+header.navbar .navbar-nav a:active  {
+    color: #000;
+    background: inherit;
 }
 
 
 header.navbar .navbar-nav a:visited {
     color: #000;
+    background: rgba(0,0,0, 0.1);
 }
 
 header.navbar .navbar-nav .active a, header.navbar .navbar-nav .open a {
     /*background: #fff;*/
+    background: inherit !important;
+    color: #000;
+    font-weight: 600;
 }
 
 header.navbar .navbar-nav a:hover, header.navbar .navbar-nav .active a:hover, header.navbar .navbar-nav .open a:hover {
     font-weight: 600;
+    color: #000;
+    background: inherit;
 }
 
+header.navbar .navbar-nav a:visited, header.navbar .navbar-nav .active a:visited, header.navbar .navbar-nav .open a:visited {
+    color: #000;
+    background: rgba(0,0,0, 0.1);
+}
 
+header.navbar .navbar-nav a:active, header.navbar .navbar-nav .active a:active, header.navbar .navbar-nav .open a:active {
+    color: #000;
+    background: inherit;
+}
 
 .content-bar {
     width: 100%;
@@ -55,7 +86,7 @@ header.navbar .navbar-nav a:hover, header.navbar .navbar-nav .active a:hover, he
     /*border-bottom: 1px solid #e7e7e7;*/
     padding: 16px 20px;
     /*color: #666;*/
-    /*background: #fcfcfc;*/
+    background: inherit;
 }
 
 .content-bar h4{
@@ -72,6 +103,8 @@ header.navbar .navbar-nav a:hover, header.navbar .navbar-nav .active a:hover, he
     height: 50px;
     position: relative;
     width: 115px;
+    background: inherit;
+
     /*border-right: 1px solid #524e72;*/
 }
 .logged-in-nav li:first-child a {
