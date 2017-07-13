@@ -164,7 +164,7 @@ h1, h2, h3, h4 {
 }
 
 .kalli-course-container {
-	border: 1px solid;
+	/*border: 1px solid;*/
 	margin: 0 auto;
 	width: 100%;
 	position: relative;

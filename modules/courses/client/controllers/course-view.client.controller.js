@@ -383,7 +383,7 @@ angular.module('courses').controller('CourseViewController',
             else
             {
                 var orig = d3.rgb(concept.concept.color);
-                for (var i = 2; i< concept.depth; i++) {
+                for (var i = 1; i< concept.depth; i++) {
                     orig = orig.darker()
                 }
 
