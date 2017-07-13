@@ -1,5 +1,5 @@
 <div class="sidepanel col-md-3 sidepanel conceptmap-sideinfo learnmode-{{learnModeYesNo}}" ng-controller="ConceptPanelController" id="sidepanel"
-     style="{{activeMode!='minimap'?'z-index:10; position:relative;':''}} height:{{windowHeight-100}}px; left: 10px; top: 10px; width:{{courseScope.panelWidth}}px; overflow-y: scroll" ng-class="{minimized: minimized, maximized: !minimized}" tabindex="0" title="Panel"
+     style="{{activeMode!='minimap'?'z-index:10; position:relative;':''}} height:{{windowHeight-50}}px; width:{{courseScope.panelWidth}}px; overflow-y: scroll" ng-class="{minimized: minimized, maximized: !minimized}" tabindex="0" title="Panel"
      >
 
     <div class="fadein">
@@ -110,7 +110,7 @@
             -->
             <div class="concept-panel">
 
-                <div ng-if="activeMode=='hierarchy'||activeMode=='admin'" class="panel-content admin-panel" ng-class="{'panel-content-active': activeMode=='hierarchy'||activeMode=='admin'}" style="height: {{panelContentHeight}}px; ">
+                <div ng-if="activeMode=='hierarchy'||activeMode=='admin'" class="panel-content admin-panel" ng-class="{'panel-content-active': activeMode=='hierarchy'||activeMode=='admin'}" style="height: 560px; ">
 
                     <p>
                         <i ng-show="activeMode=='hierarchy'">What's within {{activeHierarchyConcept.concept.title}}?</i>
@@ -149,7 +149,7 @@
                     </div>
                 </div>
 
-                <div ng-if="activeMode=='lecture'" class="panel-content lectures-panel" ng-class="{'panel-content-active': activeMode=='lecture'}" style="height: {{panelContentHeight}}px;">
+                <div ng-if="activeMode=='lecture'" class="panel-content lectures-panel" ng-class="{'panel-content-active': activeMode=='lecture'}" style="height: 460px;">
 
                     <!--<h3>Concepts in {{activeLecture.title}}</h3>-->
                     <!-- <p ng-show="activeConcept"><i>Which Lectures cover parts of {{activeConcept.concept.title}}?</i></p>
@@ -179,7 +179,7 @@
                 <!-- ********************* CONTENT MAP  ********************* -->
                 <div ng-show="activeMode=='plan'" class="panel-content plan-panel" 
                     ng-class="{'panel-content-active': activeMode=='plan'}" 
-                    style="height: 410px;">
+                    style="height: 460px;">
 
                     <ul class="course-list" style="border-color: {{getPathColor(currentGoal.concept.color)}}">
 
@@ -202,7 +202,7 @@
                     </ul>
                 </div>
 
-                <div ng-if="activeMode=='minimap'" class="panel-content"  ng-class="{'panel-content-active': activeMode=='minimap'}" style="height: {{panelContentHeightMax-115}}px; ">
+                <div ng-if="activeMode=='minimap'" class="panel-content"  ng-class="{'panel-content-active': activeMode=='minimap'}" style="height: 460px; ">
                 </div>
 
 

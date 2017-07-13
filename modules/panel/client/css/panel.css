@@ -107,7 +107,7 @@
 @media (min-width: 768px) {
     .sidepanel .nav-tabs.nav-justified  > li  {
         padding: 10px 0px 10px 20px;
-        width: 160px;
+        width: 167px;
     }
     .sidepanel .nav-tabs.nav-justified > li {
         /*background-color: #eae5e5;*/
@@ -221,6 +221,7 @@ a, a:focus {
     margin-top: 50px;
     height: 100%;
     overflow-x: hide;
+    /*border: 1px solid;*/
 }
 .course-list *, .course-list .concept {
     border-color: inherit;
@@ -243,7 +244,6 @@ a, a:focus {
     width: 90%;
     overflow-x: hide;
     overflow-y: scroll;
-
 }
 
 .concept-list > .concept {
@@ -1200,7 +1200,7 @@ input[type=color] {
     position: relative;
     font-size: 12px;
     left: 20px;
-    width: 300px;
+    width: 315px;
     border-bottom: 2px solid #3F51B5;;
     /*transform: translateY(100%);*/
 }
