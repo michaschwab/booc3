@@ -185,6 +185,7 @@ h1, h2, h3, h4 {
 	border-radius: 5px;
 	cursor: pointer;
 	margin: auto; 
+	margin-bottom: 20px;
 	position: relative;
 	/*float: left;*/
 }
