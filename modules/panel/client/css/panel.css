@@ -220,9 +220,10 @@ a, a:focus {
     position: relative;
     margin-top: 50px;
     height: 100%;
-    overflow-x: hide;
+    overflow-x: hidden;
     /*border: 1px solid;*/
 }
+
 .course-list *, .course-list .concept {
     border-color: inherit;
 }
@@ -242,10 +243,12 @@ a, a:focus {
     top: 12px;
     left: 14px;
     width: 90%;
-    overflow-x: hide;
     overflow-y: scroll;
 }
 
+.concept-list ::-webkit-scrollbar {
+    display: none;
+}
 .concept-list > .concept {
     /*height: 29pt;*/
     font-size: 14px;
@@ -423,11 +426,15 @@ input.concept-title.admin {
 .concept-list.concept-list-nested > .concept {
     /*height: 29pt;*/
     /*margin-bottom: 9px;*/
-    line-height: 0.8;
+    line-height: 1;
     /*border: 1px solid;*/
-    width: 300px;
+    width: 105%;
 }
 
+
+.concept-list.concept-list-nested > .concept ::-webkit-scrollbar {
+    display: none;
+}
 
 .concept-list-nested:before, .concept-list:before {
     /*border-top: 2px solid #4C4B86;*/
@@ -535,28 +542,45 @@ input.concept-title.admin {
 
 .panel-content {
     padding: 0 5% 0 5%;
-    overflow-y: auto;
-    overflow-x: hide;
+    overflow-y: scroll;
+    overflow-x: hidden;
 }
 
+
+
+/** -------------------------------- SCROLLBARS -------------------------------- **/
 .concept-panel ::-webkit-scrollbar {
-    width: 0px;
-}
-.panel-minimized .concept-panel ::-webkit-scrollbar {
-    width: 0px;
+    width: 2px;
 }
 
 .concept-panel ::-webkit-scrollbar-track {
-    /*-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);*/
-/*    border-radius: 10px;
-    background: #eee;*/
+    display: none;
 }
 
 .concept-panel ::-webkit-scrollbar-thumb {
-    /*border-radius: 10px;*/
-    /*-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.5);*/
-    /*background: #bbb;*/
+    border-radius: 1px;
+    background: #bbb;
+    width: 2px;
 }
+
+/*.concept-panel ::-webkit-scrollbar {
+    width: 1px;
+}
+.panel-minimized .concept-panel ::-webkit-scrollbar {
+    width: 1px;
+}
+
+.concept-panel ::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+    border-radius: 10px;
+    background: #eee;
+}
+
+.concept-panel ::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.5);
+    background: #bbb;
+}*/
 
 /** -------------------------------- SEGMENTS -------------------------------- **/
 
