@@ -831,9 +831,11 @@ input.concept-title.admin {
 } 
 
 #kalli-button-previous, #kalli-button-next {
-    left: 75%;
+    left: 73%;
     width: 90px;
     margin-top: 0;
+    /*border: 1px solid;*/
+    background: #fff;
 }
 
 
@@ -842,12 +844,17 @@ input.concept-title.admin {
 .lectureList {
     list-style-type: none;
 }
+
+.lectureList ::-webkit-scrollbar {
+    display: none;
+}
 .lectureList .concept-line span {
     border-color: #337ab7;
 }
 
 .lectureList .lecture {
     position: relative;
+    width: 105%;
     margin-bottom: 20px;
 }
 .lectureList .lecture > a {
@@ -1019,9 +1026,17 @@ input[type=color] {
 
 
 /** -------------------------------- MINIMIZED -------------------------------- **/
+.sidepanel.col-md-3.sidepanel.conceptmap-sideinfo.learnmode-no.minimized {
+    width: 45px !important;
+}
+
+
+.sidepanel.col-md-3.sidepanel.conceptmap-sideinfo.learnmode-no.minimized ::-webkit-scrollbar {
+    display: none;
+}
+
 .panel-minimized {
-    /*margin-left: -8pt;*/
-    width: 35px;
+    width: 40px;
 }
 .panel-minimized .panel-header h2, .panel-minimized .tab-selection, .panel-minimized .plan-intro {
     display: none;
@@ -1034,6 +1049,8 @@ input[type=color] {
     padding-top: 50px;
     left: 18px;
 }
+
+
 .panel-minimized .row {
     margin: 0;
 }
@@ -1104,10 +1121,9 @@ input[type=color] {
 }
 
 .minimized .learning-buttons {
-    padding-left: 1px;
     position: fixed;
-    left: 0;
-    width: 30px;
+    width: 40px;
+    /*border: 1px solid;*/
     /*width: 100%;*/
     /*background: #f6f6f6;*/
     bottom: 5px;
@@ -1116,23 +1132,17 @@ input[type=color] {
     vertical-align: text-bottom;
 }
 
-/*#kalli-button-not-seen,
-#kalli-button-seen,
-#kalli-button-understood, 
-#kalli-button-set-goal, 
-#kalli-button-unset-goal, 
-#kalli-button-map, */
 
 
 /* --------------- Previous | Next buttons --------------- */
 
 .minimized .learning-buttons .btn-group-vertical > a#kalli-button-previous,
  .minimized .learning-buttons .btn-group-vertical > a#kalli-button-next { 
-    left: 20px;
+    left: 15px;
     box-shadow: none;
     width: 15px;
     /*border: 1px solid;*/
-    top: -15px;
+    top: 10px;
 }
 
 /* --------------- Hide hr rule --------------- */
@@ -1144,31 +1154,31 @@ input[type=color] {
 
 .minimized .learning-buttons .learned-state .btn-group-vertical > button#kalli-button-not-seen,
 .minimized .learning-buttons .learned-state .btn-group-vertical > button#kalli-button-seen { 
-    left: 20px;
+    left: 15px;
     /*border: 1px solid;*/
     width: 15px;
-    top: -20px;
+    top: 5px;
 }
 
 
 .minimized .learning-buttons .learned-state .btn-group-vertical > button#kalli-button-seen {
-    top: -30px;
+    top: -6px;
 }
 
 .minimized .learning-buttons .learned-state .btn-group-vertical > button#kalli-button-understood { 
-    left: 18px; 
+    left: 10px; 
     /*border: 1px solid;*/
     width: 15px;
     top: 10px;
-    top: -40px;
+    top: -15px;
 
 }
 
 .minimized .learning-buttons .learned-state .btn-group-vertical > a#kalli-button-set-goal,
 .minimized .learning-buttons .learned-state .btn-group-vertical > a#kalli-button-unset-goal {
-    left: 15px;
+    left: 10px;
     width: 15px;
-    top: -40px;
+    top: -10px;
 } 
 
 .minimized .learning-buttons .learned-state .btn-group-vertical > a#kalli-button-set-goal > span,
