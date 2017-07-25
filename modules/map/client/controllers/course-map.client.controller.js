@@ -235,7 +235,6 @@ angular.module('map').controller('CourseMapController', function($scope, $stateP
                     if(selectedConcept)
                     {
                         var radius = $scope.visParams.scale(selectedConcept.radius);
-
                         var scaleRelative = 0.75; // If 1, then the element fills out the full screen.
                         scale = smallerDim / radius / 2 * scaleRelative;
                         var topLeft = {x: trans.x - radius, y: trans.y - radius};

@@ -243,7 +243,7 @@ angular.module('map').service('MapSquares', function(Tip, $location, $timeout, L
                 .text(square.title);*/
 
             var manualIcons = {
-                'lecture-icon': '/modules/learning/img/lecture_inline.svg',
+                'lecture-icon': '/modules/learning/img/lecture.svg',
                 'customicon icon-extensionschool': '/modules/contents/img/harvardextensionschool.svg',
                 'customicon icon-lti': '/modules/contents/img/lti.png'
             };
