@@ -10,9 +10,9 @@
 
     <div ng-if="authentication.isAdmin()" class="prereqToggle" ng-hide="graphWidth<800">
 
-        Exploring
+        <!-- Exploring -->
 
-        <button ng-click="setLearningPlans(!learningPlansOn)" class="btn btn-default">
+        <button ng-click="setLearningPlans(!learningPlansOn)" class="btn btn-default kalli-course-button">
             <span ng-show="learningPlansOn">Learning Plans</span>
             <span ng-show="!learningPlansOn">Prerequisites</span>
         </button>

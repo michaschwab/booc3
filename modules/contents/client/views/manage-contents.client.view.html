@@ -1,10 +1,10 @@
 <section data-ng-controller="ContentsController" data-ng-init="findContents()" class="container">
     <div class="page-header">
-        <a href ui-sref="contents.create" class="btn btn-default pull-right">
+        <a href ui-sref="contents.create" class="btn btn-default pull-right kalli-course-button">
             <span class="glyphicon glyphicon-plus"></span>
             Create New
         </a>
-        <h1>Manage Sources</h1>
+        <h2>Manage Sources</h2>
     </div>
 
     <input type="text" ng-model="sourceNameSearch" class="form-control" style="width: 300px; float:right;" placeholder="Search..." />
@@ -78,8 +78,8 @@
                 </td>
 
                 <td>
-                    <button class="btn btn-default ng-hide" ng-click="removeSourceOnly($event, source._id)"><span class="glyphicon glyphicon-trash"></span> Delete Source Only</button>
-                    <button class="btn btn-default" ng-click="removeSource($event, source._id)"><span class="glyphicon glyphicon-trash"></span> <span class="glyphicon glyphicon-plus"></span> Delete</button>
+                    <button class="btn btn-default ng-hide " ng-click="removeSourceOnly($event, source._id)"><span class="glyphicon glyphicon-trash"></span> Delete Source Only</button>
+                    <button class="btn btn-default" ng-click="removeSource($event, source._id)"><span class="glyphicon glyphicon-trash"></span> <span class="glyphicon glyphicon-plus "></span> Delete</button>
                 </td>
 
 
