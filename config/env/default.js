@@ -2,7 +2,7 @@
 
 module.exports = {
   app: {
-    title: 'BOOC Online Learning',
+    title: 'booc.io Online Learning',
     description: 'Online Learning - non-linear, and perfect for you',
     keywords: 'mooc, learning, course, non-linear',
     googleAnalyticsTrackingID: process.env.GOOGLE_ANALYTICS_TRACKING_ID || 'GOOGLE_ANALYTICS_TRACKING_ID'

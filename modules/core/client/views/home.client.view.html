@@ -1,121 +1,131 @@
 <section class="container" data-ng-controller="CoursesController">
 
   <div ng-init="find()">
-    <!-- ********************* HEADER ********************* -->
-    <div class="kalli-header">
-      <div class="kalli-header-title">
-        Meet 
-        booc.io
-      </div>
-      <div class="kalli-header-image">
-      &nbsp
-      </div>
-      <div class="kalli-header-subtitle">
-        A system for linear and non-linear exploration of educational concepts
-      </div>
-    </div>
-    
-    <!-- ********************* STEPS ********************* -->
-    <div class="kalli-inline-header">
-      How does it work?
-    </div>
-    <div class="kalli-steps-list">
-      <ul>
-        <li><span class="kalli-steps-list-number">1.</span> Organizes your course by the learning concepts within and the connections between these concepts.</li>
-        <li><span class="kalli-steps-list-number">2.</span>  Helps define personalized learning plans through course material to achieve your goal.</li>
-        <li><span class="kalli-steps-list-number">3.</span>  Integrates material from many sources to give you both the big picture and the detail.</li>
-      </ul>
-    </div>
-    <div  class="teaser-video"><iframe id="ytplayer" type="text/html" width="500" height="281"
-                src="https://www.youtube.com/embed/-8BBKPrjb3A?autoplay=0&origin=https://booc.io&showinfo=0&rel=0"
-                frameborder="0"/>
-    </div>
 
-    <!-- ********************* FEATURES ********************* -->
-    <div class="kalli-inline-header">
-      Features
-    </div>
-    <div class="kalli-features-list">
-      <ul>
-        <li>
-          <div class="feature1">&nbsp</div>
-          <p>Overview of the course</p>
-        </li>
-        <li>
-          <div class="feature2">&nbsp</div>
-          <p>Faster path to learn something specific </p>
-        </li>
-        <li>
-          <div class="feature3">&nbsp</div>
-          <p>Additional materials linked to each concept</p>
-        </li>
-      </ul>
-    </div>
+    <!-- ONLY SHOW IF THE USER IS NOT LOGGED IN -->
+    <ng-show ng-if="!(authentication.user)">    
+      <!-- ********************* HEADER ********************* -->
+      <div class="kalli-header">
+        <div class="kalli-header-title">
+          Meet 
+          booc.io
+        </div>
+        <div class="kalli-header-image">
+        &nbsp
+        </div>
+        <div class="kalli-header-subtitle">
+          A system for linear and non-linear exploration of educational concepts
+        </div>
+      </div>
+    
+      <!-- ********************* STEPS ********************* -->
+      <div class="kalli-inline-header">
+        How does it work?
+      </div>
+      <div class="kalli-steps-list">
+        <ul>
+          <li><span class="kalli-steps-list-number">1.</span> Organizes your course by the learning concepts within and the connections between these concepts.</li>
+          <li><span class="kalli-steps-list-number">2.</span>  Helps define personalized learning plans through course material to achieve your goal.</li>
+          <li><span class="kalli-steps-list-number">3.</span>  Integrates material from many sources to give you both the big picture and the detail.</li>
+        </ul>
+      </div>
+      <div  class="teaser-video"><iframe id="ytplayer" type="text/html" width="500" height="281"
+                  src="https://www.youtube.com/embed/-8BBKPrjb3A?autoplay=0&origin=https://booc.io&showinfo=0&rel=0"
+                  frameborder="0"/>
+      </div>
+
+      <!-- ********************* FEATURES ********************* -->
+      <div class="kalli-inline-header">
+        Features
+      </div>
+      <div class="kalli-features-list">
+        <ul>
+          <li>
+            <div class="feature1">&nbsp</div>
+            <p>Overview of the course</p>
+          </li>
+          <li>
+            <div class="feature2">&nbsp</div>
+            <p>Faster path to learn something specific </p>
+          </li>
+          <li>
+            <div class="feature3">&nbsp</div>
+            <p>Additional materials linked to each concept</p>
+          </li>
+        </ul>
+      </div>
+    </ng-show>
 
     
+    <!-- THIS ALWAYS SHOWS  -->
     <!-- ********************* COURSES ********************* -->
     <div class="kalli-inline-header">
-      Courses
+      Featured Courses
     </div>
     <ng-include src="'modules/courses/views/list-courses.client.view.html'"></ng-include>
 
-    <!-- ********************* LEARN MORE ********************* -->
-    <div class="kalli-inline-header">
-      Learn more
-    </div>
-    <!-- ********************* VIDEO AND PAPER ********************* -->
-    <div class="kalli-learn-more">
-      <div class="kalli-video">
-        <p>Watch the detailed video</p>
-<!--         <iframe src="https://player.vimeo.com/video/222547874?title=0&byline=0&portrait=0" width="500" height="281" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe> -->
-        <video height="280" controls>
-          <source src="https://booc.io/booc_io_AnEducationSystemWithHierarchicalConceptMapsAndDynamicNonLinearLearningPlans_Video.mp4" type="video/mp4" />
-            Your browser does not support the video tag.
-        </video>
-      </div>
-      <div class="kalli-paper"> 
-        <p>Read the official IEEE 2016 Vis Paper</p>
-        <a href="http://michaschwab.de/paper.pdf" target="_blank">
-          <div class="kalli-paper-container">
-            &nbsp
-          </div>
-        </a>
-      </div>
-    </div>
 
-    <!-- ********************* TEAM ********************* -->
-    <div class="kalli-inline-header">
-      Team
-    </div>
-    <div class="kalli-team-list">
-      <ul>
-        <li>
-          <div class="profile-photo-Micha">&nbsp</div>
-          <div class="profile-name">Michail Schwab</div>
-          <div class="profile-personal-website"><a href="http://michaschwab.de/#!/projects" target="_blank">website</a></div> 
-        </li>
-        <li>
-          <div class="profile-photo-Hendrik">&nbsp</div>
-          <div class="profile-name">Hendrik Strobelt</div>
-          <div class="profile-personal-website"><a href="http://hendrik.strobelt.com/Personal/index.html" target="_blank">website</a></div> 
-        </li>
-        <li>
-          <div class="profile-photo-James">&nbsp</div>
-          <div class="profile-name">James Tompkin</div> 
-          <div class="profile-personal-website"><a href="http://jamestompkin.com/" target="_blank">website</a></div> 
-        </li>
-        <li>
-          <div class="profile-photo-Gary">&nbsp</div>
-          <div class="profile-name">Gary King</div> 
-          <div class="profile-personal-website"><a href="https://gking.harvard.edu/" target="_blank">website</a></div> 
-        </li>
-        <li>
-          <div class="profile-photo-HP">&nbsp</div>
-          <div class="profile-name">Hanspeter Pfister</div> 
-          <div class="profile-personal-website"><a href="https://www.seas.harvard.edu/directory/pfister" target="_blank">website</a></div> 
-        </li>
-      </ul>
-    </div>    
+    <!-- ONLY SHOW IF THE USER IS NOT LOGGED IN -->
+    <ng-show ng-if="!(authentication.user)">    
+      <!-- ********************* LEARN MORE ********************* -->
+      <div class="kalli-inline-header">
+        Learn more
+      </div>
+      <!-- ********************* VIDEO AND PAPER ********************* -->
+      <div class="kalli-learn-more">
+        <div class="kalli-video">
+          <p>Watch the detailed video</p>
+          <video height="280" controls>
+            <source src="https://booc.io/booc_io_AnEducationSystemWithHierarchicalConceptMapsAndDynamicNonLinearLearningPlans_Video.mp4" type="video/mp4" />
+              Your browser does not support the video tag.
+          </video>
+        </div>
+        <div class="kalli-paper"> 
+          <p>Read the official IEEE 2016 Vis Paper</p>
+          <a href="http://michaschwab.de/paper.pdf" target="_blank">
+            <div class="kalli-paper-container">
+              &nbsp
+            </div>
+          </a>
+        </div>
+      </div>
+
+      <!-- ********************* TEAM ********************* -->
+      <div class="kalli-inline-header">
+        Team
+      </div>
+      <div class="kalli-team-list">
+        <ul>
+          <li>
+            <div class="profile-photo-Micha">&nbsp</div>
+            <div class="profile-name">Michail Schwab</div>
+            <div class="profile-personal-website"><a href="http://michaschwab.de/#!/projects" target="_blank">website</a></div> 
+          </li>
+          <li>
+            <div class="profile-photo-Hendrik">&nbsp</div>
+            <div class="profile-name">Hendrik Strobelt</div>
+            <div class="profile-personal-website"><a href="http://hendrik.strobelt.com/Personal/index.html" target="_blank">website</a></div> 
+          </li>
+          <li>
+            <div class="profile-photo-James">&nbsp</div>
+            <div class="profile-name">James Tompkin</div> 
+            <div class="profile-personal-website"><a href="http://jamestompkin.com/" target="_blank">website</a></div> 
+          </li>
+          <li>
+            <div class="profile-photo-Gary">&nbsp</div>
+            <div class="profile-name">Gary King</div> 
+            <div class="profile-personal-website"><a href="https://gking.harvard.edu/" target="_blank">website</a></div> 
+          </li>
+          <li>
+            <div class="profile-photo-HP">&nbsp</div>
+            <div class="profile-name">Hanspeter Pfister</div> 
+            <div class="profile-personal-website"><a href="https://www.seas.harvard.edu/directory/pfister" target="_blank">website</a></div> 
+          </li>
+        </ul>
+      </div>  
+    </ng-show>
+    
+
     <!-- ********************* FOOTER ********************* -->
     <div class="kalli-footer">
       <div class="kalli-footer-list">
@@ -131,12 +141,6 @@
         Web design by <a href="http://kalli.website/" target="_blank">Kalli Retzepi</a>
       </div>
     </div>
-
-
-    <!--<ng-include ng-if="!(authentication.user)" src="'modules/users/views/authentication/authentication.client.view.html'"></ng-include>-->
-    <!--
-      <div class="alert alert-danger" role="alert" data-ng-hide="(authentication.user)">Not authenticated. Please log in.</div>
-    -->
 
   </div>
 

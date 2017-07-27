@@ -859,11 +859,13 @@ input.concept-title.admin {
 }
 .lectureList .lecture > a {
     text-decoration: none;
-    border: 1px solid #aaa;
+    /*border: 1px solid #aaa;*/
     border-radius: 5px;
+    font-weight: 500;
     padding: 5px;
     background: #fff;
     position: relative;
+    color: #000;
     z-index: 2;
 }
 

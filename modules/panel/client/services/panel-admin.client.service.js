@@ -2,8 +2,18 @@ angular.module('courses').service('PanelAdmin', function(Concepts, $rootScope, $
 {
     var $scope;
     var NEW_CONCEPT_TITLE = 'New Concept';
-    // var defaultConceptColors = ['#CB654F', '#D3B1A7', '#CFCB9C', '#8CBEA3', '#DFBA47', '#bdaed6'];
-    var defaultConceptColors = ['#f6eff7', '#d0d1e6', '#a6bddb', '#67a9cf', '#1c9099', '#016c59'];
+    // var defaultConceptColors = ['#f6eff7', '#d0d1e6', '#a6bddb', '#67a9cf', '#1c9099', '#016c59'];
+    var defaultConceptColors = 
+        ["#bbd5b1",
+        "#dfb0d2",
+        "#a0b996",
+        "#a2bfe9",
+        "#d6ba9a",
+        "#84c9e4",
+        "#ddb5b6",
+        "#91cac3",
+        "#c5bbdb",
+        "#abc3d2"];
     var me = this;
 
     this.init = function(scope)
